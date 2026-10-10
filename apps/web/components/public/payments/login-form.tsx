@@ -1,5 +1,7 @@
 "use client";
 
+import { checkoutStrings } from "@/config/strings";
+
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,8 +36,8 @@ import RecaptchaScriptLoader from "@components/recaptcha-script-loader";
 import ExternalLoginButton from "@/components/auth/external-login-button";
 
 const loginFormSchema = z.object({
-    email: z.string().email("Invalid email address"),
-    otp: z.string().min(6, "OTP must be at least 6 characters").optional(),
+    email: z.string().email(checkoutStrings.invalidEmail),
+    otp: z.string().min(6, checkoutStrings.invalidCode).optional(),
 });
 
 type LoginStep = "email" | "otp" | "complete";
@@ -170,7 +172,10 @@ export function LoginForm({
             if (error) {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description: error.message,
+                    description:
+                        error.message === "Invalid OTP"
+                            ? checkoutStrings.invalidOtp
+                            : error.message,
                     variant: "destructive",
                 });
             } else {
@@ -188,12 +193,15 @@ export function LoginForm({
             setLoading(true);
             const { error } = await authClient.signIn.emailOtp({
                 email: email.trim().toLowerCase(),
-                otp: code!,
+                otp: code!.trim(),
             });
             if (error) {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description: error.message,
+                    description:
+                        error.message === "Invalid OTP"
+                            ? checkoutStrings.invalidOtp
+                            : error.message,
                     variant: "destructive",
                 });
             } else {
@@ -252,9 +260,7 @@ export function LoginForm({
                                                 <PageLink
                                                     href="/p/terms"
                                                     className="underline"
-                                                >
-                                                    Terms
-                                                </PageLink>
+                                                >{checkoutStrings.terms}</PageLink>
                                             </Link>{" "}
                                             and{" "}
                                             <Link href="/p/privacy">
@@ -274,7 +280,7 @@ export function LoginForm({
                                     disabled={loading}
                                     theme={theme.theme}
                                 >
-                                    Continue
+                                    {checkoutStrings.continue}
                                 </Button>
                             </>
                         )}
@@ -293,7 +299,9 @@ export function LoginForm({
                                                 <Input
                                                     theme={theme.theme}
                                                     type="text"
-                                                    placeholder="Enter OTP"
+                                                    placeholder={
+                                                        checkoutStrings.enterCode
+                                                    }
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -308,7 +316,7 @@ export function LoginForm({
                                     disabled={loading}
                                     theme={theme.theme}
                                 >
-                                    Verify OTP
+                                    {checkoutStrings.verifyCode}
                                 </Button>
                             </>
                         )}
@@ -332,7 +340,7 @@ export function LoginForm({
             <Caption theme={theme.theme} className="text-center">
                 {LOGIN_FORM_DISCLAIMER}
                 <Link href="/p/terms">
-                    <span className="underline">Terms</span>
+                    <span className="underline">{checkoutStrings.terms}</span>
                 </Link>
             </Caption>
             <RecaptchaScriptLoader />
