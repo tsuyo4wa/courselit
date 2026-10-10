@@ -1,3 +1,4 @@
+import { checkoutStrings } from "@/config/strings";
 import React, { useContext, useEffect, useState } from "react";
 import { FetchBuilder } from "@courselit/utils";
 import {
@@ -243,7 +244,9 @@ export const LessonViewer = ({
                             </Header1>
                         </header>
                         <Text1 theme={theme.theme} className="mb-4">
-                            {error}.
+                            {error === "You are not enrolled in the course"
+                                ? checkoutStrings.notEnrolled
+                                : error}
                         </Text1>
                         {error === "You are not enrolled in the course" && (
                             <Link
