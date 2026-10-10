@@ -36,7 +36,8 @@ class WidgetErrorBoundary extends Component<Props, State> {
                         {finalUiText["block"]}
                     </h3>
                     <p className="text-red-600 text-sm">
-                        {this.state.error?.message || "Something went wrong"}
+                        {this.state.error?.message ||
+                            "表示中に問題が発生しました"}
                     </p>
                 </div>
             );

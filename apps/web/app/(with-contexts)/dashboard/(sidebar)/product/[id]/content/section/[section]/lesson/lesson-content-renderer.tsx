@@ -232,14 +232,14 @@ export function LessonContentRenderer({
                                     </span>
                                     <span className="text-muted-foreground">
                                         {(lesson.content as any)?.title ||
-                                            "Uploaded"}
+                                            "アップロード済み"}
                                     </span>
                                 </div>
                                 <div className="text-xs text-muted-foreground">
                                     {finalUiText["Version:"]}{" "}
                                     {(lesson.content as any)?.version || "1.2"}
                                     {(lesson.content as any)?.fileCount &&
-                                        ` • ${(lesson.content as any)?.fileCount} files`}
+                                        ` • ${(lesson.content as any)?.fileCount} ファイル`}
                                 </div>
                             </div>
                         ) : (

@@ -142,7 +142,7 @@ const MediaSelector = (props: MediaSelectorProps) => {
                         <X className="mr-2 h-4 w-4" />
                         {uploading
                             ? finalUiText["Working..."]
-                            : strings.removeButtonCaption || "Remove"}
+                            : strings.removeButtonCaption || "削除"}
                     </Button2>
                 )}
                 {!props.mediaId && (

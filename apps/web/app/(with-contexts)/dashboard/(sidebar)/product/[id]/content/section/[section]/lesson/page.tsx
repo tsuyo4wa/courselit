@@ -457,22 +457,22 @@ export default function LessonPage() {
                 <h1 className="text-4xl font-semibold">
                     {product?.type?.toLowerCase() ===
                         Constants.CourseType.COURSE &&
-                        (isEditing ? "Edit Lesson" : "New Lesson")}
+                        (isEditing ? "レッスンを編集" : "レッスンを追加")}
                     {product?.type?.toLowerCase() ===
                         Constants.CourseType.DOWNLOAD &&
-                        (isEditing ? "Edit File" : "New File")}
+                        (isEditing ? "ファイルを編集" : "ファイルを追加")}
                 </h1>
                 <p className="text-muted-foreground mt-2">
                     {product?.type?.toLowerCase() ===
                         Constants.CourseType.COURSE &&
                         (isEditing
-                            ? "Modify the details of your existing lesson"
-                            : "Create a new lesson for your product")}
+                            ? "レッスンの内容を編集します"
+                            : "講座に新しいレッスンを追加します")}
                     {product?.type?.toLowerCase() ===
                         Constants.CourseType.DOWNLOAD &&
                         (isEditing
-                            ? "Modify the details of your existing file"
-                            : "Create a new file for your product")}
+                            ? "ファイルの内容を編集します"
+                            : "新しいファイルを追加します")}
                 </p>
             </header>
 
@@ -758,9 +758,8 @@ export default function LessonPage() {
                                 </Button>
                                 <Button type="submit">
                                     {isEditing
-                                        ? finalUiText["Update"]
-                                        : finalUiText["Save"]}
-                                    {finalUiText["Lesson"]}
+                                        ? "レッスンを更新"
+                                        : "レッスンを保存"}
                                 </Button>
                             </div>
                         </div>

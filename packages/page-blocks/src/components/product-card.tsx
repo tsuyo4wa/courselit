@@ -44,7 +44,7 @@ export function ProductCard({
                         <div className="flex items-center gap-2">
                             <Image
                                 src={user?.thumbnail}
-                                alt={user?.name || "User Avatar"}
+                                alt={user?.name || "ユーザーのアイコン"}
                                 width="w-8"
                                 height="h-8"
                                 className="rounded-full"

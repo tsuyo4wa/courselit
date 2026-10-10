@@ -43,7 +43,7 @@ export function BlogContentCard({ product }: { product: Course }) {
                         <div className="flex items-center gap-2 ascp">
                             <Image
                                 src={product.user?.avatar?.thumbnail}
-                                alt={product.user?.name || "User Avatar"}
+                                alt={product.user?.name || "ユーザーのアイコン"}
                                 loading="lazy"
                                 className="rounded-full"
                                 objectFit="cover"

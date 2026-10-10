@@ -172,7 +172,7 @@ export default function AdminWidget({
                                 }
                             >
                                 <AccordionTrigger>
-                                    {section.name || "[empty]"}
+                                    {section.name || "［未入力］"}
                                 </AccordionTrigger>
                                 <AccordionContent className="flex flex-col gap-4">
                                     <Form

@@ -154,7 +154,7 @@ export default function ProductDeletion({ product }: ProductDeletionProps) {
                                         {finalUiText["Deleting..."]}
                                     </>
                                 ) : (
-                                    "Delete"
+                                    "削除"
                                 )}
                             </AlertDialogAction>
                         </AlertDialogFooter>

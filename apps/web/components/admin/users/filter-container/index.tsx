@@ -332,7 +332,7 @@ export default function FilterContainer({
                     </div>
                 </Form>
                 <div className="text-sm text-muted-foreground mr-2">
-                    {!countLoading && `${count} Users`}
+                    {!countLoading && `${count}人のユーザー`}
                     {countLoading && <Skeleton className="h-4 w-16" />}
                 </div>
             </div>

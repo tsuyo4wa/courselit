@@ -271,7 +271,7 @@ export default function AdminWidget({
                         >
                             <div className="flex justify-between items-center">
                                 <h3 className="font-medium">
-                                    {item.title || "Untitled"}
+                                    {item.title || "名称未設定"}
                                 </h3>
                                 <Button2
                                     size="icon"

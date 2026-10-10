@@ -600,11 +600,11 @@ export default function CreatePostDialog({
                     >
                         {isPosting
                             ? postId
-                                ? "Saving..."
-                                : "Posting..."
+                                ? "保存中…"
+                                : "投稿中…"
                             : postId
-                              ? "Save"
-                              : "Post"}
+                              ? "保存"
+                              : "投稿する"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

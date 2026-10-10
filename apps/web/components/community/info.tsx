@@ -175,7 +175,7 @@ export function CommunityInfo({
                                             <FormField
                                                 label={
                                                     joiningReasonText ||
-                                                    "Why do you want to join this community?"
+                                                    "このコミュニティへの参加理由を教えてください"
                                                 }
                                                 value={joiningReason}
                                                 onChange={(e) =>

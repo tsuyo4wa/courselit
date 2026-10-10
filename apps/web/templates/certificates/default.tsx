@@ -24,7 +24,7 @@ export default function DefaultCertificate({
                         </div>
                     ) : null}
                     <h1 className="title">
-                        {certificate?.title || "Congratulations"}
+                        {certificate?.title || "修了おめでとうございます"}
                     </h1>
                     <div className="divider" />
                 </div>
@@ -34,13 +34,13 @@ export default function DefaultCertificate({
                         <p className="subtitle">{certificate.subtitle}</p>
                     ) : null}
                     <h2 className="recipient-name">
-                        {certificate?.userName || "Student Name"}
+                        {certificate?.userName || "受講者名"}
                     </h2>
                     {certificate?.description ? (
                         <p className="description">{certificate.description}</p>
                     ) : null}
                     <h3 className="course-title">
-                        {certificate?.productTitle || "Certified Course"}
+                        {certificate?.productTitle || "修了した講座"}
                     </h3>
                 </div>
 
@@ -56,7 +56,7 @@ export default function DefaultCertificate({
                         ) : null}
                         <div className="signature-line" />
                         <p className="signature-name">
-                            {certificate?.signatureName || "Instructor"}
+                            {certificate?.signatureName || "講師"}
                         </p>
                         {certificate?.signatureDesignation ? (
                             <p className="signature-designation">

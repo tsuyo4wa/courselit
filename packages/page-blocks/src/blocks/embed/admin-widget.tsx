@@ -164,8 +164,8 @@ export default function AdminWidget({
                                                               "For YouTube and Vimeo content, consider using the Media block instead for better integration."
                                                           ]
                                                         : hasYouTube
-                                                          ? "For YouTube content, consider using the Media block instead for better integration."
-                                                          : "For Vimeo content, consider using the Media block instead for better integration."}
+                                                          ? "YouTube動画にはメディアブロックを使うと便利です。"
+                                                          : "Vimeo動画にはメディアブロックを使うと便利です。"}
                                                 </AlertDescription>
                                             </Alert>
                                         );

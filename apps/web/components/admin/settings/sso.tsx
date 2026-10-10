@@ -361,7 +361,7 @@ export default function SSOProvider({ address }: NewSSOProviderProps) {
                                                     }
                                                 </>
                                             ) : (
-                                                "Reset"
+                                                "リセット"
                                             )}
                                         </AlertDialogAction>
                                     </AlertDialogFooter>

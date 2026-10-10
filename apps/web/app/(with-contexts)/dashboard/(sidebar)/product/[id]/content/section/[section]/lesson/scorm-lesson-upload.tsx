@@ -145,13 +145,13 @@ export function ScormLessonUpload({
                             </div>
                             <div>
                                 <p className="font-medium text-sm">
-                                    {content?.title || "SCORM Package"}
+                                    {content?.title || "SCORMパッケージ"}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1">
                                     {finalUiText["Version"]}
                                     {content?.version || "1.2"}
                                     {content?.fileCount &&
-                                        ` • ${content.fileCount} files`}
+                                        ` • ${content.fileCount} ファイル`}
                                 </p>
                             </div>
                         </div>

@@ -47,13 +47,13 @@ export default function Dialog2({
                 <DialogFooter className="mt-[25px] flex justify-end gap-2">
                     <DialogClose asChild>
                         <Button type="button" variant="secondary">
-                            {cancelButtonCaption || "Cancel"}
+                            {cancelButtonCaption || "キャンセル"}
                         </Button>
                     </DialogClose>
                     <DialogClose asChild>
                         {okButton || (
                             <Button type="button" onClick={onClick}>
-                                {okButtonCaption || "Ok"}
+                                {okButtonCaption || "確認"}
                             </Button>
                         )}
                     </DialogClose>

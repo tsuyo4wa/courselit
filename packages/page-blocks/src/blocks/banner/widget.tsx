@@ -308,7 +308,7 @@ export default function Widget({
                                                     }
                                                 >
                                                     {buttonCaption ||
-                                                        "Get for free"}
+                                                        "無料で受け取る"}
                                                 </Button>
                                             </form>
                                         )}
@@ -330,7 +330,7 @@ export default function Widget({
                         {type === Constants.PageType.SITE && buttonAction && (
                             <Link href={buttonAction}>
                                 <Button theme={overiddenTheme}>
-                                    {buttonCaption || "Set a URL"}
+                                    {buttonCaption || "URLを設定"}
                                 </Button>
                             </Link>
                         )}
@@ -350,7 +350,8 @@ export default function Widget({
                                     href={`/checkout?type=community&id=${product.communityId}`}
                                 >
                                     <Button theme={overiddenTheme}>
-                                        {buttonCaption || "Join community"}
+                                        {buttonCaption ||
+                                            "コミュニティに参加する"}
                                     </Button>
                                 </Link>
                             </div>

@@ -42,8 +42,7 @@ export default function DripEmailEditorPage(props: {
             }
             title={
                 productLoaded
-                    ? truncate(group?.drip?.email?.subject, 20) ||
-                      "Email Editor"
+                    ? truncate(group?.drip?.email?.subject, 20) || "メール編集"
                     : finalUiText["Loading..."]
             }
         />

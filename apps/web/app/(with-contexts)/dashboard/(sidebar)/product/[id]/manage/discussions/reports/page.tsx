@@ -424,11 +424,11 @@ export default function ProductDiscussionReportsPage() {
                                                             className="font-medium underline underline-offset-4"
                                                         >
                                                             {report.contentPreview ||
-                                                                "View Details"}
+                                                                "詳細を見る"}
                                                         </Link>
                                                     ) : (
                                                         report.contentPreview ||
-                                                        "View Details"
+                                                        "詳細を見る"
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="font-medium">

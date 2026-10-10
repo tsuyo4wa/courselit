@@ -183,7 +183,7 @@ const SequencesList = ({ type }: SequencesListProps) => {
                                                         .subject)}
                                           {type === "sequence" &&
                                               (broadcast.title === " "
-                                                  ? "Untitled Sequence"
+                                                  ? "名称未設定のシーケンス"
                                                   : broadcast.title)}
                                       </Link>
                                   </TableCell>

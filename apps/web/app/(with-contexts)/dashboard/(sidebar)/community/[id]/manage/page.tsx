@@ -852,7 +852,7 @@ export default function Page(props: {
                                         {finalUiText["Deleting..."]}
                                     </>
                                 ) : (
-                                    "Delete"
+                                    "削除"
                                 )}
                             </AlertDialogAction>
                         </AlertDialogFooter>

@@ -408,7 +408,7 @@ export default function GoogleProvider({ address }: GoogleProviderProps) {
                                                     }
                                                 </>
                                             ) : (
-                                                "Reset"
+                                                "リセット"
                                             )}
                                         </AlertDialogAction>
                                     </AlertDialogFooter>
