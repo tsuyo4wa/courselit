@@ -1,6 +1,11 @@
 "use client";
 
+import { checkoutStrings } from "@/config/strings";
+
 import Image from "next/image";
+import { useContext } from "react";
+import { SiteInfoContext } from "@components/contexts";
+import { formatCurrency } from "@courselit/utils";
 import {
     Collapsible,
     CollapsibleContent,
@@ -15,25 +20,38 @@ import { CHECKOUT_PAGE_ORDER_SUMMARY } from "@ui-config/strings";
 
 const { PaymentPlanType: paymentPlanType } = Constants;
 
-function getPlanDescription(plan: PaymentPlan, currencySymbol: string): string {
+function getPlanDescription(
+    plan: PaymentPlan,
+    currencyISOCode: string,
+): string {
     if (!plan) {
-        return "N/A";
+        return checkoutStrings.unavailable;
     }
 
+    const price = (amount?: number) =>
+        formatCurrency(amount || 0, currencyISOCode);
     switch (plan.type) {
         case paymentPlanType.FREE:
-            return "Free plan";
+            return checkoutStrings.freePlan;
         case paymentPlanType.ONE_TIME:
-            return `One-time payment of ${currencySymbol}${plan.oneTimeAmount?.toFixed(2)}`;
+            return checkoutStrings.oneTimeDescription(
+                price(plan.oneTimeAmount),
+            );
         case paymentPlanType.SUBSCRIPTION:
-            if (plan.subscriptionYearlyAmount) {
-                return `Billed annually at ${currencySymbol}${plan.subscriptionYearlyAmount.toFixed(2)}`;
-            }
-            return `${currencySymbol}${plan.subscriptionMonthlyAmount?.toFixed(2)} per month`;
+            return plan.subscriptionYearlyAmount
+                ? checkoutStrings.annualDescription(
+                      price(plan.subscriptionYearlyAmount),
+                  )
+                : checkoutStrings.monthlyDescription(
+                      price(plan.subscriptionMonthlyAmount),
+                  );
         case paymentPlanType.EMI:
-            return `${currencySymbol}${plan.emiAmount?.toFixed(2)} per month for ${plan.emiTotalInstallments} months`;
+            return checkoutStrings.installmentDescription(
+                price(plan.emiAmount),
+                plan.emiTotalInstallments,
+            );
         default:
-            return "N/A";
+            return checkoutStrings.unavailable;
     }
 }
 
@@ -68,6 +86,8 @@ export function MobileOrderSummary({
     isOrderSummaryOpen,
     setIsOrderSummaryOpen,
 }: OrderSummaryProps) {
+    const currencyISOCode =
+        useContext(SiteInfoContext).currencyISOCode || "USD";
     return (
         <div className="md:hidden w-full sticky top-20 z-11 mb-8">
             <PageCard theme={theme.theme}>
@@ -90,24 +110,27 @@ export function MobileOrderSummary({
                                     }
                                     theme={theme.theme}
                                 >
-                                    {isOrderSummaryOpen ? "Hide" : "Show"} order
-                                    summary
+                                    {isOrderSummaryOpen
+                                        ? checkoutStrings.hideSummary
+                                        : checkoutStrings.showSummary}
                                     <ChevronUp
                                         className={`h-4 w-4 ml-1 transition-transform duration-200 ${isOrderSummaryOpen ? "" : "rotate-180"}`}
                                     />
                                 </Text1>
                             </div>
                             <div className="font-medium flex items-center">
-                                {currencySymbol}
-                                {getPlanPrice(
-                                    selectedPlan || paymentPlans[0],
-                                ).amount.toFixed(2)}
+                                {formatCurrency(
+                                    getPlanPrice(
+                                        selectedPlan || paymentPlans[0],
+                                    ).amount,
+                                    currencyISOCode,
+                                )}
                                 <span className="text-sm text-muted-foreground ml-1">
-                                    {
+                                    {checkoutStrings.period(
                                         getPlanPrice(
                                             selectedPlan || paymentPlans[0],
-                                        ).period
-                                    }
+                                        ).period,
+                                    )}
                                 </span>
                             </div>
                         </div>
@@ -118,7 +141,7 @@ export function MobileOrderSummary({
                         onOpenChange={setIsOrderSummaryOpen}
                     >
                         <CollapsibleTrigger className="sr-only">
-                            Toggle order summary
+                            {checkoutStrings.toggleSummary}
                         </CollapsibleTrigger>
                         <CollapsibleContent
                             style={{
@@ -160,21 +183,23 @@ export function MobileOrderSummary({
                                             }}
                                         >
                                             <Header3 theme={theme.theme}>
-                                                Total
+                                                {checkoutStrings.total}
                                             </Header3>
                                             <div className="text-right flex items-center">
                                                 <Header4 className="font-medium">
-                                                    {currencySymbol}
-                                                    {getPlanPrice(
-                                                        selectedPlan,
-                                                    ).amount.toFixed(2)}
-                                                </Header4>
-                                                <Text1 theme={theme.theme}>
-                                                    {
+                                                    {formatCurrency(
                                                         getPlanPrice(
                                                             selectedPlan,
-                                                        ).period
-                                                    }
+                                                        ).amount,
+                                                        currencyISOCode,
+                                                    )}
+                                                </Header4>
+                                                <Text1 theme={theme.theme}>
+                                                    {checkoutStrings.period(
+                                                        getPlanPrice(
+                                                            selectedPlan,
+                                                        ).period,
+                                                    )}
                                                 </Text1>
                                             </div>
                                         </div>
@@ -198,6 +223,8 @@ export function DesktopOrderSummary({
     OrderSummaryProps,
     "paymentPlans" | "isOrderSummaryOpen" | "setIsOrderSummaryOpen"
 >) {
+    const currencyISOCode =
+        useContext(SiteInfoContext).currencyISOCode || "USD";
     return (
         <div className="hidden md:block sticky top-20 self-start">
             <PageCard theme={theme.theme}>
@@ -236,21 +263,25 @@ export function DesktopOrderSummary({
                             }}
                         >
                             <div className="flex justify-between items-center">
-                                <Header4 theme={theme.theme}>Total</Header4>
                                 <Header4 theme={theme.theme}>
-                                    {currencySymbol}
-                                    {getPlanPrice(selectedPlan).amount.toFixed(
-                                        2,
+                                    {checkoutStrings.total}
+                                </Header4>
+                                <Header4 theme={theme.theme}>
+                                    {formatCurrency(
+                                        getPlanPrice(selectedPlan).amount,
+                                        currencyISOCode,
                                     )}
                                     <span className="text-sm text-muted-foreground ml-1">
-                                        {getPlanPrice(selectedPlan).period}
+                                        {checkoutStrings.period(
+                                            getPlanPrice(selectedPlan).period,
+                                        )}
                                     </span>
                                 </Header4>
                             </div>
                             <Text1 theme={theme.theme}>
                                 {getPlanDescription(
                                     selectedPlan,
-                                    currencySymbol,
+                                    currencyISOCode,
                                 )}
                             </Text1>
                         </div>
