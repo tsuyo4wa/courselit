@@ -7,17 +7,18 @@ import {
     Invoice,
     Membership,
     PaymentPlan,
+    UIConstants,
 } from "@courselit/common-models";
 import PaymentPlanModel from "@models/PaymentPlan";
 import InvoiceModel from "@models/Invoice";
 import { error } from "@/services/logger";
 import mongoose from "mongoose";
 import Payment from "@/payments-new/payment";
+import Stripe from "stripe";
 import { activateMembership } from "../helpers";
 
 export async function POST(req: NextRequest) {
     try {
-        const body = await req.json();
         const domainName = req.headers.get("domain");
 
         const domain = await getDomain(domainName);
@@ -31,6 +32,44 @@ export async function POST(req: NextRequest) {
         const paymentMethod = await getPaymentMethod(domain._id.toString());
         if (!paymentMethod) {
             return Response.json({ message: "Payment method not found" });
+        }
+
+        let body;
+        if (paymentMethod.getName() === UIConstants.PAYMENT_METHOD_STRIPE) {
+            // A per-school secret takes precedence over the single-school host setting.
+            const signingSecret =
+                domain.settings.stripeWebhookSecret ||
+                process.env.STRIPE_WEBHOOK_SECRET;
+            if (!signingSecret) {
+                return Response.json(
+                    { message: "Stripe webhook is not configured" },
+                    { status: 503 },
+                );
+            }
+            const signature = req.headers.get("stripe-signature");
+            if (!signature) {
+                return Response.json(
+                    { message: "Invalid Stripe webhook signature" },
+                    { status: 400 },
+                );
+            }
+            try {
+                const stripe = new Stripe(domain.settings.stripeSecret!, {
+                    typescript: true,
+                });
+                body = stripe.webhooks.constructEvent(
+                    await req.text(),
+                    signature,
+                    signingSecret,
+                );
+            } catch {
+                return Response.json(
+                    { message: "Invalid Stripe webhook signature" },
+                    { status: 400 },
+                );
+            }
+        } else {
+            body = await req.json();
         }
 
         if (!(await paymentMethod.verify(body))) {
