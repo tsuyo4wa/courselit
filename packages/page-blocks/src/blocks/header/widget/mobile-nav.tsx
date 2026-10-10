@@ -34,7 +34,7 @@ const MobileNav = (props: MobileNavSettings) => {
                     className="lg:!hidden"
                 >
                     <MenuIcon className="h-4 w-4" />
-                    <span className="sr-only">Toggle Menu</span>
+                    <span className="sr-only">メニューを開く</span>
                 </Button>
             }
             side="right"
@@ -92,13 +92,13 @@ const MobileNav = (props: MobileNavSettings) => {
                                     setOpen(false);
                                 }}
                                 isButton={false}
-                                label="Dashboard"
+                                label="受講ページ"
                             />
                         )}
                         <PageLink
                             theme={theme}
                             href={isGuest ? "/login" : "/logout"}
-                            label={isGuest ? "Login" : "Logout"}
+                            label={isGuest ? "ログイン" : "ログアウト"}
                             linkFontWeight={props.linkFontWeight}
                             onClick={() => {
                                 setOpen(false);
