@@ -152,7 +152,7 @@ export default function Widget({
                     }`}
                 >
                     <Header1 theme={overiddenTheme} className="mb-4">
-                        {title}
+                        {title === "Curriculum" ? "講座の内容" : title}
                     </Header1>
                     {description && (
                         <div
@@ -213,7 +213,7 @@ export default function Widget({
                             {group}
                         </Text1>
                         <Badge variant="outline">
-                            {`${formattedCourse[group].length} lessons`}
+                            {`${formattedCourse[group].length}件の教材`}
                         </Badge>
                     </div>
                 </AccordionTrigger>
