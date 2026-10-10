@@ -30,7 +30,10 @@ const nextConfig = {
         "mongodb",
         "jsonwebtoken",
     ],
-    experimental: {},
+    experimental: {
+    // Limit page-data workers on hosts that expose more CPUs than build RAM supports.
+    cpus: 2,
+  },
 };
 
 module.exports = nextConfig;
