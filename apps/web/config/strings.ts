@@ -181,7 +181,7 @@ export const learnerCardStrings = {
     course: "講座",
     download: "ダウンロード教材",
     certificate: "修了証",
-    progress: "全{total}教材中、{completed}教材を完了",
+    progress: "{total}レッスン中、{completed}レッスンを完了",
 };
 
 export const checkoutStrings = {
@@ -209,16 +209,16 @@ export const checkoutStrings = {
     toggleSummary: "注文内容を切り替える",
     alreadyOwned: "購入済み",
     accessDenied: "利用できません",
-    alreadyHasAccess: "この教材はすでに利用できます。",
+    alreadyHasAccess: "このコンテンツはすでに利用できます。",
     rejected: "利用が許可されていないため、購入手続きを進められません。",
-    openResource: "教材を開く",
+    openResource: "コンテンツを開く",
     joiningReason: "参加理由",
     joiningReasonPlaceholder: "参加理由を入力してください",
     thanksPurchase: "ご購入ありがとうございます",
     thanksOrder: "ご注文を確認しています",
     orderNumber: "注文番号：",
     paymentVerified: "お支払いを確認しました",
-    learningReady: "購入した教材は受講一覧から開けます。",
+    learningReady: "購入・登録したコンテンツは受講一覧から開けます。",
     dashboard: "受講一覧へ",
     checkAgain: "決済状況を再確認",
     paymentPending: "お支払いを確認中です",
@@ -235,7 +235,7 @@ export const checkoutStrings = {
     monthlyDescription: (amount: string) => `月額：${amount}`,
     installmentDescription: (amount: string, months?: number) =>
         `月額${amount} × ${months}回`,
-    includedProducts: (count: number) => `${count}件の教材を含む`,
+    includedProducts: (count: number) => `${count}件のコンテンツを含む`,
     period: (period: string) =>
         period === "/yr" ? "/年" : period === "/mo" ? "/月" : period,
 };
