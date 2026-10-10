@@ -198,7 +198,7 @@ const createAuthConfig = (baseURL = ""): any => ({
                     body: emailBody,
                     from: getEmailFrom({
                         name:
-                            ctx!.headers?.get("domaintitle") ||
+                            decodeURIComponent(ctx!.headers?.get("domaintitle") || "") ||
                             ctx!.headers?.get("domain") ||
                             "",
                         email: process.env.EMAIL_FROM || "",
