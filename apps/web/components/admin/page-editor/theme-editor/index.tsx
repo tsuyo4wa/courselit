@@ -26,7 +26,13 @@ import {
 } from "./interactive-selector";
 import StructureSelector from "./structure-selector";
 import { ThemeCard } from "./theme-card";
-import { Theme } from "@courselit/page-models";
+import { Theme, ThemeStyle } from "@courselit/page-models";
+import { colorPresetStrings } from "@/config/strings";
+import {
+    blogColorPresets,
+    applyBlogColorPreset,
+    getBlogColorPreset,
+} from "@/lib/blog-color-presets";
 import { ThemeWithDraftState } from "./theme-with-draft-state";
 import useThemes from "../use-themes";
 import { ThemeCardSkeleton } from "./theme-card-skeleton";
@@ -293,6 +299,83 @@ function ThemeEditor({
         useContext(ThemeContext);
     const selectedThemeRef = useRef<HTMLDivElement>(null);
     const [openCategory, setOpenCategory] = useState<string | null>(null);
+    const [applyingPreset, setApplyingPreset] = useState(false);
+    const presetBusyRef = useRef(false);
+    const [previousColors, setPreviousColors] = useState<
+        ThemeStyle["colors"] | null
+    >(null);
+    const activePreset = getBlogColorPreset(currentTheme?.theme.colors);
+
+    const savePresetColors = async (
+        colors: ThemeStyle["colors"],
+        successMessage: string,
+    ) => {
+        const baseTheme = currentTheme || theme;
+        if (!baseTheme || presetBusyRef.current) return;
+        presetBusyRef.current = true;
+        setApplyingPreset(true);
+        try {
+            const draftQuery = `
+                mutation ($themeId: String!, $colors: JSONObject!) {
+                    theme: updateDraftTheme(themeId: $themeId, colors: $colors) {
+                        themeId
+                    }
+                }
+            `;
+            const draft = await new FetchBuilder()
+                .setUrl(`${address.backend}/api/graph`)
+                .setPayload({
+                    query: draftQuery,
+                    variables: { themeId: baseTheme.id, colors },
+                })
+                .setIsGraphQLEndpoint(true)
+                .build()
+                .exec();
+            if (!draft?.theme?.themeId)
+                throw new Error(colorPresetStrings.error);
+            // System themes are cloned by updateDraftTheme. Always publish the returned id.
+            const publishQuery = `
+                mutation ($themeId: String!) {
+                    theme: switchTheme(themeId: $themeId) {
+                        themeId name
+                        theme { colors typography interactives structure }
+                        draftTheme { colors typography interactives structure }
+                    }
+                }
+            `;
+            const published = await new FetchBuilder()
+                .setUrl(`${address.backend}/api/graph`)
+                .setPayload({
+                    query: publishQuery,
+                    variables: { themeId: draft.theme.themeId },
+                })
+                .setIsGraphQLEndpoint(true)
+                .build()
+                .exec();
+            if (!published?.theme?.themeId)
+                throw new Error(colorPresetStrings.error);
+            const savedTheme = {
+                id: published.theme.themeId,
+                name: published.theme.name,
+                theme: published.theme.theme,
+                draftTheme: published.theme.draftTheme,
+            };
+            setPreviousColors(baseTheme.theme.colors);
+            setTheme(savedTheme);
+            setCurrentTheme(savedTheme);
+            await loadThemes();
+            toast({ title: successMessage });
+        } catch (error) {
+            toast({
+                title: TOAST_TITLE_ERROR,
+                description: colorPresetStrings.error,
+                variant: "destructive",
+            });
+        } finally {
+            presetBusyRef.current = false;
+            setApplyingPreset(false);
+        }
+    };
 
     useEffect(() => {
         if (theme) {
@@ -305,7 +388,10 @@ function ThemeEditor({
             setIsLoading(false);
             // Scroll to selected theme after a short delay to ensure DOM is ready
             setTimeout(() => {
-                if (selectedThemeRef.current) {
+                if (
+                    selectedThemeRef.current &&
+                    !getBlogColorPreset(currentTheme?.theme.colors)
+                ) {
                     selectedThemeRef.current.scrollIntoView({
                         behavior: "smooth",
                         block: "center",
@@ -453,9 +539,106 @@ function ThemeEditor({
             // Root view - Themes list
             return (
                 <div className="p-2 space-y-4">
+                    <section
+                        aria-label={colorPresetStrings.title}
+                        className="space-y-3"
+                    >
+                        <h3 className="text-sm font-semibold">
+                            {colorPresetStrings.title}
+                        </h3>
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                            {colorPresetStrings.description}
+                        </p>
+                        <div className="grid grid-cols-2 gap-2">
+                            {(
+                                Object.keys(blogColorPresets) as Array<
+                                    keyof typeof blogColorPresets
+                                >
+                            ).map((id) => {
+                                const preset = blogColorPresets[id];
+                                const selected = activePreset === id;
+                                return (
+                                    <button
+                                        key={id}
+                                        type="button"
+                                        aria-pressed={selected}
+                                        disabled={applyingPreset || !loaded}
+                                        onClick={() => {
+                                            const baseTheme =
+                                                currentTheme || theme;
+                                            if (baseTheme)
+                                                void savePresetColors(
+                                                    applyBlogColorPreset(
+                                                        baseTheme.theme.colors,
+                                                        id,
+                                                    ),
+                                                    colorPresetStrings.applied,
+                                                );
+                                        }}
+                                        className="min-w-0 rounded-md border p-2 text-left hover:bg-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
+                                    >
+                                        <span
+                                            aria-hidden="true"
+                                            className="mb-2 flex h-5 overflow-hidden rounded-sm"
+                                        >
+                                            {[
+                                                preset.navBg,
+                                                preset.primary,
+                                                preset.primaryLight,
+                                                preset.accent,
+                                            ].map((color, index) => (
+                                                <span
+                                                    key={index}
+                                                    className="flex-1"
+                                                    style={{
+                                                        backgroundColor: color,
+                                                    }}
+                                                />
+                                            ))}
+                                        </span>
+                                        <span className="block text-xs font-medium">
+                                            {colorPresetStrings.names[id]}
+                                        </span>
+                                        {selected && (
+                                            <span className="block text-xs text-muted-foreground">
+                                                {colorPresetStrings.active}
+                                            </span>
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        <p
+                            role="status"
+                            aria-live="polite"
+                            className="text-xs text-muted-foreground"
+                        >
+                            {applyingPreset
+                                ? colorPresetStrings.applying
+                                : activePreset
+                                  ? `${colorPresetStrings.active}：${colorPresetStrings.names[activePreset]}`
+                                  : ""}
+                        </p>
+                        {previousColors && (
+                            <button
+                                type="button"
+                                disabled={applyingPreset}
+                                className="text-xs underline disabled:opacity-50"
+                                onClick={() =>
+                                    void savePresetColors(
+                                        previousColors,
+                                        colorPresetStrings.restored,
+                                    )
+                                }
+                            >
+                                {colorPresetStrings.restore}
+                            </button>
+                        )}
+                    </section>
+                    <hr className="my-4 border-muted" />
                     {/* System Themes */}
                     <div className="text-sm font-medium text-muted-foreground mb-2">
-                        System Themes
+                        {colorPresetStrings.systemThemes}
                     </div>
                     <div className="space-y-2">
                         {isLoading
@@ -506,7 +689,7 @@ function ThemeEditor({
                     </div>
                     <hr className="my-4 border-muted" />
                     <div className="text-sm font-medium text-muted-foreground mb-2">
-                        Custom Themes
+                        {colorPresetStrings.customThemes}
                     </div>
                     <div className="space-y-2">
                         {isLoading ? (
@@ -517,7 +700,7 @@ function ThemeEditor({
                                 ))
                         ) : themes.custom.length === 0 ? (
                             <div className="text-muted-foreground text-sm">
-                                No custom themes yet
+                                {colorPresetStrings.emptyCustomThemes}
                             </div>
                         ) : (
                             themes.custom.map((themeItem) => (
@@ -978,7 +1161,13 @@ function ThemeEditor({
     };
 
     return (
-        <div>
+        <fieldset
+            disabled={applyingPreset}
+            className={
+                applyingPreset ? "min-w-0 pointer-events-none" : "min-w-0"
+            }
+            aria-busy={applyingPreset}
+        >
             {navigationStack.length === 0 && (
                 <div className="space-y-4 py-2">{getCurrentView()}</div>
             )}
@@ -1007,7 +1196,7 @@ function ThemeEditor({
                     <div className="py-2">{getCurrentView()}</div>
                 </>
             )}
-        </div>
+        </fieldset>
     );
 }
 
