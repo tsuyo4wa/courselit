@@ -18,16 +18,25 @@ export default function Link({
     isButton: boolean;
     label: string;
 }) {
+    const localizedLabel =
+        (
+            {
+                Products: "講座一覧",
+                Blog: "ブログ",
+                "Start learning": "学習を始める",
+            } as Record<string, string>
+        )[label] ?? label;
+
     return (
         <AppLink href={href} className={`${linkFontWeight}`} onClick={onClick}>
             {isButton && (
                 <Button size="sm" theme={theme}>
-                    {label}
+                    {localizedLabel}
                 </Button>
             )}
             {!isButton && (
                 <PageLink theme={theme} className="no-underline">
-                    {label}
+                    {localizedLabel}
                 </PageLink>
             )}
         </AppLink>
