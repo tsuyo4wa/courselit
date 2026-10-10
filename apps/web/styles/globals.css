@@ -121,6 +121,7 @@
 
 .course-learning-sidebar [data-sidebar="sidebar"] {
     background: hsl(var(--sidebar-background));
+    color: hsl(var(--sidebar-foreground));
     border-color: hsl(var(--sidebar-border));
 }
 
@@ -128,6 +129,10 @@
     border-bottom: 1px solid hsl(var(--sidebar-border));
     margin-bottom: 0.5rem;
     padding-block: 1rem;
+}
+
+.course-learning-sidebar a.bg-background {
+    color: hsl(var(--foreground));
 }
 
 .course-learning-sidebar .course-lesson-item {
