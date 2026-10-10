@@ -1,5 +1,7 @@
 "use client";
 
+import { checkoutStrings } from "@/config/strings";
+
 import { AddressContext } from "@components/contexts";
 import Checkout, { Product } from "@components/public/payments/checkout";
 import { Constants, PaymentPlan, Course } from "@courselit/common-models";
@@ -232,7 +234,7 @@ export default function ProductCheckout() {
     return (
         <>
             <Header1 theme={theme.theme} className="mb-8">
-                Checkout
+                {checkoutStrings.title}
             </Header1>
             <Checkout
                 product={product}
