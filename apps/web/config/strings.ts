@@ -176,3 +176,10 @@ export const internal = {
     default_email_sequence_name: "Untitled Sequence",
     joining_reason_creator: "Joined as creator",
 };
+
+export const learnerCardStrings = {
+    course: "講座",
+    download: "ダウンロード教材",
+    certificate: "修了証",
+    progress: "全{total}教材中、{completed}教材を完了",
+};
