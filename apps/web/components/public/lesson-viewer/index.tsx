@@ -226,7 +226,7 @@ export const LessonViewer = ({
 
     return (
         <div className="text-foreground">
-            <article className="flex flex-col pb-[100px] lg:max-w-[40rem] xl:max-w-[48rem] mx-auto w-full px-4 pt-4">
+            <article className="lesson-reader flex flex-col pb-[100px] mx-auto w-full px-4 pt-4">
                 {!lesson && !error && (
                     <div className="flex flex-col">
                         <Skeleton className="h-12 w-full mb-8" />
@@ -269,13 +269,16 @@ export const LessonViewer = ({
                                         `/course/${slug}/${productId}`,
                                         viewerSessionParams,
                                     )}
-                                    className="flex items-center gap-2 text-sm text-muted-foreground font-semibold hover:text-foreground transition-colors w-fit mb-1"
+                                    className="lesson-course-label flex items-center gap-2 text-sm text-muted-foreground font-semibold hover:text-foreground transition-colors w-fit mb-1"
                                 >
                                     <BookOpen className="h-4 w-4 shrink-0" />
                                     <span>{courseTitle}</span>
                                 </NextLink>
                             )}
-                            <Header1 theme={theme.theme}>
+                            <Header1
+                                theme={theme.theme}
+                                className="lesson-title"
+                            >
                                 {lesson.title}
                             </Header1>
                         </header>

@@ -1,6 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Reading typography follows the school's Astro article reference.
+   Keep these rules inside the lesson viewer, away from marketing/admin pages. */
+.lesson-reader {
+    max-width: 50rem;
+    font-family:
+        var(--font-inter), "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo,
+        sans-serif;
+    font-size: 16px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+.lesson-reader .lesson-course-label {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.lesson-reader .lesson-title,
+.lesson-reader .tiptap-renderer h1 {
+    font-family: inherit;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    text-wrap: pretty;
+}
+
+.lesson-reader .tiptap-renderer h2 {
+    margin: 2em 0 0.8em;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid hsl(var(--border));
+    font-family: inherit;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    text-transform: none;
+}
+
+.lesson-reader .tiptap-renderer h2:first-child {
+    margin-top: 0;
+}
+
+.lesson-reader .tiptap-renderer h3 {
+    margin: 2em 0 0.6em;
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-transform: none;
+}
+
+.lesson-reader .tiptap-renderer p,
+.lesson-reader .tiptap-renderer li,
+.lesson-reader .tiptap-renderer blockquote {
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.9;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+.lesson-reader .tiptap-renderer p,
+.lesson-reader .tiptap-renderer ul,
+.lesson-reader .tiptap-renderer ol {
+    margin-bottom: 1.5em;
+}
+
+.lesson-reader .tiptap-renderer ul,
+.lesson-reader .tiptap-renderer ol {
+    padding-left: 1.5em;
+}
+
+.lesson-reader .tiptap-renderer li {
+    margin-bottom: 0.4em;
+}
+
+.lesson-reader .tiptap-renderer li p {
+    margin-bottom: 0;
+}
+
+.lesson-reader .tiptap-renderer pre {
+    max-width: 100%;
+    overflow-x: auto;
+    font-size: 14px;
+}
+
+@media (max-width: 640px) {
+    .lesson-reader .lesson-title,
+    .lesson-reader .tiptap-renderer h1 {
+        font-size: 21.6px;
+    }
+}
 
 @layer base {
     :root {
