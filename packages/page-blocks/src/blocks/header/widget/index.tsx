@@ -95,8 +95,8 @@ export default function Widget({
                     linkAlignment === "right"
                         ? "justify-end"
                         : linkAlignment === "center"
-                          ? "justify-center"
-                          : "justify-start"
+                        ? "justify-center"
+                        : "justify-start"
                 }`}
                 style={{
                     gap: `${spacingBetweenLinks}px`,
@@ -193,7 +193,7 @@ export default function Widget({
                                             theme={overiddenTheme}
                                             className="!no-underline"
                                         >
-                                            Dashboard
+                                            受講ページ
                                         </PrimitiveLink>
                                     </AppLink>
                                 </MenuItem2>
@@ -210,7 +210,9 @@ export default function Widget({
                                         theme={overiddenTheme}
                                         className="!no-underline"
                                     >
-                                        {state.auth.guest ? "Login" : "Logout"}
+                                        {state.auth.guest
+                                            ? "ログイン"
+                                            : "ログアウト"}
                                     </PrimitiveLink>
                                 </AppLink>
                             </MenuItem2>
