@@ -213,7 +213,7 @@ export default function Widget({
                             {group}
                         </Text1>
                         <Badge variant="outline">
-                            {`${formattedCourse[group].length}件の教材`}
+                            {`${formattedCourse[group].length}レッスン`}
                         </Badge>
                     </div>
                 </AccordionTrigger>
