@@ -44,6 +44,9 @@ if (mailHost && mailUser && mailPass && mailPort) {
             subject,
             html,
         }: Pick<MailProps, "to" | "subject" | "from"> & { html?: string }) {
+            if (process.env.NODE_ENV === "production") {
+                throw new Error("SMTP is not configured");
+            }
             console.log("Mail:", to, from, subject, html); // eslint-disable-line no-console
         },
     };
@@ -83,7 +86,6 @@ export async function addMailJob({
             to,
             from,
             subject,
-            body,
         });
 
         let atLeastOneSuccessfulSend = false;
