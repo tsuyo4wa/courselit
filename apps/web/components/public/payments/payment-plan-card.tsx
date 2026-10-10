@@ -1,5 +1,7 @@
 "use client";
 
+import { checkoutStrings } from "@/config/strings";
+
 import { RadioGroupItem } from "@/components/ui/radio-group";
 import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
 import {
@@ -14,6 +16,9 @@ import { Text1 } from "@courselit/page-primitives";
 import { Star, Package } from "lucide-react";
 import { PaymentPlan, Course, Constants } from "@courselit/common-models";
 import { getPlanPrice } from "@ui-lib/utils";
+import { useContext } from "react";
+import { SiteInfoContext } from "@components/contexts";
+import { formatCurrency } from "@courselit/utils";
 
 const { PaymentPlanType: paymentPlanType } = Constants;
 
@@ -54,6 +59,8 @@ export function PaymentPlanCard({
     includedProducts,
     theme,
 }: PaymentPlanCardProps) {
+    const currencyISOCode =
+        useContext(SiteInfoContext).currencyISOCode || "USD";
     const planPrice = getPlanPrice(plan);
     const planIncludedProducts = getIncludedProductsDescription(
         plan,
@@ -92,14 +99,12 @@ export function PaymentPlanCard({
                                             className="flex items-center gap-1"
                                         >
                                             <Star className="w-3 h-3" />
-                                            Recommended
+                                            {checkoutStrings.recommended}
                                         </Badge>
                                     )}
                                     {/* {isRecommended && (
                                         <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                                            <Star className="w-3 h-3" />
-                                            Recommended
-                                        </div>
+                                            <Star className="w-3 h-3" />{checkoutStrings.recommended}</div>
                                     )} */}
                                 </div>
                             </PageCardHeader>
@@ -110,9 +115,7 @@ export function PaymentPlanCard({
                                     </div>
                                     {isRecommended && (
                                         <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium flex items-center gap-1">
-                                            <Star className="w-3 h-3" />
-                                            Recommended
-                                        </div>
+                                            <Star className="w-3 h-3" />{checkoutStrings.recommended}</div>
                                     )}
                                 </div>
                             </div> */}
@@ -120,15 +123,19 @@ export function PaymentPlanCard({
                             <div className="mb-4">
                                 <div className="flex items-baseline gap-1">
                                     <Header3 theme={theme.theme}>
-                                        {currencySymbol}
-                                        {planPrice.amount.toFixed(2)}
+                                        {formatCurrency(
+                                            planPrice.amount,
+                                            currencyISOCode,
+                                        )}
                                     </Header3>
                                     {planPrice.period && (
                                         <Text2
                                             theme={theme.theme}
                                             className="text-muted-foreground text-sm"
                                         >
-                                            {planPrice.period}
+                                            {checkoutStrings.period(
+                                                planPrice.period,
+                                            )}
                                         </Text2>
                                     )}
                                 </div>
@@ -137,7 +144,7 @@ export function PaymentPlanCard({
                                         theme={theme.theme}
                                         className="text-muted-foreground text-sm"
                                     >
-                                        one-time
+                                        {checkoutStrings.oneTime}
                                     </Text2>
                                 )}
                             </div>
@@ -147,8 +154,9 @@ export function PaymentPlanCard({
                                     <div className="flex items-center gap-2 text-sm text-foreground">
                                         <Package className="w-4 h-4 text-muted-foreground" />
                                         <Text2 theme={theme.theme}>
-                                            {planIncludedProducts.length}{" "}
-                                            products included
+                                            {checkoutStrings.includedProducts(
+                                                planIncludedProducts.length,
+                                            )}
                                         </Text2>
                                     </div>
                                 )}
