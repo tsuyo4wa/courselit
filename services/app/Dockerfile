@@ -39,7 +39,8 @@ WORKDIR /app
 COPY --from=deps /app/ ./
 
 # Build all workspaces
-RUN pnpm run build
+# Build-time auth initialization uses an ephemeral value; runtime uses Render AUTH_SECRET.
+RUN AUTH_SECRET="$(node -e 'process.stdout.write(require("crypto").randomBytes(32).toString("hex"))')" pnpm run build
 
 # Production image
 FROM base AS runner
