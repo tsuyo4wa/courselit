@@ -1,3 +1,4 @@
+import { checkoutStrings } from "@/config/strings";
 import { XCircle, Loader2, RefreshCw, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InvoicesStatus } from "@courselit/common-models";
@@ -25,14 +26,14 @@ export function PaymentVerificationStatus({
                             >
                                 <>
                                     <RefreshCw className="w-4 h-4 mr-2" />
-                                    Check status again
+                                    {checkoutStrings.checkAgain}
                                 </>
                             </Button>
                             {!loading && (
                                 <>
                                     <Clock className="w-8 h-8 text-black-500" />
                                     <p className="text-lg font-medium">
-                                        Payment not received yet
+                                        {checkoutStrings.paymentPending}
                                     </p>
                                 </>
                             )}
@@ -40,10 +41,10 @@ export function PaymentVerificationStatus({
                                 <>
                                     <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
                                     <h2 className="text-2xl font-bold">
-                                        Verifying payment...
+                                        {checkoutStrings.verifying}
                                     </h2>
                                     <p className="text-muted-foreground">
-                                        This may take a few moments
+                                        {checkoutStrings.wait}
                                     </p>
                                 </>
                             )}
@@ -53,7 +54,7 @@ export function PaymentVerificationStatus({
                         <>
                             <XCircle className="w-8 h-8 text-red-500" />
                             <p className="text-lg font-medium">
-                                Payment verification failed
+                                {checkoutStrings.paymentFailed}
                             </p>
                         </>
                     )}
