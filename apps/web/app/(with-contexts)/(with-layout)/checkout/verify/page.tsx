@@ -1,5 +1,7 @@
 "use client";
 
+import { checkoutStrings } from "@/config/strings";
+
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -50,28 +52,27 @@ export default function Page() {
                 <>
                     {/* <CheckCircle className="w-16 h-16 text-green-500" /> */}
                     <h2 className="text-2xl font-bold">
-                        Thank you for your purchase!
+                        {checkoutStrings.thanksPurchase}
                     </h2>
                     <p className="text-muted-foreground">
-                        Your order number is:{" "}
+                        {checkoutStrings.orderNumber}{" "}
                         <span className="font-medium">{id}</span>
                     </p>
                     <CheckCircle className="w-8 h-8 text-green-500" />
                     <p className="text-lg font-medium text-green-600">
-                        Payment verified successfully!
+                        {checkoutStrings.paymentVerified}
                     </p>
                     <p className="text-muted-foreground">
-                        We have sent a confirmation email with order details and
-                        tracking information.
+                        {checkoutStrings.learningReady}
                     </p>
                 </>
             ) : (
                 <>
                     <h2 className="text-2xl font-bold">
-                        Thank you for your order!
+                        {checkoutStrings.thanksOrder}
                     </h2>
                     <p className="text-muted-foreground">
-                        Your order number is:{" "}
+                        {checkoutStrings.orderNumber}{" "}
                         <span className="font-medium">{id}</span>
                     </p>
                     <PaymentVerificationStatus
@@ -86,7 +87,7 @@ export default function Page() {
                 {paymentStatus === "paid" && (
                     <Button asChild>
                         <Link href="/dashboard/my-content">
-                            Go to Dashboard
+                            {checkoutStrings.dashboard}
                         </Link>
                     </Button>
                 )}
