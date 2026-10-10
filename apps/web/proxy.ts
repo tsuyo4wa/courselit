@@ -49,7 +49,8 @@ export async function proxy(request: NextRequest) {
         requestHeaders.set("domain", resp.domain);
         requestHeaders.set("domainId", resp.domainId);
         requestHeaders.set("domainEmail", resp.domainEmail);
-        requestHeaders.set("domainTitle", resp.domainTitle || "");
+        // Headers require byte-safe values; preserve Unicode titles via percent encoding.
+        requestHeaders.set("domainTitle", encodeURIComponent(resp.domainTitle || ""));
         requestHeaders.set(
             "hideCourseLitBranding",
             resp.hideCourseLitBranding || false,
