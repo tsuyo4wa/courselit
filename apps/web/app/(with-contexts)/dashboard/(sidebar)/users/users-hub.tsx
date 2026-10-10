@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import LoadingScreen from "@components/admin/loading-screen";
@@ -45,7 +46,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 
 const { permissions } = UIConstants;
 
-const breadcrumbs = [{ label: "Users", href: "#" }];
+const breadcrumbs = [{ label: finalUiText["Users"], href: "#" }];
 
 export default function UsersHub() {
     const address = useContext(AddressContext);
@@ -267,8 +268,8 @@ export default function UsersHub() {
                                               }
                                           >
                                               {user.active
-                                                  ? "Active"
-                                                  : "Restricted"}
+                                                  ? finalUiText["Active"]
+                                                  : finalUiText["Restricted"]}
                                           </Badge>
                                       </TableCell>
                                       <TableCell>

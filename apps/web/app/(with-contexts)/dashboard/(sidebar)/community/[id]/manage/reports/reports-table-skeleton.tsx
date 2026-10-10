@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
     Table,
@@ -18,12 +19,14 @@ export function ReportsTableSkeleton() {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Content</TableHead>
-                            <TableHead>Type</TableHead>
-                            <TableHead>Reason</TableHead>
-                            <TableHead>Status</TableHead>
-                            <TableHead>Rejection Reason</TableHead>
-                            <TableHead>Actions</TableHead>
+                            <TableHead>{finalUiText["Content"]}</TableHead>
+                            <TableHead>{finalUiText["Type"]}</TableHead>
+                            <TableHead>{finalUiText["Reason"]}</TableHead>
+                            <TableHead>{finalUiText["Status"]}</TableHead>
+                            <TableHead>
+                                {finalUiText["Rejection Reason"]}
+                            </TableHead>
+                            <TableHead>{finalUiText["Actions"]}</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

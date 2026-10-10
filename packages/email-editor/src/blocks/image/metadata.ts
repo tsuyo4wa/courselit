@@ -1,15 +1,19 @@
+import { finalUiText } from "../../ui-strings";
 import { ImageIcon } from "lucide-react";
 import type { BlockMetadata } from "@/types/block-registry";
 
 export const metadata: BlockMetadata = {
     name: "image",
     displayName: "Image",
-    description: "Add images with customizable sizing and alignment",
+    description:
+        finalUiText["Add images with customizable sizing and alignment"],
     icon: ImageIcon,
     docs: {
         settings: {
             src: "The URL of the image to display. Format: https://example.com/image.jpg",
-            alt: "[Optional] Alternative text for the image for accessibility. Format: string",
+            alt: finalUiText[
+                "[Optional] Alternative text for the image for accessibility. Format: string"
+            ],
             alignment:
                 "[Optional] The alignment of the image. Range: left, center, right. Default: left",
             width: "[Optional] The width of the image. Range: auto, 100px, 200px, 300px, 400px, 500px, 100%. Default: auto",

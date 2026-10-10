@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import { useEffect, useState } from "react";
 import type { Address, Media, Profile } from "@courselit/common-models";
 import Settings from "./settings";
@@ -98,18 +99,22 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["media", "design"]}
         >
-            <AdminWidgetPanel title="Media" value="media">
+            <AdminWidgetPanel title={finalUiText["Media"]} value="media">
                 <Form>
                     <FormField
-                        label="YouTube/Vimeo Link"
-                        placeholder="Enter the link to the video"
+                        label={finalUiText["YouTube/Vimeo Link"]}
+                        placeholder={finalUiText["Enter the link to the video"]}
                         value={youtubeLink}
                         onChange={(e) => setYoutubeLink(e.target.value)}
                     />
                 </Form>
                 <PageBuilderPropertyHeader
-                    label="Upload media"
-                    tooltip="This will be overridden if you have provided a YouTube video id above"
+                    label={finalUiText["Upload media"]}
+                    tooltip={
+                        finalUiText[
+                            "This will be overridden if you have provided a YouTube video id above"
+                        ]
+                    }
                 />
                 <MediaSelector
                     title=""
@@ -134,7 +139,7 @@ export default function AdminWidget({
                     <div className="flex flex-col gap-2">
                         <div className="flex justify-between mt-2">
                             <div className="flex grow items-center gap-1">
-                                <p>Play video in a pop-up</p>
+                                <p>{finalUiText["Play video in a pop-up"]}</p>
                             </div>
                             <Checkbox
                                 checked={playVideoInModal}
@@ -144,7 +149,7 @@ export default function AdminWidget({
                             />
                         </div>
                         <Select
-                            title="Aspect ratio"
+                            title={finalUiText["Aspect ratio"]}
                             value={aspectRatio}
                             options={[
                                 { label: "16/9", value: "16/9" },
@@ -160,13 +165,16 @@ export default function AdminWidget({
                 ) : (
                     <div>
                         <Select
-                            title="Object fit"
+                            title={finalUiText["Object fit"]}
                             value={objectFit}
                             options={[
-                                { label: "Cover", value: "cover" },
-                                { label: "Contain", value: "contain" },
-                                { label: "Fill", value: "fill" },
-                                { label: "None", value: "none" },
+                                { label: finalUiText["Cover"], value: "cover" },
+                                {
+                                    label: finalUiText["Contain"],
+                                    value: "contain",
+                                },
+                                { label: finalUiText["Fill"], value: "fill" },
+                                { label: "なし", value: "none" },
                                 { label: "Scale-down", value: "scale-down" },
                             ]}
                             onChange={(value: ImageObjectFit) =>
@@ -176,9 +184,9 @@ export default function AdminWidget({
                     </div>
                 )}
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <PageBuilderSlider
-                    title="Media border radius"
+                    title={finalUiText["Media border radius"]}
                     value={mediaBorderRadius}
                     min={0}
                     max={8}
@@ -197,8 +205,10 @@ export default function AdminWidget({
                 />
                 <div className="flex justify-between">
                     <div className="flex grow items-center gap-1">
-                        <p>Border</p>
-                        <Tooltip title="Media will have a border">
+                        <p>{finalUiText["Border"]}</p>
+                        <Tooltip
+                            title={finalUiText["Media will have a border"]}
+                        >
                             <Help />
                         </Tooltip>
                     </div>
@@ -208,7 +218,7 @@ export default function AdminWidget({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useState } from "react";
 import { Edit } from "@courselit/icons";
 import { Link } from "../settings";
@@ -56,7 +57,7 @@ export default function LinkEditor({
             {editing && (
                 <Form className="flex flex-col gap-2 mb-4">
                     <FormField
-                        label="Label"
+                        label={finalUiText["Label"]}
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
                     />
@@ -67,14 +68,14 @@ export default function LinkEditor({
                     />
                     <div className="flex gap-2 justify-end">
                         <Button onClick={updateLink} component="button">
-                            Save
+                            {finalUiText["Save"]}
                         </Button>
                         <Button
                             component="button"
                             onClick={deleteLink}
                             variant="soft"
                         >
-                            Delete
+                            {finalUiText["Delete"]}
                         </Button>
                     </div>
                 </Form>

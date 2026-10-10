@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useState } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
@@ -143,16 +144,18 @@ export default function SectionPage() {
                         {NEW_SECTION_HEADER}
                     </h1>
                     <p className="text-muted-foreground mt-2">
-                        Add a new section to your course
+                        {finalUiText["Add a new section to your course"]}
                     </p>
                 </div>
 
                 <form onSubmit={handleSave} className="space-y-8">
                     <div className="space-y-4">
-                        <Label htmlFor="name">Section Name</Label>
+                        <Label htmlFor="name">
+                            {finalUiText["Section Name"]}
+                        </Label>
                         <Input
                             id="name"
-                            placeholder="Enter section name"
+                            placeholder={finalUiText["Enter section name"]}
                             value={sectionName}
                             onChange={(e) => setSectionName(e.target.value)}
                             className={
@@ -259,7 +262,7 @@ export default function SectionPage() {
                             <Link
                                 href={`/dashboard/product/${productId}/content`}
                             >
-                                Cancel
+                                {finalUiText["Cancel"]}
                             </Link>
                         </Button>
                         <Button type="submit" disabled={loading}>

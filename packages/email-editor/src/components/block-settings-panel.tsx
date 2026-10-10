@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import { X, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { EmailSettings } from "./email-settings";
@@ -28,7 +29,9 @@ export function BlockSettingsPanel({
         return (
             <div className="flex flex-col h-full">
                 <div className="p-4 border-b flex justify-between items-center flex-shrink-0">
-                    <h2 className="font-medium">Email Settings</h2>
+                    <h2 className="font-medium">
+                        {finalUiText["Email Settings"]}
+                    </h2>
                     <Button
                         variant="ghost"
                         size="icon"
@@ -57,7 +60,9 @@ export function BlockSettingsPanel({
         return (
             <div className="flex flex-col h-full">
                 <div className="p-4 border-b flex justify-between items-center flex-shrink-0">
-                    <h2 className="font-medium">Unknown Block</h2>
+                    <h2 className="font-medium">
+                        {finalUiText["Unknown Block"]}
+                    </h2>
                     <Button
                         variant="ghost"
                         size="icon"
@@ -68,8 +73,8 @@ export function BlockSettingsPanel({
                 </div>
                 <div className="p-4">
                     <p className="text-sm text-gray-500">
-                        Block type &quot;{block.blockType}&quot; not found in
-                        registry.
+                        {finalUiText["Block type &quot;"]}
+                        {block.blockType}」が見つかりません。
                     </p>
                 </div>
             </div>
@@ -97,7 +102,7 @@ export function BlockSettingsPanel({
                         className=""
                         variant="ghost"
                     >
-                        Email
+                        {finalUiText["Email"]}
                     </Button>
                     <ChevronRight className="h-4 w-4 mx-1 text-gray-400" />
                     <span className="font-medium">{capitalizedBlockName}</span>

@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { Editor } from "@tiptap/core";
 import type { BubbleMenuPluginProps } from "@tiptap/extension-bubble-menu";
@@ -145,19 +146,19 @@ const InlineBubbleMenu = ({ editor }: BubbleMenuProps): JSX.Element | null => {
             <div className="flex items-center gap-1">
                 <InlineButton
                     icon={Bold}
-                    label="Bold"
+                    label={finalUiText["Bold"]}
                     active={editor.isActive("bold")}
                     onClick={() => editor.chain().focus().toggleBold().run()}
                 />
                 <InlineButton
                     icon={Italic}
-                    label="Italic"
+                    label={finalUiText["Italic"]}
                     active={editor.isActive("italic")}
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                 />
                 <InlineButton
                     icon={Underline}
-                    label="Underline"
+                    label={finalUiText["Underline"]}
                     active={editor.isActive("underline")}
                     onClick={() =>
                         editor.chain().focus().toggleMark("underline").run()
@@ -165,19 +166,19 @@ const InlineBubbleMenu = ({ editor }: BubbleMenuProps): JSX.Element | null => {
                 />
                 <InlineButton
                     icon={Strikethrough}
-                    label="Strikethrough"
+                    label={finalUiText["Strikethrough"]}
                     active={editor.isActive("strike")}
                     onClick={() => editor.chain().focus().toggleStrike().run()}
                 />
                 <InlineButton
                     icon={Code}
-                    label="Inline code"
+                    label={finalUiText["Inline code"]}
                     active={editor.isActive("code")}
                     onClick={() => editor.chain().focus().toggleCode().run()}
                 />
                 <InlineButton
                     icon={LinkIcon}
-                    label="Insert link"
+                    label={finalUiText["Insert link"]}
                     active={editor.isActive("link")}
                     onClick={openLinkEditor}
                 />

@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     Box,
@@ -105,7 +106,7 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
                                     <Image
                                         borderRadius={1}
                                         src={siteInfo.logo?.file || ""}
-                                        alt="logo"
+                                        alt={finalUiText["logo"]}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>

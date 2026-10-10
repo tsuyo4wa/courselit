@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import {
     Pagination,
     PaginationContent,
@@ -47,13 +48,17 @@ export function PaginationControls({
                                 : ""
                         }
                     >
-                        <Caption theme={theme}>Previous</Caption>
+                        <Caption theme={theme}>
+                            {finalUiText["Previous"]}
+                        </Caption>
                     </PaginationPrevious>
                 </PaginationItem>
 
                 <div>
                     <Text2 theme={theme}>
-                        {currentPage} of {totalPages}
+                        {currentPage}
+                        {finalUiText["of"]}
+                        {totalPages}
                     </Text2>
                 </div>
 
@@ -80,7 +85,7 @@ export function PaginationControls({
                                 : ""
                         }
                     >
-                        <Caption theme={theme}>Next</Caption>
+                        <Caption theme={theme}>{finalUiText["Next"]}</Caption>
                     </PaginationNext>
                 </PaginationItem>
             </PaginationContent>

@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useEffect, useState } from "react";
 import Settings, { Layout, Link } from "../settings";
 import LinkEditor from "./link-editor";
@@ -100,7 +101,7 @@ export default function AdminWidget({
 
     const addNewLink = () => {
         const link: Link = {
-            label: "Link",
+            label: finalUiText["Link"],
             href: "https://courselit.app",
             id: generateUniqueId(),
         };
@@ -112,7 +113,7 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["links", "github-repo", "design"]}
         >
-            <AdminWidgetPanel title="Links" value="links">
+            <AdminWidgetPanel title={finalUiText["Links"]} value="links">
                 <DragAndDrop
                     items={links.map((link: Link, index: number) => ({
                         link,
@@ -134,15 +135,15 @@ export default function AdminWidget({
                 />
                 <div className="flex justify-end">
                     <Button onClick={addNewLink} fullWidth>
-                        Add new link
+                        {finalUiText["Add new link"]}
                     </Button>
                 </div>
             </AdminWidgetPanel>
 
-            <AdminWidgetPanel title="Github Repo" value="github-repo">
+            <AdminWidgetPanel title="GitHubリポジトリ" value="github-repo">
                 <Form>
                     <FormField
-                        label="Github Repo"
+                        label="GitHubリポジトリ"
                         value={githubRepo}
                         onChange={(e) => setGithubRepo(e.target.value)}
                         placeholder="owner/repo"
@@ -150,7 +151,7 @@ export default function AdminWidget({
                 </Form>
                 <div className="flex justify-between">
                     <div className="flex grow items-center gap-1">
-                        <p>Show Github Stars</p>
+                        <p>{finalUiText["Show Github Stars"]}</p>
                     </div>
                     <Checkbox
                         checked={showGithubStars}
@@ -158,42 +159,42 @@ export default function AdminWidget({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
-                    title="Layout"
+                    title={finalUiText["Layout"]}
                     value={layout}
                     options={[
-                        { label: "Fixed", value: "fixed" },
-                        { label: "Floating", value: "floating" },
+                        { label: finalUiText["Fixed"], value: "fixed" },
+                        { label: finalUiText["Floating"], value: "floating" },
                     ]}
                     onChange={(value: Layout) => setLayout(value)}
                 />
                 <Select
-                    title="Link font weight"
+                    title={finalUiText["Link font weight"]}
                     value={linkFontWeight}
                     options={[
-                        { label: "Thin", value: "font-light" },
-                        { label: "Normal", value: "font-normal" },
-                        { label: "Bold", value: "font-bold" },
+                        { label: finalUiText["Thin"], value: "font-light" },
+                        { label: finalUiText["Normal"], value: "font-normal" },
+                        { label: finalUiText["Bold"], value: "font-bold" },
                     ]}
                     onChange={(
                         value: "font-light" | "font-normal" | "font-bold",
                     ) => setLinkFontWeight(value)}
                 />
                 <Select
-                    title="Menu alignment"
+                    title={finalUiText["Menu alignment"]}
                     value={linkAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Right", value: "right" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Right"], value: "right" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: "left" | "right" | "center") =>
                         setLinkAlignment(value)
                     }
                 />
                 <PageBuilderSlider
-                    title="Space between links"
+                    title={finalUiText["Space between links"]}
                     value={spacingBetweenLinks}
                     max={64}
                     min={16}
@@ -205,8 +206,12 @@ export default function AdminWidget({
                 />
                 <div className="flex justify-between">
                     <div className="flex grow items-center gap-1">
-                        <p>Backdrop blur</p>
-                        <Tooltip title="Makes the background translucent">
+                        <p>{finalUiText["Backdrop blur"]}</p>
+                        <Tooltip
+                            title={
+                                finalUiText["Makes the background translucent"]
+                            }
+                        >
                             <Help />
                         </Tooltip>
                     </div>
@@ -216,11 +221,20 @@ export default function AdminWidget({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Other settings" value="other-settings">
+            <AdminWidgetPanel
+                title={finalUiText["Other settings"]}
+                value="other-settings"
+            >
                 <div className="flex justify-between">
                     <div className="flex grow items-center gap-1">
-                        <p>Show login button</p>
-                        <Tooltip title="The login button, located in the top right corner, is used to access account-related links">
+                        <p>{finalUiText["Show login button"]}</p>
+                        <Tooltip
+                            title={
+                                finalUiText[
+                                    "The login button, located in the top right corner, is used to access account-related links"
+                                ]
+                            }
+                        >
                             <Help />
                         </Tooltip>
                     </div>

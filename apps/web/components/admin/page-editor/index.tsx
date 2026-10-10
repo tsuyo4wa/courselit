@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
     Page,
@@ -339,7 +340,7 @@ export default function PageEditor({
             } else {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description: `The page does not exist.`,
+                    description: finalUiText["The page does not exist."],
                     variant: "destructive",
                 });
                 router.replace("/dashboard/pages");
@@ -651,7 +652,11 @@ export default function PageEditor({
                                         }}
                                     >
                                         <SelectTrigger className="w-full">
-                                            <SelectValue placeholder="Select page" />
+                                            <SelectValue
+                                                placeholder={
+                                                    finalUiText["Select page"]
+                                                }
+                                            />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {pages.map((p) => (
@@ -666,7 +671,7 @@ export default function PageEditor({
                                     </Select>
                                 ) : (
                                     <div className="h-10 flex items-center px-3 border rounded-md text-sm text-muted-foreground">
-                                        No pages found
+                                        {finalUiText["No pages found"]}
                                     </div>
                                 )}
                             </div>

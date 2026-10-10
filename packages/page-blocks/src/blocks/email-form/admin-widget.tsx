@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React, { useEffect, useState } from "react";
 import type { Address } from "@courselit/common-models";
 import type Settings from "./settings";
@@ -78,58 +79,61 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["basic", "call-to-action", "design"]}
         >
-            <AdminWidgetPanel title="Basic" value="basic">
+            <AdminWidgetPanel title={finalUiText["Basic"]} value="basic">
                 <Form>
                     <FormField
-                        label="Title"
+                        label={finalUiText["Title"]}
                         value={title}
                         placeholder={DEFAULT_TITLE}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <FormField
-                        label="Subtitle"
+                        label={finalUiText["Subtitle"]}
                         value={subtitle}
                         onChange={(e) => setSubtitle(e.target.value)}
                     />
                     <FormField
-                        label="Success message"
+                        label={finalUiText["Success message"]}
                         value={successMessage}
                         placeholder={DEFAULT_SUCCESS_MESSAGE}
                         onChange={(e) => setSuccessMessage(e.target.value)}
                     />
                     <FormField
-                        label="Failure message"
+                        label={finalUiText["Failure message"]}
                         value={failureMessage}
                         placeholder={DEFAULT_FAILURE_MESSAGE}
                         onChange={(e) => setFailureMessage(e.target.value)}
                     />
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Call to action" value="call-to-action">
+            <AdminWidgetPanel
+                title={finalUiText["Call to action"]}
+                value="call-to-action"
+            >
                 <Form
                     onSubmit={(e) => {
                         e.preventDefault();
                     }}
                 >
                     <FormField
-                        label="Button text"
+                        label={finalUiText["Button text"]}
                         value={btnText}
                         placeholder={DEFAULT_BTN_TEXT}
                         onChange={(e) => setBtnText(e.target.value)}
                     />
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
                     value={alignment}
-                    title="Alignment"
+                    title={finalUiText["Alignment"]}
                     onChange={(value: Settings["alignment"]) =>
                         setAlignment(value)
                     }
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
-                        { label: "Right", value: "right" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
+                        { label: finalUiText["Right"], value: "right" },
                     ]}
                 />
                 <MaxWidthSelector value={maxWidth} onChange={setMaxWidth} />
@@ -138,7 +142,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

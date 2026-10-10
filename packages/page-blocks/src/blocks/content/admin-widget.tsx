@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import * as React from "react";
 import { Address, Alignment } from "@courselit/common-models";
 import { useEffect, useState } from "react";
@@ -71,16 +72,18 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["header", "design"]}
         >
-            <AdminWidgetPanel title="Header" value="header">
+            <AdminWidgetPanel title={finalUiText["Header"]} value="header">
                 <Form>
                     <FormField
-                        label="Title"
+                        label={finalUiText["Title"]}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </Form>
                 <div>
-                    <p className="mb-1 font-medium">Description</p>
+                    <p className="mb-1 font-medium">
+                        {finalUiText["Description"]}
+                    </p>
                     <Editor
                         initialContent={description}
                         onChange={(state: any) => setDescription(state)}
@@ -89,16 +92,16 @@ export default function AdminWidget({
                     />
                 </div>
                 <Select
-                    title="Header alignment"
+                    title={finalUiText["Header alignment"]}
                     value={headerAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setHeaderAlignment(value)}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <MaxWidthSelector value={maxWidth} onChange={setMaxWidth} />
                 <VerticalPaddingSelector
                     value={verticalPadding}
@@ -106,8 +109,14 @@ export default function AdminWidget({
                 />
                 <div className="flex justify-between">
                     <div className="flex grow items-center gap-1">
-                        <p>Open by default</p>
-                        <Tooltip title="All the sections will be expanded by default">
+                        <p>{finalUiText["Open by default"]}</p>
+                        <Tooltip
+                            title={
+                                finalUiText[
+                                    "All the sections will be expanded by default"
+                                ]
+                            }
+                        >
                             <Help />
                         </Tooltip>
                     </div>
@@ -117,7 +126,7 @@ export default function AdminWidget({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

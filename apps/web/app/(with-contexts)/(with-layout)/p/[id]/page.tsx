@@ -1,3 +1,4 @@
+import { finalUiText, localizeDefaultPageName } from "@/config/strings";
 import { getFullSiteSetup, getPage } from "@ui-lib/utils";
 import { getAddressFromHeaders } from "@/app/actions";
 import ClientSidePage from "./client-side-page";
@@ -30,11 +31,13 @@ export async function generateMetadata(
 
     if (!page) {
         return {
-            title: "Page not found",
+            title: finalUiText["Page not found"],
         };
     }
 
-    const title = page?.title || page.pageData?.title || page.name;
+    const title = localizeDefaultPageName(
+        String(page?.title || page.pageData?.title || page.name || ""),
+    );
     const socialImage: Media | undefined =
         page.socialImage ||
         (page.pageData?.featuredImage as Media) ||

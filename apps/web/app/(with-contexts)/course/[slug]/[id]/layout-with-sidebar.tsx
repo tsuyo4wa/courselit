@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { ReactNode, useContext, useEffect, useRef } from "react";
 import constants from "@/config/constants";
@@ -317,7 +318,7 @@ export function AppSidebar({
                                     <Image
                                         borderRadius={1}
                                         src={siteinfo.logo?.file || ""}
-                                        alt="logo"
+                                        alt={finalUiText["logo"]}
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
@@ -487,7 +488,7 @@ export function AppSidebar({
                         rel="noopener noreferrer"
                         className="px-2 py-1 my-[10px] border rounded-md bg-background text-foreground text-sm text-center"
                     >
-                        Powered by{" "}
+                        {finalUiText["Powered by"]}{" "}
                         <span className="font-semibold">CourseLit</span>
                     </a>
                 </span>

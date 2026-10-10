@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useMemo } from "react";
 import { BlogContentCard } from "./content-card";
@@ -44,9 +45,11 @@ export function BlogsList({
         return (
             <div className="flex flex-col gap-4 items-center justify-center py-12 text-center">
                 <FileText className="w-12 h-12 text-muted-foreground" />
-                <Subheader1 theme={theme}>This page is empty.</Subheader1>
+                <Subheader1 theme={theme}>
+                    {finalUiText["This page is empty."]}
+                </Subheader1>
                 <Button size="sm" theme={theme} onClick={() => onPageChange(1)}>
-                    Go to first page
+                    {finalUiText["Go to first page"]}
                 </Button>
             </div>
         );

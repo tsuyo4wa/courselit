@@ -1,3 +1,6 @@
+import { finalUiDynamic } from "../../../ui-strings";
+
+import { finalUiText } from "../../../ui-strings";
 import React, { useEffect, useState } from "react";
 import Settings, { Item } from "../settings";
 import {
@@ -48,7 +51,7 @@ export default function AdminWidget({
             {
                 // title: "Item 1",
                 href: "https://courselit.app",
-                text: "Add text",
+                text: finalUiText["Add text"],
             },
             {
                 // title: "Item 2",
@@ -56,7 +59,7 @@ export default function AdminWidget({
             },
             {
                 // title: "Item 3",
-                text: "Or SVG icons",
+                text: finalUiText["Or SVG icons"],
             },
             {
                 // title: "Item 4",
@@ -132,7 +135,10 @@ export default function AdminWidget({
     useEffect(() => {
         if (typeof preservedStateAcrossRerender.selectedItem === "number") {
             if (preservedStateAcrossRerender.selectedItem === items.length) {
-                setItems([...items, { text: `Item ${items.length + 1}` }]);
+                setItems([
+                    ...items,
+                    { text: finalUiDynamic.item(items.length + 1) },
+                ]);
             }
             setItemBeingEditedIndex(preservedStateAcrossRerender.selectedItem);
         }
@@ -158,9 +164,9 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["content", "scroll-effect", "fade-effect", "design"]}
         >
-            <AdminWidgetPanel title="Content" value="content">
+            <AdminWidgetPanel title={finalUiText["Content"]} value="content">
                 <p className="text-sm text-muted-foreground mb-2">
-                    Add text or SVG Icons.
+                    {finalUiText["Add text or SVG Icons."]}
                 </p>
                 <ul className="flex flex-col gap-2 mb-2">
                     {items.map((item: Item, index: number) => (
@@ -187,26 +193,31 @@ export default function AdminWidget({
                     ))}
                 </ul>
                 <div>
-                    <Button onClick={addNewItem}>Add new item</Button>
+                    <Button onClick={addNewItem}>
+                        {finalUiText["Add new item"]}
+                    </Button>
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Scroll Effect" value="scroll-effect">
+            <AdminWidgetPanel
+                title={finalUiText["Scroll Effect"]}
+                value="scroll-effect"
+            >
                 <p className="text-sm text-muted-foreground">
-                    Control how the marquee scrolls.
+                    {finalUiText["Control how the marquee scrolls."]}
                 </p>
                 <Select
-                    title="Direction"
+                    title={finalUiText["Direction"]}
                     value={scrollEffect.direction}
                     onChange={(value?: string) =>
                         setScrollEffect({ ...scrollEffect, direction: value })
                     }
                     options={[
-                        { label: "Left to Right", value: "left" },
-                        { label: "Right to Left", value: "right" },
+                        { label: finalUiText["Left to Right"], value: "left" },
+                        { label: finalUiText["Right to Left"], value: "right" },
                     ]}
                 />
                 <PageBuilderSlider
-                    title="Speed"
+                    title={finalUiText["Speed"]}
                     max={100}
                     min={10}
                     value={scrollEffect.speed}
@@ -216,8 +227,14 @@ export default function AdminWidget({
                 />
                 <div className="flex justify-between mt-2">
                     <div className="flex grow items-center gap-1">
-                        <p>Pause on hover</p>
-                        <Tooltip title="The marquee will pause when the mouse is over it">
+                        <p>{finalUiText["Pause on hover"]}</p>
+                        <Tooltip
+                            title={
+                                finalUiText[
+                                    "The marquee will pause when the mouse is over it"
+                                ]
+                            }
+                        >
                             <Help className="w-4 h-4" />
                         </Tooltip>
                     </div>
@@ -232,12 +249,15 @@ export default function AdminWidget({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Fade Effect" value="fade-effect">
+            <AdminWidgetPanel
+                title={finalUiText["Fade Effect"]}
+                value="fade-effect"
+            >
                 <p className="text-sm text-muted-foreground">
-                    The marquee will fade out on the sides.
+                    {finalUiText["The marquee will fade out on the sides."]}
                 </p>
                 <PageBuilderSlider
-                    title="Fade width"
+                    title={finalUiText["Fade width"]}
                     max={200}
                     min={0}
                     value={fadeEffect.width}
@@ -246,30 +266,30 @@ export default function AdminWidget({
                     }
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <ColorSelector
-                    title="Item background color"
+                    title={finalUiText["Item background color"]}
                     value={itemStyle.backgroundColor || "inherit"}
                     onChange={(value?: string) =>
                         setItemStyle({ ...itemStyle, backgroundColor: value })
                     }
                 />
                 <ColorSelector
-                    title="Item foreground color"
+                    title={finalUiText["Item foreground color"]}
                     value={itemStyle.foregroundColor || "inherit"}
                     onChange={(value?: string) =>
                         setItemStyle({ ...itemStyle, foregroundColor: value })
                     }
                 />
                 <ColorSelector
-                    title="Border color"
+                    title={finalUiText["Border color"]}
                     value={itemStyle.borderColor || "inherit"}
                     onChange={(value?: string) =>
                         setItemStyle({ ...itemStyle, borderColor: value })
                     }
                 />
                 <PageBuilderSlider
-                    title="Border radius"
+                    title={finalUiText["Border radius"]}
                     min={0}
                     max={50}
                     value={itemStyle.borderRadius}
@@ -278,7 +298,7 @@ export default function AdminWidget({
                     }
                 />
                 <PageBuilderSlider
-                    title="Border width"
+                    title={finalUiText["Border width"]}
                     min={0}
                     max={10}
                     value={itemStyle.borderWidth}
@@ -287,14 +307,14 @@ export default function AdminWidget({
                     }
                 />
                 <Select
-                    title="Border style"
+                    title={finalUiText["Border style"]}
                     value={itemStyle.borderStyle}
                     options={[
-                        { label: "Solid", value: "solid" },
-                        { label: "Dashed", value: "dashed" },
-                        { label: "Dotted", value: "dotted" },
-                        { label: "Double", value: "double" },
-                        { label: "None", value: "none" },
+                        { label: "実線", value: "solid" },
+                        { label: finalUiText["Dashed"], value: "dashed" },
+                        { label: finalUiText["Dotted"], value: "dotted" },
+                        { label: finalUiText["Double"], value: "double" },
+                        { label: "なし", value: "none" },
                     ]}
                     onChange={(
                         value:
@@ -322,7 +342,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

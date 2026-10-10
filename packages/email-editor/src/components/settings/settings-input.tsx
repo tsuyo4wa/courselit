@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import type React from "react";
 import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
@@ -79,7 +80,7 @@ export function SettingsInput({
                     type="button"
                     onClick={handleReset}
                     className="text-gray-400 hover:text-gray-600 transition-colors"
-                    aria-label="Reset to default"
+                    aria-label={finalUiText["Reset to default"]}
                 >
                     <X className="h-3 w-3" />
                 </button>

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { Component, ErrorInfo, ReactNode, type JSX } from "react";
 import { capitalize } from "@courselit/utils";
 
@@ -30,8 +31,9 @@ class WidgetErrorBoundary extends Component<Props, State> {
             return (
                 <div className="p-4 border border-red-200 rounded-md bg-red-50">
                     <h3 className="text-red-800 font-medium mb-2">
-                        Error in <b>{capitalize(this.props.widgetName)}</b>{" "}
-                        block
+                        {finalUiText["Error in"]}
+                        <b>{capitalize(this.props.widgetName)}</b>{" "}
+                        {finalUiText["block"]}
                     </h3>
                     <p className="text-red-600 text-sm">
                         {this.state.error?.message || "Something went wrong"}

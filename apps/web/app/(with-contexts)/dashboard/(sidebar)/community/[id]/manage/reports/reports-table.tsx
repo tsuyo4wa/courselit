@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     useState,
@@ -193,11 +194,11 @@ export function ReportsTable({ communityId }: { communityId: string }) {
     const getStatusBadge = (status: CommunityReportStatus) => {
         switch (status) {
             case "pending":
-                return <Badge variant="secondary">PENDING</Badge>;
+                return <Badge variant="secondary">未対応</Badge>;
             case "accepted":
-                return <Badge variant="default">ACCEPTED</Badge>;
+                return <Badge variant="default">承認済み</Badge>;
             case "rejected":
-                return <Badge variant="outline">REJECTED</Badge>;
+                return <Badge variant="outline">却下</Badge>;
             default:
                 return null;
         }
@@ -208,13 +209,21 @@ export function ReportsTable({ communityId }: { communityId: string }) {
             <div>
                 <Select value={filter} onValueChange={setFilter}>
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="All" />
+                        <SelectValue placeholder={finalUiText["All"]} />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="accepted">Accepted</SelectItem>
-                        <SelectItem value="rejected">Rejected</SelectItem>
+                        <SelectItem value="all">
+                            {finalUiText["All"]}
+                        </SelectItem>
+                        <SelectItem value="pending">
+                            {finalUiText["Pending"]}
+                        </SelectItem>
+                        <SelectItem value="accepted">
+                            {finalUiText["Accepted"]}
+                        </SelectItem>
+                        <SelectItem value="rejected">
+                            {finalUiText["Rejected"]}
+                        </SelectItem>
                     </SelectContent>
                 </Select>
             </div>
@@ -227,12 +236,14 @@ export function ReportsTable({ communityId }: { communityId: string }) {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Content</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Reason</TableHead>
-                                <TableHead>Status</TableHead>
-                                <TableHead>Rejection Reason</TableHead>
-                                <TableHead>Actions</TableHead>
+                                <TableHead>{finalUiText["Content"]}</TableHead>
+                                <TableHead>{finalUiText["Type"]}</TableHead>
+                                <TableHead>{finalUiText["Reason"]}</TableHead>
+                                <TableHead>{finalUiText["Status"]}</TableHead>
+                                <TableHead>
+                                    {finalUiText["Rejection Reason"]}
+                                </TableHead>
+                                <TableHead>{finalUiText["Actions"]}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -262,7 +273,7 @@ export function ReportsTable({ communityId }: { communityId: string }) {
                                             }
                                         >
                                             <RotateCCW className="mr-2 h-4 w-4" />
-                                            Change
+                                            {finalUiText["Change"]}
                                         </Button>
                                     </TableCell>
                                 </TableRow>

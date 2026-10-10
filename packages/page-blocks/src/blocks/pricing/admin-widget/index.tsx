@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useEffect, useState } from "react";
 import Settings, { Item } from "../settings";
 import ItemEditor from "./item-editor";
@@ -53,7 +54,9 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Optional text goes here. You can use rich text here.",
+                        text: finalUiText[
+                            "Optional text goes here. You can use rich text here."
+                        ],
                     },
                 ],
             },
@@ -67,20 +70,22 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Optional text goes here. You can use rich text here.",
+                        text: finalUiText[
+                            "Optional text goes here. You can use rich text here."
+                        ],
                     },
                 ],
             },
         ],
     };
     const dummyItem: Item = {
-        title: "Plan",
+        title: finalUiText["Plan"],
         description: dummyItemDescription,
         price: "$10",
         features: "Feature 1, Feature 2, Feature 3",
         primary: false,
         action: {
-            label: "Buy now",
+            label: finalUiText["Buy now"],
             href: "https://courselit.com",
         },
     };
@@ -195,15 +200,17 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["header", "plans", "design"]}
         >
-            <AdminWidgetPanel title="Header" value="header">
+            <AdminWidgetPanel title={finalUiText["Header"]} value="header">
                 <Form className="flex flex-col gap-4">
                     <FormField
-                        label="Title"
+                        label={finalUiText["Title"]}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <div className="mb-4">
-                        <p className="mb-1 font-medium">Description</p>
+                        <p className="mb-1 font-medium">
+                            {finalUiText["Description"]}
+                        </p>
                         <Editor
                             initialContent={description}
                             onChange={(state: any) => setDescription(state)}
@@ -213,7 +220,7 @@ export default function AdminWidget({
                     </div>
                     <div className="flex justify-between">
                         <div className="flex grow items-center gap-1">
-                            <p>Show pricing switcher</p>
+                            <p>{finalUiText["Show pricing switcher"]}</p>
                         </div>
                         <Checkbox
                             checked={pricingSwitcher}
@@ -225,14 +232,14 @@ export default function AdminWidget({
                     {pricingSwitcher && (
                         <>
                             <FormField
-                                label="Monthly price caption"
+                                label={finalUiText["Monthly price caption"]}
                                 value={monthlyPriceCaption}
                                 onChange={(e) =>
                                     setMonthlyPriceCaption(e.target.value)
                                 }
                             />
                             <FormField
-                                label="Yearly price caption"
+                                label={finalUiText["Yearly price caption"]}
                                 value={yearlyPriceCaption}
                                 onChange={(e) =>
                                     setYearlyPriceCaption(e.target.value)
@@ -242,7 +249,7 @@ export default function AdminWidget({
                     )}
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Plans" value="plans">
+            <AdminWidgetPanel title={finalUiText["Plans"]} value="plans">
                 <div className="flex flex-col gap-4">
                     {items.map((item: Item, index: number) => (
                         <div
@@ -267,22 +274,22 @@ export default function AdminWidget({
                         </div>
                     ))}
                     <Button component="button" onClick={addNewItem}>
-                        Add new plan
+                        {finalUiText["Add new plan"]}
                     </Button>
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
-                    title="Header alignment"
+                    title={finalUiText["Header alignment"]}
                     value={headerAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setHeaderAlignment(value)}
                 />
                 <PageBuilderSlider
-                    title="Number of columns"
+                    title={finalUiText["Number of columns"]}
                     value={columns}
                     min={2}
                     max={3}
@@ -300,7 +307,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

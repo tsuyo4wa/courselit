@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
@@ -132,7 +133,7 @@ export default function NewCustomer({ courseId }: NewCustomerProps) {
                     >
                         <FormField
                             required
-                            label="Email"
+                            label={finalUiText["Email"]}
                             name="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { checkoutStrings } from "@/config/strings";
 import React, { useContext, useEffect, useState } from "react";
 import { FetchBuilder } from "@courselit/utils";
@@ -296,7 +297,11 @@ export const LessonViewer = ({
                                         }
                                         type="video/mp4"
                                     />
-                                    Your browser does not support the video tag.
+                                    {
+                                        finalUiText[
+                                            "Your browser does not support the video tag."
+                                        ]
+                                    }
                                 </video>
                                 <Caption
                                     text={
@@ -323,7 +328,11 @@ export const LessonViewer = ({
                                         }
                                         type="audio/mpeg"
                                     />
-                                    Your browser does not support the video tag.
+                                    {
+                                        finalUiText[
+                                            "Your browser does not support the video tag."
+                                        ]
+                                    }
                                 </audio>
                                 <Caption
                                     text={

@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import { useState, useCallback, useEffect } from "react";
 import { BlockWrapper } from "./block-wrapper";
 import { AddBlockButton } from "./add-block-button";
@@ -80,7 +81,7 @@ function getDefaultSettingsForBlockType(
             return {
                 ...commonSettings,
                 src: "",
-                alt: "Image",
+                alt: finalUiText["Image"],
                 alignment: "left",
                 width: "auto",
                 height: "auto",
@@ -91,7 +92,7 @@ function getDefaultSettingsForBlockType(
         case "link":
             return {
                 ...commonSettings,
-                text: "Link Text",
+                text: finalUiText["Link Text"],
                 url: "#",
                 alignment: "left",
                 textColor: "#0284c7",
@@ -387,7 +388,7 @@ export function EmailEditor({
                     {email.content.length === 0 && (
                         <div className="p-4 text-center">
                             <p className="mb-4 text-gray-500">
-                                Your email is empty.
+                                {finalUiText["Your email is empty."]}
                             </p>
                             <AddBlockButton
                                 position="below"

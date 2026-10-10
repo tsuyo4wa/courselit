@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useEffect, useRef, useState, startTransition } from "react";
 import {
     defaultEmail,
@@ -89,7 +90,12 @@ export default function TemplateEmailPreview({
     }
 
     if (error) {
-        return <div className="text-red-500">Error: {error}</div>;
+        return (
+            <div className="text-red-500">
+                {finalUiText["Error:"]}
+                {error}
+            </div>
+        );
     }
 
     if (!renderedHTML) {
@@ -126,7 +132,7 @@ export default function TemplateEmailPreview({
                         transformOrigin: "top center",
                     }}
                     scrolling="no"
-                    title="Email Preview"
+                    title={finalUiText["Email Preview"]}
                 />
             </div>
         </div>

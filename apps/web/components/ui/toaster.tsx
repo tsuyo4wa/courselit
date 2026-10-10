@@ -1,4 +1,5 @@
 "use client";
+import { finalUiAccessibility } from "@/config/strings";
 
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -14,7 +15,7 @@ export function Toaster() {
     const { toasts } = useToast();
 
     return (
-        <ToastProvider>
+        <ToastProvider label={finalUiAccessibility.notifications}>
             {toasts.map(function ({
                 id,
                 title,
@@ -37,7 +38,7 @@ export function Toaster() {
                     </Toast>
                 );
             })}
-            <ToastViewport />
+            <ToastViewport label={finalUiAccessibility.notificationsHotkey} />
         </ToastProvider>
     );
 }

@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import { Children, ReactNode } from "react";
 import IconButton from "./icon-button";
 import { ArrowLeft, ArrowRight } from "@courselit/icons";
@@ -77,7 +78,8 @@ export function TableBody({
                         </IconButton>
                         {count && (
                             <span className="text-sm">
-                                of {Math.ceil(count / rowsPerPage)}
+                                {finalUiText["of"]}
+                                {Math.ceil(count / rowsPerPage)}
                             </span>
                         )}
                     </td>

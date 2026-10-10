@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import { useState, useEffect } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
@@ -83,7 +84,7 @@ export function SettingsSlider({
                         type="button"
                         onClick={handleReset}
                         className="text-gray-400 hover:text-gray-600 transition-colors"
-                        aria-label="Reset to default"
+                        aria-label={finalUiText["Reset to default"]}
                     >
                         <X className="h-3 w-3" />
                     </button>

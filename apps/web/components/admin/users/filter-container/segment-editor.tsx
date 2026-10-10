@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useToast } from "@courselit/components-library";
 import { FetchBuilder } from "@courselit/utils";
 import React, { useState, useContext } from "react";
@@ -183,11 +184,21 @@ export default function SegmentEditor2({
             >
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Delete Segment</DialogTitle>
+                        <DialogTitle>
+                            {finalUiText["Delete Segment"]}
+                        </DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete the segment &quot;
-                            {activeSegment?.name}&quot;? This action cannot be
-                            undone.
+                            {
+                                finalUiText[
+                                    "Are you sure you want to delete the segment &quot;"
+                                ]
+                            }
+                            {activeSegment?.name}
+                            {
+                                finalUiText[
+                                    "&quot;? This action cannot be undone."
+                                ]
+                            }
                         </DialogDescription>
                     </DialogHeader>
 

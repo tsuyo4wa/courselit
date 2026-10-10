@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { useEffect, useState } from "react";
 import {
     Address,
@@ -106,26 +107,36 @@ export default function Mails({ address, selectedTab }: MailsProps) {
                 </h1>
                 <div className="flex flex-col gap-4 mb-8">
                     <h2 className="text-2xl font-semibold">
-                        Before you start!
+                        {finalUiText["Before you start!"]}
                     </h2>
                     <p className="text-slate-500">
-                        There a few things you need to do in order to start
-                        sending marketing emails.
+                        {
+                            finalUiText[
+                                "There a few things you need to do in order to start sending marketing emails."
+                            ]
+                        }
                     </p>
                 </div>
                 {!siteInfo?.settings?.mailingAddress && (
                     <Card className="mb-8">
                         <CardHeader>
-                            <CardTitle>Set your mailing address</CardTitle>
+                            <CardTitle>
+                                {finalUiText["Set your mailing address"]}
+                            </CardTitle>
                             <CardDescription>
-                                We need this in order to comply with the
-                                CAN-SPAM Act.
+                                {
+                                    finalUiText[
+                                        "We need this in order to comply with the CAN-SPAM Act."
+                                    ]
+                                }
                             </CardDescription>
                         </CardHeader>
                         <CardFooter>
                             <div className="w-[120px]">
                                 <Link href={`/dashboard/settings?tab=Mails`}>
-                                    <Button>Go to settings</Button>
+                                    <Button>
+                                        {finalUiText["Go to settings"]}
+                                    </Button>
                                 </Link>
                             </div>
                         </CardFooter>
@@ -134,11 +145,15 @@ export default function Mails({ address, selectedTab }: MailsProps) {
                 {!siteInfo?.quota?.mail && (
                     <Card>
                         <CardHeader>
-                            <CardTitle>Request access</CardTitle>
+                            <CardTitle>
+                                {finalUiText["Request access"]}
+                            </CardTitle>
                             <CardDescription>
-                                Please fill in the form to request access to the
-                                mailing feature. We need to review your use case
-                                so as to keep our services clean.
+                                {
+                                    finalUiText[
+                                        "Please fill in the form to request access to the mailing feature. We need to review your use case so as to keep our services clean."
+                                    ]
+                                }
                             </CardDescription>
                         </CardHeader>
                         <CardContent>

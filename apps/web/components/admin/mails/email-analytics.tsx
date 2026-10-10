@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useEffect, useState } from "react";
 import { useGraphQLFetch } from "@/hooks/use-graphql-fetch";
 import { useToast } from "@courselit/components-library";
@@ -117,12 +118,16 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                             </svg>
                         </div>
                         <h3 className="text-lg font-semibold mb-2">
-                            Analytics Not Available
+                            {finalUiText["Analytics Not Available"]}
                         </h3>
                         <p className="text-muted-foreground text-sm">
-                            Analytics will be available once the{" "}
-                            {sequence.type.toLowerCase()} is sent to a few
-                            subscribers.
+                            {
+                                finalUiText[
+                                    "Analytics will be available once the"
+                                ]
+                            }{" "}
+                            {sequence.type.toLowerCase()}
+                            {finalUiText["is sent to a few subscribers."]}
                         </p>
                     </div>
                 </div>
@@ -133,7 +138,7 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
     if (!analytics) {
         return (
             <div className="text-muted-foreground">
-                No analytics data available for this sequence.
+                {finalUiText["No analytics data available for this sequence."]}
             </div>
         );
     }
@@ -143,14 +148,14 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
             {/* Compact Analytics Summary */}
             <div className="bg-card rounded-lg border shadow-sm p-4">
                 <h3 className="text-lg font-semibold mb-4">
-                    Email Performance
+                    {finalUiText["Email Performance"]}
                 </h3>
                 <TooltipProvider>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         <div className="text-center">
                             <div className="flex items-center justify-center gap-1 mb-1">
                                 <div className="text-xs text-muted-foreground">
-                                    Subscribers
+                                    {finalUiText["Subscribers"]}
                                 </div>
                                 <Tooltip>
                                     <TooltipTrigger>
@@ -158,8 +163,11 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
-                                            Total number of people subscribed to
-                                            this sequence
+                                            {
+                                                finalUiText[
+                                                    "Total number of people subscribed to this sequence"
+                                                ]
+                                            }
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -172,7 +180,7 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                         <div className="text-center">
                             <div className="flex items-center justify-center gap-1 mb-1">
                                 <div className="text-xs text-muted-foreground">
-                                    Emails Sent
+                                    {finalUiText["Emails Sent"]}
                                 </div>
                                 <Tooltip>
                                     <TooltipTrigger>
@@ -180,8 +188,11 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
-                                            Total number of emails delivered to
-                                            subscribers
+                                            {
+                                                finalUiText[
+                                                    "Total number of emails delivered to subscribers"
+                                                ]
+                                            }
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -194,7 +205,7 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                         <div className="text-center">
                             <div className="flex items-center justify-center gap-1 mb-1">
                                 <div className="text-xs text-muted-foreground">
-                                    Open Rate
+                                    {finalUiText["Open Rate"]}
                                 </div>
                                 <Tooltip>
                                     <TooltipTrigger>
@@ -202,8 +213,11 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
-                                            Percentage of recipients who opened
-                                            the email
+                                            {
+                                                finalUiText[
+                                                    "Percentage of recipients who opened the email"
+                                                ]
+                                            }
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -216,7 +230,7 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                         <div className="text-center">
                             <div className="flex items-center justify-center gap-1 mb-1">
                                 <div className="text-xs text-muted-foreground">
-                                    Click Rate
+                                    {finalUiText["Click Rate"]}
                                 </div>
                                 <Tooltip>
                                     <TooltipTrigger>
@@ -224,8 +238,11 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
-                                            Percentage of recipients who clicked
-                                            a link in the email
+                                            {
+                                                finalUiText[
+                                                    "Percentage of recipients who clicked a link in the email"
+                                                ]
+                                            }
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -246,8 +263,11 @@ export default function EmailAnalytics({ sequence }: EmailAnalyticsProps) {
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
-                                            Percentage of email openers who
-                                            clicked a link
+                                            {
+                                                finalUiText[
+                                                    "Percentage of email openers who clicked a link"
+                                                ]
+                                            }
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>

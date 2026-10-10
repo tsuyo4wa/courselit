@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React from "react";
 import { SandboxedEmbed } from "@courselit/page-blocks";
 import { extractVideoId } from "@courselit/utils";
@@ -10,7 +11,7 @@ const YouTubeEmbed = ({ content }: { content: string }) => {
             <iframe
                 className="w-full h-full rounded-lg"
                 src={`https://www.youtube.com/embed/${videoId || ""}`}
-                title="YouTube video player"
+                title={finalUiText["YouTube video player"]}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
             />

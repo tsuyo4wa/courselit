@@ -1,4 +1,6 @@
 "use client";
+import { finalUiText } from "@/config/strings";
+
 import { use } from "react";
 
 import { useSearchParams } from "next/navigation";
@@ -59,7 +61,7 @@ const EditorLayout = ({
                                     </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Exit</p>
+                                    <p>{finalUiText["Exit"]}</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>

@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -103,7 +104,11 @@ export default function ContentSectionCard({
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
-                                            This section has scheduled release
+                                            {
+                                                finalUiText[
+                                                    "This section has scheduled release"
+                                                ]
+                                            }
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
@@ -170,7 +175,7 @@ export default function ContentSectionCard({
                                         }
                                         className="text-red-600"
                                     >
-                                        Delete Section
+                                        {finalUiText["Delete Section"]}
                                     </DropdownMenuItem>
                                 </>
                             )}

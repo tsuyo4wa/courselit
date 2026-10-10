@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import React, { useEffect, useRef, useState } from "react";
 import type { Editor } from "@tiptap/core";
 import type { Level } from "@tiptap/extension-heading";
@@ -73,10 +74,10 @@ const headingButtons: Array<{
     icon: React.ComponentType<{ className?: string }>;
     level?: Level;
 }> = [
-    { label: "Paragraph", value: "paragraph", icon: SquarePen },
-    { label: "Heading 1", value: "h1", icon: Heading1, level: 1 },
-    { label: "Heading 2", value: "h2", icon: Heading2, level: 2 },
-    { label: "Heading 3", value: "h3", icon: Heading3, level: 3 },
+    { label: finalUiText["Paragraph"], value: "paragraph", icon: SquarePen },
+    { label: finalUiText["Heading 1"], value: "h1", icon: Heading1, level: 1 },
+    { label: finalUiText["Heading 2"], value: "h2", icon: Heading2, level: 2 },
+    { label: finalUiText["Heading 3"], value: "h3", icon: Heading3, level: 3 },
 ];
 
 const Toolbar = ({
@@ -189,13 +190,13 @@ const Toolbar = ({
                     <div className="flex items-center gap-1">
                         <IconButton
                             icon={Undo2}
-                            label="Undo"
+                            label={finalUiText["Undo"]}
                             disabled={!editor.can().undo()}
                             onClick={() => editor.chain().focus().undo().run()}
                         />
                         <IconButton
                             icon={Redo2}
-                            label="Redo"
+                            label={finalUiText["Redo"]}
                             disabled={!editor.can().redo()}
                             onClick={() => editor.chain().focus().redo().run()}
                         />
@@ -231,7 +232,7 @@ const Toolbar = ({
                     <div className="flex items-center gap-1">
                         <IconButton
                             icon={Bold}
-                            label="Bold"
+                            label={finalUiText["Bold"]}
                             active={editor.isActive("bold")}
                             onClick={() =>
                                 editor.chain().focus().toggleBold().run()
@@ -239,7 +240,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={Italic}
-                            label="Italic"
+                            label={finalUiText["Italic"]}
                             active={editor.isActive("italic")}
                             onClick={() =>
                                 editor.chain().focus().toggleItalic().run()
@@ -247,7 +248,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={Underline}
-                            label="Underline"
+                            label={finalUiText["Underline"]}
                             active={editor.isActive("underline")}
                             onClick={() =>
                                 editor
@@ -259,7 +260,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={Strikethrough}
-                            label="Strikethrough"
+                            label={finalUiText["Strikethrough"]}
                             active={editor.isActive("strike")}
                             onClick={() =>
                                 editor.chain().focus().toggleStrike().run()
@@ -267,7 +268,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={Code}
-                            label="Inline code"
+                            label={finalUiText["Inline code"]}
                             active={editor.isActive("code")}
                             onClick={() =>
                                 editor.chain().focus().toggleCode().run()
@@ -275,7 +276,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={LinkIcon}
-                            label="Insert link"
+                            label={finalUiText["Insert link"]}
                             active={editor.isActive("link")}
                             onClick={() => togglePopover("link")}
                         />
@@ -283,7 +284,7 @@ const Toolbar = ({
                     <div className="flex items-center gap-1">
                         <IconButton
                             icon={ListIcon}
-                            label="Bullet list"
+                            label={finalUiText["Bullet list"]}
                             active={editor.isActive("bulletList")}
                             onClick={() =>
                                 editor.chain().focus().toggleBulletList().run()
@@ -291,7 +292,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={ListOrdered}
-                            label="Numbered list"
+                            label={finalUiText["Numbered list"]}
                             active={editor.isActive("orderedList")}
                             onClick={() =>
                                 editor.chain().focus().toggleOrderedList().run()
@@ -299,7 +300,7 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={Quote}
-                            label="Blockquote"
+                            label={finalUiText["Blockquote"]}
                             active={editor.isActive("blockquote")}
                             onClick={() =>
                                 editor.chain().focus().toggleBlockquote().run()
@@ -307,14 +308,14 @@ const Toolbar = ({
                         />
                         <IconButton
                             icon={Minus}
-                            label="Horizontal rule"
+                            label={finalUiText["Horizontal rule"]}
                             onClick={() =>
                                 editor.chain().focus().setHorizontalRule().run()
                             }
                         />
                         <IconButton
                             icon={CodeSquare}
-                            label="Code block"
+                            label={finalUiText["Code block"]}
                             active={editor.isActive("codeBlock")}
                             onClick={() =>
                                 editor.chain().focus().toggleCodeBlock().run()
@@ -324,13 +325,13 @@ const Toolbar = ({
                     <div className="flex items-center gap-1">
                         <IconButton
                             icon={TableIcon}
-                            label="Table options"
+                            label={finalUiText["Table options"]}
                             active={editor.isActive("table")}
                             onClick={toggleTablePopover}
                         />
                         <IconButton
                             icon={ImageIcon}
-                            label="Insert image"
+                            label={finalUiText["Insert image"]}
                             disabled={isUploadingImage}
                             onClick={onRequestImageUpload}
                         />
@@ -358,7 +359,7 @@ const Toolbar = ({
                             onClick={insertTable}
                             disabled={!canInsertTable}
                         >
-                            <span>Create 3×3 table</span>
+                            <span>{finalUiText["Create 3×3 table"]}</span>
                             <TableIcon className="h-4 w-4" />
                         </button>
                         <button
@@ -367,7 +368,7 @@ const Toolbar = ({
                             onClick={addRowAfter}
                             disabled={!canAddRow}
                         >
-                            <span>Add row</span>
+                            <span>{finalUiText["Add row"]}</span>
                             <ListIcon className="h-4 w-4" />
                         </button>
                         <button
@@ -376,7 +377,7 @@ const Toolbar = ({
                             onClick={deleteRow}
                             disabled={!canDeleteRow}
                         >
-                            <span>Delete row</span>
+                            <span>{finalUiText["Delete row"]}</span>
                             <Trash2 className="h-4 w-4" />
                         </button>
                         <button
@@ -385,7 +386,7 @@ const Toolbar = ({
                             onClick={addColumnAfter}
                             disabled={!canAddColumn}
                         >
-                            <span>Add column</span>
+                            <span>{finalUiText["Add column"]}</span>
                             <ListOrdered className="h-4 w-4" />
                         </button>
                         <button
@@ -394,7 +395,7 @@ const Toolbar = ({
                             onClick={deleteColumn}
                             disabled={!canDeleteColumn}
                         >
-                            <span>Delete column</span>
+                            <span>{finalUiText["Delete column"]}</span>
                             <Trash2 className="h-4 w-4" />
                         </button>
                         <button
@@ -403,7 +404,7 @@ const Toolbar = ({
                             onClick={deleteTable}
                             disabled={!canDeleteTable}
                         >
-                            <span>Remove table</span>
+                            <span>{finalUiText["Remove table"]}</span>
                             <Trash2 className="h-4 w-4" />
                         </button>
                     </div>

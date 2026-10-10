@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useState } from "react";
 import { Separator } from "@/components/ui/separator";
@@ -76,9 +77,11 @@ export default function ProductFeaturedImage({
     return (
         <div className="space-y-8">
             <div className="space-y-4">
-                <h2 className="text-base font-semibold">Featured image</h2>
+                <h2 className="text-base font-semibold">
+                    {finalUiText["Featured image"]}
+                </h2>
                 <p className="text-sm text-muted-foreground">
-                    The hero image for your course
+                    {finalUiText["The hero image for your course"]}
                 </p>
                 <MediaSelector
                     title=""

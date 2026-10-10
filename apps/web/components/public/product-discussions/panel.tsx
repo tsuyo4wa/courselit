@@ -1,4 +1,5 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
 
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import type React from "react";
@@ -1193,7 +1194,7 @@ function DiscussionItem({
                     <Avatar className="h-8 w-8">
                         <AvatarImage
                             src={avatarUrl}
-                            alt={`${displayName}'s avatar`}
+                            alt={finalUiDynamic.avatar(displayName)}
                         />
                         <AvatarFallback>{initials}</AvatarFallback>
                     </Avatar>

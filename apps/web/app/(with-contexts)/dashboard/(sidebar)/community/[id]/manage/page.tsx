@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { AddressContext, ProfileContext } from "@components/contexts";
@@ -158,7 +161,8 @@ export default function Page(props: {
             if (response.community) {
                 toast({
                     title: TOAST_TITLE_SUCCESS,
-                    description: "Community has been deleted successfully",
+                    description:
+                        finalUiText["Community has been deleted successfully"],
                 });
                 router.replace("/dashboard/communities");
             }
@@ -386,8 +390,8 @@ export default function Page(props: {
                     setCategories(response.addCategory.categories);
                     setNewCategory("");
                     toast({
-                        title: "Category Added",
-                        description: `Category "${newCategory}" has been added successfully.`,
+                        title: finalUiText["Category Added"],
+                        description: finalUiDynamic.categoryAdded(newCategory),
                     });
                 }
             } catch (error) {
@@ -430,8 +434,11 @@ export default function Page(props: {
                 if (response.deleteCategory) {
                     setCategories(response.deleteCategory.categories);
                     toast({
-                        title: "Category Deleted",
-                        description: `The category "${deletingCategory}" has been removed and posts migrated to "${migrationCategory}".`,
+                        title: finalUiText["Category Deleted"],
+                        description: finalUiDynamic.categoryMoved(
+                            deletingCategory,
+                            migrationCategory,
+                        ),
                     });
                     setDeletingCategory(null);
                     setMigrationCategory("");
@@ -537,8 +544,8 @@ export default function Page(props: {
                                         href={`/dashboard/page/${pageId}?redirectTo=/dashboard/community/${id}/manage`}
                                     >
                                         <Button variant="outline" className="">
-                                            <Edit className="w-4 h-4" /> Edit
-                                            page
+                                            <Edit className="w-4 h-4" />
+                                            {finalUiText["Edit page"]}
                                         </Button>
                                     </Link>
                                 )}
@@ -546,7 +553,8 @@ export default function Page(props: {
                                 href={`/dashboard/community/${id}/manage/memberships`}
                             >
                                 <Button variant="outline" className="">
-                                    <Users className="w-4 h-4" /> Memberships
+                                    <Users className="w-4 h-4" />
+                                    {finalUiText["Memberships"]}
                                 </Button>
                             </Link>
                             <Link
@@ -560,22 +568,22 @@ export default function Page(props: {
                         </div>
                     </div>
                     <p className="text-muted-foreground">
-                        Manage your community settings.
+                        {finalUiText["Manage your community settings."]}
                     </p>
                 </div>
                 <div className="space-y-6">
                     <FormField
                         value={name}
                         name="name"
-                        label={"Name"}
+                        label={finalUiText["Name"]}
                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
                             setName(e.target.value)
                         }
-                        placeholder="Community name"
+                        placeholder={finalUiText["Community name"]}
                     />
                     <div className="space-y-2">
                         <Label htmlFor="slug" className="font-semibold">
-                            Slug
+                            {finalUiText["Slug"]}
                         </Label>
                         <Input
                             id="slug"
@@ -587,11 +595,17 @@ export default function Page(props: {
                             placeholder="my-community"
                         />
                         <p className="text-sm text-muted-foreground">
-                            The URL-friendly identifier for this community page.
+                            {
+                                finalUiText[
+                                    "The URL-friendly identifier for this community page."
+                                ]
+                            }
                         </p>
                     </div>
                     <div>
-                        <h2 className="font-semibold">Description</h2>
+                        <h2 className="font-semibold">
+                            {finalUiText["Description"]}
+                        </h2>
                         <Editor
                             initialContent={description}
                             onChange={(state: any) => setDescription(state)}
@@ -603,10 +617,14 @@ export default function Page(props: {
                     <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                             <Label htmlFor="enabled" className="font-semibold">
-                                Community Enabled
+                                {finalUiText["Community Enabled"]}
                             </Label>
                             <p className="text-sm text-muted-foreground">
-                                Allow users to join your community
+                                {
+                                    finalUiText[
+                                        "Allow users to join your community"
+                                    ]
+                                }
                             </p>
                         </div>
                         <Switch
@@ -618,10 +636,14 @@ export default function Page(props: {
                     <div className="flex items-center justify-between">
                         <div className="space-y-0.5">
                             <Label htmlFor="default" className="font-semibold">
-                                Auto accept members
+                                {finalUiText["Auto accept members"]}
                             </Label>
                             <p className="text-sm text-muted-foreground">
-                                Automatically accept new members
+                                {
+                                    finalUiText[
+                                        "Automatically accept new members"
+                                    ]
+                                }
                             </p>
                         </div>
                         <Switch
@@ -633,23 +655,27 @@ export default function Page(props: {
                     <FormField
                         value={joiningReasonText}
                         name="joiningReasonText"
-                        label="Joining reason text"
+                        label={finalUiText["Joining reason text"]}
                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
                             setJoiningReasonText(e.target.value)
                         }
-                        placeholder="Text to show when users request to join a free community"
+                        placeholder={
+                            finalUiText[
+                                "Text to show when users request to join a free community"
+                            ]
+                        }
                     />
                 </div>
-                <Button type="submit">Save Changes</Button>
+                <Button type="submit">{finalUiText["Save Changes"]}</Button>
             </Form>
             <Separator className="my-8" />
             <div className="space-y-4">
                 <div className="space-y-2">
                     <Label className="text-base font-semibold">
-                        Featured image
+                        {finalUiText["Featured image"]}
                     </Label>
                     <p className="text-sm text-muted-foreground mb-4">
-                        The hero image for your community
+                        {finalUiText["The hero image for your community"]}
                     </p>
                     {featuredImage && (
                         <div className="w-32 rounded overflow-hidden border">
@@ -692,10 +718,10 @@ export default function Page(props: {
             <div className="space-y-4">
                 <div className="space-y-2">
                     <Label className="text-base font-semibold">
-                        Categories
+                        {finalUiText["Categories"]}
                     </Label>
                     <p className="text-sm text-muted-foreground">
-                        Add and manage community categories
+                        {finalUiText["Add and manage community categories"]}
                     </p>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -713,7 +739,9 @@ export default function Page(props: {
                             >
                                 <X className="h-3 w-3" />
                                 <span className="sr-only">
-                                    Remove {category} category
+                                    {finalUiText["Remove"]}
+                                    {category}
+                                    {finalUiText["category"]}
                                 </span>
                             </button>
                         </Badge>
@@ -723,20 +751,22 @@ export default function Page(props: {
                     <FormField
                         value={newCategory}
                         onChange={(e) => setNewCategory(e.target.value)}
-                        placeholder="Enter category name"
+                        placeholder={finalUiText["Enter category name"]}
                         className="flex-1"
                     />
                     <Button type="submit" variant="secondary">
-                        Add Category
+                        {finalUiText["Add Category"]}
                     </Button>
                 </Form>
             </div>
             <Separator className="my-8" />
             <div className="space-y-4 flex flex-col md:flex-row md:items-start md:justify-between w-full">
                 <div className="space-y-2">
-                    <Label className="text-base font-semibold">Pricing</Label>
+                    <Label className="text-base font-semibold">
+                        {finalUiText["Pricing"]}
+                    </Label>
                     <p className="text-sm text-muted-foreground">
-                        Manage your community pricing plans
+                        {finalUiText["Manage your community pricing plans"]}
                     </p>
                 </div>
                 <PaymentPlanList
@@ -763,16 +793,21 @@ export default function Page(props: {
                     }
                 >
                     <AlertDialogTrigger asChild>
-                        <Button variant="destructive">Delete Community</Button>
+                        <Button variant="destructive">
+                            {finalUiText["Delete Community"]}
+                        </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>
-                                Are you absolutely sure?
+                                {finalUiText["Are you absolutely sure?"]}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                                This action is irreversible. All community data
-                                will be permanently deleted.
+                                {
+                                    finalUiText[
+                                        "This action is irreversible. All community data will be permanently deleted."
+                                    ]
+                                }
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <div className="py-4">
@@ -780,12 +815,18 @@ export default function Page(props: {
                                 htmlFor="delete-confirmation"
                                 className="text-sm font-medium"
                             >
-                                Type &quot;delete&quot; to confirm
+                                {
+                                    finalUiText[
+                                        "Type &quot;delete&quot; to confirm"
+                                    ]
+                                }
                             </Label>
                             <Input
                                 id="delete-confirmation"
                                 type="text"
-                                placeholder="Type 'delete' to confirm"
+                                placeholder={
+                                    finalUiText["Type 'delete' to confirm"]
+                                }
                                 value={deleteConfirmation}
                                 onChange={(e) =>
                                     setDeleteConfirmation(e.target.value)
@@ -794,7 +835,9 @@ export default function Page(props: {
                             />
                         </div>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>
+                                {finalUiText["Cancel"]}
+                            </AlertDialogCancel>
                             <AlertDialogAction
                                 onClick={handleDeleteConfirm}
                                 disabled={
@@ -806,7 +849,7 @@ export default function Page(props: {
                                 {isDeleting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Deleting...
+                                        {finalUiText["Deleting..."]}
                                     </>
                                 ) : (
                                     "Delete"
@@ -834,11 +877,17 @@ export default function Page(props: {
             >
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Delete Category</DialogTitle>
+                        <DialogTitle>
+                            {finalUiText["Delete Category"]}
+                        </DialogTitle>
                         <DialogDescription>
-                            Please select a category to migrate the posts from
-                            &quot;
-                            {deletingCategory}&quot; before deleting.
+                            {
+                                finalUiText[
+                                    "Please select a category to migrate the posts from &quot;"
+                                ]
+                            }
+                            {deletingCategory}
+                            {finalUiText["&quot; before deleting."]}
                         </DialogDescription>
                     </DialogHeader>
                     <Select
@@ -846,7 +895,9 @@ export default function Page(props: {
                         onValueChange={setMigrationCategory}
                     >
                         <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select a category" />
+                            <SelectValue
+                                placeholder={finalUiText["Select a category"]}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {categories
@@ -863,14 +914,16 @@ export default function Page(props: {
                             variant="outline"
                             onClick={() => setDeletingCategory(null)}
                         >
-                            Cancel
+                            {finalUiText["Cancel"]}
                         </Button>
                         <Button
                             className="!bg-red-500 text-white hover:!bg-red-600"
                             variant="destructive"
                             onClick={confirmDeleteCategory}
                         >
-                            {`Delete and migrate existing content to ${migrationCategory || "'None'"}`}
+                            {finalUiDynamic.deleteAndMove(
+                                migrationCategory || "'None'",
+                            )}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

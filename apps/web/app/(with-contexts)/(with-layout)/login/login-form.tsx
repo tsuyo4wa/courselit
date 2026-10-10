@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText, finalUiLabels } from "@/config/strings";
 
 import {
     AddressContext,
@@ -69,7 +70,9 @@ export default function LoginForm({
             toast({
                 title: TOAST_TITLE_ERROR,
                 description:
-                    "reCAPTCHA service not available. Please try again later.",
+                    finalUiText[
+                        "reCAPTCHA service not available. Please try again later."
+                    ],
                 variant: "destructive",
             });
             setLoading(false);
@@ -80,7 +83,10 @@ export default function LoginForm({
         if (!recaptchaToken) {
             toast({
                 title: TOAST_TITLE_ERROR,
-                description: "reCAPTCHA validation failed. Please try again.",
+                description:
+                    finalUiText[
+                        "reCAPTCHA validation failed. Please try again."
+                    ],
                 variant: "destructive",
             });
             setLoading(false);
@@ -105,7 +111,7 @@ export default function LoginForm({
             ) {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description: `reCAPTCHA verification failed. ${recaptchaData.score ? `Score: ${recaptchaData.score.toFixed(2)}.` : ""} Please try again.`,
+                    description: finalUiLabels.recaptchaError,
                     variant: "destructive",
                 });
                 setLoading(false);
@@ -114,7 +120,10 @@ export default function LoginForm({
         } catch (err) {
             toast({
                 title: TOAST_TITLE_ERROR,
-                description: "reCAPTCHA verification failed. Please try again.",
+                description:
+                    finalUiText[
+                        "reCAPTCHA verification failed. Please try again."
+                    ],
                 variant: "destructive",
             });
             setLoading(false);
@@ -133,7 +142,7 @@ export default function LoginForm({
                 otp: code,
             });
             if (error) {
-                setError(`Can't sign you in at this time: ${error.message}`);
+                setError(finalUiLabels.authenticationError);
             } else {
                 window.location.href =
                     redirectTo ||
@@ -145,7 +154,10 @@ export default function LoginForm({
             console.error("Error during requestCode:", err);
             toast({
                 title: TOAST_TITLE_ERROR,
-                description: "An unexpected error occurred. Please try again.",
+                description:
+                    finalUiText[
+                        "An unexpected error occurred. Please try again."
+                    ],
                 variant: "destructive",
             });
         } finally {
@@ -235,7 +247,11 @@ export default function LoginForm({
                                             <Input
                                                 type="email"
                                                 value={email}
-                                                placeholder="Enter your email"
+                                                placeholder={
+                                                    finalUiText[
+                                                        "Enter your email"
+                                                    ]
+                                                }
                                                 required={true}
                                                 onChange={(e) =>
                                                     setEmail(e.target.value)
@@ -269,7 +285,9 @@ export default function LoginForm({
                                             <Input
                                                 type="text"
                                                 value={code}
-                                                placeholder="Code"
+                                                placeholder={
+                                                    finalUiText["Code"]
+                                                }
                                                 required={true}
                                                 onChange={(e) =>
                                                     setCode(e.target.value)
@@ -328,7 +346,9 @@ export default function LoginForm({
                         <Caption theme={theme.theme} className="text-center">
                             {LOGIN_FORM_DISCLAIMER}
                             <Link href="/p/terms">
-                                <span className="underline">Terms</span>
+                                <span className="underline">
+                                    {finalUiText["Terms"]}
+                                </span>
                             </Link>
                         </Caption>
                     </div>

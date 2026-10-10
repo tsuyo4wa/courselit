@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { NextRequest } from "next/server";
 import { getDomain, getUser } from "../initiate/route";
 import { auth } from "@/auth";
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
 
         if (!invoice) {
             return Response.json(
-                { message: "Item not found" },
+                { message: finalUiText["Item not found"] },
                 { status: 404 },
             );
         }

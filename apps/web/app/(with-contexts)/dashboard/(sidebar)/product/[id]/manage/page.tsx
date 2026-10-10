@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useEffect } from "react";
 import DashboardContent from "@components/admin/dashboard-content";
@@ -80,9 +81,11 @@ export default function SettingsPage() {
             <div className="space-y-8">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-4xl font-semibold">Manage</h1>
+                        <h1 className="text-4xl font-semibold">
+                            {finalUiText["Manage"]}
+                        </h1>
                         <p className="text-muted-foreground mt-2">
-                            Manage your product settings
+                            {finalUiText["Manage your product settings"]}
                         </p>
                     </div>
                 </div>

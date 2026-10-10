@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import * as React from "react";
 import {
     SectionBackground,
@@ -30,32 +31,32 @@ interface SectionBackgroundPanelProps {
 }
 
 const BLEND_MODES: { label: string; value: BlendMode }[] = [
-    { label: "Normal", value: "normal" },
-    { label: "Multiply", value: "multiply" },
-    { label: "Screen", value: "screen" },
-    { label: "Overlay", value: "overlay" },
-    { label: "Darken", value: "darken" },
-    { label: "Lighten", value: "lighten" },
-    { label: "Color Dodge", value: "color-dodge" },
-    { label: "Color Burn", value: "color-burn" },
-    { label: "Hard Light", value: "hard-light" },
-    { label: "Soft Light", value: "soft-light" },
-    { label: "Difference", value: "difference" },
-    { label: "Exclusion", value: "exclusion" },
-    { label: "Hue", value: "hue" },
-    { label: "Saturation", value: "saturation" },
-    { label: "Color", value: "color" },
-    { label: "Luminosity", value: "luminosity" },
+    { label: finalUiText["Normal"], value: "normal" },
+    { label: finalUiText["Multiply"], value: "multiply" },
+    { label: finalUiText["Screen"], value: "screen" },
+    { label: finalUiText["Overlay"], value: "overlay" },
+    { label: finalUiText["Darken"], value: "darken" },
+    { label: finalUiText["Lighten"], value: "lighten" },
+    { label: finalUiText["Color Dodge"], value: "color-dodge" },
+    { label: finalUiText["Color Burn"], value: "color-burn" },
+    { label: finalUiText["Hard Light"], value: "hard-light" },
+    { label: finalUiText["Soft Light"], value: "soft-light" },
+    { label: finalUiText["Difference"], value: "difference" },
+    { label: finalUiText["Exclusion"], value: "exclusion" },
+    { label: finalUiText["Hue"], value: "hue" },
+    { label: finalUiText["Saturation"], value: "saturation" },
+    { label: finalUiText["Color"], value: "color" },
+    { label: finalUiText["Luminosity"], value: "luminosity" },
 ];
 
 const BACKGROUND_REPEAT_OPTIONS: { label: string; value: BackgroundRepeat }[] =
     [
-        { label: "No Repeat", value: "no-repeat" },
-        { label: "Repeat", value: "repeat" },
-        { label: "Repeat X", value: "repeat-x" },
-        { label: "Repeat Y", value: "repeat-y" },
-        { label: "Space", value: "space" },
-        { label: "Round", value: "round" },
+        { label: finalUiText["No Repeat"], value: "no-repeat" },
+        { label: finalUiText["Repeat"], value: "repeat" },
+        { label: finalUiText["Repeat X"], value: "repeat-x" },
+        { label: finalUiText["Repeat Y"], value: "repeat-y" },
+        { label: finalUiText["Space"], value: "space" },
+        { label: finalUiText["Round"], value: "round" },
     ];
 
 export function SectionBackgroundPanel({
@@ -116,7 +117,7 @@ export function SectionBackgroundPanel({
             <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="background" className="border-none">
                     <AccordionTrigger className="py-2 font-medium hover:no-underline">
-                        Background
+                        {finalUiText["Background"]}
                     </AccordionTrigger>
                     <AccordionContent className="space-y-6 pt-2">
                         <div className="space-y-2">
@@ -127,13 +128,13 @@ export function SectionBackgroundPanel({
                             >
                                 <TabsList className="grid w-full grid-cols-3">
                                     <TabsTrigger value="color">
-                                        Color
+                                        {finalUiText["Color"]}
                                     </TabsTrigger>
                                     <TabsTrigger value="image">
-                                        Image
+                                        {finalUiText["Image"]}
                                     </TabsTrigger>
                                     <TabsTrigger value="gradient">
-                                        Pattern
+                                        {finalUiText["Pattern"]}
                                     </TabsTrigger>
                                 </TabsList>
 
@@ -142,7 +143,7 @@ export function SectionBackgroundPanel({
                                     className="space-y-4 mt-6"
                                 >
                                     <ColorSelector
-                                        title="Color"
+                                        title={finalUiText["Color"]}
                                         value={value.backgroundColor || ""}
                                         onChange={(color) =>
                                             handleColorBackgroundChange({
@@ -151,7 +152,7 @@ export function SectionBackgroundPanel({
                                         }
                                     />
                                     <ColorSelector
-                                        title="Dark Mode Color"
+                                        title={finalUiText["Dark Mode Color"]}
                                         value={value.backgroundColorDark || ""}
                                         onChange={(color) =>
                                             handleColorBackgroundChange({
@@ -159,7 +160,11 @@ export function SectionBackgroundPanel({
                                             })
                                         }
                                         allowReset={true}
-                                        description="Optional background color for dark mode"
+                                        description={
+                                            finalUiText[
+                                                "Optional background color for dark mode"
+                                            ]
+                                        }
                                     />
                                 </TabsContent>
 
@@ -209,7 +214,7 @@ export function SectionBackgroundPanel({
 
                                     {/* Blur Effect */}
                                     <PageBuilderSlider
-                                        title="Blur"
+                                        title={finalUiText["Blur"]}
                                         min={0}
                                         max={20}
                                         value={value.blur || 0}
@@ -232,11 +237,19 @@ export function SectionBackgroundPanel({
                                             className="border-none"
                                         >
                                             <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
-                                                Overlay Settings
+                                                {
+                                                    finalUiText[
+                                                        "Overlay Settings"
+                                                    ]
+                                                }
                                             </AccordionTrigger>
                                             <AccordionContent className="space-y-4 pt-2">
                                                 <ColorSelector
-                                                    title="Overlay Color"
+                                                    title={
+                                                        finalUiText[
+                                                            "Overlay Color"
+                                                        ]
+                                                    }
                                                     value={
                                                         value.overlay?.color ||
                                                         ""
@@ -248,7 +261,11 @@ export function SectionBackgroundPanel({
                                                     }
                                                 />
                                                 <ColorSelector
-                                                    title="Dark Mode Overlay Color"
+                                                    title={
+                                                        finalUiText[
+                                                            "Dark Mode Overlay Color"
+                                                        ]
+                                                    }
                                                     value={
                                                         value.overlay
                                                             ?.colorDark || ""
@@ -259,10 +276,16 @@ export function SectionBackgroundPanel({
                                                         })
                                                     }
                                                     allowReset={true}
-                                                    description="Optional overlay color for dark mode"
+                                                    description={
+                                                        finalUiText[
+                                                            "Optional overlay color for dark mode"
+                                                        ]
+                                                    }
                                                 />
                                                 <PageBuilderSlider
-                                                    title="Opacity"
+                                                    title={
+                                                        finalUiText["Opacity"]
+                                                    }
                                                     min={0}
                                                     max={10}
                                                     value={
@@ -276,7 +299,11 @@ export function SectionBackgroundPanel({
                                                     unit=""
                                                 />
                                                 <CustomSelect
-                                                    title="Blend Mode"
+                                                    title={
+                                                        finalUiText[
+                                                            "Blend Mode"
+                                                        ]
+                                                    }
                                                     value={
                                                         value.overlay
                                                             ?.blendMode ||
@@ -305,13 +332,17 @@ export function SectionBackgroundPanel({
                                             className="border-none"
                                         >
                                             <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
-                                                Advanced
+                                                {finalUiText["Advanced"]}
                                             </AccordionTrigger>
                                             <AccordionContent className="space-y-4 pt-2">
                                                 {/* Image Properties */}
                                                 <div className="space-y-2">
                                                     <Label htmlFor="image-background-size">
-                                                        Background Size
+                                                        {
+                                                            finalUiText[
+                                                                "Background Size"
+                                                            ]
+                                                        }
                                                     </Label>
                                                     <Input
                                                         id="image-background-size"
@@ -333,7 +364,11 @@ export function SectionBackgroundPanel({
 
                                                 <div className="space-y-2">
                                                     <Label htmlFor="image-background-position">
-                                                        Background Position
+                                                        {
+                                                            finalUiText[
+                                                                "Background Position"
+                                                            ]
+                                                        }
                                                     </Label>
                                                     <Input
                                                         id="image-background-position"
@@ -354,7 +389,11 @@ export function SectionBackgroundPanel({
                                                 </div>
 
                                                 <CustomSelect
-                                                    title="Background Repeat"
+                                                    title={
+                                                        finalUiText[
+                                                            "Background Repeat"
+                                                        ]
+                                                    }
                                                     value={
                                                         value.backgroundRepeat ||
                                                         "no-repeat"
@@ -375,14 +414,22 @@ export function SectionBackgroundPanel({
                                                 {/* Mask Image */}
                                                 <div className="space-y-2">
                                                     <Label htmlFor="mask-image">
-                                                        Mask Image{" "}
+                                                        {
+                                                            finalUiText[
+                                                                "Mask Image"
+                                                            ]
+                                                        }{" "}
                                                         <a
                                                             href="https://developer.mozilla.org/en-US/docs/Web/CSS/mask-image"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="text-muted-foreground text-xs underline"
                                                         >
-                                                            Learn more
+                                                            {
+                                                                finalUiText[
+                                                                    "Learn more"
+                                                                ]
+                                                            }
                                                         </a>
                                                     </Label>
                                                     <Input
@@ -415,7 +462,11 @@ export function SectionBackgroundPanel({
                                 >
                                     <div>
                                         <p className="text-xs text-muted-foreground">
-                                            For advanced users who know CSS.
+                                            {
+                                                finalUiText[
+                                                    "For advanced users who know CSS."
+                                                ]
+                                            }
                                         </p>
                                         {/* <p className="text-xs text-muted-foreground">
                                             You can find patterns on sites like {" "}
@@ -438,7 +489,7 @@ export function SectionBackgroundPanel({
                                     {/* Gradient CSS */}
                                     <div className="space-y-2">
                                         <Label htmlFor="gradient-css">
-                                            Background Image
+                                            {finalUiText["Background Image"]}
                                         </Label>
                                         <Input
                                             id="gradient-css"
@@ -460,7 +511,11 @@ export function SectionBackgroundPanel({
                                     {/* Dark Mode Gradient */}
                                     <div className="space-y-2">
                                         <Label htmlFor="gradient-css-dark">
-                                            Dark Mode Background Image
+                                            {
+                                                finalUiText[
+                                                    "Dark Mode Background Image"
+                                                ]
+                                            }
                                         </Label>
                                         <Input
                                             id="gradient-css-dark"
@@ -489,13 +544,17 @@ export function SectionBackgroundPanel({
                                             className="border-none"
                                         >
                                             <AccordionTrigger className="py-2 text-sm font-medium hover:no-underline">
-                                                Advanced
+                                                {finalUiText["Advanced"]}
                                             </AccordionTrigger>
                                             <AccordionContent className="space-y-4 pt-2">
                                                 {/* Gradient Properties */}
                                                 <div className="space-y-2">
                                                     <Label htmlFor="gradient-background-size">
-                                                        Background Size
+                                                        {
+                                                            finalUiText[
+                                                                "Background Size"
+                                                            ]
+                                                        }
                                                     </Label>
                                                     <Input
                                                         id="gradient-background-size"
@@ -518,7 +577,11 @@ export function SectionBackgroundPanel({
 
                                                 <div className="space-y-2">
                                                     <Label htmlFor="gradient-background-position">
-                                                        Background Position
+                                                        {
+                                                            finalUiText[
+                                                                "Background Position"
+                                                            ]
+                                                        }
                                                     </Label>
                                                     <Input
                                                         id="gradient-background-position"
@@ -540,7 +603,11 @@ export function SectionBackgroundPanel({
                                                 </div>
 
                                                 <CustomSelect
-                                                    title="Background Repeat"
+                                                    title={
+                                                        finalUiText[
+                                                            "Background Repeat"
+                                                        ]
+                                                    }
                                                     value={
                                                         (value as any)
                                                             .gradientBackgroundRepeat ||
@@ -562,14 +629,22 @@ export function SectionBackgroundPanel({
                                                 {/* Mask Image */}
                                                 <div className="space-y-2">
                                                     <Label htmlFor="gradient-mask-image">
-                                                        Mask Image{" "}
+                                                        {
+                                                            finalUiText[
+                                                                "Mask Image"
+                                                            ]
+                                                        }{" "}
                                                         <a
                                                             href="https://developer.mozilla.org/en-US/docs/Web/CSS/mask-image"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="text-muted-foreground text-xs underline"
                                                         >
-                                                            Learn more
+                                                            {
+                                                                finalUiText[
+                                                                    "Learn more"
+                                                                ]
+                                                            }
                                                         </a>
                                                     </Label>
                                                     <Input
@@ -599,8 +674,11 @@ export function SectionBackgroundPanel({
                                     <div className="flex items-center gap-1">
                                         <Lightbulb className="h-8 w-8 text-muted-foreground" />
                                         <p className="text-xs text-muted-foreground">
-                                            You can find cool patterns on sites
-                                            like{" "}
+                                            {
+                                                finalUiText[
+                                                    "You can find cool patterns on sites like"
+                                                ]
+                                            }{" "}
                                             <a
                                                 href="https://patterncraft.fun"
                                                 target="_blank"
@@ -609,7 +687,7 @@ export function SectionBackgroundPanel({
                                             >
                                                 PatternCraft
                                             </a>{" "}
-                                            and{" "}
+                                            {finalUiText["and"]}{" "}
                                             <a
                                                 href="https://magicpattern.design/"
                                                 target="_blank"

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, {
     useState,
     useContext,
@@ -60,22 +61,22 @@ type NavigationItem = {
 const sections: Section[] = [
     {
         id: "colors",
-        label: "Colors",
+        label: finalUiText["Colors"],
         icon: <PaletteIcon className="h-4 w-4" />,
     },
     {
         id: "typography",
-        label: "Typography",
+        label: finalUiText["Typography"],
         icon: <Type className="h-4 w-4" />,
     },
     {
         id: "interactives",
-        label: "Interactives",
+        label: finalUiText["Interactives"],
         icon: <SquareMousePointer className="h-4 w-4" />,
     },
     {
         id: "structure",
-        label: "Structure",
+        label: finalUiText["Structure"],
         icon: <Columns3 className="h-4 w-4" />,
     },
 ];
@@ -95,7 +96,7 @@ const typographyDisplayNames: Record<string, string> = {
     // Body Text
     text1: "Text 1",
     text2: "Text 2",
-    caption: "Caption",
+    caption: finalUiText["Caption"],
 
     // Interactive Elements
     link: "Link",
@@ -156,7 +157,7 @@ const colorOrder = ["primary", "accent", "secondary", "border"];
 const colorCategories = [
     {
         key: "primary",
-        label: "Primary Colors",
+        label: finalUiText["Primary Colors"],
         colors: [
             { name: "primary", displayName: "Primary" },
             { name: "primaryForeground", displayName: "Primary Foreground" },
@@ -164,7 +165,7 @@ const colorCategories = [
     },
     {
         key: "secondary",
-        label: "Secondary Colors",
+        label: finalUiText["Secondary Colors"],
         colors: [
             { name: "secondary", displayName: "Secondary" },
             {
@@ -175,7 +176,7 @@ const colorCategories = [
     },
     {
         key: "accent",
-        label: "Accent Colors",
+        label: finalUiText["Accent Colors"],
         colors: [
             { name: "accent", displayName: "Accent" },
             { name: "accentForeground", displayName: "Accent Foreground" },
@@ -183,7 +184,7 @@ const colorCategories = [
     },
     {
         key: "base",
-        label: "Base Colors",
+        label: finalUiText["Base Colors"],
         colors: [
             { name: "background", displayName: "Background" },
             { name: "foreground", displayName: "Foreground" },
@@ -191,7 +192,7 @@ const colorCategories = [
     },
     {
         key: "card",
-        label: "Card Colors",
+        label: finalUiText["Card Colors"],
         colors: [
             { name: "card", displayName: "Card" },
             { name: "cardForeground", displayName: "Card Foreground" },
@@ -199,7 +200,7 @@ const colorCategories = [
     },
     {
         key: "popover",
-        label: "Popover Colors",
+        label: finalUiText["Popover Colors"],
         colors: [
             { name: "popover", displayName: "Popover" },
             { name: "popoverForeground", displayName: "Popover Foreground" },
@@ -207,7 +208,7 @@ const colorCategories = [
     },
     {
         key: "muted",
-        label: "Muted Colors",
+        label: finalUiText["Muted Colors"],
         colors: [
             { name: "muted", displayName: "Muted" },
             { name: "mutedForeground", displayName: "Muted Foreground" },
@@ -215,7 +216,7 @@ const colorCategories = [
     },
     {
         key: "border",
-        label: "Border & Input Colors",
+        label: finalUiText["Border & Input Colors"],
         colors: [
             { name: "border", displayName: "Border" },
             { name: "input", displayName: "Input" },
@@ -224,12 +225,12 @@ const colorCategories = [
     },
     {
         key: "destructive",
-        label: "Destructive Colors",
+        label: finalUiText["Destructive Colors"],
         colors: [{ name: "destructive", displayName: "Destructive" }],
     },
     {
         key: "charts",
-        label: "Chart Colors",
+        label: finalUiText["Chart Colors"],
         colors: [
             { name: "chart1", displayName: "Chart 1" },
             { name: "chart2", displayName: "Chart 2" },
@@ -240,7 +241,7 @@ const colorCategories = [
     },
     {
         key: "sidebar",
-        label: "Sidebar Colors",
+        label: finalUiText["Sidebar Colors"],
         colors: [
             { name: "sidebar", displayName: "Sidebar" },
             { name: "sidebarForeground", displayName: "Sidebar Foreground" },
@@ -260,7 +261,7 @@ const colorCategories = [
     },
     {
         key: "shadows",
-        label: "Shadow Styles",
+        label: finalUiText["Shadow Styles"],
         colors: [
             { name: "shadow2xs", displayName: "Shadow 2XS" },
             { name: "shadowXs", displayName: "Shadow XS" },
@@ -751,7 +752,7 @@ function ThemeEditor({
         // Categories view
         if (currentItem.id === "categories") {
             if (!theme) {
-                return <p>No theme selected</p>;
+                return <p>{finalUiText["No theme selected"]}</p>;
             }
             return (
                 <div className="p-2 space-y-1">
@@ -783,7 +784,7 @@ function ThemeEditor({
 
         // For all other views, we need a theme
         if (!theme) {
-            return <p>No theme selected</p>;
+            return <p>{finalUiText["No theme selected"]}</p>;
         }
 
         // Check if current item is a typography item
@@ -1154,7 +1155,7 @@ function ThemeEditor({
             default:
                 return (
                     <p className="text-xs text-muted-foreground p-2">
-                        Coming soon
+                        {finalUiText["Coming soon"]}
                     </p>
                 );
         }
@@ -1180,7 +1181,7 @@ function ThemeEditor({
                         <button
                             onClick={navigateBack}
                             className="flex items-center rounded-md p-1 hover:bg-muted transition-colors focus:outline-none"
-                            aria-label="Back"
+                            aria-label={finalUiText["Back"]}
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>

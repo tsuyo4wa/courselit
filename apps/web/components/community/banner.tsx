@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useState, useEffect, useRef, useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -91,9 +92,11 @@ export default function Banner({
                                     <div className="flex items-center space-x-2 text-muted-foreground">
                                         <AlertCircle className="h-4 w-4" />
                                         <p>
-                                            Share important updates,
-                                            announcements, or news with your
-                                            community members here.
+                                            {
+                                                finalUiText[
+                                                    "Share important updates, announcements, or news with your community members here."
+                                                ]
+                                            }
                                         </p>
                                     </div>
                                 )
@@ -107,7 +110,9 @@ export default function Banner({
                                 onClick={() => setIsEditing(true)}
                             >
                                 <Pencil className="h-4 w-4" />
-                                <span className="sr-only">Edit banner</span>
+                                <span className="sr-only">
+                                    {finalUiText["Edit banner"]}
+                                </span>
                             </Button>
                         )}
                     </>
@@ -129,7 +134,7 @@ export default function Banner({
                                 disabled={isSaving}
                             >
                                 <X className="h-4 w-4 mr-1" />
-                                Cancel
+                                {finalUiText["Cancel"]}
                             </Button>
                             <Button
                                 size="sm"
@@ -144,7 +149,7 @@ export default function Banner({
                                 ) : (
                                     <>
                                         <Check className="h-4 w-4 mr-1" />
-                                        Save
+                                        {finalUiText["Save"]}
                                     </>
                                 )}
                             </Button>

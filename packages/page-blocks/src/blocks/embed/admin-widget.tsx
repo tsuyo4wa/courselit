@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import Settings from "./settings";
 import {
@@ -84,25 +85,29 @@ export default function AdminWidget({
             <Alert variant="destructive" className="mb-4">
                 <AlertTitle>
                     <span className="flex items-center gap-2">
-                        <AlertCircle className="w-4 h-4" /> Beware
+                        <AlertCircle className="w-4 h-4" />
+                        {finalUiText["Beware"]}
                     </span>
                 </AlertTitle>
                 <AlertDescription className="text-sm">
-                    Embedding external content may have security implications.
-                    Only embed content from trusted sources.
+                    {
+                        finalUiText[
+                            "Embedding external content may have security implications. Only embed content from trusted sources."
+                        ]
+                    }
                 </AlertDescription>
             </Alert>
-            <AdminWidgetPanel title="Content" value="content">
+            <AdminWidgetPanel title={finalUiText["Content"]} value="content">
                 <Form className="flex flex-col gap-4">
                     <Select
-                        title="Type"
+                        title={finalUiText["Type"]}
                         value={contentType}
                         onChange={(value?: string) =>
                             setContentType(value as "url" | "script")
                         }
                         options={[
                             { label: "URL", value: "url" },
-                            { label: "Script", value: "script" },
+                            { label: finalUiText["Script"], value: "script" },
                         ]}
                     />
 
@@ -118,7 +123,9 @@ export default function AdminWidget({
 
                     {contentType === "script" && (
                         <div className="flex flex-col gap-2">
-                            <label className="mb-1 font-semibold">Script</label>
+                            <label className="mb-1 font-semibold">
+                                {finalUiText["Script"]}
+                            </label>
                             <Textarea
                                 value={content}
                                 rows={10}
@@ -133,9 +140,11 @@ export default function AdminWidget({
                                 <Alert className="text-xs">
                                     <Lightbulb className="w-4 h-4" />
                                     <AlertDescription>
-                                        For iframes, please set the height and
-                                        width in the code to 100% for the best
-                                        experience.
+                                        {
+                                            finalUiText[
+                                                "For iframes, please set the height and width in the code to 100% for the best experience."
+                                            ]
+                                        }
                                     </AlertDescription>
                                 </Alert>
                             )}
@@ -151,7 +160,9 @@ export default function AdminWidget({
                                                 <AlertCircle className="w-4 h-4" />
                                                 <AlertDescription>
                                                     {hasYouTube && hasVimeo
-                                                        ? "For YouTube and Vimeo content, consider using the Media block instead for better integration."
+                                                        ? finalUiText[
+                                                              "For YouTube and Vimeo content, consider using the Media block instead for better integration."
+                                                          ]
                                                         : hasYouTube
                                                           ? "For YouTube content, consider using the Media block instead for better integration."
                                                           : "For Vimeo content, consider using the Media block instead for better integration."}
@@ -165,19 +176,19 @@ export default function AdminWidget({
                     )}
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Form
                     className="flex flex-col gap-4"
                     onSubmit={(e) => e.preventDefault()}
                 >
                     <Select
-                        title="Aspect ratio"
+                        title={finalUiText["Aspect ratio"]}
                         value={aspectRatio}
                         onChange={(value?: string) =>
                             setAspectRatio(value as "16:9" | "4:3" | "1:1")
                         }
                         options={[
-                            { label: "Default", value: "default" },
+                            { label: finalUiText["Default"], value: "default" },
                             { label: "16:9", value: "16:9" },
                             { label: "4:3", value: "4:3" },
                             { label: "1:1", value: "1:1" },
@@ -185,7 +196,7 @@ export default function AdminWidget({
                     />
                     {aspectRatio === "default" && (
                         <FormField
-                            label="Height"
+                            label={finalUiText["Height"]}
                             type="number"
                             value={height}
                             min={0}
@@ -207,7 +218,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

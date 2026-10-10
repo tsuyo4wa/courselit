@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { hasPermissionToAccessSetupChecklist } from "@/lib/utils";
 import DashboardContent from "@components/admin/dashboard-content";
 import { GET_SET_UP } from "@ui-config/strings";
@@ -40,7 +41,7 @@ export default async function Page() {
         <DashboardContent breadcrumbs={breadcrumbs}>
             <div className="flex flex-col gap-4">
                 <h1 className="text-4xl font-semibold mb-4">
-                    Let&apos;s finish setting up your school!
+                    {finalUiText["Let&apos;s finish setting up your school!"]}
                 </h1>
                 <SetupAccordion
                     checklist={setupChecklist?.checklist || []}

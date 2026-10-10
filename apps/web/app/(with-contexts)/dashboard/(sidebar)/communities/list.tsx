@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { AddressContext } from "@components/contexts";
 import { Community } from "@courselit/common-models";
@@ -95,11 +96,14 @@ export default function List() {
                 totalPages={Math.ceil(total / communitiesResultsLimit)}
                 onPageChange={setPage}
             >
-                <Table aria-label="Communities" className="mb-4 w-full">
+                <Table
+                    aria-label={finalUiText["Communities"]}
+                    className="mb-4 w-full"
+                >
                     <TableHead className="border-0 border-b border-slate-200">
-                        <td>Name</td>
-                        <td align="right">Members</td>
-                        <td align="right">Actions</td>
+                        <td>{finalUiText["Name"]}</td>
+                        <td align="right">{finalUiText["Members"]}</td>
+                        <td align="right">{finalUiText["Actions"]}</td>
                     </TableHead>
                     <TableBody>
                         {communities.map((community) => (
@@ -117,7 +121,9 @@ export default function List() {
                                 <td align="right">
                                     <div className="flex space-x-2 justify-end">
                                         <Link href={`/p/${community.pageId}`}>
-                                            <Tooltip title="View page">
+                                            <Tooltip
+                                                title={finalUiText["View page"]}
+                                            >
                                                 <Button variant="soft">
                                                     <Eye width={16} />{" "}
                                                 </Button>
@@ -126,7 +132,9 @@ export default function List() {
                                         <Link
                                             href={`/dashboard/community/${community.communityId}/manage`}
                                         >
-                                            <Tooltip title="Settings">
+                                            <Tooltip
+                                                title={finalUiText["Settings"]}
+                                            >
                                                 <Button variant="soft">
                                                     <Settings width={16} />{" "}
                                                 </Button>

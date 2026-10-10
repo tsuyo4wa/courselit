@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import React, { FormEvent, useState } from "react";
@@ -97,7 +98,7 @@ export default function Page() {
                     >
                         <FormField
                             required
-                            label="Title"
+                            label={finalUiText["Title"]}
                             name="title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}

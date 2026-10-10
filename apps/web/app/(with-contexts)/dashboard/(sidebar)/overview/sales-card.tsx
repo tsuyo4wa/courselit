@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { SiteInfoContext } from "@components/contexts";
 import { Card, CardContent, CardTitle, CardHeader } from "@components/ui/card";
 import { Skeleton } from "@components/ui/skeleton";
@@ -26,7 +27,7 @@ export default function SalesCard({
         <div className="mt-4">
             <Card>
                 <CardHeader>
-                    <CardTitle>Sales</CardTitle>
+                    <CardTitle>{finalUiText["Sales"]}</CardTitle>
                 </CardHeader>
                 <CardContent>
                     {loading ? (

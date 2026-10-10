@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React, { useEffect, useState } from "react";
 import {
     AdminWidgetPanel,
@@ -34,7 +35,7 @@ const AdminWidget = ({
                 content: [
                     {
                         type: "text",
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        text: "ここに説明文を入力してください。",
                     },
                 ],
             },
@@ -71,9 +72,9 @@ const AdminWidget = ({
             type="multiple"
             defaultValue={["basic", "design"]}
         >
-            <AdminWidgetPanel title="Basic" value="basic">
+            <AdminWidgetPanel title={finalUiText["Basic"]} value="basic">
                 <div>
-                    <p className="mb-1 font-medium">Text</p>
+                    <p className="mb-1 font-medium">{finalUiText["Text"]}</p>
                     <Editor
                         initialContent={content}
                         onChange={(state: any) => setContent(state)}
@@ -82,14 +83,14 @@ const AdminWidget = ({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
-                    title="Alignment"
+                    title={finalUiText["Alignment"]}
                     value={alignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
-                        { label: "Right", value: "right" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
+                        { label: finalUiText["Right"], value: "right" },
                     ]}
                     onChange={(value: HorizontalAlignment) =>
                         setAlignment(value)
@@ -114,7 +115,7 @@ const AdminWidget = ({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

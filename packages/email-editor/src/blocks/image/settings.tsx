@@ -1,3 +1,6 @@
+import { finalUiDynamic } from "../../ui-strings";
+
+import { finalUiText } from "../../ui-strings";
 import type { EmailBlock, EmailStyle } from "@/types/email-editor";
 import type { ImageBlockSettings } from "./types";
 import { SettingsInput } from "@/components/settings/settings-input";
@@ -58,7 +61,7 @@ export function ImageSettings({
 
     // Width options
     const widthOptions = [
-        { value: "auto", label: "Auto" },
+        { value: "auto", label: finalUiText["Auto"] },
         { value: "100px", label: "100px" },
         { value: "200px", label: "200px" },
         { value: "300px", label: "300px" },
@@ -69,7 +72,7 @@ export function ImageSettings({
 
     // Height options
     const heightOptions = [
-        { value: "auto", label: "Auto" },
+        { value: "auto", label: finalUiText["Auto"] },
         { value: "100px", label: "100px" },
         { value: "150px", label: "150px" },
         { value: "200px", label: "200px" },
@@ -83,21 +86,21 @@ export function ImageSettings({
         { value: "75%", label: "75%" },
         { value: "50%", label: "50%" },
         { value: "25%", label: "25%" },
-        { value: "none", label: "None" },
+        { value: "none", label: "なし" },
     ];
 
     // Alignment options
     const alignmentOptions = [
-        { value: "left", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "right", label: "Right" },
+        { value: "left", label: finalUiText["Left"] },
+        { value: "center", label: finalUiText["Center"] },
+        { value: "right", label: finalUiText["Right"] },
     ];
 
     // Border style options
     const borderStyleOptions = [
-        { value: "solid", label: "Solid" },
-        { value: "dashed", label: "Dashed" },
-        { value: "dotted", label: "Dotted" },
+        { value: "solid", label: "実線" },
+        { value: "dashed", label: finalUiText["Dashed"] },
+        { value: "dotted", label: finalUiText["Dotted"] },
     ];
 
     return (
@@ -106,7 +109,7 @@ export function ImageSettings({
             <div>
                 <div className="flex gap-2 mt-1">
                     <SettingsInput
-                        label="Image URL"
+                        label={finalUiText["Image URL"]}
                         value={block.settings.src || ""}
                         onChange={(value) => handleSettingChange("src", value)}
                         placeholder="https://example.com/image.jpg"
@@ -120,7 +123,7 @@ export function ImageSettings({
                             e.preventDefault();
                             handleImageUpload();
                         }}
-                        title="Browse for image"
+                        title={finalUiText["Browse for image"]}
                     >
                         <Upload className="h-4 w-4" />
                     </Button>
@@ -129,7 +132,9 @@ export function ImageSettings({
 
             {/* Sample Images */}
             <div>
-                <label className="text-sm font-medium">Sample Images</label>
+                <label className="text-sm font-medium">
+                    {finalUiText["Sample Images"]}
+                </label>
                 <div className="grid grid-cols-3 gap-2 mt-2">
                     {sampleImages.map((url, index) => (
                         <button
@@ -142,7 +147,7 @@ export function ImageSettings({
                         >
                             <img
                                 src={url || "/placeholder.svg"}
-                                alt={`Sample ${index + 1}`}
+                                alt={finalUiDynamic.sample(index + 1)}
                                 className="w-full h-full object-cover"
                             />
                         </button>
@@ -152,16 +157,16 @@ export function ImageSettings({
 
             {/* Alt Text */}
             <SettingsInput
-                label="Alt Text"
+                label={finalUiText["Alt Text"]}
                 value={block.settings.alt || ""}
                 onChange={(value) => handleSettingChange("alt", value)}
-                placeholder="Describe the image"
+                placeholder={finalUiText["Describe the image"]}
                 defaultValue=""
             />
 
             {/* Alignment */}
             <SettingsSelect
-                label="Alignment"
+                label={finalUiText["Alignment"]}
                 value={block.settings.alignment || "left"}
                 onChange={(value) => handleSettingChange("alignment", value)}
                 options={alignmentOptions}
@@ -169,9 +174,9 @@ export function ImageSettings({
             />
 
             {/* Dimensions */}
-            <SettingsSection title="Dimensions">
+            <SettingsSection title={finalUiText["Dimensions"]}>
                 <SettingsSelect
-                    label="Width"
+                    label={finalUiText["Width"]}
                     value={block.settings.width || "auto"}
                     onChange={(value) => handleSettingChange("width", value)}
                     options={widthOptions}
@@ -179,7 +184,7 @@ export function ImageSettings({
                 />
 
                 <SettingsSelect
-                    label="Height"
+                    label={finalUiText["Height"]}
                     value={block.settings.height || "auto"}
                     onChange={(value) => handleSettingChange("height", value)}
                     options={heightOptions}
@@ -187,7 +192,7 @@ export function ImageSettings({
                 />
 
                 <SettingsSelect
-                    label="Max Width"
+                    label={finalUiText["Max Width"]}
                     value={block.settings.maxWidth || "100%"}
                     onChange={(value) => handleSettingChange("maxWidth", value)}
                     options={maxWidthOptions}
@@ -196,9 +201,9 @@ export function ImageSettings({
             </SettingsSection>
 
             {/* Border */}
-            <SettingsSection title="Border">
+            <SettingsSection title={finalUiText["Border"]}>
                 <SettingsSlider
-                    label="Border Radius"
+                    label={finalUiText["Border Radius"]}
                     value={borderRadius}
                     onChange={(value) =>
                         handleSettingChange("borderRadius", `${value}px`)
@@ -209,7 +214,7 @@ export function ImageSettings({
                 />
 
                 <SettingsSlider
-                    label="Border Width"
+                    label={finalUiText["Border Width"]}
                     value={borderWidth}
                     onChange={(value) =>
                         handleSettingChange("borderWidth", `${value}px`)
@@ -220,7 +225,7 @@ export function ImageSettings({
                 />
 
                 <SettingsSelect
-                    label="Border Style"
+                    label={finalUiText["Border Style"]}
                     value={block.settings.borderStyle || "solid"}
                     onChange={(value) =>
                         handleSettingChange("borderStyle", value)
@@ -230,7 +235,7 @@ export function ImageSettings({
                 />
 
                 <SettingsColorPicker
-                    label="Border Color"
+                    label={finalUiText["Border Color"]}
                     value={block.settings.borderColor || "#e2e8f0"}
                     onChange={(value) =>
                         handleSettingChange("borderColor", value)
@@ -240,9 +245,9 @@ export function ImageSettings({
             </SettingsSection>
 
             {/* Common Block Settings */}
-            <SettingsSection title="Block Settings">
+            <SettingsSection title={finalUiText["Block Settings"]}>
                 <SettingsColorPicker
-                    label="Background Color"
+                    label={finalUiText["Background Color"]}
                     value={block.settings.backgroundColor || "transparent"}
                     onChange={(value) =>
                         handleSettingChange("backgroundColor", value)
@@ -251,7 +256,7 @@ export function ImageSettings({
                 />
 
                 <SettingsSlider
-                    label="Padding Top"
+                    label={finalUiText["Padding Top"]}
                     value={pxToNumber(
                         block.settings.paddingTop ||
                             style?.structure.section.padding?.y,
@@ -269,7 +274,7 @@ export function ImageSettings({
                 />
 
                 <SettingsSlider
-                    label="Padding Bottom"
+                    label={finalUiText["Padding Bottom"]}
                     value={pxToNumber(
                         block.settings.paddingBottom ||
                             style?.structure.section.padding?.y,

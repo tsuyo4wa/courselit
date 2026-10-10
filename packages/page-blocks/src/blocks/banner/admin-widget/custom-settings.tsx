@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import * as React from "react";
 import { useState, useEffect } from "react";
 import Settings from "../settings";
@@ -121,7 +122,7 @@ export default function CustomSettings({
             type="multiple"
             defaultValue={["basic", "call-to-action", "design"]}
         >
-            <AdminWidgetPanel title="Basic" value="basic">
+            <AdminWidgetPanel title={finalUiText["Basic"]} value="basic">
                 <Form
                     onSubmit={(e: React.FormEvent) => {
                         e.preventDefault();
@@ -129,11 +130,13 @@ export default function CustomSettings({
                 >
                     <FormField
                         value={title}
-                        label="Custom title"
+                        label={finalUiText["Custom title"]}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <div>
-                        <p className="mb-1 font-medium">Custom description</p>
+                        <p className="mb-1 font-medium">
+                            {finalUiText["Custom description"]}
+                        </p>
                         <Editor
                             initialContent={description}
                             onChange={(state: any) => setDescription(state)}
@@ -143,17 +146,20 @@ export default function CustomSettings({
                     </div>
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Call to action" value="call-to-action">
+            <AdminWidgetPanel
+                title={finalUiText["Call to action"]}
+                value="call-to-action"
+            >
                 <Form>
                     <FormField
                         value={buttonCaption}
-                        label="Button caption"
+                        label={finalUiText["Button caption"]}
                         onChange={(e) => setButtonCaption(e.target.value)}
                     />
                     {type === "site" && (
                         <FormField
                             value={buttonAction}
-                            label="Button Action (URL)"
+                            label={finalUiText["Button Action (URL)"]}
                             onChange={(e) => setButtonAction(e.target.value)}
                         />
                     )}
@@ -161,7 +167,7 @@ export default function CustomSettings({
                         <>
                             <div>
                                 <p className="mb-1 font-medium">
-                                    Success message
+                                    {finalUiText["Success message"]}
                                 </p>
                                 <Editor
                                     initialContent={
@@ -175,7 +181,7 @@ export default function CustomSettings({
                                 />
                             </div>
                             <FormField
-                                label="Failure message"
+                                label={finalUiText["Failure message"]}
                                 value={failureMessage}
                                 placeholder={DEFAULT_FAILURE_MESSAGE}
                                 onChange={(e) =>
@@ -183,11 +189,17 @@ export default function CustomSettings({
                                 }
                             />
                             <Select
-                                title="Editing view"
+                                title={finalUiText["Editing view"]}
                                 value={editingViewShowSuccess}
                                 options={[
-                                    { label: "Before submit", value: "0" },
-                                    { label: "After submit", value: "1" },
+                                    {
+                                        label: finalUiText["Before submit"],
+                                        value: "0",
+                                    },
+                                    {
+                                        label: finalUiText["After submit"],
+                                        value: "1",
+                                    },
                                 ]}
                                 onChange={(value: "1" | "0") =>
                                     setEditingViewShowSuccess(value)
@@ -197,27 +209,27 @@ export default function CustomSettings({
                     )}
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
-                    title="Text content position"
+                    title={finalUiText["Text content position"]}
                     value={alignment}
                     options={[
-                        { label: "Top", value: "top" },
-                        { label: "Bottom", value: "bottom" },
-                        { label: "Left", value: "left" },
-                        { label: "Right", value: "right" },
+                        { label: finalUiText["Top"], value: "top" },
+                        { label: finalUiText["Bottom"], value: "bottom" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Right"], value: "right" },
                     ]}
                     onChange={(value: "top" | "bottom" | "left" | "right") =>
                         setAlignment(value)
                     }
                 />
                 <Select
-                    title="Text alignment"
+                    title={finalUiText["Text alignment"]}
                     value={textAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
-                        { label: "Right", value: "right" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
+                        { label: finalUiText["Right"], value: "right" },
                     ]}
                     onChange={(value: Alignment) => setTextAlignment(value)}
                 />
@@ -227,7 +239,7 @@ export default function CustomSettings({
                     onChange={setVerticalPadding}
                 />
                 <PageBuilderSlider
-                    title="Media border radius"
+                    title={finalUiText["Media border radius"]}
                     value={mediaBorderRadius}
                     min={0}
                     max={8}

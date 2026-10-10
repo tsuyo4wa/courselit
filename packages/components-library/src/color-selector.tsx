@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import * as React from "react";
 import { Cross, Help } from "@courselit/icons";
 import IconButton from "./icon-button";
@@ -111,7 +112,7 @@ export default function ColorSelector({
                         />
                     </div>
                     {allowReset && (
-                        <Tooltip title="Reset">
+                        <Tooltip title={finalUiText["Reset"]}>
                             <IconButton
                                 onClick={(e) => {
                                     e.preventDefault();

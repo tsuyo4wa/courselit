@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useSearchParams } from "next/navigation";
 import { Button2 } from "@courselit/components-library";
@@ -61,7 +62,7 @@ const EditorLayout = ({
                                     </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Exit</p>
+                                    <p>{finalUiText["Exit"]}</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>

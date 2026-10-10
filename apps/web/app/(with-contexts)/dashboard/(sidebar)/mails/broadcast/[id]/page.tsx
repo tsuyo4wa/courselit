@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { isDateInFuture } from "@/lib/utils";
@@ -516,7 +519,9 @@ export default function Page(props: {
                 <div className="mt-4">
                     <div className="flex flex-col gap-4">
                         <fieldset>
-                            <label className="mb-1 font-medium">To</label>
+                            <label className="mb-1 font-medium">
+                                {finalUiText["To"]}
+                            </label>
                             {!isInitialLoad.current && (
                                 <FilterContainer
                                     filter={{
@@ -580,7 +585,10 @@ export default function Page(props: {
                                                 onOpenChange={
                                                     setConfirmationDialogOpen
                                                 }
-                                                title={`${DIALOG_SEND_HEADER} to ${filteredUsersCount} contacts?`}
+                                                title={finalUiDynamic.sendConfirmation(
+                                                    DIALOG_SEND_HEADER,
+                                                    filteredUsersCount,
+                                                )}
                                                 trigger={
                                                     <Button>
                                                         <div className="flex items-center gap-2">
@@ -592,10 +600,13 @@ export default function Page(props: {
                                                 onClick={onSubmit}
                                             >
                                                 <p>
-                                                    Are you sure you want to
-                                                    send this email to{" "}
+                                                    {
+                                                        finalUiText[
+                                                            "Are you sure you want to send this email to"
+                                                        ]
+                                                    }{" "}
                                                     {filteredUsersCount}{" "}
-                                                    contacts?
+                                                    {finalUiText["contacts?"]}
                                                 </p>
                                             </Dialog2>
                                             <Button
@@ -613,7 +624,10 @@ export default function Page(props: {
                                     {showScheduleInput && (
                                         <>
                                             <Dialog2
-                                                title={`${DIALOG_SEND_HEADER} to ${filteredUsersCount} contacts?`}
+                                                title={finalUiDynamic.sendConfirmation(
+                                                    DIALOG_SEND_HEADER,
+                                                    filteredUsersCount,
+                                                )}
                                                 open={confirmationDialogOpen}
                                                 onOpenChange={
                                                     setConfirmationDialogOpen
@@ -632,10 +646,17 @@ export default function Page(props: {
                                             >
                                                 <div className="p-4">
                                                     <p>
-                                                        Are you sure you want to
-                                                        schedule this email to{" "}
+                                                        {
+                                                            finalUiText[
+                                                                "Are you sure you want to schedule this email to"
+                                                            ]
+                                                        }{" "}
                                                         {filteredUsersCount}{" "}
-                                                        contacts?
+                                                        {
+                                                            finalUiText[
+                                                                "contacts?"
+                                                            ]
+                                                        }
                                                     </p>
                                                 </div>
                                             </Dialog2>
@@ -659,7 +680,8 @@ export default function Page(props: {
                             !report?.broadcast?.lockedAt && (
                                 <div>
                                     <p className="flex items-center gap-2 text-sm mb-4 font-semibold text-slate-600">
-                                        <Clock /> Scheduled for{" "}
+                                        <Clock />
+                                        {finalUiText["Scheduled for"]}{" "}
                                         {new Date(delay).toLocaleString()}
                                     </p>
                                     <Button

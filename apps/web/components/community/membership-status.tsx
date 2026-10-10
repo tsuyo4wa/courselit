@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { FormEvent, useContext, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,8 @@ export default function MembershipStatus({
                 setIsJoinDialogOpen(false);
                 toast({
                     title: TOAST_TITLE_SUCCESS,
-                    description: `Your request to join has been sent.`,
+                    description:
+                        finalUiText["Your request to join has been sent."],
                 });
                 setInnerStatus(response.status);
             } else {
@@ -105,7 +107,8 @@ export default function MembershipStatus({
                 <Alert>
                     <Clock className="w-4 h-4" />
                     <AlertTitle className="font-semibold">
-                        Membership {innerStatus?.toLowerCase()}
+                        {finalUiText["Membership"]}
+                        {innerStatus?.toLowerCase()}
                     </AlertTitle>
                 </Alert>
             )}
@@ -114,10 +117,12 @@ export default function MembershipStatus({
                 <Alert variant="destructive">
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle className="font-semibold">
-                        Membership {innerStatus?.toLowerCase()}
+                        {finalUiText["Membership"]}
+                        {innerStatus?.toLowerCase()}
                     </AlertTitle>
                     <AlertDescription>
-                        Reason: {membership && membership.rejectionReason}
+                        {finalUiText["Reason:"]}
+                        {membership && membership.rejectionReason}
                     </AlertDescription>
                 </Alert>
             )}
@@ -125,14 +130,16 @@ export default function MembershipStatus({
                 <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertTitle className="font-semibold">
-                        Incomplete Profile
+                        {finalUiText["Incomplete Profile"]}
                     </AlertTitle>
                     <AlertDescription>
-                        Complete your{" "}
+                        {finalUiText["Complete your"]}{" "}
                         <span className="underline">
-                            <Link href={"/dashboard/profile"}>profile</Link>
+                            <Link href={"/dashboard/profile"}>
+                                {finalUiText["profile"]}
+                            </Link>
                         </span>{" "}
-                        to join this community or post here
+                        {finalUiText["to join this community or post here"]}
                     </AlertDescription>
                 </Alert>
             )}
@@ -143,7 +150,8 @@ export default function MembershipStatus({
                             href={`/checkout?id=${id}&type=${Constants.MembershipEntityType.COMMUNITY}`}
                         >
                             <Button>
-                                Join {currencySymbol}
+                                {finalUiText["Join"]}
+                                {currencySymbol}
                                 {amount} {period}
                             </Button>
                         </Link>
@@ -155,7 +163,8 @@ export default function MembershipStatus({
                         >
                             <DialogTrigger asChild>
                                 <Button>
-                                    Join {currencySymbol}
+                                    {finalUiText["Join"]}
+                                    {currencySymbol}
                                     {amount} {period}
                                 </Button>
                             </DialogTrigger>
@@ -171,7 +180,9 @@ export default function MembershipStatus({
                                             onChange={(e) =>
                                                 setJoiningReason(e.target.value)
                                             }
-                                            placeholder="Reason to join"
+                                            placeholder={
+                                                finalUiText["Reason to join"]
+                                            }
                                             required
                                         />
                                         <Button
@@ -179,7 +190,7 @@ export default function MembershipStatus({
                                             disabled={loading}
                                         >
                                             {loading && <CircularProgress />}
-                                            Submit
+                                            {finalUiText["Submit"]}
                                         </Button>
                                     </div>
                                 </Form>

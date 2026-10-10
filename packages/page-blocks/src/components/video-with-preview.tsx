@@ -1,3 +1,6 @@
+import { finalUiDynamic } from "../ui-strings";
+
+import { finalUiText } from "../ui-strings";
 import { useState, useEffect } from "react";
 import { Play, X } from "lucide-react";
 import { extractVideoId } from "@courselit/utils";
@@ -199,7 +202,11 @@ export function VideoWithPreview({
                                 autoPlay
                                 className="w-full h-full"
                             >
-                                Your browser does not support the video tag.
+                                {
+                                    finalUiText[
+                                        "Your browser does not support the video tag."
+                                    ]
+                                }
                             </video>
                         )}
                     </div>
@@ -211,7 +218,7 @@ export function VideoWithPreview({
                     >
                         <img
                             src={getThumbnailUrl() || "/placeholder.svg"}
-                            alt={`Thumbnail for ${title}`}
+                            alt={finalUiDynamic.thumbnail(title)}
                             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                         <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
@@ -238,7 +245,7 @@ export function VideoWithPreview({
                     <button
                         onClick={() => setIsModalOpen(false)}
                         className="absolute top-2 right-2 sm:top-4 sm:right-4 text-white hover:text-gray-300 focus:outline-none z-10"
-                        aria-label="Close"
+                        aria-label={finalUiText["Close"]}
                     >
                         <X className="h-6 w-6 sm:h-8 sm:w-8" />
                     </button>
@@ -265,7 +272,11 @@ export function VideoWithPreview({
                                 autoPlay
                                 className="w-full h-full"
                             >
-                                Your browser does not support the video tag.
+                                {
+                                    finalUiText[
+                                        "Your browser does not support the video tag."
+                                    ]
+                                }
                             </video>
                         )}
                     </div>

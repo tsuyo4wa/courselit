@@ -1,3 +1,4 @@
+import { finalUiText, finalUiMail } from "@/config/strings";
 const digitalDownloadTemplate = `
 doctype html
 html
@@ -32,24 +33,24 @@ html
                 text-align: center;
             }
     body
-        p   Thank you for signing up for #{courseName}.
+        p   #{courseName} ${finalUiMail.signup}
         div(class="cta-container") 
             a(
                 href=\`\${downloadLink}\`
                 class="cta"
-            ) Download now
-        p   Best,
+            ) ${finalUiMail.download}
+        p   ${finalUiMail.regards}
         p   #{name}
         p 
-            |   To access all of your content, 
-            |   #[a(href=\`\${loginLink}\`) log in] here.
+            |   ${finalUiMail.access} 
+            |   #[a(href=\`\${loginLink}\`) ${finalUiMail.login}]
         if !hideCourseLitBranding
             div(class="courselit-branding-container")
                 a(
                     href="https://courselit.app"
                     target="_blank"
                     class="courselit-branding-cta"
-                ) Powered by <strong> CourseLit </strong>
+                ) ${finalUiText["Powered by"]} <strong> CourseLit </strong>
 `;
 
 export default digitalDownloadTemplate;

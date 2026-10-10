@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useState } from "react";
 import widgets from "@/ui-config/widgets";
 import { Button } from "@courselit/components-library";
@@ -84,16 +85,23 @@ export default function EditWidget({
                                     variant="soft"
                                 >
                                     {deleteConfirmation
-                                        ? "Sure?"
-                                        : "Delete block"}
+                                        ? finalUiText["Sure?"]
+                                        : finalUiText["Delete block"]}
                                 </Button>
                             )}
-                            <Button onClick={onClose}>Done</Button>
+                            <Button onClick={onClose}>
+                                {finalUiText["Done"]}
+                            </Button>
                         </div>
                     )}
                 </div>
             )}
-            {!actualWidget && <p>{widget.name} not found</p>}
+            {!actualWidget && (
+                <p>
+                    {widget.name}
+                    {finalUiText["not found"]}
+                </p>
+            )}
         </div>
     );
 }

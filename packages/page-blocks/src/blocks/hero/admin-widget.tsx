@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React, { useEffect, useState } from "react";
 import type {
     Address,
@@ -56,7 +57,7 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        text: "ここに説明文を入力してください。",
                     },
                 ],
             },
@@ -170,16 +171,18 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["basic", "media", "calls-to-action", "design"]}
         >
-            <AdminWidgetPanel title="Basic" value="basic">
+            <AdminWidgetPanel title={finalUiText["Basic"]} value="basic">
                 <Form>
                     <FormField
-                        label="Title"
+                        label={finalUiText["Title"]}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </Form>
                 <div>
-                    <p className="mb-1 font-medium">Description</p>
+                    <p className="mb-1 font-medium">
+                        {finalUiText["Description"]}
+                    </p>
                     <Editor
                         initialContent={description}
                         onChange={(state: any) => setDescription(state)}
@@ -188,18 +191,22 @@ export default function AdminWidget({
                     />
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Media" value="media">
+            <AdminWidgetPanel title={finalUiText["Media"]} value="media">
                 <Form>
                     <FormField
-                        label="YouTube/Vimeo Link"
-                        placeholder="Enter the link to the video"
+                        label={finalUiText["YouTube/Vimeo Link"]}
+                        placeholder={finalUiText["Enter the link to the video"]}
                         value={youtubeLink}
                         onChange={(e) => setYoutubeLink(e.target.value)}
                     />
                 </Form>
                 <PageBuilderPropertyHeader
-                    label="Upload media"
-                    tooltip="This will be overridden if you have provided a YouTube video id above"
+                    label={finalUiText["Upload media"]}
+                    tooltip={
+                        finalUiText[
+                            "This will be overridden if you have provided a YouTube video id above"
+                        ]
+                    }
                 />
                 <MediaSelector
                     title=""
@@ -224,7 +231,7 @@ export default function AdminWidget({
                     <div className="flex flex-col gap-2">
                         <div className="flex justify-between mt-2">
                             <div className="flex grow items-center gap-1">
-                                <p>Play video in a pop-up</p>
+                                <p>{finalUiText["Play video in a pop-up"]}</p>
                             </div>
                             <Checkbox
                                 checked={playVideoInModal}
@@ -237,20 +244,23 @@ export default function AdminWidget({
                 ) : (
                     <div className="flex flex-col gap-2">
                         <PageBuilderSlider
-                            title="Media border radius"
+                            title={finalUiText["Media border radius"]}
                             value={mediaBorderRadius}
                             onChange={setMediaBorderRadius}
                             min={0}
                             max={8}
                         />
                         <Select
-                            title="Object fit"
+                            title={finalUiText["Object fit"]}
                             value={objectFit}
                             options={[
-                                { label: "Cover", value: "cover" },
-                                { label: "Contain", value: "contain" },
-                                { label: "Fill", value: "fill" },
-                                { label: "None", value: "none" },
+                                { label: finalUiText["Cover"], value: "cover" },
+                                {
+                                    label: finalUiText["Contain"],
+                                    value: "contain",
+                                },
+                                { label: finalUiText["Fill"], value: "fill" },
+                                { label: "なし", value: "none" },
                                 { label: "Scale-down", value: "scale-down" },
                             ]}
                             onChange={(value: ImageObjectFit) =>
@@ -260,7 +270,7 @@ export default function AdminWidget({
                     </div>
                 )}
                 <Select
-                    title="Aspect ratio"
+                    title={finalUiText["Aspect ratio"]}
                     value={aspectRatio}
                     options={[
                         { label: "16:9", value: "16/9" },
@@ -271,21 +281,26 @@ export default function AdminWidget({
                     onChange={(value: AspectRatio) => setAspectRatio(value)}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Calls to action" value="calls-to-action">
+            <AdminWidgetPanel
+                title={finalUiText["Calls to action"]}
+                value="calls-to-action"
+            >
                 <Accordion type="single" collapsible>
                     <AccordionItem value="primary">
-                        <AccordionTrigger>Primary button</AccordionTrigger>
+                        <AccordionTrigger>
+                            {finalUiText["Primary button"]}
+                        </AccordionTrigger>
                         <AccordionContent className="flex flex-col gap-4">
                             <Form className="flex flex-col gap-4">
                                 <FormField
-                                    label="Button Text"
+                                    label={finalUiText["Button Text"]}
                                     value={buttonCaption}
                                     onChange={(e) =>
                                         setButtonCaption(e.target.value)
                                     }
                                 />
                                 <FormField
-                                    label="Button Action"
+                                    label={finalUiText["Button Action"]}
                                     value={buttonAction}
                                     onChange={(e) =>
                                         setButtonAction(e.target.value)
@@ -295,11 +310,13 @@ export default function AdminWidget({
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="secondary">
-                        <AccordionTrigger>Secondary button</AccordionTrigger>
+                        <AccordionTrigger>
+                            {finalUiText["Secondary button"]}
+                        </AccordionTrigger>
                         <AccordionContent className="flex flex-col gap-4">
                             <Form className="flex flex-col gap-4">
                                 <FormField
-                                    label="Button Text"
+                                    label={finalUiText["Button Text"]}
                                     value={secondaryButtonCaption}
                                     onChange={(e) =>
                                         setSecondaryButtonCaption(
@@ -308,7 +325,7 @@ export default function AdminWidget({
                                     }
                                 />
                                 <FormField
-                                    label="Button Action"
+                                    label={finalUiText["Button Action"]}
                                     value={secondaryButtonAction}
                                     onChange={(e) =>
                                         setSecondaryButtonAction(e.target.value)
@@ -319,14 +336,14 @@ export default function AdminWidget({
                     </AccordionItem>
                 </Accordion>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 {hasHeroGraphic && (
                     <Select
-                        title="Media alignment"
+                        title={finalUiText["Media alignment"]}
                         value={alignment}
                         options={[
-                            { label: "Left", value: "left" },
-                            { label: "Right", value: "right" },
+                            { label: finalUiText["Left"], value: "left" },
+                            { label: finalUiText["Right"], value: "right" },
                         ]}
                         onChange={(value: Alignment | "right") =>
                             setAlignment(value)
@@ -334,26 +351,26 @@ export default function AdminWidget({
                     />
                 )}
                 <Select
-                    title="Layout"
+                    title={finalUiText["Layout"]}
                     value={layout}
                     options={[
-                        { label: "Normal", value: "normal" },
-                        { label: "Card", value: "center" },
+                        { label: finalUiText["Normal"], value: "normal" },
+                        { label: finalUiText["Card"], value: "center" },
                     ]}
                     onChange={(value: "normal" | "card") => setLayout(value)}
                 />
                 <Select
-                    title="Content alignment"
+                    title={finalUiText["Content alignment"]}
                     value={contentAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setContentAlignment(value)}
                 />
 
                 <PageBuilderSlider
-                    title="Title font size"
+                    title={finalUiText["Title font size"]}
                     value={titleFontSize}
                     onChange={setTitleFontSize}
                     min={3}
@@ -367,7 +384,7 @@ export default function AdminWidget({
                     max={6}
                 /> */}
                 <PageBuilderSlider
-                    title="Media border radius"
+                    title={finalUiText["Media border radius"]}
                     value={mediaBorderRadius}
                     min={0}
                     max={8}
@@ -391,7 +408,7 @@ export default function AdminWidget({
                     address={address}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

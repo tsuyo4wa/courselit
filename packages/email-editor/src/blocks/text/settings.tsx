@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import type { EmailBlock, EmailStyle } from "@/types/email-editor";
 import type { TextBlockSettings } from "./types";
 import { SettingsTextarea } from "@/components/settings/settings-textarea";
@@ -54,7 +55,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
         { value: "Georgia, serif", label: "Georgia" },
         { value: "'Times New Roman', serif", label: "Times New Roman" },
         { value: "Verdana, sans-serif", label: "Verdana" },
-        { value: "monospace", label: "Monospace" },
+        { value: "monospace", label: finalUiText["Monospace"] },
     ];
 
     // Line height options
@@ -68,24 +69,24 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
 
     // Alignment options
     const alignmentOptions = [
-        { value: "left", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "right", label: "Right" },
-        { value: "justify", label: "Justify" },
+        { value: "left", label: finalUiText["Left"] },
+        { value: "center", label: finalUiText["Center"] },
+        { value: "right", label: finalUiText["Right"] },
+        { value: "justify", label: finalUiText["Justify"] },
     ];
 
     return (
         <div className="space-y-4">
             <SettingsTextarea
-                label="Text Content"
+                label={finalUiText["Text Content"]}
                 value={block.settings.content || ""}
                 onChange={(value) => handleSettingChange("content", value)}
-                placeholder="Enter your text here"
+                placeholder={finalUiText["Enter your text here"]}
                 rows={5}
             />
 
             <SettingsSelect
-                label="Text Alignment"
+                label={finalUiText["Text Alignment"]}
                 value={block.settings.alignment || "left"}
                 onChange={(value) => handleSettingChange("alignment", value)}
                 options={alignmentOptions}
@@ -93,7 +94,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
             />
 
             <SettingsSelect
-                label="Font Family"
+                label={finalUiText["Font Family"]}
                 value={block.settings.fontFamily || ""}
                 onChange={(value) => handleSettingChange("fontFamily", value)}
                 options={fontFamilyOptions}
@@ -101,7 +102,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
             />
 
             <SettingsSelect
-                label="Font Size"
+                label={finalUiText["Font Size"]}
                 value={block.settings.fontSize || "16px"}
                 onChange={(value) => handleSettingChange("fontSize", value)}
                 options={fontSizeOptions}
@@ -109,7 +110,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
             />
 
             <SettingsSelect
-                label="Line Height"
+                label={finalUiText["Line Height"]}
                 value={block.settings.lineHeight || "1.5"}
                 onChange={(value) => handleSettingChange("lineHeight", value)}
                 options={lineHeightOptions}
@@ -124,9 +125,9 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
             /> */}
 
             {/* Common Block Settings */}
-            <SettingsSection title="Block Settings">
+            <SettingsSection title={finalUiText["Block Settings"]}>
                 <SettingsColorPicker
-                    label="Background Color"
+                    label={finalUiText["Background Color"]}
                     value={block.settings.backgroundColor || "transparent"}
                     onChange={(value) =>
                         handleSettingChange("backgroundColor", value)
@@ -135,7 +136,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
                 />
 
                 <SettingsColorPicker
-                    label="Foreground Color"
+                    label={finalUiText["Foreground Color"]}
                     value={block.settings.foregroundColor || "#000000"}
                     onChange={(value) =>
                         handleSettingChange("foregroundColor", value)
@@ -144,7 +145,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
                 />
 
                 <SettingsSlider
-                    label="Padding Top"
+                    label={finalUiText["Padding Top"]}
                     value={pxToNumber(
                         block.settings.paddingTop ||
                             style?.structure.section.padding?.y,
@@ -162,7 +163,7 @@ export function TextSettings({ block, style, updateBlock }: TextSettingsProps) {
                 />
 
                 <SettingsSlider
-                    label="Padding Bottom"
+                    label={finalUiText["Padding Bottom"]}
                     value={pxToNumber(
                         block.settings.paddingBottom ||
                             style?.structure.section.padding?.y,

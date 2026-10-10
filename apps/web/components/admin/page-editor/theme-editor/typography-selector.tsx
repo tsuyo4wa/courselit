@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React from "react";
 import {
     Select,
@@ -31,7 +32,9 @@ function TypographySelector({
     const renderDemo = () => {
         return (
             <div className="space-y-2 flex flex-col">
-                <Label className="text-xs text-muted-foreground">Preview</Label>
+                <Label className="text-xs text-muted-foreground">
+                    {finalUiText["Preview"]}
+                </Label>
                 <p
                     className={cn(
                         value?.fontFamily || "",
@@ -43,7 +46,7 @@ function TypographySelector({
                         value?.textTransform || "normal-case",
                     )}
                 >
-                    The quick brown fox jumps over the lazy dog
+                    {finalUiText["The quick brown fox jumps over the lazy dog"]}
                 </p>
             </div>
         );
@@ -53,7 +56,7 @@ function TypographySelector({
         return (
             <div className="space-y-6">
                 <div className="space-y-2">
-                    <Label>Font Family</Label>
+                    <Label>{finalUiText["Font Family"]}</Label>
                     <Select
                         value={value?.fontFamily || ""}
                         onValueChange={(newValue) => {
@@ -64,7 +67,9 @@ function TypographySelector({
                         }}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder="Select font family" />
+                            <SelectValue
+                                placeholder={finalUiText["Select font family"]}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {Object.entries(fontFamilyOptions).map(
@@ -101,7 +106,7 @@ function TypographySelector({
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Font Size</Label>
+                        <Label>{finalUiText["Font Size"]}</Label>
                         <Select
                             value={value?.fontSize || ""}
                             onValueChange={(newValue) => {
@@ -112,7 +117,9 @@ function TypographySelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select size" />
+                                <SelectValue
+                                    placeholder={finalUiText["Select size"]}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {fontSizeOptions.map((option) => (
@@ -127,7 +134,7 @@ function TypographySelector({
                         </Select>
                     </div>
                     <div className="space-y-2">
-                        <Label>Font Weight</Label>
+                        <Label>{finalUiText["Font Weight"]}</Label>
                         <Select
                             value={value?.fontWeight || ""}
                             onValueChange={(newValue) => {
@@ -138,7 +145,9 @@ function TypographySelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select weight" />
+                                <SelectValue
+                                    placeholder={finalUiText["Select weight"]}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {fontWeightOptions.map((option) => (
@@ -155,7 +164,7 @@ function TypographySelector({
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label>Line Height</Label>
+                        <Label>{finalUiText["Line Height"]}</Label>
                         <Select
                             value={value?.lineHeight || ""}
                             onValueChange={(newValue) => {
@@ -166,7 +175,11 @@ function TypographySelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select line height" />
+                                <SelectValue
+                                    placeholder={
+                                        finalUiText["Select line height"]
+                                    }
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {lineHeightOptions.map((option) => (
@@ -181,7 +194,7 @@ function TypographySelector({
                         </Select>
                     </div>
                     <div className="space-y-2">
-                        <Label>Letter Spacing</Label>
+                        <Label>{finalUiText["Letter Spacing"]}</Label>
                         <Select
                             value={value?.letterSpacing || ""}
                             onValueChange={(newValue) => {
@@ -192,7 +205,9 @@ function TypographySelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select spacing" />
+                                <SelectValue
+                                    placeholder={finalUiText["Select spacing"]}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {letterSpacingOptions.map((option) => (
@@ -235,7 +250,7 @@ function TypographySelector({
                         </Select>
                     </div> */}
                     <div className="space-y-2">
-                        <Label>Text Transform</Label>
+                        <Label>{finalUiText["Text Transform"]}</Label>
                         <Select
                             value={value?.textTransform || "normal-case"}
                             onValueChange={(newValue) => {
@@ -246,7 +261,11 @@ function TypographySelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select transform" />
+                                <SelectValue
+                                    placeholder={
+                                        finalUiText["Select transform"]
+                                    }
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {textTransformOptions.map((option) => (

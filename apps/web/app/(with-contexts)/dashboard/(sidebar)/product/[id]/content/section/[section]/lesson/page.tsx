@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useState, useCallback, useEffect, useContext, useRef } from "react";
 import { useRouter, useParams, useSearchParams } from "next/navigation";
@@ -73,13 +74,37 @@ import {
 const { permissions } = UIConstants;
 
 const lessonTypes = [
-    { value: Constants.LessonType.TEXT, label: "Text", icon: FileText },
-    { value: Constants.LessonType.VIDEO, label: "Video", icon: Video },
-    { value: Constants.LessonType.AUDIO, label: "Audio", icon: Headphones },
+    {
+        value: Constants.LessonType.TEXT,
+        label: finalUiText["Text"],
+        icon: FileText,
+    },
+    {
+        value: Constants.LessonType.VIDEO,
+        label: finalUiText["Video"],
+        icon: Video,
+    },
+    {
+        value: Constants.LessonType.AUDIO,
+        label: finalUiText["Audio"],
+        icon: Headphones,
+    },
     { value: Constants.LessonType.PDF, label: "PDF", icon: FileImage },
-    { value: Constants.LessonType.FILE, label: "File", icon: File },
-    { value: Constants.LessonType.EMBED, label: "Embed", icon: Tv },
-    { value: Constants.LessonType.QUIZ, label: "Quiz", icon: HelpCircle },
+    {
+        value: Constants.LessonType.FILE,
+        label: finalUiText["File"],
+        icon: File,
+    },
+    {
+        value: Constants.LessonType.EMBED,
+        label: finalUiText["Embed"],
+        icon: Tv,
+    },
+    {
+        value: Constants.LessonType.QUIZ,
+        label: finalUiText["Quiz"],
+        icon: HelpCircle,
+    },
     { value: Constants.LessonType.SCORM, label: "SCORM", icon: Package },
 ] as const;
 
@@ -319,7 +344,7 @@ export default function LessonPage() {
             await fetch.exec();
             toast({
                 title: TOAST_TITLE_SUCCESS,
-                description: "Lesson updated",
+                description: finalUiText["Lesson updated"],
             });
             router.push(`/dashboard/product/${productId}/content`);
         } catch (err: any) {
@@ -460,7 +485,7 @@ export default function LessonPage() {
                             UIConstants.COURSE_TYPE_COURSE && (
                             <div className="space-y-4">
                                 <Label className="font-semibold">
-                                    Lesson Type
+                                    {finalUiText["Lesson Type"]}
                                 </Label>
                                 <RadioGroup
                                     value={lesson.type}
@@ -537,10 +562,11 @@ export default function LessonPage() {
                                                             </TooltipTrigger>
                                                             <TooltipContent>
                                                                 <p>
-                                                                    Set
-                                                                    CACHE_DIR
-                                                                    env var to
-                                                                    enable SCORM
+                                                                    {
+                                                                        finalUiText[
+                                                                            "Set CACHE_DIR env var to enable SCORM"
+                                                                        ]
+                                                                    }
                                                                 </p>
                                                             </TooltipContent>
                                                         </Tooltip>
@@ -557,11 +583,11 @@ export default function LessonPage() {
 
                         <div className="space-y-4">
                             <Label htmlFor="title" className="font-semibold">
-                                Title
+                                {finalUiText["Title"]}
                             </Label>
                             <Input
                                 id="title"
-                                placeholder="Enter lesson title"
+                                placeholder={finalUiText["Enter lesson title"]}
                                 value={lesson.title}
                                 onChange={(e) =>
                                     updateLesson({ title: e.target.value })
@@ -616,8 +642,11 @@ export default function LessonPage() {
                                                 {LESSON_PREVIEW}
                                             </Label>
                                             <p className="text-sm text-muted-foreground">
-                                                Allow students to preview this
-                                                lesson without enrolling
+                                                {
+                                                    finalUiText[
+                                                        "Allow students to preview this lesson without enrolling"
+                                                    ]
+                                                }
                                             </p>
                                         </div>
                                         <Switch
@@ -671,21 +700,31 @@ export default function LessonPage() {
                                 <DialogTrigger asChild>
                                     <Button variant="outline">
                                         <Trash2 className="mr-2 h-4 w-4" />
-                                        Delete
+                                        {finalUiText["Delete"]}
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>
-                                            Are you sure you want to delete this
-                                            lesson?
+                                            {
+                                                finalUiText[
+                                                    "Are you sure you want to delete this lesson?"
+                                                ]
+                                            }
                                         </DialogTitle>
                                         <DialogDescription>
-                                            This action cannot be undone. This
-                                            will permanently delete the lesson
+                                            {
+                                                finalUiText[
+                                                    "This action cannot be undone. This will permanently delete the lesson"
+                                                ]
+                                            }
                                             {lesson.title &&
                                                 ` "${lesson.title}"`}{" "}
-                                            and remove it from our servers.
+                                            {
+                                                finalUiText[
+                                                    "and remove it from our servers."
+                                                ]
+                                            }
                                         </DialogDescription>
                                     </DialogHeader>
                                     <DialogFooter>
@@ -695,7 +734,7 @@ export default function LessonPage() {
                                                 setIsDeleteDialogOpen(false)
                                             }
                                         >
-                                            Cancel
+                                            {finalUiText["Cancel"]}
                                         </Button>
                                         <Button
                                             variant="destructive"
@@ -704,7 +743,7 @@ export default function LessonPage() {
                                                 onLessonDelete();
                                             }}
                                         >
-                                            Delete
+                                            {finalUiText["Delete"]}
                                         </Button>
                                     </DialogFooter>
                                 </DialogContent>
@@ -714,11 +753,14 @@ export default function LessonPage() {
                                     <Link
                                         href={`/dashboard/product/${productId}/content`}
                                     >
-                                        Cancel
+                                        {finalUiText["Cancel"]}
                                     </Link>
                                 </Button>
                                 <Button type="submit">
-                                    {isEditing ? "Update" : "Save"} Lesson
+                                    {isEditing
+                                        ? finalUiText["Update"]
+                                        : finalUiText["Save"]}
+                                    {finalUiText["Lesson"]}
                                 </Button>
                             </div>
                         </div>
@@ -732,7 +774,9 @@ export default function LessonPage() {
                         <>
                             <Separator />
                             <div className="space-y-4">
-                                <Label className="font-semibold">Media</Label>
+                                <Label className="font-semibold">
+                                    {finalUiText["Media"]}
+                                </Label>
                                 <LessonContentRenderer
                                     lesson={lesson}
                                     errors={errors}

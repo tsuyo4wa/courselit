@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { CommunitiesList } from "@/app/(with-contexts)/(with-layout)/communities/communities-list";
 import DashboardContent from "@components/admin/dashboard-content";
@@ -53,7 +54,7 @@ export default function Page() {
                 links={[
                     {
                         href: "https://docs.courselit.app/en/communities/introduction/",
-                        text: "Create a community",
+                        text: finalUiText["Create a community"],
                     },
                 ]}
             />

@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useState } from "react";
 import { ProfileContext } from "@components/contexts";
@@ -83,7 +84,9 @@ export default function Page() {
                 <div>
                     <Select value={timeRange} onValueChange={setTimeRange}>
                         <SelectTrigger className="w-[140px]">
-                            <SelectValue placeholder="Select time range" />
+                            <SelectValue
+                                placeholder={finalUiText["Select time range"]}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {TIME_RANGES.map((range) => (
@@ -100,7 +103,7 @@ export default function Page() {
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
                 <MetricCard
-                    title="Sales"
+                    title={finalUiText["Sales"]}
                     icon={
                         <DollarSign className="h-4 w-4 text-muted-foreground" />
                     }
@@ -108,7 +111,7 @@ export default function Page() {
                     duration={timeRange}
                 />
                 <MetricCard
-                    title="Customers"
+                    title={finalUiText["Customers"]}
                     icon={
                         <UserPlus className="h-4 w-4 text-muted-foreground" />
                     }
@@ -116,13 +119,13 @@ export default function Page() {
                     duration={timeRange}
                 />
                 <MetricCard
-                    title="New community members"
+                    title={finalUiText["New community members"]}
                     icon={<Users className="h-4 w-4 text-muted-foreground" />}
                     type={Constants.ActivityType.COMMUNITY_JOINED}
                     duration={timeRange}
                 />
                 <MetricCard
-                    title="Subscribers"
+                    title={finalUiText["Subscribers"]}
                     icon={<Mail className="h-4 w-4 text-muted-foreground" />}
                     type={Constants.ActivityType.NEWSLETTER_SUBSCRIBED}
                     duration={timeRange}

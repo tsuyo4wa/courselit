@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import { EmailEditor } from "@courselit/email-editor";
 import "@courselit/email-editor/styles.css";
@@ -163,7 +166,10 @@ export default function EmailEditorPage(props: {
 
     if (loading) {
         return (
-            <EmailEditorLayout title="Loading..." isSaving={isSaving}>
+            <EmailEditorLayout
+                title={finalUiText["Loading..."]}
+                isSaving={isSaving}
+            >
                 <LoadingState />
             </EmailEditorLayout>
         );
@@ -171,7 +177,10 @@ export default function EmailEditorPage(props: {
 
     if (error) {
         return (
-            <EmailEditorLayout title={`Error: ${error}`} isSaving={isSaving}>
+            <EmailEditorLayout
+                title={finalUiDynamic.error(error)}
+                isSaving={isSaving}
+            >
                 <ErrorState error={error} />
             </EmailEditorLayout>
         );
@@ -188,12 +197,17 @@ export default function EmailEditorPage(props: {
 
 const LoadingState = () => (
     <div className="flex items-center justify-center h-full">
-        <div className="text-muted-foreground">Loading email editor...</div>
+        <div className="text-muted-foreground">
+            {finalUiText["Loading email editor..."]}
+        </div>
     </div>
 );
 
 const ErrorState = ({ error }: { error: string }) => (
     <div className="flex items-center justify-center h-full">
-        <div className="text-red-500">Failed to load sequence: {error}</div>
+        <div className="text-red-500">
+            {finalUiText["Failed to load sequence:"]}
+            {error}
+        </div>
     </div>
 );

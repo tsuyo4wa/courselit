@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { Address, EmailTemplate } from "@courselit/common-models";
 import { Link, useToast } from "@courselit/components-library";
@@ -82,7 +83,7 @@ const TemplatesList = ({ address }: TemplatesListProps) => {
                     className="mt-6 min-h-[360px] flex items-center justify-center"
                 />
             ) : (
-                <Table aria-label="Templates" className="w-full">
+                <Table aria-label={finalUiText["Templates"]} className="w-full">
                     <TableHeader>
                         <TableRow>
                             <TableHead>{MAIL_TABLE_HEADER_TITLE}</TableHead>

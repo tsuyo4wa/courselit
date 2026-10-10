@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { defaultEmail, EmailEditor } from "@courselit/email-editor";
 import "@courselit/email-editor/styles.css";
@@ -201,6 +202,8 @@ export default function EmailEditorPage(props: {
 
 const LoadingState = () => (
     <div className="flex items-center justify-center h-full">
-        <div className="text-muted-foreground">Loading email editor...</div>
+        <div className="text-muted-foreground">
+            {finalUiText["Loading email editor..."]}
+        </div>
     </div>
 );

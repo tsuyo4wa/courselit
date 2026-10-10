@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     Badge,
@@ -80,7 +81,8 @@ export default function AccomplishmentPage() {
                                 theme={theme.theme}
                                 className="flex items-center gap-1"
                             >
-                                Visit <ExternalLinkIcon className="h-4 w-4" />
+                                {finalUiText["Visit"]}
+                                <ExternalLinkIcon className="h-4 w-4" />
                             </Badge>
                         </Link>
                     </div>
@@ -103,7 +105,7 @@ export default function AccomplishmentPage() {
                             className="flex items-center gap-2"
                         >
                             <BadgeCheck className="h-4 w-4 sm:h-5 sm:w-5" />
-                            Completed by{" "}
+                            {finalUiText["Completed by"]}{" "}
                             <span className="font-bold">
                                 {certificate.userName}
                             </span>
@@ -117,14 +119,16 @@ export default function AccomplishmentPage() {
                 {/* Certificate section header - responsive */}
                 <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
-                        <Header2 theme={theme.theme}>Certificate</Header2>
+                        <Header2 theme={theme.theme}>
+                            {finalUiText["Certificate"]}
+                        </Header2>
                         <Button
                             theme={theme.theme}
                             onClick={handlePrint}
                             disabled={!isIframeLoaded}
                         >
                             <Printer className="h-4 w-4" />
-                            Print
+                            {finalUiText["Print"]}
                         </Button>
                     </div>
 

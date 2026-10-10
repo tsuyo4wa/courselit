@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { useState } from "react";
 import { Section } from "@courselit/components-library";
 import {
@@ -184,10 +185,14 @@ export function QuizBuilder({ content, onChange }: QuizBuilderProps) {
                 <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                         <Label htmlFor="preview" className="font-semibold">
-                            Graded Quiz
+                            {finalUiText["Graded Quiz"]}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                            Allow students to preview this lesson
+                            {
+                                finalUiText[
+                                    "Allow students to preview this lesson"
+                                ]
+                            }
                         </p>
                     </div>
                     <Switch

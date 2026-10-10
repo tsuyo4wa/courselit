@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -66,7 +69,7 @@ export default function CommunityPostCard({
                                     post.user.avatar?.file ||
                                     "/courselit_backdrop_square.webp"
                                 }
-                                alt={`${post.user.name}'s avatar`}
+                                alt={finalUiDynamic.avatar(post.user.name)}
                             />
                             <AvatarFallback>
                                 {post.user.name &&
@@ -108,7 +111,9 @@ export default function CommunityPostCard({
                         onClick={(e) => onTogglePin(post.postId, e)}
                     >
                         <Pin className="h-4 w-4" />
-                        <span className="sr-only">Pin post</span>
+                        <span className="sr-only">
+                            {finalUiText["Pin post"]}
+                        </span>
                     </Button>
                 )}
             </CardHeader>

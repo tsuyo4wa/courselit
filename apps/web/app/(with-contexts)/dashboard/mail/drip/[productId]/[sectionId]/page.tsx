@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useSearchParams } from "next/navigation";
 import { Button2 } from "@courselit/components-library";
@@ -43,7 +44,7 @@ export default function DripEmailEditorPage(props: {
                 productLoaded
                     ? truncate(group?.drip?.email?.subject, 20) ||
                       "Email Editor"
-                    : "Loading..."
+                    : finalUiText["Loading..."]
             }
         />
     );
@@ -79,7 +80,7 @@ const EditorLayout = ({
                                     </Link>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    <p>Exit</p>
+                                    <p>{finalUiText["Exit"]}</p>
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import {
     Constants,
     Lesson,
@@ -80,7 +81,7 @@ export function LessonContentRenderer({
             await fetch.exec();
             toast({
                 title: TOAST_TITLE_SUCCESS,
-                description: "Lesson updated",
+                description: finalUiText["Lesson updated"],
             });
         } catch (err: any) {
             toast({
@@ -120,7 +121,11 @@ export function LessonContentRenderer({
                 <div className="space-y-4">
                     <div className="flex items-center space-x-2">
                         <Textarea
-                            placeholder="e.g. YouTube video URL or iframe code"
+                            placeholder={
+                                finalUiText[
+                                    "e.g. YouTube video URL or iframe code"
+                                ]
+                            }
                             value={embedURL}
                             onChange={(e) => {
                                 setEmbedURL(e.target.value);
@@ -206,7 +211,11 @@ export function LessonContentRenderer({
                     {!(lesson?.lessonId && lesson?.title) && (
                         <p className="text-xs text-muted-foreground flex items-center gap-2">
                             <Info className="w-4 h-4" />
-                            Set the title of the lesson to enable media upload
+                            {
+                                finalUiText[
+                                    "Set the title of the lesson to enable media upload"
+                                ]
+                            }
                         </p>
                     )}
                 </div>
@@ -219,7 +228,7 @@ export function LessonContentRenderer({
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2 text-sm">
                                     <span className="font-medium">
-                                        SCORM Package:
+                                        {finalUiText["SCORM Package:"]}
                                     </span>
                                     <span className="text-muted-foreground">
                                         {(lesson.content as any)?.title ||
@@ -227,7 +236,7 @@ export function LessonContentRenderer({
                                     </span>
                                 </div>
                                 <div className="text-xs text-muted-foreground">
-                                    Version:{" "}
+                                    {finalUiText["Version:"]}{" "}
                                     {(lesson.content as any)?.version || "1.2"}
                                     {(lesson.content as any)?.fileCount &&
                                         ` • ${(lesson.content as any)?.fileCount} files`}
@@ -236,8 +245,11 @@ export function LessonContentRenderer({
                         ) : (
                             <div className="text-center py-4">
                                 <p className="text-sm text-muted-foreground mb-2">
-                                    Save the lesson first, then upload the SCORM
-                                    package.
+                                    {
+                                        finalUiText[
+                                            "Save the lesson first, then upload the SCORM package."
+                                        ]
+                                    }
                                 </p>
                             </div>
                         )}
@@ -245,7 +257,11 @@ export function LessonContentRenderer({
                     {!lesson?.lessonId && (
                         <p className="text-xs text-muted-foreground flex items-center gap-2">
                             <Info className="w-4 h-4" />
-                            Save the lesson to enable SCORM package upload
+                            {
+                                finalUiText[
+                                    "Save the lesson to enable SCORM package upload"
+                                ]
+                            }
                         </p>
                     )}
                 </div>

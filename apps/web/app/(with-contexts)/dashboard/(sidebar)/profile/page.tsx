@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { AddressContext, ProfileContext } from "@components/contexts";
@@ -295,7 +296,7 @@ export default function Page() {
                             <AvatarFallback>
                                 <Image
                                     src="/courselit_backdrop_square.webp"
-                                    alt="profile pic"
+                                    alt={finalUiText["profile pic"]}
                                     sizes="16vw"
                                     height="h-40"
                                     width="w-40"

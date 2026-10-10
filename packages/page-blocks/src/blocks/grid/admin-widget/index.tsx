@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useEffect, useState } from "react";
 import Settings, { Item, SvgStyle } from "../settings";
 import ItemEditor from "./item-editor";
@@ -58,7 +59,7 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        text: "ここに説明文を入力してください。",
                     },
                 ],
             },
@@ -72,14 +73,14 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        text: "ここに説明文を入力してください。",
                     },
                 ],
             },
         ],
     };
     const dummyItem: Item = {
-        title: "Item",
+        title: finalUiText["Item"],
         description: dummyItemDescription,
     };
     const [title, setTitle] = useState(settings.title || "Grid");
@@ -215,16 +216,18 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["header", "call-to-action", "items", "design"]}
         >
-            <AdminWidgetPanel title="Header" value="header">
+            <AdminWidgetPanel title={finalUiText["Header"]} value="header">
                 <Form>
                     <FormField
-                        label="Title"
+                        label={finalUiText["Title"]}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                 </Form>
                 <div>
-                    <p className="mb-1 font-medium">Description</p>
+                    <p className="mb-1 font-medium">
+                        {finalUiText["Description"]}
+                    </p>
                     <Editor
                         initialContent={description}
                         onChange={(state: any) => setDescription(state)}
@@ -233,30 +236,33 @@ export default function AdminWidget({
                     />
                 </div>
                 <Select
-                    title="Header alignment"
+                    title={finalUiText["Header alignment"]}
                     value={headerAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setHeaderAlignment(value)}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Call to action" value="call-to-action">
+            <AdminWidgetPanel
+                title={finalUiText["Call to action"]}
+                value="call-to-action"
+            >
                 <Form>
                     <FormField
-                        label="Button Text"
+                        label={finalUiText["Button Text"]}
                         value={buttonCaption}
                         onChange={(e) => setButtonCaption(e.target.value)}
                     />
                     <FormField
-                        label="Button Action"
+                        label={finalUiText["Button Action"]}
                         value={buttonAction}
                         onChange={(e) => setButtonAction(e.target.value)}
                     />
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Items" value="items">
+            <AdminWidgetPanel title={finalUiText["Items"]} value="items">
                 <div className="flex flex-col gap-4">
                     {items.map((item, index) => (
                         <div
@@ -281,22 +287,22 @@ export default function AdminWidget({
                         </div>
                     ))}
                     <Button component="button" onClick={addNewItem}>
-                        Add new item
+                        {finalUiText["Add new item"]}
                     </Button>
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
-                    title="Items alignment"
+                    title={finalUiText["Items alignment"]}
                     value={itemsAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setItemsAlignment(value)}
                 />
                 <PageBuilderSlider
-                    title="Columns"
+                    title={finalUiText["Columns"]}
                     value={columns}
                     onChange={setColumns}
                     min={2}
@@ -315,8 +321,14 @@ export default function AdminWidget({
                 />
                 <div className="flex justify-between mt-2">
                     <div className="flex grow items-center gap-1">
-                        <p>Icon inline</p>
-                        <Tooltip title="The icon (if used) will show inline with the item header">
+                        <p>{finalUiText["Icon inline"]}</p>
+                        <Tooltip
+                            title={
+                                finalUiText[
+                                    "The icon (if used) will show inline with the item header"
+                                ]
+                            }
+                        >
                             <HelpCircle className="w-4 h-4" />
                         </Tooltip>
                     </div>
@@ -327,7 +339,7 @@ export default function AdminWidget({
                 </div>
                 <div className="flex justify-between mt-2">
                     <div className="flex grow items-center gap-1">
-                        <p>Icon style</p>
+                        <p>{finalUiText["Icon style"]}</p>
                     </div>
                     <Button2
                         size="icon"
@@ -341,7 +353,7 @@ export default function AdminWidget({
                     </Button2>
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

@@ -1,14 +1,15 @@
+import { finalUiText } from "../../ui-strings";
 import { Link } from "lucide-react";
 import type { BlockMetadata } from "@/types/block-registry";
 
 export const metadata: BlockMetadata = {
     name: "link",
     displayName: "Link",
-    description: "Add a hyperlink or call-to-action button",
+    description: finalUiText["Add a hyperlink or call-to-action button"],
     icon: Link,
     docs: {
         settings: {
-            text: "The text to display for the link or button",
+            text: finalUiText["The text to display for the link or button"],
             url: "The URL that the link or button will navigate to. Format: https://example.com",
             alignment:
                 "[Optional] The alignment of the link or button. Range: left, center, right. Default: left",

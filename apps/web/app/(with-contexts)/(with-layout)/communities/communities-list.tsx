@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCommunities } from "@/hooks/use-communities";
 import { CommunityContentCard } from "./content-card";
@@ -34,10 +35,14 @@ export function CommunitiesList({
         return (
             <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Users className="w-12 h-12 text-muted-foreground mb-4" />
-                <Header3 theme={theme.theme}>No Communities Found</Header3>
+                <Header3 theme={theme.theme}>
+                    {finalUiText["No Communities Found"]}
+                </Header3>
                 <Text2 theme={theme.theme}>
-                    {publicView ? "The team " : "You have "} not added any
-                    communities yet.
+                    {publicView
+                        ? finalUiText["The team"]
+                        : finalUiText["You have"]}
+                    {finalUiText["not added any communities yet."]}
                 </Text2>
             </div>
         );
@@ -47,13 +52,15 @@ export function CommunitiesList({
         return (
             <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Users className="w-12 h-12 text-muted-foreground mb-4" />
-                <Text2 theme={theme.theme}>This page is empty.</Text2>
+                <Text2 theme={theme.theme}>
+                    {finalUiText["This page is empty."]}
+                </Text2>
                 <Button
                     variant="outline"
                     theme={theme.theme}
                     onClick={() => onPageChange(1)}
                 >
-                    Go to first page
+                    {finalUiText["Go to first page"]}
                 </Button>
             </div>
         );

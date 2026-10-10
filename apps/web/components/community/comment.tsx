@@ -1,3 +1,6 @@
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 import { useContext, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -151,12 +154,12 @@ export function Comment({
         try {
             await fetch.exec();
             toast({
-                title: "Reported",
-                description: "Content has been reported",
+                title: finalUiText["Reported"],
+                description: finalUiText["Content has been reported"],
             });
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
                 variant: "destructive",
             });
@@ -179,7 +182,7 @@ export function Comment({
                             comment.user.avatar?.thumbnail ||
                             "/courselit_backdrop_square.webp"
                         }
-                        alt={`${comment.user.name}'s avatar`}
+                        alt={finalUiDynamic.avatar(comment.user.name)}
                     />
                     <AvatarFallback>
                         {(comment.user.name || "")
@@ -223,7 +226,7 @@ export function Comment({
                                             }
                                         >
                                             <Trash className="h-4 w-4" />
-                                            Delete
+                                            {finalUiText["Delete"]}
                                         </DropdownMenuItem>
                                     )}
                                     {profile?.userId !==
@@ -233,7 +236,8 @@ export function Comment({
                                                 handleReportPost(comment)
                                             }
                                         >
-                                            <FlagTriangleRight /> Report
+                                            <FlagTriangleRight />
+                                            {finalUiText["Report"]}
                                         </DropdownMenuItem>
                                     )}
                                 </DropdownMenuContent>
@@ -272,7 +276,7 @@ export function Comment({
             {isReplying && profile?.name && (
                 <div className="mt-2 space-y-2 p-1">
                     <Textarea
-                        placeholder="Write a reply..."
+                        placeholder={finalUiText["Write a reply..."]}
                         value={replyContent}
                         onChange={(e) => setReplyContent(e.target.value)}
                     />
@@ -282,7 +286,7 @@ export function Comment({
                             size="sm"
                             onClick={() => setIsReplying(false)}
                         >
-                            Cancel
+                            {finalUiText["Cancel"]}
                         </Button>
                         <Button
                             size="sm"
@@ -304,7 +308,7 @@ export function Comment({
                             }}
                             disabled={isPosting}
                         >
-                            Reply
+                            {finalUiText["Reply"]}
                         </Button>
                     </div>
                 </div>
@@ -333,23 +337,26 @@ export function Comment({
                 onOpenChange={setShowDeleteConfirmation}
             >
                 <DialogContent>
-                    <DialogTitle>Delete comment</DialogTitle>
+                    <DialogTitle>{finalUiText["Delete comment"]}</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to delete this comment? This
-                        action cannot be undone.
+                        {
+                            finalUiText[
+                                "Are you sure you want to delete this comment? This action cannot be undone."
+                            ]
+                        }
                     </DialogDescription>
                     <DialogFooter>
                         <Button
                             variant="secondary"
                             onClick={() => setShowDeleteConfirmation(false)}
                         >
-                            Cancel
+                            {finalUiText["Cancel"]}
                         </Button>
                         <Button
                             variant="destructive"
                             onClick={confirmDeletePost}
                         >
-                            Delete
+                            {finalUiText["Delete"]}
                         </Button>
                     </DialogFooter>
                 </DialogContent>
@@ -359,12 +366,16 @@ export function Comment({
                 onOpenChange={setShowReportConfirmation}
             >
                 <DialogContent>
-                    <DialogTitle>Report comment</DialogTitle>
+                    <DialogTitle>{finalUiText["Report comment"]}</DialogTitle>
                     <DialogDescription>
-                        Please provide a reason for reporting this comment.
+                        {
+                            finalUiText[
+                                "Please provide a reason for reporting this comment."
+                            ]
+                        }
                     </DialogDescription>
                     <Textarea
-                        placeholder="Reason for reporting..."
+                        placeholder={finalUiText["Reason for reporting..."]}
                         value={reportReason}
                         onChange={(e) => setReportReason(e.target.value)}
                     />
@@ -373,14 +384,14 @@ export function Comment({
                             variant="secondary"
                             onClick={() => setShowReportConfirmation(false)}
                         >
-                            Cancel
+                            {finalUiText["Cancel"]}
                         </Button>
                         <Button
                             variant="destructive"
                             onClick={confirmReportPost}
                             disabled={!reportReason.trim()}
                         >
-                            Submit
+                            {finalUiText["Submit"]}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import {
     Button,
     Menu2,
@@ -157,7 +158,7 @@ export default function Tags({ address }: TagsProps) {
                     </Button>
                 </div>
             </div>
-            <Table aria-label="Tags">
+            <Table aria-label={finalUiText["Tags"]}>
                 <TableHead>
                     <td>{TAG_TABLE_HEADER_NAME}</td>
                     <td align="right">{TAG_TABLE_HEADER_SUBS_COUNT}</td>

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { Course } from "@courselit/common-models";
 import { Caption, Header1, Section } from "@courselit/page-primitives";
 import { formattedLocaleDate, getFullSiteSetup } from "@ui-lib/utils";
@@ -36,7 +37,11 @@ export default async function ProductPage(props: {
     const { theme } = siteInfo;
 
     if (!product) {
-        return <Section theme={theme.theme}>Post not found</Section>;
+        return (
+            <Section theme={theme.theme}>
+                {finalUiText["Post not found"]}
+            </Section>
+        );
     }
 
     return (
@@ -50,7 +55,9 @@ export default async function ProductPage(props: {
                                     className="cursor-pointer"
                                     theme={theme.theme}
                                 >
-                                    <Link href="/blog">Blog</Link>
+                                    <Link href="/blog">
+                                        {finalUiText["Blog"]}
+                                    </Link>
                                 </Text2>
                             </BreadcrumbLink>
                         </BreadcrumbItem>

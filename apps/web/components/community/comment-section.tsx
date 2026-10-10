@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { AddressContext, ProfileContext } from "@components/contexts";
 import { Button } from "@components/ui/button";
 import { Textarea } from "@components/ui/textarea";
@@ -256,7 +257,7 @@ export default function CommentSection({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -289,7 +290,7 @@ export default function CommentSection({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -341,7 +342,7 @@ export default function CommentSection({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         } finally {
@@ -397,7 +398,7 @@ export default function CommentSection({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -454,7 +455,7 @@ export default function CommentSection({
             // Re-sync from server on failure
             loadComments();
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -521,7 +522,7 @@ export default function CommentSection({
         } catch (err: any) {
             loadComments();
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -561,7 +562,7 @@ export default function CommentSection({
             loadPost();
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -596,11 +597,13 @@ export default function CommentSection({
         <div className="flex flex-col gap-4">
             {!profile?.name && (
                 <div className="text-center text-gray-500">
-                    Complete your{" "}
+                    {finalUiText["Complete your"]}{" "}
                     <span className="underline">
-                        <Link href={"/dashboard/profile"}>profile</Link>
+                        <Link href={"/dashboard/profile"}>
+                            {finalUiText["profile"]}
+                        </Link>
                     </span>{" "}
-                    to join this community or post here
+                    {finalUiText["to join this community or post here"]}
                 </div>
             )}
             {profile?.name && (
@@ -609,12 +612,14 @@ export default function CommentSection({
                     className="flex flex-col gap-2"
                 >
                     <Textarea
-                        placeholder="Add a comment..."
+                        placeholder={finalUiText["Add a comment..."]}
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     />
                     <Button onClick={handlePostComment} disabled={isPosting}>
-                        {isPosting ? "Posting..." : "Post Comment"}
+                        {isPosting
+                            ? finalUiText["Posting..."]
+                            : finalUiText["Post Comment"]}
                     </Button>
                 </div>
             )}

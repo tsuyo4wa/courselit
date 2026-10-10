@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import { ThemeStyle } from "@courselit/page-models";
 import PageBuilderSlider from "./page-builder-slider";
 
@@ -49,12 +50,12 @@ export function VerticalPaddingSelector({
 
     return (
         <PageBuilderSlider
-            title="Vertical padding"
+            title={finalUiText["Vertical padding"]}
             max={13}
             min={0}
             onChange={handleChange}
             value={parseInt(numericValue)}
-            tooltip="Vertical padding of the section"
+            tooltip={finalUiText["Vertical padding of the section"]}
             className={className}
         />
     );

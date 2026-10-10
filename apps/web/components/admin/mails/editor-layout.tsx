@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { Button } from "@/components/ui/button";
 import { CheckCircled, Sync } from "@courselit/icons";
 import { BUTTON_SAVING } from "@ui-config/strings";
@@ -68,45 +69,70 @@ export const EmailEditorLayout = ({
                 <div className="max-w-[220px] flex flex-col">
                     <div className="flex items-center mb-4">
                         <h2 className="text-base font-semibold text-gray-800">
-                            Variables
+                            {finalUiText["Variables"]}
                         </h2>
                     </div>
                     <div className="flex flex-col gap-5 flex-1">
                         <p className="text-xs text-muted-foreground mb-1">
-                            You can use the following variables in your content.
+                            {
+                                finalUiText[
+                                    "You can use the following variables in your content."
+                                ]
+                            }
                         </p>
                         <p className="text-xs text-muted-foreground mb-2">
-                            These will be replaced with the actual data while
-                            sending emails.
+                            {
+                                finalUiText[
+                                    "These will be replaced with the actual data while sending emails."
+                                ]
+                            }
                         </p>
                         <div className="flex flex-col gap-3">
                             {type === "product" && (
                                 <>
                                     <VariableDisplay
                                         variable="{{ product.title }}"
-                                        description="The title of the product"
+                                        description={
+                                            finalUiText[
+                                                "The title of the product"
+                                            ]
+                                        }
                                     />
                                     <VariableDisplay
                                         variable="{{ product.url }}"
-                                        description="The URL of the product"
+                                        description={
+                                            finalUiText[
+                                                "The URL of the product"
+                                            ]
+                                        }
                                     />
                                 </>
                             )}
                             <VariableDisplay
                                 variable="{{ subscriber.email }}"
-                                description="The email of the subscriber"
+                                description={
+                                    finalUiText["The email of the subscriber"]
+                                }
                             />
                             <VariableDisplay
                                 variable="{{ subscriber.name }}"
-                                description="The name of the subscriber"
+                                description={
+                                    finalUiText["The name of the subscriber"]
+                                }
                             />
                             <VariableDisplay
                                 variable="{{ address }}"
-                                description="Your mailing address"
+                                description={
+                                    finalUiText["Your mailing address"]
+                                }
                             />
                             <VariableDisplay
                                 variable="{{ unsubscribe_link }}"
-                                description="A link to unsubscribe from the marketing emails"
+                                description={
+                                    finalUiText[
+                                        "A link to unsubscribe from the marketing emails"
+                                    ]
+                                }
                             />
                         </div>
                     </div>
@@ -123,7 +149,7 @@ export const EmailEditorLayout = ({
                             <div className="flex items-center gap-2 bg-background border px-3 py-1 rounded-md shadow-sm animate-in fade-in-0 duration-300">
                                 <CheckCircled className="h-4 w-4 text-primary" />
                                 <span className="text-sm font-medium text-foreground">
-                                    Changes are saved
+                                    {finalUiText["Changes are saved"]}
                                 </span>
                             </div>
                         )}

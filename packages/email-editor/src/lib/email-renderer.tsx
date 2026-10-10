@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import React from "react";
 import { render, pretty } from "@react-email/render";
 import { Html, Head, Preview, Body, Container } from "@react-email/components";
@@ -56,7 +57,10 @@ export function EmailTemplate({
         const blockComponent = blockRegistry[block.blockType];
         if (!blockComponent) {
             return (
-                <div key={block.id}>Unknown block type: {block.blockType}</div>
+                <div key={block.id}>
+                    {finalUiText["Unknown block type:"]}
+                    {block.blockType}
+                </div>
             );
         }
 

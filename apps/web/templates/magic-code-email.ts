@@ -1,4 +1,4 @@
-import { checkoutStrings } from "@/config/strings";
+import { checkoutStrings, finalUiText } from "@/config/strings";
 const magicCodeEmail = `
 doctype html
 html
@@ -27,7 +27,7 @@ html
                     href="https://courselit.app"
                     target="_blank"
                     class="courselit-branding-cta"
-                ) Powered by <strong> CourseLit </strong>
+                ) ${finalUiText["Powered by"]} <strong> CourseLit </strong>
 `;
 
 export default magicCodeEmail;

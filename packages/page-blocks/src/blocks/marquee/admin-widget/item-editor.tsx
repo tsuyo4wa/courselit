@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React from "react";
 import {
     Button,
@@ -39,7 +40,7 @@ export default function ItemEditor({
                 onSubmit={(e) => e.preventDefault()}
             >
                 <FormField
-                    label="Text"
+                    label={finalUiText["Text"]}
                     value={text}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         setText(e.target.value)
@@ -48,14 +49,16 @@ export default function ItemEditor({
                 <div className="flex items-center gap-4 my-1">
                     <hr className="flex-grow border-t border-gray-300" />
                     <span className="text-gray-500 text-sm font-medium">
-                        OR
+                        {finalUiText["OR"]}
                     </span>
                     <hr className="flex-grow border-t border-gray-300" />
                 </div>
                 <div className="flex flex-col gap-2">
-                    <label className="mb-1 font-semibold">Icon</label>
+                    <label className="mb-1 font-semibold">
+                        {finalUiText["Icon"]}
+                    </label>
                     <Textarea
-                        placeholder="Enter SVG text here"
+                        placeholder={finalUiText["Enter SVG text here"]}
                         className="min-h-[150px] font-mono text-sm mb-4"
                         value={svgText}
                         rows={10}
@@ -64,7 +67,9 @@ export default function ItemEditor({
                         }
                     />
                     <div>
-                        <p className="font-semibold text-sm">Icon preview</p>
+                        <p className="font-semibold text-sm">
+                            {finalUiText["Icon preview"]}
+                        </p>
                         <div
                             className="w-[100px] h-[60px] flex items-center justify-center"
                             dangerouslySetInnerHTML={{ __html: svgText }}
@@ -74,13 +79,16 @@ export default function ItemEditor({
                 <div className="text-xs text-gray-500 flex items-center gap-1">
                     <Lightbulb className="w-4 h-4" />
                     <p>
-                        If you use the icon option, the text option will be
-                        ignored.
+                        {
+                            finalUiText[
+                                "If you use the icon option, the text option will be ignored."
+                            ]
+                        }
                     </p>
                 </div>
                 <FormField
-                    label="Link"
-                    tooltip="Optional link for the item"
+                    label={finalUiText["Link"]}
+                    tooltip={finalUiText["Optional link for the item"]}
                     value={href}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                         setHref(e.target.value)
@@ -88,18 +96,18 @@ export default function ItemEditor({
                 />
             </Form>
             <div className="flex justify-between">
-                <Tooltip title="Delete">
+                <Tooltip title={finalUiText["Delete"]}>
                     <Button
                         component="button"
                         onClick={onDelete}
                         variant="soft"
                     >
-                        Delete
+                        {finalUiText["Delete"]}
                     </Button>
                 </Tooltip>
-                <Tooltip title="Go back">
+                <Tooltip title={finalUiText["Go back"]}>
                     <Button component="button" onClick={itemChanged}>
-                        Done
+                        {finalUiText["Done"]}
                     </Button>
                 </Tooltip>
             </div>

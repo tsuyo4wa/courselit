@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText, finalUiLabels } from "@/config/strings";
 
 import { useState, useContext } from "react";
 import { redirect, useParams } from "next/navigation";
@@ -54,6 +55,7 @@ import {
 } from "@components/contexts";
 import useProduct from "@/hooks/use-product";
 import { formatDistanceToNow } from "date-fns";
+import { ja } from "date-fns/locale";
 import { capitalize, checkPermission } from "@courselit/utils";
 import { truncate } from "@ui-lib/utils";
 import MetricCard from "./metric-card";
@@ -101,7 +103,7 @@ export default function DashboardPage() {
         );
         toast({
             title: TOAST_TITLE_SUCCESS,
-            description: "Product URL copied to clipboard!",
+            description: finalUiText["Product URL copied to clipboard!"],
         });
     };
 
@@ -132,7 +134,7 @@ export default function DashboardPage() {
                                 <Skeleton className="h-9 w-64" />
                             )}
                             <TooltipCL
-                                title="Share product"
+                                title={finalUiText["Share product"]}
                                 className="font-normal!"
                             >
                                 <Button
@@ -154,19 +156,25 @@ export default function DashboardPage() {
                                         ) : (
                                             <Download className="h-4 w-4 mr-1" />
                                         )}
-                                        {capitalize(product.type!)}
+                                        {product.type?.toLowerCase() ===
+                                        "course"
+                                            ? finalUiLabels.course
+                                            : finalUiLabels.download}
                                     </Badge>
                                     <Badge variant="outline">
                                         {product.published
-                                            ? "Published"
-                                            : "Draft"}
+                                            ? finalUiText["Published"]
+                                            : finalUiText["Draft"]}
                                     </Badge>
                                     <span className="text-sm text-muted-foreground">
-                                        Last updated{" "}
+                                        {finalUiText["Last updated"]}{" "}
                                         {product.updatedAt
                                             ? formatDistanceToNow(
                                                   new Date(+product.updatedAt),
-                                                  { addSuffix: true },
+                                                  {
+                                                      addSuffix: true,
+                                                      locale: ja,
+                                                  },
                                               )
                                             : "N/A"}
                                     </span>
@@ -179,7 +187,11 @@ export default function DashboardPage() {
                     <div className="flex flex-wrap gap-2 items-center">
                         <Select value={timeRange} onValueChange={setTimeRange}>
                             <SelectTrigger className="w-[140px]">
-                                <SelectValue placeholder="Select time range" />
+                                <SelectValue
+                                    placeholder={
+                                        finalUiText["Select time range"]
+                                    }
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {TIME_RANGES.map((range) => (
@@ -202,7 +214,7 @@ export default function DashboardPage() {
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="outline">
-                                    Actions
+                                    {finalUiText["Actions"]}
                                     <ChevronDown className="ml-2 h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -272,7 +284,7 @@ export default function DashboardPage() {
                                         href={`/dashboard/product/${productId}/manage`}
                                     >
                                         <Settings className="mr-2 h-4 w-4" />
-                                        Manage
+                                        {finalUiText["Manage"]}
                                     </Link>
                                 </DropdownMenuItem>
                                 {/* <DropdownMenuSeparator /> */}
@@ -341,7 +353,7 @@ export default function DashboardPage() {
                 {" "}
                 {/* Updated grid columns */}
                 <MetricCard
-                    title="Sales"
+                    title={finalUiText["Sales"]}
                     icon={
                         <DollarSign className="h-4 w-4 text-muted-foreground" />
                     }
@@ -351,7 +363,7 @@ export default function DashboardPage() {
                 />
                 <Link href={`/dashboard/product/${productId}/customers`}>
                     <MetricCard
-                        title="Customers"
+                        title={finalUiText["Customers"]}
                         icon={
                             <Users className="h-4 w-4 text-muted-foreground" />
                         }
@@ -363,7 +375,9 @@ export default function DashboardPage() {
                 {product?.type?.toLowerCase() === "course" ? (
                     <>
                         <MetricCard
-                            title="People who completed the course"
+                            title={
+                                finalUiText["People who completed the course"]
+                            }
                             icon={
                                 <GraduationCap className="h-4 w-4 text-muted-foreground" />
                             }
@@ -374,7 +388,7 @@ export default function DashboardPage() {
                     </>
                 ) : (
                     <MetricCard
-                        title="Downloads"
+                        title={finalUiText["Downloads"]}
                         icon={
                             <Download className="h-4 w-4 text-muted-foreground" />
                         }
@@ -454,11 +468,11 @@ export default function DashboardPage() {
                 links={[
                     {
                         href: `https://docs.courselit.app/en/courses/add-content/`,
-                        text: "Add content to a product",
+                        text: finalUiText["Add content to a product"],
                     },
                     {
                         href: `https://docs.courselit.app/en/courses/add-content/`,
-                        text: "Understanding product dashboard",
+                        text: finalUiText["Understanding product dashboard"],
                     },
                 ]}
             />

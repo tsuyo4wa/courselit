@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import { SettingsColorPicker } from "@/components/settings/settings-color-picker";
 import { SettingsSelect } from "@/components/settings/settings-select";
 import { SettingsSection } from "@/components/settings/settings-section";
@@ -60,7 +61,7 @@ export function EmailSettings({
         { value: "Georgia, serif", label: "Georgia" },
         { value: "'Times New Roman', serif", label: "Times New Roman" },
         { value: "Verdana, sans-serif", label: "Verdana" },
-        { value: "monospace", label: "Monospace" },
+        { value: "monospace", label: finalUiText["Monospace"] },
     ];
 
     // Ensure meta object exists with defaults
@@ -68,18 +69,22 @@ export function EmailSettings({
 
     return (
         <div className="space-y-4">
-            <SettingsSection title="Email Meta">
+            <SettingsSection title={finalUiText["Email Meta"]}>
                 <SettingsInput
-                    label="Preview Text"
+                    label={finalUiText["Preview Text"]}
                     value={meta.previewText || ""}
                     onChange={(value) => handleMetaChange("previewText", value)}
-                    placeholder="Enter preview text that appears in email clients"
+                    placeholder={
+                        finalUiText[
+                            "Enter preview text that appears in email clients"
+                        ]
+                    }
                 />
             </SettingsSection>
 
-            <SettingsSection title="Colors">
+            <SettingsSection title={finalUiText["Colors"]}>
                 <SettingsColorPicker
-                    label="Background"
+                    label={finalUiText["Background"]}
                     value={email.style.colors.background}
                     onChange={(value) =>
                         handleStyleChange(["colors", "background"], value)
@@ -88,7 +93,7 @@ export function EmailSettings({
                 />
 
                 <SettingsColorPicker
-                    label="Foreground"
+                    label={finalUiText["Foreground"]}
                     value={email.style.colors.foreground}
                     onChange={(value) =>
                         handleStyleChange(["colors", "foreground"], value)
@@ -97,7 +102,7 @@ export function EmailSettings({
                 />
 
                 <SettingsColorPicker
-                    label="Border"
+                    label={finalUiText["Border"]}
                     value={email.style.colors.border}
                     onChange={(value) =>
                         handleStyleChange(["colors", "border"], value)
@@ -106,7 +111,7 @@ export function EmailSettings({
                 />
 
                 <SettingsColorPicker
-                    label="Accent"
+                    label={finalUiText["Accent"]}
                     value={email.style.colors.accent}
                     onChange={(value) =>
                         handleStyleChange(["colors", "accent"], value)
@@ -115,7 +120,7 @@ export function EmailSettings({
                 />
 
                 <SettingsColorPicker
-                    label="Accent Foreground"
+                    label={finalUiText["Accent Foreground"]}
                     value={email.style.colors.accentForeground}
                     onChange={(value) =>
                         handleStyleChange(["colors", "accentForeground"], value)
@@ -124,9 +129,9 @@ export function EmailSettings({
                 />
             </SettingsSection>
 
-            <SettingsSection title="Typography">
+            <SettingsSection title={finalUiText["Typography"]}>
                 <SettingsSelect
-                    label="Text Font Family"
+                    label={finalUiText["Text Font Family"]}
                     value={
                         email.style.typography.text.fontFamily ||
                         "Arial, sans-serif"
@@ -142,7 +147,7 @@ export function EmailSettings({
                 />
 
                 <SettingsSelect
-                    label="Header Font Family"
+                    label={finalUiText["Header Font Family"]}
                     value={
                         email.style.typography.header.fontFamily ||
                         "Arial, sans-serif"
@@ -158,7 +163,7 @@ export function EmailSettings({
                 />
 
                 <SettingsSelect
-                    label="Link Font Family"
+                    label={finalUiText["Link Font Family"]}
                     value={
                         email.style.typography.link.fontFamily ||
                         "Arial, sans-serif"
@@ -174,9 +179,9 @@ export function EmailSettings({
                 />
             </SettingsSection>
 
-            <SettingsSection title="Page Structure">
+            <SettingsSection title={finalUiText["Page Structure"]}>
                 <SettingsColorPicker
-                    label="Page Background"
+                    label={finalUiText["Page Background"]}
                     value={email.style.structure.page.background || "#f8fafc"}
                     onChange={(value) =>
                         handleStyleChange(
@@ -188,7 +193,7 @@ export function EmailSettings({
                 />
 
                 <SettingsSlider
-                    label="Page Width"
+                    label={finalUiText["Page Width"]}
                     value={pxToNumber(email.style.structure.page.width, 600)}
                     onChange={(value) =>
                         handleStyleChange(
@@ -199,11 +204,15 @@ export function EmailSettings({
                     min={300}
                     max={800}
                     defaultValue={600}
-                    tooltip="Width of the email container (300px - 800px)"
+                    tooltip={
+                        finalUiText[
+                            "Width of the email container (300px - 800px)"
+                        ]
+                    }
                 />
 
                 <SettingsSlider
-                    label="Page Margin Y"
+                    label={finalUiText["Page Margin Y"]}
                     value={pxToNumber(email.style.structure.page.marginY, 20)}
                     onChange={(value) =>
                         handleStyleChange(
@@ -214,11 +223,15 @@ export function EmailSettings({
                     min={0}
                     max={100}
                     defaultValue={20}
-                    tooltip="Vertical margin around the email container"
+                    tooltip={
+                        finalUiText[
+                            "Vertical margin around the email container"
+                        ]
+                    }
                 />
 
                 <SettingsSlider
-                    label="Page Border Width"
+                    label={finalUiText["Page Border Width"]}
                     value={pxToNumber(
                         email.style.structure.page.borderWidth,
                         0,
@@ -232,11 +245,13 @@ export function EmailSettings({
                     min={0}
                     max={20}
                     defaultValue={0}
-                    tooltip="Border width around the email container"
+                    tooltip={
+                        finalUiText["Border width around the email container"]
+                    }
                 />
 
                 <SettingsSelect
-                    label="Page Border Style"
+                    label={finalUiText["Page Border Style"]}
                     value={email.style.structure.page.borderStyle || "solid"}
                     onChange={(value) =>
                         handleStyleChange(
@@ -245,16 +260,16 @@ export function EmailSettings({
                         )
                     }
                     options={[
-                        { value: "solid", label: "Solid" },
-                        { value: "dashed", label: "Dashed" },
-                        { value: "dotted", label: "Dotted" },
-                        { value: "double", label: "Double" },
+                        { value: "solid", label: "実線" },
+                        { value: "dashed", label: finalUiText["Dashed"] },
+                        { value: "dotted", label: finalUiText["Dotted"] },
+                        { value: "double", label: finalUiText["Double"] },
                     ]}
                     defaultValue="solid"
                 />
 
                 <SettingsSlider
-                    label="Page Border Radius"
+                    label={finalUiText["Page Border Radius"]}
                     value={pxToNumber(
                         email.style.structure.page.borderRadius,
                         0,
@@ -268,13 +283,13 @@ export function EmailSettings({
                     min={0}
                     max={50}
                     defaultValue={0}
-                    tooltip="Border radius for rounded corners"
+                    tooltip={finalUiText["Border radius for rounded corners"]}
                 />
             </SettingsSection>
 
-            <SettingsSection title="Section Structure">
+            <SettingsSection title={finalUiText["Section Structure"]}>
                 <SettingsSlider
-                    label="Section Padding X"
+                    label={finalUiText["Section Padding X"]}
                     value={pxToNumber(
                         email.style.structure.section.padding?.x,
                         16,
@@ -288,11 +303,11 @@ export function EmailSettings({
                     min={0}
                     max={100}
                     defaultValue={16}
-                    tooltip="Horizontal padding inside sections"
+                    tooltip={finalUiText["Horizontal padding inside sections"]}
                 />
 
                 <SettingsSlider
-                    label="Section Padding Y"
+                    label={finalUiText["Section Padding Y"]}
                     value={pxToNumber(
                         email.style.structure.section.padding?.y,
                         16,
@@ -306,7 +321,7 @@ export function EmailSettings({
                     min={0}
                     max={100}
                     defaultValue={16}
-                    tooltip="Vertical padding inside sections"
+                    tooltip={finalUiText["Vertical padding inside sections"]}
                 />
             </SettingsSection>
         </div>

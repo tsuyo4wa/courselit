@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import type { EmailBlock, EmailStyle } from "@/types/email-editor";
 import type { SeparatorBlockSettings } from "./types";
 import { SettingsColorPicker } from "@/components/settings/settings-color-picker";
@@ -40,23 +41,23 @@ export function SeparatorSettings({
 
     // Style options
     const styleOptions = [
-        { value: "solid", label: "Solid" },
-        { value: "dashed", label: "Dashed" },
-        { value: "dotted", label: "Dotted" },
-        { value: "double", label: "Double" },
+        { value: "solid", label: "実線" },
+        { value: "dashed", label: finalUiText["Dashed"] },
+        { value: "dotted", label: finalUiText["Dotted"] },
+        { value: "double", label: finalUiText["Double"] },
     ];
 
     return (
         <div className="space-y-4">
             <SettingsColorPicker
-                label="Color"
+                label={finalUiText["Color"]}
                 value={block.settings.color || "#e2e8f0"}
                 onChange={(value) => handleSettingChange("color", value)}
                 defaultValue="#e2e8f0"
             />
 
             <SettingsSlider
-                label="Thickness"
+                label={finalUiText["Thickness"]}
                 value={thickness}
                 onChange={(value) =>
                     handleSettingChange("thickness", `${value}px`)
@@ -67,7 +68,7 @@ export function SeparatorSettings({
             />
 
             <SettingsSelect
-                label="Style"
+                label={finalUiText["Style"]}
                 value={block.settings.style || "solid"}
                 onChange={(value) => handleSettingChange("style", value)}
                 options={styleOptions}
@@ -75,9 +76,9 @@ export function SeparatorSettings({
             />
 
             {/* Common Block Settings */}
-            <SettingsSection title="Block Settings">
+            <SettingsSection title={finalUiText["Block Settings"]}>
                 <SettingsColorPicker
-                    label="Background Color"
+                    label={finalUiText["Background Color"]}
                     value={block.settings.backgroundColor || "transparent"}
                     onChange={(value) =>
                         handleSettingChange("backgroundColor", value)
@@ -86,7 +87,7 @@ export function SeparatorSettings({
                 />
 
                 <SettingsColorPicker
-                    label="Foreground Color"
+                    label={finalUiText["Foreground Color"]}
                     value={block.settings.foregroundColor || "#000000"}
                     onChange={(value) =>
                         handleSettingChange("foregroundColor", value)
@@ -95,7 +96,7 @@ export function SeparatorSettings({
                 />
 
                 <SettingsSlider
-                    label="Padding Top"
+                    label={finalUiText["Padding Top"]}
                     value={pxToNumber(
                         block.settings.paddingTop ||
                             style?.structure.section.padding?.y,
@@ -113,7 +114,7 @@ export function SeparatorSettings({
                 />
 
                 <SettingsSlider
-                    label="Padding Bottom"
+                    label={finalUiText["Padding Bottom"]}
                     value={pxToNumber(
                         block.settings.paddingBottom ||
                             style?.structure.section.padding?.y,

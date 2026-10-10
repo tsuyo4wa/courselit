@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { SiteInfoContext } from "@components/contexts";
@@ -105,8 +106,8 @@ function ProductCard({ product }: { product: DashboardCourse }) {
                                 <TooltipContent>
                                     {product.privacy?.toLowerCase() ===
                                     Constants.ProductAccessType.PUBLIC
-                                        ? "Public"
-                                        : "Hidden"}
+                                        ? finalUiText["Public"]
+                                        : finalUiText["Hidden"]}
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
@@ -120,7 +121,9 @@ function ProductCard({ product }: { product: DashboardCourse }) {
                                     )}
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                    {product.published ? "Published" : "Draft"}
+                                    {product.published
+                                        ? finalUiText["Published"]
+                                        : finalUiText["Draft"]}
                                 </TooltipContent>
                             </Tooltip>
                         </TooltipProvider>
@@ -134,14 +137,15 @@ function ProductCard({ product }: { product: DashboardCourse }) {
                                     siteinfo.currencyISOCode || "USD",
                                 )}{" "}
                             </span>
-                            {(product.sales ?? 0).toLocaleString()} sales
+                            {(product.sales ?? 0).toLocaleString()}
+                            {finalUiText["sales"]}
                         </span>
                     </div>
                     <div className="flex items-center text-muted-foreground">
                         <Users className="h-4 w-4 mr-2" />
                         <span>
                             {(product.customers ?? 0).toLocaleString()}{" "}
-                            customers
+                            {finalUiText["customers"]}
                         </span>
                     </div>
                 </div>
@@ -220,10 +224,14 @@ export default function Page() {
             <div className="flex flex-col sm:flex-row justify-between gap-4">
                 <Select value={filter} onValueChange={handleFilterChange}>
                     <SelectTrigger className="w-full sm:w-[180px]">
-                        <SelectValue placeholder="Filter by status" />
+                        <SelectValue
+                            placeholder={finalUiText["Filter by status"]}
+                        />
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="all">All</SelectItem>
+                        <SelectItem value="all">
+                            {finalUiText["All"]}
+                        </SelectItem>
                         {[
                             Constants.CourseType.COURSE,
                             Constants.CourseType.DOWNLOAD,
@@ -267,11 +275,11 @@ export default function Page() {
                 links={[
                     {
                         href: "https://docs.courselit.app/en/courses/introduction/",
-                        text: "Create a course",
+                        text: finalUiText["Create a course"],
                     },
                     {
                         href: "https://docs.courselit.app/en/downloads/introduction/",
-                        text: "Create a digital download",
+                        text: finalUiText["Create a digital download"],
                     },
                 ]}
             />

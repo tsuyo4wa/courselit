@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { ChevronRight, type LucideIcon } from "lucide-react";
 
@@ -39,7 +40,7 @@ export function NavMain({
 }) {
     return (
         <SidebarGroup>
-            <SidebarGroupLabel>Create</SidebarGroupLabel>
+            <SidebarGroupLabel>{finalUiText["Create"]}</SidebarGroupLabel>
             <SidebarMenu>
                 {items.map((item) =>
                     item.items?.length ? (

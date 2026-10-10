@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import { FormEvent, useState } from "react";
 import {
     Constants,
@@ -163,7 +164,7 @@ export default function Widget({
             }
         } catch (e) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: failureMessage || DEFAULT_FAILURE_MESSAGE,
                 variant: "destructive",
             });
@@ -282,7 +283,7 @@ export default function Widget({
                                                     theme={overiddenTheme}
                                                     htmlFor="email"
                                                 >
-                                                    Email
+                                                    {finalUiText["Email"]}
                                                 </Label>
                                                 <Input
                                                     theme={overiddenTheme}
@@ -290,7 +291,11 @@ export default function Widget({
                                                     onChange={(e) =>
                                                         setEmail(e.target.value)
                                                     }
-                                                    placeholder="Enter your email"
+                                                    placeholder={
+                                                        finalUiText[
+                                                            "Enter your email"
+                                                        ]
+                                                    }
                                                     type="email"
                                                     required
                                                 />
@@ -337,7 +342,8 @@ export default function Widget({
                                 >
                                     <>
                                         <Users className="w-4 h-4" />{" "}
-                                        {product.membersCount} members
+                                        {product.membersCount}
+                                        {finalUiText["members"]}
                                     </>
                                 </Text2>
                                 <Link

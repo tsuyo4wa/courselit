@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import React, { useState, useRef } from "react";
 import {
     AlertDialog,
@@ -58,7 +59,7 @@ export function FileUploadAlertDialog({
             },
             onUploadError: (error) => {
                 toast({
-                    title: "Upload Failed",
+                    title: finalUiText["Upload Failed"],
                     description: error.message,
                     variant: "destructive",
                 });
@@ -124,15 +125,21 @@ export function FileUploadAlertDialog({
                     disabled={disabled}
                     onClick={() => setOpen(true)}
                 >
-                    Upload file
+                    {finalUiText["Upload file"]}
                 </Button>
             </AlertDialogTrigger>
 
             <AlertDialogContent className="max-w-md">
                 <AlertDialogHeader>
-                    <AlertDialogTitle>Upload File</AlertDialogTitle>
+                    <AlertDialogTitle>
+                        {finalUiText["Upload File"]}
+                    </AlertDialogTitle>
                     <AlertDialogDescription>
-                        Drag and drop your file or click to browse
+                        {
+                            finalUiText[
+                                "Drag and drop your file or click to browse"
+                            ]
+                        }
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 
@@ -179,11 +186,14 @@ export function FileUploadAlertDialog({
                                       : "text-muted-foreground"
                             }`}
                         >
-                            {file ? file.name : "Drop file here or click"}
+                            {file
+                                ? file.name
+                                : finalUiText["Drop file here or click"]}
                         </p>
                         {file && !fileError && (
                             <p className="mt-1 text-xs text-muted-foreground">
-                                Selected: {(file.size / 1024).toFixed(2)} KB
+                                {finalUiText["Selected:"]}
+                                {(file.size / 1024).toFixed(2)} KB
                             </p>
                         )}
                         {fileError && (
@@ -195,10 +205,12 @@ export function FileUploadAlertDialog({
 
                     <div className="space-y-2">
                         <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            Caption (optional)
+                            {finalUiText["Caption (optional)"]}
                         </label>
                         <Input
-                            placeholder="Add a caption to your file..."
+                            placeholder={
+                                finalUiText["Add a caption to your file..."]
+                            }
                             value={caption}
                             onChange={(e) => setCaption(e.target.value)}
                             className="resize-none"
@@ -233,20 +245,20 @@ export function FileUploadAlertDialog({
                             disabled={Math.round(uploadProgress) > 99}
                         >
                             {Math.round(uploadProgress) > 99
-                                ? "Processing..."
-                                : "Cancel"}
+                                ? finalUiText["Processing..."]
+                                : finalUiText["Cancel"]}
                         </AlertDialogCancel>
                     ) : (
                         <>
                             <AlertDialogCancel onClick={resetState}>
-                                Cancel
+                                {finalUiText["Cancel"]}
                             </AlertDialogCancel>
                             <AlertDialogAction asChild>
                                 <Button
                                     disabled={!file || !!fileError}
                                     onClick={handleUpload}
                                 >
-                                    Upload
+                                    {finalUiText["Upload"]}
                                 </Button>
                             </AlertDialogAction>
                         </>

@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useState } from "react";
 import { Item, SvgStyle } from "../settings";
 import {
@@ -60,12 +61,14 @@ export default function ItemEditor({
         <div className="flex flex-col">
             <Form onSubmit={(e) => e.preventDefault()}>
                 <FormField
-                    label="Title"
+                    label={finalUiText["Title"]}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 <div>
-                    <p className="mb-1 font-medium">Description</p>
+                    <p className="mb-1 font-medium">
+                        {finalUiText["Description"]}
+                    </p>
                     <Editor
                         initialContent={description}
                         onChange={(state: any) => setDescription(state)}
@@ -74,23 +77,23 @@ export default function ItemEditor({
                     />
                 </div>
                 <FormField
-                    label="Button Text"
+                    label={finalUiText["Button Text"]}
                     value={buttonCaption}
                     onChange={(e) => setButtonCaption(e.target.value)}
                 />
                 <FormField
-                    label="Button Action"
+                    label={finalUiText["Button Action"]}
                     value={buttonAction}
                     onChange={(e) => setButtonAction(e.target.value)}
                 />
-                <p className="mb-1 font-medium">Icon</p>
+                <p className="mb-1 font-medium">{finalUiText["Icon"]}</p>
                 <SvgEditor
                     svgText={svgText}
                     svgStyle={svgStyle}
                     onSvgChange={(svgText: string) => setSvgText(svgText)}
                 />
                 <MediaSelector
-                    title="Media"
+                    title={finalUiText["Media"]}
                     src={media && media.thumbnail}
                     srcTitle={media && media.originalFileName}
                     profile={profile}
@@ -109,29 +112,29 @@ export default function ItemEditor({
                     type="page"
                 />
                 <Select
-                    title="Media alignment"
+                    title={finalUiText["Media alignment"]}
                     value={mediaAlignment}
                     options={[
-                        { label: "Above title", value: "top" },
-                        { label: "Below title", value: "bottom" },
+                        { label: finalUiText["Above title"], value: "top" },
+                        { label: finalUiText["Below title"], value: "bottom" },
                     ]}
                     onChange={(value: VerticalAlignment) =>
                         setMediaAlignment(value)
                     }
                 />
                 <div className="flex justify-between">
-                    <Tooltip title="Delete">
+                    <Tooltip title={finalUiText["Delete"]}>
                         <Button
                             component="button"
                             onClick={onDelete}
                             variant="soft"
                         >
-                            Delete
+                            {finalUiText["Delete"]}
                         </Button>
                     </Tooltip>
-                    <Tooltip title="Go back">
+                    <Tooltip title={finalUiText["Go back"]}>
                         <Button component="button" onClick={itemChanged}>
-                            Done
+                            {finalUiText["Done"]}
                         </Button>
                     </Tooltip>
                 </div>

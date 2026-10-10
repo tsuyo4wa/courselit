@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useCallback, useEffect, useState } from "react";
 import { useGraphQLFetch } from "@/hooks/use-graphql-fetch";
 import { useToast } from "@courselit/components-library";
@@ -98,12 +99,14 @@ export default function SubscribersList({ sequenceId }: SubscribersListProps) {
     if (loading && subscribers.length === 0) {
         return (
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold">Subscribers</h3>
+                <h3 className="text-lg font-semibold">
+                    {finalUiText["Subscribers"]}
+                </h3>
                 <Table>
                     <TableHeader>
                         <TableRow className="hover:bg-transparent">
                             <TableHead className="text-muted-foreground font-medium">
-                                Subscriber
+                                {finalUiText["Subscriber"]}
                             </TableHead>
                             {/* <TableHead className="text-muted-foreground font-medium w-[50px]">
                                 Actions
@@ -139,7 +142,8 @@ export default function SubscribersList({ sequenceId }: SubscribersListProps) {
         <div className="space-y-4">
             <div className="flex justify-between items-center">
                 <h3 className="text-lg font-semibold">
-                    Subscribers ({totalCount.toLocaleString()})
+                    {finalUiText["Subscribers ("]}
+                    {totalCount.toLocaleString()})
                 </h3>
             </div>
 
@@ -147,7 +151,7 @@ export default function SubscribersList({ sequenceId }: SubscribersListProps) {
                 <TableHeader>
                     <TableRow className="hover:bg-transparent">
                         <TableHead className="text-muted-foreground font-medium">
-                            Subscriber
+                            {finalUiText["Subscriber"]}
                         </TableHead>
                         {/* <TableHead className="text-muted-foreground font-medium w-[50px]">
                             Actions

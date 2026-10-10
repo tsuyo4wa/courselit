@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
@@ -353,7 +354,7 @@ export default function Page() {
                 return media.media ? (
                     <Image
                         src={media.media.thumbnail}
-                        alt="Post media"
+                        alt={finalUiText["Post media"]}
                         className="h-48 w-48 rounded-md object-cover"
                         width={192}
                         height={192}
@@ -377,7 +378,11 @@ export default function Page() {
                         controlsList="nodownload"
                         onContextMenu={(e) => e.preventDefault()}
                     >
-                        Your browser does not support the video tag.
+                        {
+                            finalUiText[
+                                "Your browser does not support the video tag."
+                            ]
+                        }
                     </video>
                 ) : null;
             case "youtube": {
@@ -391,7 +396,7 @@ export default function Page() {
                     <div className="relative aspect-video w-full">
                         <img
                             src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                            alt="YouTube thumbnail"
+                            alt={finalUiText["YouTube thumbnail"]}
                             className="h-full w-full rounded-md object-cover"
                         />
                     </div>

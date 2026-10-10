@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import {
     ActivityType,
     Constants,
@@ -25,7 +26,10 @@ export interface NotificationEmailContent {
     parentAuthorName?: string;
     parentLabel?: string;
     threadTitle?: string;
-    conversationLabel?: "New post" | "New comment" | "New reply";
+    conversationLabel?: (typeof finalUiText)[
+        | "New post"
+        | "New comment"
+        | "New reply"];
     replyContext?: ReplyByEmailContext;
 }
 
@@ -74,7 +78,7 @@ export async function getNotificationEmailContent(
                 ...content,
                 commentText: excerpt(post.content, COMMENT_TEXT_LIMIT),
                 threadTitle: post.title,
-                conversationLabel: "New post",
+                conversationLabel: finalUiText["New post"],
                 replyContext: {
                     community: {
                         communityId: post.communityId,
@@ -103,9 +107,9 @@ export async function getNotificationEmailContent(
                 parentAuthorName: options.resolveUserName
                     ? await options.resolveUserName(post.userId)
                     : undefined,
-                parentLabel: "Original post",
+                parentLabel: finalUiText["Original post"],
                 threadTitle: post.title,
-                conversationLabel: "New comment",
+                conversationLabel: finalUiText["New comment"],
                 replyContext: {
                     community: {
                         communityId: comment.communityId,
@@ -156,7 +160,7 @@ export async function getNotificationEmailContent(
                         ? await options.resolveUserName(parent.userId)
                         : undefined,
                 threadTitle: post.title,
-                conversationLabel: "New reply",
+                conversationLabel: finalUiText["New reply"],
                 replyContext: {
                     community: {
                         communityId: comment.communityId,
@@ -247,7 +251,9 @@ async function getCourseDiscussionEmailContent(
         parentText,
         parentAuthorName,
         threadTitle: course.title,
-        conversationLabel: replyId ? "New reply" : "New comment",
+        conversationLabel: replyId
+            ? finalUiText["New reply"]
+            : finalUiText["New comment"],
         replyContext: {
             product: {
                 productId,

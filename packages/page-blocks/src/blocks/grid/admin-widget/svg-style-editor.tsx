@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useState } from "react";
 import {
     Form,
@@ -50,7 +51,7 @@ export default function SvgStyleEditor({
                 </div>
                 <div className="flex gap-2">
                     <FormField
-                        label="Height"
+                        label={finalUiText["Height"]}
                         type="number"
                         max={100}
                         min={0}
@@ -64,7 +65,7 @@ export default function SvgStyleEditor({
                         className="w-1/2"
                     />
                     <FormField
-                        label="Width"
+                        label={finalUiText["Width"]}
                         type="number"
                         max={100}
                         min={0}
@@ -79,7 +80,7 @@ export default function SvgStyleEditor({
                     />
                 </div>
                 <PageBuilderSlider
-                    title="Border width"
+                    title={finalUiText["Border width"]}
                     min={0}
                     max={10}
                     value={internalSvgStyle.borderWidth}
@@ -91,7 +92,7 @@ export default function SvgStyleEditor({
                     }
                 />
                 <PageBuilderSlider
-                    title="Border radius"
+                    title={finalUiText["Border radius"]}
                     min={0}
                     max={50}
                     value={internalSvgStyle.borderRadius}
@@ -103,14 +104,14 @@ export default function SvgStyleEditor({
                     }
                 />
                 <Select
-                    title="Border style"
+                    title={finalUiText["Border style"]}
                     value={internalSvgStyle.borderStyle}
                     options={[
-                        { label: "Solid", value: "solid" },
-                        { label: "Dashed", value: "dashed" },
-                        { label: "Dotted", value: "dotted" },
-                        { label: "Double", value: "double" },
-                        { label: "None", value: "none" },
+                        { label: "実線", value: "solid" },
+                        { label: finalUiText["Dashed"], value: "dashed" },
+                        { label: finalUiText["Dotted"], value: "dotted" },
+                        { label: finalUiText["Double"], value: "double" },
+                        { label: "なし", value: "none" },
                     ]}
                     onChange={(
                         value:
@@ -128,7 +129,7 @@ export default function SvgStyleEditor({
                 />
             </Form>
             <ColorSelector
-                title="Icon color"
+                title={finalUiText["Icon color"]}
                 value={internalSvgStyle.svgColor}
                 onChange={(value?: string) =>
                     setInternalSvgStyle({
@@ -138,7 +139,7 @@ export default function SvgStyleEditor({
                 }
             />
             <ColorSelector
-                title="Background color"
+                title={finalUiText["Background color"]}
                 value={internalSvgStyle.backgroundColor}
                 onChange={(value?: string) =>
                     setInternalSvgStyle({
@@ -148,7 +149,7 @@ export default function SvgStyleEditor({
                 }
             />
             <ColorSelector
-                title="Border color"
+                title={finalUiText["Border color"]}
                 value={internalSvgStyle.borderColor}
                 onChange={(value?: string) =>
                     setInternalSvgStyle({
@@ -158,12 +159,12 @@ export default function SvgStyleEditor({
                 }
             />
             <div className="flex justify-end">
-                <Tooltip title="Go back">
+                <Tooltip title={finalUiText["Go back"]}>
                     <Button
                         component="button"
                         onClick={() => onChange(internalSvgStyle)}
                     >
-                        Done
+                        {finalUiText["Done"]}
                     </Button>
                 </Tooltip>
             </div>

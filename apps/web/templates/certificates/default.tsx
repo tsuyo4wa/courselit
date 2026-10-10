@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { formattedLocaleDate } from "@ui-lib/utils";
 
 export default function DefaultCertificate({
@@ -19,7 +20,7 @@ export default function DefaultCertificate({
                 <div className="header">
                     {logoSrc ? (
                         <div className="logo">
-                            <img src={logoSrc} alt="Logo" />
+                            <img src={logoSrc} alt={finalUiText["Logo"]} />
                         </div>
                     ) : null}
                     <h1 className="title">
@@ -47,7 +48,10 @@ export default function DefaultCertificate({
                     <div className="signature-section">
                         {signatureSrc ? (
                             <div className="signature-image">
-                                <img src={signatureSrc} alt="Signature" />
+                                <img
+                                    src={signatureSrc}
+                                    alt={finalUiText["Signature"]}
+                                />
                             </div>
                         ) : null}
                         <div className="signature-line" />
@@ -63,7 +67,9 @@ export default function DefaultCertificate({
 
                     <div className="date-section">
                         <div className="date-line" />
-                        <p className="date-label">Date of Completion</p>
+                        <p className="date-label">
+                            {finalUiText["Date of Completion"]}
+                        </p>
                         <p className="date-value">
                             {formattedLocaleDate(+createdAt, "long")}
                         </p>

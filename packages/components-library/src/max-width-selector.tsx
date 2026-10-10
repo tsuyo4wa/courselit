@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import { ThemeStyle } from "@courselit/page-models";
 import PageBuilderSlider from "./page-builder-slider";
 
@@ -38,12 +39,12 @@ export function MaxWidthSelector({
 
     return (
         <PageBuilderSlider
-            title="Maximum width"
+            title={finalUiText["Maximum width"]}
             max={5}
             min={1}
             onChange={handleChange}
             value={parseInt(numericValue)}
-            tooltip="Maximum width of the content"
+            tooltip={finalUiText["Maximum width of the content"]}
             className={className}
             allowsReset={true}
         />

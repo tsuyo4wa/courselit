@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     useContext,
@@ -17,6 +18,7 @@ import {
     TriangleAlert,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import {
     Popover,
@@ -142,8 +144,8 @@ export function NotificationsViewer() {
             });
         } catch (error) {
             toast({
-                title: "Error",
-                description: "Failed to mark all as read",
+                title: finalUiText["Error"],
+                description: finalUiText["Failed to mark all as read"],
                 variant: "destructive",
             });
         }
@@ -238,8 +240,8 @@ export function NotificationsViewer() {
             router.push(targetUrl.toString());
         } catch (error) {
             toast({
-                title: "Error",
-                description: "Failed to open the notification",
+                title: finalUiText["Error"],
+                description: finalUiText["Failed to open the notification"],
                 variant: "destructive",
             });
         }
@@ -253,7 +255,9 @@ export function NotificationsViewer() {
                     {unreadCount > 0 && (
                         <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full" />
                     )}
-                    <span className="sr-only">View notifications</span>
+                    <span className="sr-only">
+                        {finalUiText["View notifications"]}
+                    </span>
                 </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -264,7 +268,7 @@ export function NotificationsViewer() {
                 <Card>
                     <CardHeader className="border-b py-2 px-4 flex flex-row justify-between items-center">
                         <CardTitle className="text-base text-left">
-                            Notifications
+                            {finalUiText["Notifications"]}
                         </CardTitle>
                         {notifications.some((n) => !n.read) && (
                             <Button
@@ -275,7 +279,7 @@ export function NotificationsViewer() {
                             >
                                 <Check className="h-3 w-3 mr-1" />
                                 <span className="sr-only sm:not-sr-only">
-                                    Read all
+                                    {finalUiText["Read all"]}
                                 </span>
                             </Button>
                         )}
@@ -284,15 +288,18 @@ export function NotificationsViewer() {
                         {!config.queueServer && (
                             <div className="p-2 bg-yellow-100 text-red-500 text-xs flex items-center">
                                 <TriangleAlert className="h-6 w-6 inline mr-2" />
-                                Queue configuration is missing. Realtime
-                                notifications will not work.
+                                {
+                                    finalUiText[
+                                        "Queue configuration is missing. Realtime notifications will not work."
+                                    ]
+                                }
                             </div>
                         )}
                         {notifications.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-8">
                                 <Inbox className="h-12 w-12 text-muted-foreground mb-4" />
                                 <p className="text-sm text-muted-foreground">
-                                    No new notifications
+                                    {finalUiText["No new notifications"]}
                                 </p>
                             </div>
                         ) : (
@@ -313,7 +320,7 @@ export function NotificationsViewer() {
                                     <p className="text-xs text-muted-foreground mt-1">
                                         {formatDistanceToNow(
                                             new Date(notification.createdAt),
-                                            { addSuffix: true },
+                                            { addSuffix: true, locale: ja },
                                         )}
                                     </p>
                                 </div>
@@ -330,10 +337,13 @@ export function NotificationsViewer() {
                                 className="text-xs"
                             >
                                 <ChevronLeft className="h-3 w-3 mr-1" />{" "}
-                                Previous
+                                {finalUiText["Previous"]}
                             </Button>
                             <span className="text-xs text-muted-foreground">
-                                Page {currentPage} of {totalPages}
+                                {finalUiText["Page"]}
+                                {currentPage}
+                                {finalUiText["of"]}
+                                {totalPages}
                             </span>
                             <Button
                                 variant="ghost"
@@ -342,7 +352,8 @@ export function NotificationsViewer() {
                                 disabled={currentPage === totalPages}
                                 className="text-xs"
                             >
-                                Next <ChevronRight className="h-3 w-3 ml-1" />
+                                {finalUiText["Next"]}
+                                <ChevronRight className="h-3 w-3 ml-1" />
                             </Button>
                         </CardFooter>
                     )}

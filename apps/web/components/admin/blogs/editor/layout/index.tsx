@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { Address, Profile, SiteInfo } from "@courselit/common-models";
@@ -21,7 +22,7 @@ export default function BlogEditorLayout({
 }: BlogEditorLayoutProps) {
     const course = useCourse(id);
     const breadcrumbs = [
-        { text: "Blogs", url: "/dashboard/blogs" },
+        { text: finalUiText["Blogs"], url: "/dashboard/blogs" },
         {
             text: course && course.title ? truncate(course.title, 10) : "",
             url: "",

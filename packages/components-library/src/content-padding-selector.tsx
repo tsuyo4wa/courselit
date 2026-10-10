@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import PageBuilderSlider from "./page-builder-slider";
 
 interface ContentPaddingProps {
@@ -28,7 +29,9 @@ export default function ContentPaddingSelector({
     return (
         <PageBuilderSlider
             title={
-                variant === "horizontal" ? "Content width" : "Vertical padding"
+                variant === "horizontal"
+                    ? finalUiText["Content width"]
+                    : finalUiText["Vertical padding"]
             }
             max={max || defaultMax}
             min={min || defaultMin}

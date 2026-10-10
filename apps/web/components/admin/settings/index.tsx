@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import React, { useState, useEffect, useContext } from "react";
 import {
@@ -514,7 +515,7 @@ const Settings = (props: SettingsProps) => {
         navigator.clipboard.writeText(text);
         toast({
             title: TOAST_TITLE_SUCCESS,
-            description: "URL copied to clipboard",
+            description: finalUiText["URL copied to clipboard"],
         });
     };
 
@@ -877,9 +878,11 @@ const Settings = (props: SettingsProps) => {
                             {newSettings.paymentMethod ===
                                 PAYMENT_METHOD_LEMONSQUEEZY && (
                                 <p className="text-xs text-red-500">
-                                    The currency selected will not be applied
-                                    during checkout. Set your desired currency
-                                    in your LemonSqueezy dashboard.
+                                    {
+                                        finalUiText[
+                                            "The currency selected will not be applied during checkout. Set your desired currency in your LemonSqueezy dashboard."
+                                        ]
+                                    }
                                 </p>
                             )}
                         </div>

@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React from "react";
 import { Image, Link } from "@courselit/components-library";
 import { SiteInfo } from "@courselit/common-models";
@@ -16,7 +17,7 @@ export default function Branding({ siteinfo }: BrandingProps) {
                         src={siteinfo.logo?.file || ""}
                         width="w-[36px]"
                         height="h-[36px]"
-                        alt="logo"
+                        alt={finalUiText["logo"]}
                     />
                 </div>
                 <p className="text-2xl font-bold">{siteinfo.title}</p>

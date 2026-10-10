@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { PAGE_HEADER_EDIT_SEQUENCE, SEQUENCES } from "@ui-config/strings";
@@ -253,9 +254,13 @@ export default function Page(props: {
                                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                                     setDelay(+e.target.value)
                                 }
-                                endIcon={<span>days</span>}
+                                endIcon={<span>{finalUiText["days"]}</span>}
                                 className="w-1/2"
-                                tooltip="The delay in days after which the email will be sent after the last mail."
+                                tooltip={
+                                    finalUiText[
+                                        "The delay in days after which the email will be sent after the last mail."
+                                    ]
+                                }
                             />
                             <div className="w-1/2 self-end">
                                 <Select
@@ -267,14 +272,14 @@ export default function Page(props: {
                                             setPublished(value);
                                         }
                                     }}
-                                    title="Status"
+                                    title={finalUiText["Status"]}
                                     options={[
                                         {
-                                            label: "Published",
+                                            label: finalUiText["Published"],
                                             value: "published",
                                         },
                                         {
-                                            label: "Unpublished",
+                                            label: finalUiText["Unpublished"],
                                             value: "unpublished",
                                         },
                                     ]}

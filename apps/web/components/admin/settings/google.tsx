@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
@@ -62,7 +63,7 @@ import {
 import { Label } from "@components/ui/label";
 
 const formSchema = z.object({
-    clientId: z.string().trim().min(1, "Client ID is required"),
+    clientId: z.string().trim().min(1, finalUiText["Client ID is required"]),
     clientSecret: z.string().optional(),
 });
 
@@ -352,7 +353,7 @@ export default function GoogleProvider({ address }: GoogleProviderProps) {
                             links={[
                                 {
                                     href: "https://docs.courselit.app/en/schools/google-sign-in",
-                                    text: "Set up Google sign in",
+                                    text: finalUiText["Set up Google sign in"],
                                 },
                             ]}
                         />
@@ -382,14 +383,16 @@ export default function GoogleProvider({ address }: GoogleProviderProps) {
                                             }
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            This action is irreversible. The
-                                            current Google app configuration
-                                            will be removed.
+                                            {
+                                                finalUiText[
+                                                    "This action is irreversible. The current Google app configuration will be removed."
+                                                ]
+                                            }
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <AlertDialogCancel>
-                                            Cancel
+                                            {finalUiText["Cancel"]}
                                         </AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={resetProvider}
@@ -398,7 +401,11 @@ export default function GoogleProvider({ address }: GoogleProviderProps) {
                                             {isDeleting ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                    Resetting...
+                                                    {
+                                                        finalUiText[
+                                                            "Resetting..."
+                                                        ]
+                                                    }
                                                 </>
                                             ) : (
                                                 "Reset"

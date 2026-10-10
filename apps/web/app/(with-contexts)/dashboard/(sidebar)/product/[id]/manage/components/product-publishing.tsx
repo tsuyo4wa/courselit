@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -125,10 +126,14 @@ export default function ProductPublishing({ product }: ProductPublishingProps) {
                 <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                         <Label className="text-base font-semibold">
-                            Published
+                            {finalUiText["Published"]}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                            Make this course available to students
+                            {
+                                finalUiText[
+                                    "Make this course available to students"
+                                ]
+                            }
                         </p>
                     </div>
                     <Switch
@@ -142,10 +147,10 @@ export default function ProductPublishing({ product }: ProductPublishingProps) {
                         <Label
                             className={`${!isPublished ? "text-muted-foreground" : ""} text-base font-semibold`}
                         >
-                            Visibility
+                            {finalUiText["Visibility"]}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                            Only accessible via direct link
+                            {finalUiText["Only accessible via direct link"]}
                         </p>
                     </div>
                     <Switch

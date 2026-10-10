@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { useEffect, useCallback, useMemo, useContext } from "react";
 import {
     Form,
@@ -306,7 +307,7 @@ export default function FilterContainer({
                 >
                     <div>
                         <Input
-                            placeholder="Search by email"
+                            placeholder={finalUiText["Search by email"]}
                             value={searchEmail}
                             onChange={(e) => setSearchEmail(e.target.value)}
                             onBlur={() => {
@@ -324,7 +325,7 @@ export default function FilterContainer({
                             className="absolute right-0 top-0 h-full aspect-square"
                             onClick={searchByEmail}
                             disabled={!searchEmail}
-                            aria-label="Search"
+                            aria-label={finalUiText["Search"]}
                         >
                             <Search className="h-4 w-4" />
                         </Button>

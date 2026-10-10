@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import {
     Form,
     FormField,
@@ -139,13 +140,17 @@ const RequestForm = ({ loading }: RequestFormProps) => {
             <div>
                 {status && (
                     <p>
-                        <span className="font-semibold">Status:</span>{" "}
+                        <span className="font-semibold">
+                            {finalUiText["Status:"]}
+                        </span>{" "}
                         {capitalize(status)}
                     </p>
                 )}
                 {message && (
                     <p>
-                        <span className="font-semibold">Our response:</span>{" "}
+                        <span className="font-semibold">
+                            {finalUiText["Our response:"]}
+                        </span>{" "}
                         {capitalize(message)}
                     </p>
                 )}

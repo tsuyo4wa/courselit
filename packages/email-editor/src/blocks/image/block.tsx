@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import { EmailBlock } from "@/types/email-editor";
 import type { ImageBlockSettings } from "./types";
 import { Img, Section } from "@react-email/components";
@@ -64,7 +65,11 @@ export function ImageBlock({ block }: ImageBlockProps) {
                         <div>
                             <ImageIcon className="h-8 w-8 text-gray-400 mx-auto mb-2" />
                             <p className="text-gray-500 text-sm">
-                                Select an image from the settings panel
+                                {
+                                    finalUiText[
+                                        "Select an image from the settings panel"
+                                    ]
+                                }
                             </p>
                         </div>
                     </div>

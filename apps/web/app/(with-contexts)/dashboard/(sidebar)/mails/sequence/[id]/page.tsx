@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import {
@@ -376,7 +377,8 @@ export default function Page(props: {
                             disabled={buttonLoading}
                             onClick={() => startSequence("start")}
                         >
-                            <Play /> Start
+                            <Play />
+                            {finalUiText["Start"]}
                         </Button>
                     )}
                     {sequence.status === "active" && (
@@ -385,7 +387,8 @@ export default function Page(props: {
                             disabled={buttonLoading}
                             onClick={() => startSequence("pause")}
                         >
-                            <Pause /> Pause
+                            <Pause />
+                            {finalUiText["Pause"]}
                         </Button>
                     )}
                 </div>
@@ -434,19 +437,19 @@ export default function Page(props: {
                                     //     value: "TAG_REMOVED",
                                     // },
                                     {
-                                        label: "Product purchased",
+                                        label: finalUiText["Product purchased"],
                                         value: "PRODUCT_PURCHASED",
                                     },
                                     {
-                                        label: "Subscriber added",
+                                        label: finalUiText["Subscriber added"],
                                         value: "SUBSCRIBER_ADDED",
                                     },
                                     {
-                                        label: "Community joined",
+                                        label: finalUiText["Community joined"],
                                         value: "COMMUNITY_JOINED",
                                     },
                                     {
-                                        label: "Community left",
+                                        label: finalUiText["Community left"],
                                         value: "COMMUNITY_LEFT",
                                     },
                                 ]}
@@ -491,7 +494,7 @@ export default function Page(props: {
                             )}
                             <div className="flex justify-between">
                                 <FormSubmit
-                                    text="Save"
+                                    text={finalUiText["Save"]}
                                     loading={loading}
                                     disabled={
                                         !title ||
@@ -512,7 +515,9 @@ export default function Page(props: {
                             </div>
                         </Form>
                         <div className="flex flex-col gap-2">
-                            <h2 className="font-semibold">Emails</h2>
+                            <h2 className="font-semibold">
+                                {finalUiText["Emails"]}
+                            </h2>
                             <div className="flex flex-col gap-2 mb-2">
                                 {emails.map((email) => (
                                     <div
@@ -524,7 +529,7 @@ export default function Page(props: {
                                                 email.delayInMillis /
                                                     (1000 * 60 * 60 * 24),
                                             )}{" "}
-                                            day
+                                            {finalUiText["day"]}
                                         </Badge>
                                         <Link
                                             href={`/dashboard/mails/sequence/${id}/${
@@ -543,7 +548,7 @@ export default function Page(props: {
                                                 variant="outline"
                                                 className="text-xs"
                                             >
-                                                Draft
+                                                {finalUiText["Draft"]}
                                             </Badge>
                                         )}
                                         <Menu2
@@ -576,7 +581,7 @@ export default function Page(props: {
                                     size="sm"
                                 >
                                     <Add />
-                                    New mail
+                                    {finalUiText["New mail"]}
                                 </Button>
                             </div>
                         </div>

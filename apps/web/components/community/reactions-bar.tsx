@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useState, useRef, useEffect } from "react";
 import { CommunityReaction } from "@courselit/common-models";
@@ -117,7 +118,7 @@ export function ReactionsBar({
                         onClick={(e) => {
                             e.stopPropagation();
                         }}
-                        aria-label="Add reaction"
+                        aria-label={finalUiText["Add reaction"]}
                     >
                         <SmilePlus className="h-4 w-4" />
                     </button>

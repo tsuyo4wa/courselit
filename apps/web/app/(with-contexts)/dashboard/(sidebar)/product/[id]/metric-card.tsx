@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useActivities } from "@/hooks/use-activities";
@@ -38,7 +39,8 @@ const MetricCard = ({
                         </div>
                         <p className="text-xs text-muted-foreground">
                             {data.growth > 0 ? "+" : ""}
-                            {data.growth}% from previous period
+                            {data.growth}
+                            {finalUiText["% from previous period"]}
                         </p>
                     </>
                 )}

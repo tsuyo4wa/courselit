@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -101,11 +102,14 @@ export default function ProductDeletion({ product }: ProductDeletionProps) {
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>
-                                Are you absolutely sure?
+                                {finalUiText["Are you absolutely sure?"]}
                             </AlertDialogTitle>
                             <AlertDialogDescription>
-                                This action is irreversible. All product data
-                                will be permanently deleted.
+                                {
+                                    finalUiText[
+                                        "This action is irreversible. All product data will be permanently deleted."
+                                    ]
+                                }
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <div className="py-4">
@@ -113,12 +117,18 @@ export default function ProductDeletion({ product }: ProductDeletionProps) {
                                 htmlFor="delete-confirmation"
                                 className="text-sm font-medium"
                             >
-                                Type &quot;delete&quot; to confirm
+                                {
+                                    finalUiText[
+                                        "Type &quot;delete&quot; to confirm"
+                                    ]
+                                }
                             </Label>
                             <Input
                                 id="delete-confirmation"
                                 type="text"
-                                placeholder="Type 'delete' to confirm"
+                                placeholder={
+                                    finalUiText["Type 'delete' to confirm"]
+                                }
                                 value={deleteConfirmation}
                                 onChange={(e) =>
                                     setDeleteConfirmation(e.target.value)
@@ -127,7 +137,9 @@ export default function ProductDeletion({ product }: ProductDeletionProps) {
                             />
                         </div>
                         <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogCancel>
+                                {finalUiText["Cancel"]}
+                            </AlertDialogCancel>
                             <AlertDialogAction
                                 onClick={deleteProduct}
                                 disabled={
@@ -139,7 +151,7 @@ export default function ProductDeletion({ product }: ProductDeletionProps) {
                                 {isDeleting ? (
                                     <>
                                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                        Deleting...
+                                        {finalUiText["Deleting..."]}
                                     </>
                                 ) : (
                                     "Delete"

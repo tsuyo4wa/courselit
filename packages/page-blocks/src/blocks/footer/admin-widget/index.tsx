@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useEffect, useState } from "react";
 import type Settings from "../settings";
 import {
@@ -44,12 +45,12 @@ export default function AdminWidget({
                 name: "Legal",
                 links: [
                     {
-                        label: "Terms of Use",
+                        label: finalUiText["Terms of Use"],
                         href: "/p/terms",
                         id: generateUniqueId(),
                     },
                     {
-                        label: "Privacy Policy",
+                        label: finalUiText["Privacy Policy"],
                         href: "/p/privacy",
                         id: generateUniqueId(),
                     },
@@ -102,7 +103,7 @@ export default function AdminWidget({
             name: `Section ${sections.length + 1}`,
             links: [
                 {
-                    label: "Link",
+                    label: finalUiText["Link"],
                     href: "https://courselit.app",
                     id: generateUniqueId(),
                 },
@@ -139,7 +140,7 @@ export default function AdminWidget({
 
     const addNewLink = (sectionIndex: number) => {
         const link: Link = {
-            label: "Link",
+            label: finalUiText["Link"],
             href: "https://courselit.app",
             id: generateUniqueId(),
         };
@@ -159,7 +160,7 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["sections", "design", "socials"]}
         >
-            <AdminWidgetPanel title="Sections" value="sections">
+            <AdminWidgetPanel title={finalUiText["Sections"]} value="sections">
                 {sections && (
                     <Accordion type="single" collapsible className="w-full">
                         {sections.map((section, sectionIndex) => (
@@ -179,7 +180,9 @@ export default function AdminWidget({
                                         onSubmit={renameSection(sectionIndex)}
                                     >
                                         <FormField
-                                            label="Section header"
+                                            label={
+                                                finalUiText["Section header"]
+                                            }
                                             value={
                                                 sectionBeingEdited ===
                                                 sectionIndex
@@ -198,7 +201,9 @@ export default function AdminWidget({
                                             <Check />
                                         </IconButton>
                                     </Form>
-                                    <h3 className="mb-1 font-medium">Links</h3>
+                                    <h3 className="mb-1 font-medium">
+                                        {finalUiText["Links"]}
+                                    </h3>
                                     <DragAndDrop
                                         items={section.links.map(
                                             (link: Link, index: number) => ({
@@ -241,7 +246,7 @@ export default function AdminWidget({
                                                 addNewLink(sectionIndex)
                                             }
                                         >
-                                            Add new link
+                                            {finalUiText["Add new link"]}
                                         </Button>
                                     </div>
                                 </AccordionContent>
@@ -255,13 +260,13 @@ export default function AdminWidget({
                         onClick={addNewSection}
                         disabled={sections.length >= 5}
                     >
-                        Add new section
+                        {finalUiText["Add new section"]}
                     </Button>
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <PageBuilderSlider
-                    title="Title font size"
+                    title={finalUiText["Title font size"]}
                     value={titleFontSize}
                     onChange={setTitleFontSize}
                     min={1}
@@ -279,7 +284,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Socials" value="socials">
+            <AdminWidgetPanel title={finalUiText["Socials"]} value="socials">
                 <Form>
                     <FormField
                         label="Facebook"
@@ -318,7 +323,7 @@ export default function AdminWidget({
                     />
                 </Form>
                 <PageBuilderSlider
-                    title="Social icons size"
+                    title={finalUiText["Social icons size"]}
                     value={socialIconsSize}
                     onChange={setSocialIconsSize}
                     min={16}

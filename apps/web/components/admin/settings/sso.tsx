@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { Address } from "@courselit/common-models";
 import { useToast } from "@courselit/components-library";
@@ -58,9 +59,9 @@ import {
 import { Label } from "@components/ui/label";
 
 const formSchema = z.object({
-    idpMetadata: z.string().min(1, "IDP Metadata is required"),
-    entryPoint: z.string().min(1, "Entry Point is required"),
-    cert: z.string().min(1, "Certificate is required"),
+    idpMetadata: z.string().min(1, finalUiText["IDP Metadata is required"]),
+    entryPoint: z.string().min(1, finalUiText["Entry Point is required"]),
+    cert: z.string().min(1, finalUiText["Certificate is required"]),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -218,7 +219,7 @@ export default function SSOProvider({ address }: NewSSOProviderProps) {
         navigator.clipboard.writeText(text);
         toast({
             title: TOAST_TITLE_SUCCESS,
-            description: "URL copied to clipboard",
+            description: finalUiText["URL copied to clipboard"],
         });
     };
 
@@ -307,7 +308,7 @@ export default function SSOProvider({ address }: NewSSOProviderProps) {
                             links={[
                                 {
                                     href: "https://docs.courselit.app/en/schools/sso",
-                                    text: "Setup SSO",
+                                    text: finalUiText["Setup SSO"],
                                 },
                             ]}
                         />
@@ -332,16 +333,19 @@ export default function SSOProvider({ address }: NewSSOProviderProps) {
                                 <AlertDialogContent>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>
-                                            Clear SSO config?
+                                            {finalUiText["Clear SSO config?"]}
                                         </AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            This action is irreversible. All
-                                            provider config will be wiped off.
+                                            {
+                                                finalUiText[
+                                                    "This action is irreversible. All provider config will be wiped off."
+                                                ]
+                                            }
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
                                         <AlertDialogCancel>
-                                            Cancel
+                                            {finalUiText["Cancel"]}
                                         </AlertDialogCancel>
                                         <AlertDialogAction
                                             onClick={resetProvider}
@@ -350,7 +354,11 @@ export default function SSOProvider({ address }: NewSSOProviderProps) {
                                             {isDeleting ? (
                                                 <>
                                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                                    Resetting...
+                                                    {
+                                                        finalUiText[
+                                                            "Resetting..."
+                                                        ]
+                                                    }
                                                 </>
                                             ) : (
                                                 "Reset"
@@ -364,10 +372,13 @@ export default function SSOProvider({ address }: NewSSOProviderProps) {
                 </Card>
                 <Card className="w-full lg:w-1/2">
                     <CardHeader>
-                        <CardTitle>School Settings</CardTitle>
+                        <CardTitle>{finalUiText["School Settings"]}</CardTitle>
                         <CardDescription>
-                            Configuration to be entered in your IDP (Okta, Azure
-                            AD, OneLogin etc.)
+                            {
+                                finalUiText[
+                                    "Configuration to be entered in your IDP (Okta, Azure AD, OneLogin etc.)"
+                                ]
+                            }
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

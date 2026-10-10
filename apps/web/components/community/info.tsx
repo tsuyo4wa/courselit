@@ -1,3 +1,6 @@
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -98,7 +101,7 @@ export function CommunityInfo({
         navigator.clipboard.writeText(`${address.frontend}/p/${pageId}`);
         toast({
             title: TOAST_TITLE_SUCCESS,
-            description: "Page URL copied to clipboard!",
+            description: finalUiText["Page URL copied to clipboard!"],
         });
     };
 
@@ -121,7 +124,7 @@ export function CommunityInfo({
             <CardContent className="space-y-4">
                 <img
                     src={image}
-                    alt={`${name} community`}
+                    alt={finalUiDynamic.community(name)}
                     className="w-full aspect-video object-cover rounded-lg"
                 />
                 <div className="space-y-2">
@@ -136,7 +139,8 @@ export function CommunityInfo({
                         )}
                     </div>
                     <p className="text-sm">
-                        <strong>{memberCount.toLocaleString()}</strong> members
+                        <strong>{memberCount.toLocaleString()}</strong>
+                        {finalUiText["members"]}
                     </p>
                 </div>
                 {!membership && (
@@ -147,7 +151,8 @@ export function CommunityInfo({
                                 className="w-full"
                             >
                                 <Button className="w-full">
-                                    Join {currencySymbol}
+                                    {finalUiText["Join"]}
+                                    {currencySymbol}
                                     {amount} {period}
                                 </Button>
                             </Link>
@@ -159,7 +164,8 @@ export function CommunityInfo({
                             >
                                 <DialogTrigger asChild>
                                     <Button className="w-full">
-                                        Join {currencySymbol}
+                                        {finalUiText["Join"]}
+                                        {currencySymbol}
                                         {amount} {period}
                                     </Button>
                                 </DialogTrigger>
@@ -177,11 +183,15 @@ export function CommunityInfo({
                                                         e.target.value,
                                                     )
                                                 }
-                                                placeholder="Reason to join"
+                                                placeholder={
+                                                    finalUiText[
+                                                        "Reason to join"
+                                                    ]
+                                                }
                                                 required
                                             />
                                             <Button type="submit">
-                                                Submit
+                                                {finalUiText["Submit"]}
                                             </Button>
                                         </div>
                                     </Form>
@@ -198,7 +208,7 @@ export function CommunityInfo({
                                 variant="outline"
                                 className="w-full"
                             >
-                                Leave Community
+                                {finalUiText["Leave Community"]}
                             </Button>
                             <Dialog
                                 open={showLeaveConfirmation}
@@ -207,15 +217,20 @@ export function CommunityInfo({
                                 <DialogContent>
                                     <DialogHeader>
                                         <DialogTitle>
-                                            Leave Community
+                                            {finalUiText["Leave Community"]}
                                         </DialogTitle>
                                         <DialogDescription>
-                                            Are you sure you want to leave this
-                                            community? <br></br> <br></br>
-                                            You’ll lose access to all community
-                                            content, discussions and included
-                                            products. Ongoing subscription will
-                                            also be canceled, if any.
+                                            {
+                                                finalUiText[
+                                                    "Are you sure you want to leave this community?"
+                                                ]
+                                            }
+                                            <br></br> <br></br>
+                                            {
+                                                finalUiText[
+                                                    "You’ll lose access to all community content, discussions and included products. Ongoing subscription will also be canceled, if any."
+                                                ]
+                                            }
                                         </DialogDescription>
                                     </DialogHeader>
                                     <DialogFooter>
@@ -225,13 +240,13 @@ export function CommunityInfo({
                                                 setShowLeaveConfirmation(false)
                                             }
                                         >
-                                            Cancel
+                                            {finalUiText["Cancel"]}
                                         </Button>
                                         <Button
                                             variant="destructive"
                                             onClick={handleConfirmLeave}
                                         >
-                                            Leave Community
+                                            {finalUiText["Leave Community"]}
                                         </Button>
                                     </DialogFooter>
                                 </DialogContent>
@@ -242,7 +257,7 @@ export function CommunityInfo({
                     membership.status ===
                         Constants.MembershipStatus.PENDING && (
                         <Button disabled className="w-full">
-                            Membership Pending
+                            {finalUiText["Membership Pending"]}
                         </Button>
                     )}
                 {membership &&
@@ -250,13 +265,13 @@ export function CommunityInfo({
                         Constants.MembershipStatus.REJECTED && (
                         <>
                             <Button disabled className="w-full">
-                                Membership Rejected
+                                {finalUiText["Membership Rejected"]}
                             </Button>
                             {membership.rejectionReason && (
                                 <Alert variant="destructive">
                                     <AlertDescription>
-                                        <b>Rejection reason</b>:{" "}
-                                        {membership.rejectionReason}
+                                        <b>{finalUiText["Rejection reason"]}</b>
+                                        : {membership.rejectionReason}
                                     </AlertDescription>
                                 </Alert>
                             )}

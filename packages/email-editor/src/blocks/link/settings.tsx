@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import type { EmailBlock, EmailStyle } from "@/types/email-editor";
 import type { LinkBlockSettings } from "./types";
 import { SettingsInput } from "@/components/settings/settings-input";
@@ -47,26 +48,26 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
 
     // Alignment options
     const alignmentOptions = [
-        { value: "left", label: "Left" },
-        { value: "center", label: "Center" },
-        { value: "right", label: "Right" },
+        { value: "left", label: finalUiText["Left"] },
+        { value: "center", label: finalUiText["Center"] },
+        { value: "right", label: finalUiText["Right"] },
     ];
 
     // Text decoration options
     const textDecorationOptions = [
-        { value: "none", label: "None" },
-        { value: "underline", label: "Underline" },
-        { value: "overline", label: "Overline" },
-        { value: "line-through", label: "Line Through" },
+        { value: "none", label: "なし" },
+        { value: "underline", label: finalUiText["Underline"] },
+        { value: "overline", label: finalUiText["Overline"] },
+        { value: "line-through", label: finalUiText["Line Through"] },
     ];
 
     return (
         <div className="space-y-4">
             <SettingsInput
-                label="Link Text"
+                label={finalUiText["Link Text"]}
                 value={block.settings.text || ""}
                 onChange={(value) => handleSettingChange("text", value)}
-                placeholder="Enter link text"
+                placeholder={finalUiText["Enter link text"]}
             />
 
             <SettingsInput
@@ -77,7 +78,7 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
             />
 
             <SettingsSelect
-                label="Alignment"
+                label={finalUiText["Alignment"]}
                 value={block.settings.alignment || "left"}
                 onChange={(value) => handleSettingChange("alignment", value)}
                 options={alignmentOptions}
@@ -85,14 +86,14 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
             />
 
             <SettingsColorPicker
-                label="Text Color"
+                label={finalUiText["Text Color"]}
                 value={block.settings.textColor || "#0284c7"}
                 onChange={(value) => handleSettingChange("textColor", value)}
                 defaultValue="#0284c7"
             />
 
             <SettingsSelect
-                label="Font Size"
+                label={finalUiText["Font Size"]}
                 value={block.settings.fontSize || "16px"}
                 onChange={(value) => handleSettingChange("fontSize", value)}
                 options={fontSizeOptions}
@@ -100,7 +101,7 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
             />
 
             <SettingsSelect
-                label="Text Decoration"
+                label={finalUiText["Text Decoration"]}
                 value={block.settings.textDecoration || "underline"}
                 onChange={(value) =>
                     handleSettingChange("textDecoration", value)
@@ -110,7 +111,7 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
             />
 
             <SettingsSwitch
-                label="Button Style"
+                label={finalUiText["Button Style"]}
                 checked={block.settings.isButton || false}
                 onCheckedChange={(value) =>
                     handleSettingChange("isButton", value)
@@ -118,9 +119,9 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
             />
 
             {/* Common Block Settings */}
-            <SettingsSection title="Block Settings">
+            <SettingsSection title={finalUiText["Block Settings"]}>
                 <SettingsColorPicker
-                    label="Background Color"
+                    label={finalUiText["Background Color"]}
                     value={block.settings.backgroundColor || "transparent"}
                     onChange={(value) =>
                         handleSettingChange("backgroundColor", value)
@@ -129,7 +130,7 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
                 />
 
                 <SettingsColorPicker
-                    label="Foreground Color"
+                    label={finalUiText["Foreground Color"]}
                     value={block.settings.foregroundColor || "#000000"}
                     onChange={(value) =>
                         handleSettingChange("foregroundColor", value)
@@ -138,7 +139,7 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
                 />
 
                 <SettingsSlider
-                    label="Padding Top"
+                    label={finalUiText["Padding Top"]}
                     value={pxToNumber(
                         block.settings.paddingTop ||
                             style?.structure.section.padding?.y,
@@ -156,7 +157,7 @@ export function LinkSettings({ block, style, updateBlock }: LinkSettingsProps) {
                 />
 
                 <SettingsSlider
-                    label="Padding Bottom"
+                    label={finalUiText["Padding Bottom"]}
                     value={pxToNumber(
                         block.settings.paddingBottom ||
                             style?.structure.section.padding?.y,

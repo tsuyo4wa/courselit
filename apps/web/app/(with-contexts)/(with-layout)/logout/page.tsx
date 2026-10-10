@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { Section, Text1, Button } from "@courselit/page-primitives";
 import { LOGOUT, LOGOUT_MESSAGE } from "@ui-config/strings";
@@ -22,7 +23,7 @@ export default function ClientSide() {
 
         if (error) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: error?.message,
                 variant: "destructive",
             });

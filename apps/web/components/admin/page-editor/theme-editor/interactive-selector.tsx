@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React from "react";
 import {
     Select,
@@ -61,32 +62,36 @@ function InteractiveSelector({
                 return (
                     <div className="space-y-2 flex flex-col">
                         <Label className="text-xs text-muted-foreground">
-                            Preview
+                            {finalUiText["Preview"]}
                         </Label>
-                        <Button theme={theme}>Preview</Button>
+                        <Button theme={theme}>{finalUiText["Preview"]}</Button>
                     </div>
                 );
             case "link":
                 return (
                     <div className="space-y-2 flex flex-col">
                         <Label className="text-xs text-muted-foreground">
-                            Preview
+                            {finalUiText["Preview"]}
                         </Label>
-                        <PageLink theme={theme}>Demo Link</PageLink>
+                        <PageLink theme={theme}>
+                            {finalUiText["Demo Link"]}
+                        </PageLink>
                     </div>
                 );
             case "card":
                 return (
                     <div className="space-y-2 flex flex-col">
                         <Label className="text-xs text-muted-foreground">
-                            Preview
+                            {finalUiText["Preview"]}
                         </Label>
                         <PageCard theme={theme}>
                             <PageCardContent theme={theme}>
                                 <PageCardHeader theme={theme}>
-                                    Card Title
+                                    {finalUiText["Card Title"]}
                                 </PageCardHeader>
-                                <div>Card content goes here</div>
+                                <div>
+                                    {finalUiText["Card content goes here"]}
+                                </div>
                             </PageCardContent>
                         </PageCard>
                     </div>
@@ -95,12 +100,12 @@ function InteractiveSelector({
                 return (
                     <div className="space-y-2 flex flex-col">
                         <Label className="text-xs text-muted-foreground">
-                            Preview
+                            {finalUiText["Preview"]}
                         </Label>
                         <PageInput
                             theme={theme}
                             type="text"
-                            placeholder="Demo Input"
+                            placeholder={finalUiText["Demo Input"]}
                         />
                     </div>
                 );
@@ -132,12 +137,12 @@ function InteractiveSelector({
                     className="border rounded-md mb-4"
                 >
                     <AccordionTrigger className="px-2 py-3 text-xs font-semibold rounded-t-md hover:bg-muted transition-colors hover:no-underline data-[state=open]:border-b">
-                        Padding
+                        {finalUiText["Padding"]}
                     </AccordionTrigger>
                     <AccordionContent className="px-2 pb-4 pt-2">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Padding X</Label>
+                                <Label>{finalUiText["Padding X"]}</Label>
                                 <Select
                                     value={value?.padding?.x || ""}
                                     onValueChange={(newValue) => {
@@ -157,7 +162,11 @@ function InteractiveSelector({
                                     }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select padding" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText["Select padding"]
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {filteredPaddingX.map((option) => (
@@ -172,7 +181,7 @@ function InteractiveSelector({
                                 </Select>
                             </div>
                             <div className="space-y-2">
-                                <Label>Padding Y</Label>
+                                <Label>{finalUiText["Padding Y"]}</Label>
                                 <Select
                                     value={value?.padding?.y || ""}
                                     onValueChange={(newValue) => {
@@ -192,7 +201,11 @@ function InteractiveSelector({
                                     }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select padding" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText["Select padding"]
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {filteredPaddingY.map((option) => (
@@ -215,13 +228,13 @@ function InteractiveSelector({
         const renderBorderConfig = () => (
             <AccordionItem value="border" className="border rounded-md mb-4">
                 <AccordionTrigger className="px-2 py-3 text-xs font-semibold rounded-t-md hover:bg-muted transition-colors hover:no-underline data-[state=open]:border-b">
-                    Border
+                    {finalUiText["Border"]}
                 </AccordionTrigger>
                 <AccordionContent className="px-2 pb-4 pt-2">
                     <div className="space-y-6">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Border Radius</Label>
+                                <Label>{finalUiText["Border Radius"]}</Label>
                                 <Select
                                     value={value?.border?.radius || ""}
                                     onValueChange={(newValue) => {
@@ -241,7 +254,11 @@ function InteractiveSelector({
                                     }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select radius" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText["Select radius"]
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {borderRadiusOptions.map((option) => (
@@ -256,7 +273,7 @@ function InteractiveSelector({
                                 </Select>
                             </div>
                             <div className="space-y-2">
-                                <Label>Border Style</Label>
+                                <Label>{finalUiText["Border Style"]}</Label>
                                 <Select
                                     value={value?.border?.style || ""}
                                     onValueChange={(newValue) => {
@@ -276,7 +293,11 @@ function InteractiveSelector({
                                     }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select style" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText["Select style"]
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {borderStyleOptions.map((option) => (
@@ -293,7 +314,7 @@ function InteractiveSelector({
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label>Border Width</Label>
+                                <Label>{finalUiText["Border Width"]}</Label>
                                 <Select
                                     value={value?.border?.width || ""}
                                     onValueChange={(newValue) => {
@@ -313,7 +334,11 @@ function InteractiveSelector({
                                     }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select width" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText["Select width"]
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {borderWidthOptions.map((option) => (
@@ -350,12 +375,12 @@ function InteractiveSelector({
                     className="border rounded-md mb-4"
                 >
                     <AccordionTrigger className="px-2 py-3 text-xs font-semibold rounded-t-md hover:bg-muted transition-colors hover:no-underline data-[state=open]:border-b">
-                        Shadow
+                        {finalUiText["Shadow"]}
                     </AccordionTrigger>
                     <AccordionContent className="px-2 pb-4 pt-2">
                         <div className="space-y-2">
                             <div className="space-y-2">
-                                <Label>Shadow</Label>
+                                <Label>{finalUiText["Shadow"]}</Label>
                                 <Select
                                     value={interactiveValue.shadow || ""}
                                     onValueChange={(newValue) => {
@@ -372,7 +397,11 @@ function InteractiveSelector({
                                     }}
                                 >
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select shadow" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText["Select shadow"]
+                                            }
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {shadowOptions.map((option) => (
@@ -395,11 +424,11 @@ function InteractiveSelector({
         const renderHoverInput = () => (
             <AccordionItem value="advanced" className="border rounded-md mb-4">
                 <AccordionTrigger className="px-2 py-3 text-xs font-semibold rounded-t-md hover:bg-muted transition-colors hover:no-underline data-[state=open]:border-b">
-                    Advanced
+                    {finalUiText["Advanced"]}
                 </AccordionTrigger>
                 <AccordionContent className="px-2 pb-4 pt-2">
                     <div className="space-y-2">
-                        <Label>Custom classes</Label>
+                        <Label>{finalUiText["Custom classes"]}</Label>
                         <Input
                             value={value?.custom || ""}
                             onChange={(e) => {
@@ -414,13 +443,17 @@ function InteractiveSelector({
                                     },
                                 });
                             }}
-                            placeholder="Enter Tailwind classes"
+                            placeholder={finalUiText["Enter Tailwind classes"]}
                             className="w-full"
                         />
                         <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <Info className="h-4 w-4" />
                             <span>
-                                Use any supported Tailwind class here.{" "}
+                                {
+                                    finalUiText[
+                                        "Use any supported Tailwind class here."
+                                    ]
+                                }{" "}
                                 <DocumentationLink path="/en/website/themes#supported-tailwind-classes" />
                             </span>
                         </div>
@@ -455,11 +488,13 @@ function InteractiveSelector({
                                 className="border rounded-md mb-4"
                             >
                                 <AccordionTrigger className="px-2 py-3 text-xs font-semibold rounded-t-md hover:bg-muted transition-colors hover:no-underline data-[state=open]:border-b">
-                                    Text Shadow
+                                    {finalUiText["Text Shadow"]}
                                 </AccordionTrigger>
                                 <AccordionContent className="px-2 pb-4 pt-2">
                                     <div className="space-y-2">
-                                        <Label>Text Shadow</Label>
+                                        <Label>
+                                            {finalUiText["Text Shadow"]}
+                                        </Label>
                                         <Input
                                             value={linkValue?.textShadow || ""}
                                             placeholder="0px 0px 0px 0px rgba(0, 0, 0, 0.1)"

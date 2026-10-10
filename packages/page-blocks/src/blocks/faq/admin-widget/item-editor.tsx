@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import { useState } from "react";
 import { Item } from "../settings";
 import {
@@ -43,17 +44,23 @@ export default function ItemEditor({
             <Alert variant="destructive" className="mb-4">
                 <AlertCircle className="w-4 h-4" />
                 <AlertDescription>
-                    Changes will be visible upon clicking Done button
+                    {
+                        finalUiText[
+                            "Changes will be visible upon clicking Done button"
+                        ]
+                    }
                 </AlertDescription>
             </Alert>
             <Form onSubmit={(e) => e.preventDefault()}>
                 <FormField
-                    label="Title"
+                    label={finalUiText["Title"]}
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
                 <div>
-                    <p className="mb-1 font-medium">Description</p>
+                    <p className="mb-1 font-medium">
+                        {finalUiText["Description"]}
+                    </p>
                     <Editor
                         initialContent={description}
                         onChange={(state: any) => setDescription(state)}
@@ -62,7 +69,7 @@ export default function ItemEditor({
                     />
                 </div>
                 <div className="flex justify-between">
-                    <Tooltip title="Delete">
+                    <Tooltip title={finalUiText["Delete"]}>
                         <Button
                             component="button"
                             onClick={() => {
@@ -74,12 +81,14 @@ export default function ItemEditor({
                             }}
                             variant="soft"
                         >
-                            {deleteConfirmation ? "Sure?" : "Delete"}
+                            {deleteConfirmation
+                                ? finalUiText["Sure?"]
+                                : finalUiText["Delete"]}
                         </Button>
                     </Tooltip>
-                    <Tooltip title="Go back">
+                    <Tooltip title={finalUiText["Go back"]}>
                         <Button component="button" onClick={itemChanged}>
-                            Done
+                            {finalUiText["Done"]}
                         </Button>
                     </Tooltip>
                 </div>

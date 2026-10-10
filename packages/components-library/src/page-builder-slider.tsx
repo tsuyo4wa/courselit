@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import { Help } from "@courselit/icons";
 import { Slider } from "./components/ui/slider";
 import { Input } from "./components/ui/input";
@@ -64,7 +65,7 @@ export default function PageBuilderSlider({
                         </div>
                     </div>
                     {allowsReset && (
-                        <Tooltip title="Reset">
+                        <Tooltip title={finalUiText["Reset"]}>
                             <IconButton
                                 onClick={(e) => {
                                     e.preventDefault();

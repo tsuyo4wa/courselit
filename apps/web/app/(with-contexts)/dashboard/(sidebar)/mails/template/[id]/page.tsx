@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useEffect, useMemo, useRef, useState, use } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,7 +57,7 @@ import {
 } from "@ui-config/strings";
 
 const formSchema = z.object({
-    title: z.string().trim().min(1, "Template name is required"),
+    title: z.string().trim().min(1, finalUiText["Template name is required"]),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -366,7 +367,9 @@ export default function Page(props: {
                                 </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogCancel>
+                                    {finalUiText["Cancel"]}
+                                </AlertDialogCancel>
                                 <AlertDialogAction
                                     onClick={deleteTemplate}
                                     className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useState } from "react";
 import { Edit, Help } from "@courselit/icons";
 import { Link } from "../settings";
@@ -61,7 +62,7 @@ export default function LinkEditor({
             {editing && (
                 <Form className="flex flex-col gap-2 mb-4">
                     <FormField
-                        label="Label"
+                        label={finalUiText["Label"]}
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
                     />
@@ -71,7 +72,7 @@ export default function LinkEditor({
                         onChange={(e) => setHref(e.target.value)}
                     />
                     <div className="flex justify-between">
-                        <p>Show as button</p>
+                        <p>{finalUiText["Show as button"]}</p>
                         <Checkbox
                             checked={isButton}
                             onChange={(value: boolean) => setIsButton(value)}
@@ -79,8 +80,14 @@ export default function LinkEditor({
                     </div>
                     <div className="flex justify-between">
                         <div className="flex grow items-center gap-1">
-                            <p>Primary control</p>
-                            <Tooltip title="On the desktop, this link appears in the right corner">
+                            <p>{finalUiText["Primary control"]}</p>
+                            <Tooltip
+                                title={
+                                    finalUiText[
+                                        "On the desktop, this link appears in the right corner"
+                                    ]
+                                }
+                            >
                                 <Help />
                             </Tooltip>
                         </div>
@@ -95,10 +102,10 @@ export default function LinkEditor({
                             onClick={deleteLink}
                             variant="soft"
                         >
-                            Delete
+                            {finalUiText["Delete"]}
                         </Button>
                         <Button onClick={updateLink} component="button">
-                            Save
+                            {finalUiText["Save"]}
                         </Button>
                     </div>
                 </Form>

@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText, finalUiLabels } from "@/config/strings";
 
 import { checkoutStrings } from "@/config/strings";
 
@@ -74,7 +75,9 @@ export function LoginForm({
             toast({
                 title: TOAST_TITLE_ERROR,
                 description:
-                    "reCAPTCHA service not available. Please try again later.",
+                    finalUiText[
+                        "reCAPTCHA service not available. Please try again later."
+                    ],
                 variant: "destructive",
             });
             setLoading(false);
@@ -85,7 +88,10 @@ export function LoginForm({
         if (!recaptchaToken) {
             toast({
                 title: TOAST_TITLE_ERROR,
-                description: "reCAPTCHA validation failed. Please try again.",
+                description:
+                    finalUiText[
+                        "reCAPTCHA validation failed. Please try again."
+                    ],
                 variant: "destructive",
             });
             setLoading(false);
@@ -110,7 +116,7 @@ export function LoginForm({
             ) {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description: `reCAPTCHA verification failed. ${recaptchaData.score ? `Score: ${recaptchaData.score.toFixed(2)}.` : ""} Please try again.`,
+                    description: finalUiLabels.recaptchaError,
                     variant: "destructive",
                 });
                 setLoading(false);
@@ -119,7 +125,10 @@ export function LoginForm({
         } catch (err) {
             toast({
                 title: TOAST_TITLE_ERROR,
-                description: "reCAPTCHA verification failed. Please try again.",
+                description:
+                    finalUiText[
+                        "reCAPTCHA verification failed. Please try again."
+                    ],
                 variant: "destructive",
             });
             setLoading(false);
@@ -149,7 +158,7 @@ export function LoginForm({
         if (!emailValue || !/\S+@\S+\.\S+/.test(emailValue)) {
             form.setError("email", {
                 type: "manual",
-                message: "Please enter a valid email address",
+                message: finalUiText["Please enter a valid email address"],
             });
             return;
         }
@@ -242,7 +251,11 @@ export function LoginForm({
                                                 <Input
                                                     theme={theme.theme}
                                                     type="email"
-                                                    placeholder="Email address"
+                                                    placeholder={
+                                                        finalUiText[
+                                                            "Email address"
+                                                        ]
+                                                    }
                                                     {...field}
                                                 />
                                             </FormControl>

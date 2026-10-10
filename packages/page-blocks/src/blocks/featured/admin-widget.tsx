@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import type { Theme, ThemeStyle } from "@courselit/page-models";
 import Settings from "./settings";
@@ -39,7 +40,7 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        text: "ここに説明文を入力してください。",
                     },
                 ],
             },
@@ -133,18 +134,20 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["header", "products", "design"]}
         >
-            <AdminWidgetPanel title="Header" value="header">
+            <AdminWidgetPanel title={finalUiText["Header"]} value="header">
                 <Form>
                     <FormField
                         value={title}
-                        label="Title"
+                        label={finalUiText["Title"]}
                         onChange={(e: ChangeEvent<HTMLInputElement>) =>
                             setTitle(e.target.value)
                         }
                     />
                 </Form>
                 <div>
-                    <p className="mb-1 font-medium">Description</p>
+                    <p className="mb-1 font-medium">
+                        {finalUiText["Description"]}
+                    </p>
                     <Editor
                         initialContent={description}
                         onChange={(state: any) => setDescription(state)}
@@ -153,11 +156,11 @@ export default function AdminWidget({
                     />
                 </div>
                 <Select
-                    title="Header alignment"
+                    title={finalUiText["Header alignment"]}
                     value={headerAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setHeaderAlignment(value)}
                 />
@@ -168,9 +171,12 @@ export default function AdminWidget({
                 </div>
             )}
             {productsLoaded && (
-                <AdminWidgetPanel title="Products" value="products">
+                <AdminWidgetPanel
+                    title={finalUiText["Products"]}
+                    value="products"
+                >
                     <Select
-                        title="Select a product"
+                        title={finalUiText["Select a product"]}
                         value={""}
                         options={allProducts
                             .filter(
@@ -210,7 +216,7 @@ export default function AdminWidget({
                     </ul>
                 </AdminWidgetPanel>
             )}
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <MaxWidthSelector
                     value={maxWidth || theme.theme.structure.page.width}
                     onChange={setMaxWidth}
@@ -223,7 +229,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

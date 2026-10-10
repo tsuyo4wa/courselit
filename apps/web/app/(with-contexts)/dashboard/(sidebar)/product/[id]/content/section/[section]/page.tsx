@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { ChangeEvent, useContext, useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
@@ -302,17 +303,19 @@ export default function SectionPage(props: {
                         {EDIT_SECTION_HEADER}
                     </h1>
                     <p className="text-muted-foreground mt-2">
-                        Update section details
+                        {finalUiText["Update section details"]}
                     </p>
                 </div>
 
                 <Form onSubmit={handleSave} className="space-y-8">
                     <div className="space-y-4">
-                        <Label htmlFor="name">Section Name</Label>
+                        <Label htmlFor="name">
+                            {finalUiText["Section Name"]}
+                        </Label>
                         <Input
                             id="name"
                             data-error="sectionName"
-                            placeholder="Enter section name"
+                            placeholder={finalUiText["Enter section name"]}
                             value={sectionName}
                             onChange={(e) => setSectionName(e.target.value)}
                             className={
@@ -333,7 +336,7 @@ export default function SectionPage(props: {
                         <div className="space-y-6">
                             <div className="flex items-center gap-2">
                                 <h2 className="text-lg font-semibold">
-                                    Content Release
+                                    {finalUiText["Content Release"]}
                                 </h2>
                                 <TooltipProvider>
                                     <Tooltip>
@@ -342,8 +345,11 @@ export default function SectionPage(props: {
                                         </TooltipTrigger>
                                         <TooltipContent>
                                             <p>
-                                                Control when this section
-                                                becomes available to students
+                                                {
+                                                    finalUiText[
+                                                        "Control when this section becomes available to students"
+                                                    ]
+                                                }
                                             </p>
                                         </TooltipContent>
                                     </Tooltip>
@@ -353,11 +359,14 @@ export default function SectionPage(props: {
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
                                     <Label htmlFor="enable-drip">
-                                        Scheduled Release
+                                        {finalUiText["Scheduled Release"]}
                                     </Label>
                                     <p className="text-sm text-muted-foreground">
-                                        Release content gradually to your
-                                        students
+                                        {
+                                            finalUiText[
+                                                "Release content gradually to your students"
+                                            ]
+                                        }
                                     </p>
                                 </div>
                                 <Switch
@@ -371,7 +380,9 @@ export default function SectionPage(props: {
                                 <div className="rounded-lg border p-4 space-y-6 animate-in fade-in-50">
                                     <div className="space-y-4">
                                         <div className="space-y-2">
-                                            <Label>Release Type</Label>
+                                            <Label>
+                                                {finalUiText["Release Type"]}
+                                            </Label>
                                             <Select
                                                 value={dripType}
                                                 onValueChange={(
@@ -386,7 +397,13 @@ export default function SectionPage(props: {
                                                             : ""
                                                     }
                                                 >
-                                                    <SelectValue placeholder="Select release type" />
+                                                    <SelectValue
+                                                        placeholder={
+                                                            finalUiText[
+                                                                "Select release type"
+                                                            ]
+                                                        }
+                                                    />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem
@@ -395,7 +412,11 @@ export default function SectionPage(props: {
                                                                 .dripType[1]
                                                         }
                                                     >
-                                                        Release on specific date
+                                                        {
+                                                            finalUiText[
+                                                                "Release on specific date"
+                                                            ]
+                                                        }
                                                     </SelectItem>
                                                     <SelectItem
                                                         value={
@@ -403,8 +424,11 @@ export default function SectionPage(props: {
                                                                 .dripType[0]
                                                         }
                                                     >
-                                                        Release days after
-                                                        previous section
+                                                        {
+                                                            finalUiText[
+                                                                "Release days after previous section"
+                                                            ]
+                                                        }
                                                     </SelectItem>
                                                 </SelectContent>
                                             </Select>
@@ -418,7 +442,11 @@ export default function SectionPage(props: {
                                         {dripType === Constants.dripType[1] && (
                                             <div className="space-y-2">
                                                 <Label htmlFor="releaseDate">
-                                                    Release Date & Time
+                                                    {
+                                                        finalUiText[
+                                                            "Release Date & Time"
+                                                        ]
+                                                    }
                                                 </Label>
                                                 <Input
                                                     id="releaseDate"
@@ -467,7 +495,11 @@ export default function SectionPage(props: {
                                         {dripType === Constants.dripType[0] && (
                                             <div className="space-y-2">
                                                 <Label htmlFor="releaseDays">
-                                                    Days after previous section
+                                                    {
+                                                        finalUiText[
+                                                            "Days after previous section"
+                                                        ]
+                                                    }
                                                 </Label>
                                                 <div className="flex items-center space-x-2 max-w-[200px]">
                                                     <Input
@@ -489,7 +521,7 @@ export default function SectionPage(props: {
                                                         }
                                                     />
                                                     <span className="text-sm text-muted-foreground whitespace-nowrap">
-                                                        days
+                                                        {finalUiText["days"]}
                                                     </span>
                                                 </div>
                                                 {errors.releaseDays && (
@@ -507,11 +539,18 @@ export default function SectionPage(props: {
                                         <div className="flex items-center justify-between">
                                             <div className="space-y-0.5">
                                                 <Label htmlFor="notify-users">
-                                                    Email Notification
+                                                    {
+                                                        finalUiText[
+                                                            "Email Notification"
+                                                        ]
+                                                    }
                                                 </Label>
                                                 <p className="text-sm text-muted-foreground">
-                                                    Notify students when content
-                                                    becomes available
+                                                    {
+                                                        finalUiText[
+                                                            "Notify students when content becomes available"
+                                                        ]
+                                                    }
                                                 </p>
                                             </div>
                                             <Switch
@@ -544,10 +583,11 @@ export default function SectionPage(props: {
                                                         <Alert>
                                                             <AlertCircle className="h-4 w-4" />
                                                             <AlertDescription>
-                                                                Please save the
-                                                                changes first to
-                                                                enable email
-                                                                editing
+                                                                {
+                                                                    finalUiText[
+                                                                        "Please save the changes first to enable email editing"
+                                                                    ]
+                                                                }
                                                             </AlertDescription>
                                                         </Alert>
                                                     )}
@@ -574,11 +614,11 @@ export default function SectionPage(props: {
                             <Link
                                 href={`/dashboard/product/${productId}/content`}
                             >
-                                Cancel
+                                {finalUiText["Cancel"]}
                             </Link>
                         </Button>
                         <Button type="submit" disabled={loading}>
-                            Save changes
+                            {finalUiText["Save changes"]}
                         </Button>
                     </div>
                 </Form>
@@ -587,7 +627,7 @@ export default function SectionPage(props: {
                 links={[
                     {
                         href: "https://docs.courselit.app/en/courses/section#drip-a-section",
-                        text: "Drip content",
+                        text: finalUiText["Drip content"],
                     },
                 ]}
             />

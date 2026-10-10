@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useState, useRef, useEffect } from "react";
 import { SvgStyle } from "../settings";
 import {
@@ -155,7 +156,7 @@ export default function SvgEditor({
         <div>
             <Textarea
                 ref={textareaRef}
-                placeholder="Enter SVG code here..."
+                placeholder={finalUiText["Enter SVG code here..."]}
                 className="min-h-[150px] font-mono text-sm mb-4"
                 rows={10}
                 value={tempSvgCode}
@@ -170,7 +171,7 @@ export default function SvgEditor({
                 >
                     Lucide icons
                 </a>{" "}
-                works the best with CourseLit.
+                {finalUiText["works the best with CourseLit."]}
             </p>
             {error && (
                 <Alert variant="destructive" className="mb-4">
@@ -188,7 +189,7 @@ export default function SvgEditor({
                     variant="outline"
                     size="sm"
                 >
-                    Cancel
+                    {finalUiText["Cancel"]}
                 </Button2>
                 <Button2
                     type="submit"
@@ -199,7 +200,8 @@ export default function SvgEditor({
                         saveSvgChanges();
                     }}
                 >
-                    <Check /> Save
+                    <Check />
+                    {finalUiText["Save"]}
                 </Button2>
             </div>
         </div>

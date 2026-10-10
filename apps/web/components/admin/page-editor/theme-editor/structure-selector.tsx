@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React from "react";
 import {
     Select,
@@ -18,11 +19,11 @@ interface StructureSelectorProps {
 }
 
 const pageWidthOptions = [
-    { value: "max-w-2xl", label: "Small (2xl)" },
-    { value: "max-w-3xl", label: "Medium (3xl)" },
-    { value: "max-w-4xl", label: "Large (4xl)" },
-    { value: "max-w-5xl", label: "Extra Large (5xl)" },
-    { value: "max-w-6xl", label: "2x Extra Large (6xl)" },
+    { value: "max-w-2xl", label: finalUiText["Small (2xl)"] },
+    { value: "max-w-3xl", label: finalUiText["Medium (3xl)"] },
+    { value: "max-w-4xl", label: finalUiText["Large (4xl)"] },
+    { value: "max-w-5xl", label: finalUiText["Extra Large (5xl)"] },
+    { value: "max-w-6xl", label: finalUiText["2x Extra Large (6xl)"] },
 ] as const;
 
 function StructureSelector({
@@ -38,7 +39,7 @@ function StructureSelector({
             const pageValue = value as ThemeStyle["structure"]["page"];
             return (
                 <div className="space-y-2">
-                    <Label>Page Width</Label>
+                    <Label>{finalUiText["Page Width"]}</Label>
                     <Select
                         value={pageValue?.width || ""}
                         onValueChange={(
@@ -56,7 +57,9 @@ function StructureSelector({
                         }}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder="Select width" />
+                            <SelectValue
+                                placeholder={finalUiText["Select width"]}
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {pageWidthOptions.map((option) => (
@@ -78,7 +81,7 @@ function StructureSelector({
             return (
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label>Horizontal Padding</Label>
+                        <Label>{finalUiText["Horizontal Padding"]}</Label>
                         <Select
                             value={sectionValue?.padding?.x || ""}
                             onValueChange={(newValue) => {
@@ -98,7 +101,9 @@ function StructureSelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select padding" />
+                                <SelectValue
+                                    placeholder={finalUiText["Select padding"]}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {paddingOptions.x.map((option) => (
@@ -114,7 +119,7 @@ function StructureSelector({
                     </div>
 
                     <div className="space-y-2">
-                        <Label>Vertical Padding</Label>
+                        <Label>{finalUiText["Vertical Padding"]}</Label>
                         <Select
                             value={sectionValue?.padding?.y || ""}
                             onValueChange={(newValue) => {
@@ -134,7 +139,9 @@ function StructureSelector({
                             }}
                         >
                             <SelectTrigger>
-                                <SelectValue placeholder="Select padding" />
+                                <SelectValue
+                                    placeholder={finalUiText["Select padding"]}
+                                />
                             </SelectTrigger>
                             <SelectContent>
                                 {paddingOptions.y.map((option) => (

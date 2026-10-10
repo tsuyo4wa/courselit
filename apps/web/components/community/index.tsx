@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     useState,
@@ -133,7 +134,7 @@ export function CommunityForum({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -214,7 +215,7 @@ export function CommunityForum({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
             });
         }
@@ -526,7 +527,7 @@ export function CommunityForum({
                     }
                 } else {
                     toast({
-                        title: "Error",
+                        title: finalUiText["Error"],
                         description: isEdit
                             ? "Failed to update post"
                             : "Failed to add post",
@@ -603,8 +604,8 @@ export function CommunityForum({
                 const response = await fetch.exec();
                 if (!response.post) {
                     toast({
-                        title: "Error",
-                        description: "Failed to delete post",
+                        title: finalUiText["Error"],
+                        description: finalUiText["Failed to delete post"],
                         variant: "destructive",
                     });
                 } else {
@@ -618,7 +619,7 @@ export function CommunityForum({
                 }
             } catch (err: any) {
                 toast({
-                    title: "Error",
+                    title: finalUiText["Error"],
                     description: err.message,
                     variant: "destructive",
                 });
@@ -745,8 +746,8 @@ export function CommunityForum({
             try {
                 await fetch.exec();
                 toast({
-                    title: "Reported",
-                    description: "Post has been reported",
+                    title: finalUiText["Reported"],
+                    description: finalUiText["Post has been reported"],
                 });
                 setShowReportConfirmation(false);
                 setPostToReport(null);
@@ -809,7 +810,8 @@ export function CommunityForum({
             if (response.communityMembershipStatus) {
                 toast({
                     title: TOAST_TITLE_SUCCESS,
-                    description: `Your request to join has been sent.`,
+                    description:
+                        finalUiText["Your request to join has been sent."],
                 });
             } else {
                 toast({
@@ -855,7 +857,7 @@ export function CommunityForum({
                 setMembership(undefined);
                 toast({
                     title: TOAST_TITLE_SUCCESS,
-                    description: `You have left the community.`,
+                    description: finalUiText["You have left the community."],
                 });
             } else {
                 toast({
@@ -876,8 +878,12 @@ export function CommunityForum({
         <div className="container mx-auto p-0">
             {!community?.enabled && (
                 <div className="bg-red-400 p-2 mb-4 text-sm text-white rounded-md">
-                    This community is not enabled. It is not visible to your
-                    audience (including moderators). {""}
+                    {
+                        finalUiText[
+                            "This community is not enabled. It is not visible to your audience (including moderators)."
+                        ]
+                    }
+                    {""}
                     <Link
                         href={`/dashboard/community/${id}/manage`}
                         className="underline"
@@ -941,7 +947,9 @@ export function CommunityForum({
                             className="rounded-full"
                             onClick={toggleCategories}
                         >
-                            {showAllCategories ? "Less" : "More..."}
+                            {showAllCategories
+                                ? finalUiText["Less"]
+                                : finalUiText["More..."]}
                         </Button>
                     </div>
 
@@ -999,7 +1007,7 @@ export function CommunityForum({
                                 ))
                             ) : (
                                 <div className="text-center py-8">
-                                    No posts found.
+                                    {finalUiText["No posts found."]}
                                 </div>
                             )}
                         </div>
@@ -1009,10 +1017,15 @@ export function CommunityForum({
                         onOpenChange={setShowDeleteConfirmation}
                     >
                         <DialogContent>
-                            <DialogTitle>Delete post</DialogTitle>
+                            <DialogTitle>
+                                {finalUiText["Delete post"]}
+                            </DialogTitle>
                             <DialogDescription>
-                                Are you sure you want to delete this post? This
-                                action cannot be undone.
+                                {
+                                    finalUiText[
+                                        "Are you sure you want to delete this post? This action cannot be undone."
+                                    ]
+                                }
                             </DialogDescription>
                             <DialogFooter>
                                 <Button
@@ -1021,13 +1034,13 @@ export function CommunityForum({
                                         setShowDeleteConfirmation(false)
                                     }
                                 >
-                                    Cancel
+                                    {finalUiText["Cancel"]}
                                 </Button>
                                 <Button
                                     variant="destructive"
                                     onClick={confirmDeletePost}
                                 >
-                                    Delete
+                                    {finalUiText["Delete"]}
                                 </Button>
                             </DialogFooter>
                         </DialogContent>
@@ -1037,12 +1050,20 @@ export function CommunityForum({
                         onOpenChange={setShowReportConfirmation}
                     >
                         <DialogContent>
-                            <DialogTitle>Report Post</DialogTitle>
+                            <DialogTitle>
+                                {finalUiText["Report Post"]}
+                            </DialogTitle>
                             <DialogDescription>
-                                Please provide a reason for reporting this post.
+                                {
+                                    finalUiText[
+                                        "Please provide a reason for reporting this post."
+                                    ]
+                                }
                             </DialogDescription>
                             <Textarea
-                                placeholder="Reason for reporting..."
+                                placeholder={
+                                    finalUiText["Reason for reporting..."]
+                                }
                                 value={reportReason}
                                 onChange={(e) =>
                                     setReportReason(e.target.value)
@@ -1055,14 +1076,14 @@ export function CommunityForum({
                                         setShowReportConfirmation(false)
                                     }
                                 >
-                                    Cancel
+                                    {finalUiText["Cancel"]}
                                 </Button>
                                 <Button
                                     variant="destructive"
                                     onClick={confirmReportPost}
                                     disabled={!reportReason.trim()}
                                 >
-                                    Submit
+                                    {finalUiText["Submit"]}
                                 </Button>
                             </DialogFooter>
                         </DialogContent>

@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText, finalUiLabels } from "@/config/strings";
 
 import { useContext, useState } from "react";
 import { Plus, Archive, Star } from "lucide-react";
@@ -20,37 +23,41 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { Constants, PaymentPlan } from "@courselit/common-models";
-import { capitalize } from "@courselit/utils";
+import { formatCurrency } from "@courselit/utils";
 import Link from "next/link";
 import { SiteInfoContext } from "@/components/contexts";
-import { getSymbolFromCurrency } from "@courselit/components-library";
 const { PaymentPlanType: paymentPlanType } = Constants;
 
-function formatAmount(amount: number | undefined, currencySymbol): string {
-    return amount ? `${currencySymbol}${amount.toFixed(2)}` : "Free";
+function formatAmount(
+    amount: number | undefined,
+    currencyISOCode: string,
+): string {
+    return amount
+        ? formatCurrency(amount, currencyISOCode)
+        : finalUiText["Free"];
 }
 
 function getPlanAmount(
     plan: PaymentPlan,
-    currencySymbol: string,
+    currencyISOCode: string,
 ): string | { amount: string; installments: number } {
     switch (plan.type) {
         case paymentPlanType.FREE:
-            return capitalize(paymentPlanType.FREE);
+            return finalUiText["Free"];
         case paymentPlanType.ONE_TIME:
-            return formatAmount(plan.oneTimeAmount, currencySymbol);
+            return formatAmount(plan.oneTimeAmount, currencyISOCode);
         case paymentPlanType.SUBSCRIPTION:
             return formatAmount(
                 plan.subscriptionMonthlyAmount || plan.subscriptionYearlyAmount,
-                currencySymbol,
+                currencyISOCode,
             );
         case paymentPlanType.EMI:
             return {
-                amount: formatAmount(plan.emiAmount, currencySymbol),
+                amount: formatAmount(plan.emiAmount, currencyISOCode),
                 installments: plan.emiTotalInstallments || 0,
             };
         default:
-            return "N/A";
+            return finalUiLabels.unavailable;
     }
 }
 
@@ -59,13 +66,15 @@ function getPlanTypeLabel(plan: PaymentPlan): string {
 
     switch (type) {
         case paymentPlanType.ONE_TIME:
-            return "One time";
+            return finalUiLabels.oneTime;
         case paymentPlanType.SUBSCRIPTION:
-            return plan.subscriptionYearlyAmount ? "Yearly" : "Monthly";
+            return plan.subscriptionYearlyAmount
+                ? finalUiLabels.yearly
+                : finalUiLabels.monthly;
         case paymentPlanType.EMI:
-            return "EMI";
+            return finalUiLabels.installments;
         case paymentPlanType.FREE:
-            return "Free";
+            return finalUiText["Free"];
         default:
             return type;
     }
@@ -93,8 +102,7 @@ export default function PaymentPlanList({
     );
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const siteinfo = useContext(SiteInfoContext);
-    const currencySymbol =
-        getSymbolFromCurrency(siteinfo.currencyISOCode || "$") || "$";
+    const currencyISOCode = siteinfo.currencyISOCode || "USD";
 
     function handleArchive(plan: PaymentPlan) {
         onPlanArchived(plan.planId);
@@ -150,7 +158,13 @@ export default function PaymentPlanList({
                                             </Button>
                                         </TooltipTrigger>
                                         <TooltipContent>
-                                            <p>Make recommended</p>
+                                            <p>
+                                                {
+                                                    finalUiText[
+                                                        "Make recommended"
+                                                    ]
+                                                }
+                                            </p>
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
@@ -182,20 +196,31 @@ export default function PaymentPlanList({
                                                 </DialogTrigger>
                                             </TooltipTrigger>
                                             <TooltipContent>
-                                                <p>Archive plan</p>
+                                                <p>
+                                                    {
+                                                        finalUiText[
+                                                            "Archive plan"
+                                                        ]
+                                                    }
+                                                </p>
                                             </TooltipContent>
                                         </Tooltip>
                                     </TooltipProvider>
                                     <DialogContent>
                                         <DialogHeader>
                                             <DialogTitle>
-                                                Are you sure you want to archive
-                                                this plan?
+                                                {
+                                                    finalUiText[
+                                                        "Are you sure you want to archive this plan?"
+                                                    ]
+                                                }
                                             </DialogTitle>
                                             <DialogDescription>
-                                                This action cannot be undone.
-                                                This will permanently archive
-                                                the payment plan &quot;
+                                                {
+                                                    finalUiText[
+                                                        "This action cannot be undone. This will permanently archive the payment plan &quot;"
+                                                    ]
+                                                }
                                                 {planToArchive?.name}
                                                 &quot;.
                                             </DialogDescription>
@@ -208,7 +233,7 @@ export default function PaymentPlanList({
                                                     setIsDialogOpen(false);
                                                 }}
                                             >
-                                                Cancel
+                                                {finalUiText["Cancel"]}
                                             </Button>
                                             <Button
                                                 variant="destructive"
@@ -218,7 +243,7 @@ export default function PaymentPlanList({
                                                 }
                                                 disabled={disabled}
                                             >
-                                                Archive
+                                                {finalUiText["Archive"]}
                                             </Button>
                                         </DialogFooter>
                                     </DialogContent>
@@ -230,7 +255,7 @@ export default function PaymentPlanList({
                                 {(() => {
                                     const planAmount = getPlanAmount(
                                         plan,
-                                        currencySymbol,
+                                        currencyISOCode,
                                     );
                                     return typeof planAmount === "string"
                                         ? planAmount
@@ -249,7 +274,9 @@ export default function PaymentPlanList({
                                         variant="outline"
                                         className="rounded-full px-1.5 py-0.5 text-[10px]"
                                     >
-                                        {`+${plan.includedProducts.length} products`}
+                                        {finalUiDynamic.additionalProducts(
+                                            plan.includedProducts.length,
+                                        )}
                                     </Badge>
                                 )}
                         </div>
@@ -261,7 +288,7 @@ export default function PaymentPlanList({
                     >
                         <div className="flex justify-between items-center mb-1">
                             <h3 className="text-sm font-medium text-muted-foreground group-hover:text-primary">
-                                New Plan
+                                {finalUiText["New Plan"]}
                             </h3>
                             <Button
                                 variant="ghost"
@@ -273,13 +300,13 @@ export default function PaymentPlanList({
                         </div>
                         <div className="flex items-center space-x-2">
                             <span className="text-xs text-muted-foreground">
-                                {currencySymbol}0.00
+                                {finalUiLabels.planPlaceholder}
                             </span>
                             <Badge
                                 variant="secondary"
                                 className="rounded-full px-1.5 py-0.5 text-[10px]"
                             >
-                                Payment frequency
+                                {finalUiText["Payment frequency"]}
                             </Badge>
                         </div>
                     </Link>

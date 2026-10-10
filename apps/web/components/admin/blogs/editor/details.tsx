@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 import {
     MediaSelector,
@@ -138,7 +139,7 @@ export default function Details({ id }: DetailsProps) {
             <Form onSubmit={updateDetails} className="flex flex-col gap-4">
                 <FormField
                     required
-                    label="Title"
+                    label={finalUiText["Title"]}
                     name="title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}

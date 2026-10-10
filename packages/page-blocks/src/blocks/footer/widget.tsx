@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React from "react";
 import { Link } from "@courselit/components-library";
 import Settings from "./settings";
@@ -119,7 +120,7 @@ const Widget = ({
                                 openInSameTab={false}
                                 className="px-2 py-1 border rounded-md bg-[#FFFFFF] text-[#000000] text-sm text-center"
                             >
-                                Powered by{" "}
+                                {finalUiText["Powered by"]}{" "}
                                 <span className="font-semibold">CourseLit</span>
                             </Link>
                         </span>

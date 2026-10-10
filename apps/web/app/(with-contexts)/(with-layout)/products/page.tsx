@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useContext } from "react";
 import { ProductsList } from "./products-list";
@@ -22,7 +23,7 @@ export default function CoursesPage() {
     return (
         <Section theme={theme.theme}>
             <div className="flex flex-col gap-4 min-h-[80vh]">
-                <Header1 theme={theme.theme}>Products</Header1>
+                <Header1 theme={theme.theme}>{finalUiText["Products"]}</Header1>
                 <ProductsList
                     theme={theme.theme}
                     page={page}

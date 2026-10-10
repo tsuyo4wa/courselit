@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import { useState, useRef } from "react";
 import type { EmailBlock, EmailStyle } from "@/types/email-editor";
 import type { BlockRegistry } from "../types/block-registry";
@@ -66,7 +67,12 @@ export function BlockWrapper({
     const renderBlock = () => {
         const blockComponent = blockRegistry[block.blockType];
         if (!blockComponent) {
-            return <div>Unknown block type: {block.blockType}</div>;
+            return (
+                <div>
+                    {finalUiText["Unknown block type:"]}
+                    {block.blockType}
+                </div>
+            );
         }
 
         const BlockComponent = blockComponent.block;
@@ -146,7 +152,7 @@ export function BlockWrapper({
                                     deleteBlock(block.id);
                                 }}
                                 className="p-2 hover:bg-red-50 hover:text-red-600 transition-colors rounded-l-md"
-                                title="Delete block"
+                                title={finalUiText["Delete block"]}
                             >
                                 <Trash className="h-3 w-3 text-black" />
                             </button>
@@ -160,7 +166,7 @@ export function BlockWrapper({
                                     duplicateBlock(block.id);
                                 }}
                                 className={`p-2 hover:bg-gray-100 transition-colors ${!isFixed ? "" : "rounded-l-md"}`}
-                                title="Duplicate block"
+                                title={finalUiText["Duplicate block"]}
                             >
                                 <Copy className="h-3 w-3 text-black" />
                             </button>
@@ -174,7 +180,7 @@ export function BlockWrapper({
                                     moveBlock(block.id, "up");
                                 }}
                                 className="p-2 hover:bg-gray-100 transition-colors"
-                                title="Move up"
+                                title={finalUiText["Move up"]}
                                 disabled={isMoving}
                             >
                                 <ChevronUp className="h-3 w-3 text-black" />
@@ -189,7 +195,7 @@ export function BlockWrapper({
                                     moveBlock(block.id, "down");
                                 }}
                                 className="p-2 hover:bg-gray-100 transition-colors rounded-r-md"
-                                title="Move down"
+                                title={finalUiText["Move down"]}
                                 disabled={isMoving}
                             >
                                 <ChevronDown className="h-3 w-3 text-black" />
@@ -202,7 +208,7 @@ export function BlockWrapper({
                 {isMoving && (
                     <div className="absolute inset-0 bg-blue-100/20 border-2 border-blue-400 rounded-md pointer-events-none z-10">
                         <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium">
-                            Moving...
+                            {finalUiText["Moving..."]}
                         </div>
                     </div>
                 )}

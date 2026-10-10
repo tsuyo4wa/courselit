@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -176,8 +179,8 @@ export default function CustomersPage() {
     const handleCopyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
         toast({
-            title: "Success",
-            description: "Subscription ID is copied to clipboard",
+            title: finalUiText["Success"],
+            description: finalUiText["Subscription ID is copied to clipboard"],
         });
     };
 
@@ -190,7 +193,9 @@ export default function CustomersPage() {
             ]}
         >
             <div className="flex justify-between items-center">
-                <h1 className="text-3xl font-bold">Customers</h1>
+                <h1 className="text-3xl font-bold">
+                    {finalUiText["Customers"]}
+                </h1>
                 <Link href={`/dashboard/product/${productId}/customer/new`}>
                     <Button variant="outline" size="sm">
                         <UserPlus className="mr-2 h-4 w-4" />
@@ -277,7 +282,7 @@ export default function CustomersPage() {
                 className="flex items-center space-x-2"
             >
                 <Input
-                    placeholder="Search customers..."
+                    placeholder={finalUiText["Search customers..."]}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="max-w-sm"
@@ -291,17 +296,17 @@ export default function CustomersPage() {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>{finalUiText["Name"]}</TableHead>
+                        <TableHead>{finalUiText["Status"]}</TableHead>
                         <TableHead>
                             {product?.type?.toLowerCase() ===
                             Constants.CourseType.COURSE
-                                ? "Progress"
-                                : "Downloaded"}
+                                ? finalUiText["Progress"]
+                                : finalUiText["Downloaded"]}
                         </TableHead>
-                        <TableHead>Signed Up</TableHead>
-                        <TableHead>Last Active</TableHead>
-                        <TableHead>Subscription</TableHead>
+                        <TableHead>{finalUiText["Signed Up"]}</TableHead>
+                        <TableHead>{finalUiText["Last Active"]}</TableHead>
+                        <TableHead>{finalUiText["Subscription"]}</TableHead>
                         {/* <TableHead>Actions</TableHead> */}
                     </TableRow>
                 </TableHeader>
@@ -446,7 +451,11 @@ export default function CustomersPage() {
                                                       </span>
                                                       <Dialog>
                                                           <DialogTrigger className="text-xs text-muted-foreground underline">
-                                                              View
+                                                              {
+                                                                  finalUiText[
+                                                                      "View"
+                                                                  ]
+                                                              }
                                                           </DialogTrigger>
                                                           <DialogContent>
                                                               <DialogHeader>
@@ -460,8 +469,11 @@ export default function CustomersPage() {
                                                                                   .email,
                                                                           10,
                                                                       )}
-                                                                      &apos;s
-                                                                      Progress
+                                                                      {
+                                                                          finalUiText[
+                                                                              "&apos;s Progress"
+                                                                          ]
+                                                                      }
                                                                   </DialogTitle>
                                                               </DialogHeader>
                                                               <DialogDescription className="max-h-[400px] overflow-y-scroll">
@@ -517,7 +529,12 @@ export default function CustomersPage() {
                                   <TableCell>
                                       <div className="flex items-center gap-2">
                                           <Tooltip
-                                              title={`Method: ${capitalize(member.subscriptionMethod || "")}`}
+                                              title={finalUiDynamic.paymentMethod(
+                                                  capitalize(
+                                                      member.subscriptionMethod ||
+                                                          "",
+                                                  ),
+                                              )}
                                           >
                                               {member.subscriptionId
                                                   ? truncate(
@@ -527,7 +544,13 @@ export default function CustomersPage() {
                                                   : "-"}
                                           </Tooltip>
                                           {member.subscriptionId && (
-                                              <Tooltip title="Copy Subscription ID">
+                                              <Tooltip
+                                                  title={
+                                                      finalUiText[
+                                                          "Copy Subscription ID"
+                                                      ]
+                                                  }
+                                              >
                                                   <Button
                                                       size="sm"
                                                       variant="outline"

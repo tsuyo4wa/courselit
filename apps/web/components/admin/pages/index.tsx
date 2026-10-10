@@ -1,3 +1,4 @@
+import { finalUiText, localizeDefaultPageName } from "@/config/strings";
 import { AddressContext } from "@components/contexts";
 import { Page } from "@courselit/common-models";
 import {
@@ -122,7 +123,7 @@ export default function Pages() {
                     </Link>
                 </div>
             </div>
-            <Table aria-label="Pages">
+            <Table aria-label={finalUiText["Pages"]}>
                 <TableHead>
                     <td>{PAGES_TABLE_HEADER_NAME}</td>
                     <td align="right">{PAGES_TABLE_HEADER_ACTIONS}</td>
@@ -133,7 +134,7 @@ export default function Pages() {
                         .map((page) => (
                             <TableRow key={page.pageId}>
                                 <td className="py-4">
-                                    <p>{page.name}</p>
+                                    <p>{localizeDefaultPageName(page.name)}</p>
                                 </td>
                                 <td align="right">
                                     <div className="flex items-center justify-end gap-2">

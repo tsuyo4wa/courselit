@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { Address } from "@courselit/common-models";
 import {
     Button,
@@ -45,7 +46,7 @@ export default function CommunityCreator({ address }: { address: Address }) {
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
                 variant: "destructive",
             });

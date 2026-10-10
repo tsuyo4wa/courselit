@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 interface Link {
     href: string;
     text: string;
@@ -10,7 +11,9 @@ interface ResourcesProps {
 export default function Resources({ links = [] }: ResourcesProps) {
     return (
         <div className="mb-8">
-            <h2 className="font-medium text-base mt-8 mb-2">Resources</h2>
+            <h2 className="font-medium text-base mt-8 mb-2">
+                {finalUiText["Resources"]}
+            </h2>
             <ul>
                 {links.map((link, index) => (
                     <li key={index} className="mb-1">

@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useContext } from "react";
 import { CommunitiesList } from "./communities-list";
@@ -22,7 +23,9 @@ export default function CommunitiesPage() {
     return (
         <Section theme={theme.theme}>
             <div className="flex flex-col gap-4">
-                <Header1 theme={theme.theme}>Communities</Header1>
+                <Header1 theme={theme.theme}>
+                    {finalUiText["Communities"]}
+                </Header1>
                 <CommunitiesList
                     page={page}
                     onPageChange={handlePageChange}

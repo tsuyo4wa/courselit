@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { UIConstants } from "@courselit/common-models";
@@ -32,35 +33,45 @@ export default function Page() {
                 <h1 className="text-4xl font-semibold mb-4">{HEADER_HELP}</h1>
             </div>
             <p className="mb-8 text-slate-600">
-                If you need a helping hand, we are out there for you.
+                {
+                    finalUiText[
+                        "If you need a helping hand, we are out there for you."
+                    ]
+                }
             </p>
             <div className="flex flex-col lg:!flex-row gap-4 mb-16">
                 <Card className="lg:!w-1/3">
                     <CardHeader>
-                        <CardTitle>Documentation</CardTitle>
+                        <CardTitle>{finalUiText["Documentation"]}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="mb-4">
-                            Our documentation contains tutorials on how to do
-                            everything in CourseLit.
+                            {
+                                finalUiText[
+                                    "Our documentation contains tutorials on how to do everything in CourseLit."
+                                ]
+                            }
                         </p>
                     </CardContent>
                     <CardFooter>
                         <a href="https://docs.courselit.app" target="_blank">
                             <Button2 variant="secondary">
-                                See documentation
+                                {finalUiText["See documentation"]}
                             </Button2>
                         </a>
                     </CardFooter>
                 </Card>
                 <Card className="lg:!w-1/3">
                     <CardHeader>
-                        <CardTitle>Ask in Discord</CardTitle>
+                        <CardTitle>{finalUiText["Ask in Discord"]}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="mb-4">
-                            Come ask your questions directly from the team. We
-                            are quite active there.
+                            {
+                                finalUiText[
+                                    "Come ask your questions directly from the team. We are quite active there."
+                                ]
+                            }
                         </p>
                     </CardContent>
                     <CardFooter>
@@ -68,18 +79,23 @@ export default function Page() {
                             href="https://discord.com/invite/GR4bQsN"
                             target="_blank"
                         >
-                            <Button2 variant="secondary">Open Discord</Button2>
+                            <Button2 variant="secondary">
+                                {finalUiText["Open Discord"]}
+                            </Button2>
                         </a>
                     </CardFooter>
                 </Card>
                 <Card className="lg:!w-1/3">
                     <CardHeader>
-                        <CardTitle>Found a bug?</CardTitle>
+                        <CardTitle>{finalUiText["Found a bug?"]}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="mb-4">
-                            We encourage you to raise an issue so that we can
-                            make the product better for everyone.
+                            {
+                                finalUiText[
+                                    "We encourage you to raise an issue so that we can make the product better for everyone."
+                                ]
+                            }
                         </p>
                     </CardContent>
                     <CardFooter>
@@ -87,26 +103,32 @@ export default function Page() {
                             href="https://discord.com/channels/727630561895514212/1244954638747303946"
                             target="_blank"
                         >
-                            <Button2 variant="secondary">Post an issue</Button2>
+                            <Button2 variant="secondary">
+                                {finalUiText["Post an issue"]}
+                            </Button2>
                         </a>
                     </CardFooter>
                 </Card>
             </div>
             <div>
                 <h2 className="font-semibold text-2xl mb-4">
-                    Priority Support
+                    {finalUiText["Priority Support"]}
                 </h2>
                 <p>
-                    In case you need to get in touch with the team to get help
-                    faster, we offer <strong>paid</strong> support. Please reach
-                    out to us on{" "}
+                    {
+                        finalUiText[
+                            "In case you need to get in touch with the team to get help faster, we offer"
+                        ]
+                    }
+                    <strong>{finalUiText["paid"]}</strong>
+                    {finalUiText["support. Please reach out to us on"]}{" "}
                     <a
                         href="mailto:support@courselit.app"
                         className="underline"
                     >
-                        CourseLit Support
+                        {finalUiText["CourseLit Support"]}
                     </a>{" "}
-                    with your requirements .
+                    {finalUiText["with your requirements ."]}
                 </p>
             </div>
         </DashboardContent>

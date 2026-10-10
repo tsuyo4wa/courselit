@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import Image from "next/image";
 import { Download, Maximize2, Play } from "lucide-react";
@@ -42,7 +43,7 @@ export default function CommunityPostMediaPreview({
                 >
                     <Image
                         src={imageSrc}
-                        alt="Post media"
+                        alt={finalUiText["Post media"]}
                         className={
                             renderActualFile
                                 ? isFullscreenViewer
@@ -63,7 +64,7 @@ export default function CommunityPostMediaPreview({
                                     onRequestFullscreen(media);
                                 }}
                                 className="absolute right-2 top-2 rounded-md bg-black/60 p-1.5 text-white opacity-0 transition-opacity hover:bg-black/80 group-hover:opacity-100"
-                                aria-label="View full screen"
+                                aria-label={finalUiText["View full screen"]}
                             >
                                 <Maximize2 className="h-4 w-4" />
                             </button>
@@ -91,7 +92,11 @@ export default function CommunityPostMediaPreview({
                     controlsList="nodownload"
                     onContextMenu={(e) => e.preventDefault()}
                 >
-                    Your browser does not support the video tag.
+                    {
+                        finalUiText[
+                            "Your browser does not support the video tag."
+                        ]
+                    }
                 </video>
             ) : null;
 
@@ -102,7 +107,7 @@ export default function CommunityPostMediaPreview({
                         width="100%"
                         height="100%"
                         src={media.url}
-                        title="YouTube video player"
+                        title={finalUiText["YouTube video player"]}
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
@@ -123,7 +128,7 @@ export default function CommunityPostMediaPreview({
                 <div className="relative h-48 aspect-video overflow-hidden">
                     <img
                         src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
-                        alt="YouTube thumbnail"
+                        alt={finalUiText["YouTube thumbnail"]}
                         className="h-full w-full rounded-md object-cover transition-transform duration-300"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30">
@@ -161,7 +166,7 @@ export default function CommunityPostMediaPreview({
                                 <a
                                     href={`/api/media/${encodeURIComponent(media.media.mediaId)}`}
                                     className="rounded-md bg-black/60 p-1.5 text-white hover:bg-black/80"
-                                    aria-label="Download"
+                                    aria-label={finalUiText["Download"]}
                                 >
                                     <Download className="h-4 w-4" />
                                 </a>
@@ -174,7 +179,7 @@ export default function CommunityPostMediaPreview({
                                         onRequestFullscreen(media);
                                     }}
                                     className="rounded-md bg-black/60 p-1.5 text-white hover:bg-black/80"
-                                    aria-label="View full screen"
+                                    aria-label={finalUiText["View full screen"]}
                                 >
                                     <Maximize2 className="h-4 w-4" />
                                 </button>

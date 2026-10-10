@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useState } from "react";
 import { useParams } from "next/navigation";
@@ -122,7 +123,7 @@ export default function ContentPage() {
             ]}
         >
             <h1 className="text-4xl font-semibold tracking-tight mb-8">
-                Content
+                {finalUiText["Content"]}
             </h1>
 
             <ScrollArea className="h-[calc(100vh-180px)]">
@@ -158,7 +159,7 @@ export default function ContentPage() {
                                 href={`/dashboard/product/${productId}/content/section/new`}
                             >
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Section
+                                {finalUiText["Add Section"]}
                             </Link>
                         </Button>
                     </div>
@@ -179,12 +180,16 @@ export default function ContentPage() {
                 >
                     <DialogHeader>
                         <DialogTitle className="text-xl font-semibold">
-                            Confirm Deletion
+                            {finalUiText["Confirm Deletion"]}
                         </DialogTitle>
                         <DialogDescription className="text-sm text-gray-500 mt-2">
-                            Are you sure you want to delete the{" "}
+                            {finalUiText["Are you sure you want to delete the"]}{" "}
                             {itemToDelete?.type} &quot;{itemToDelete?.title}
-                            &quot;? This action cannot be undone.
+                            {
+                                finalUiText[
+                                    "&quot;? This action cannot be undone."
+                                ]
+                            }
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className="mt-6">
@@ -192,10 +197,10 @@ export default function ContentPage() {
                             variant="outline"
                             onClick={() => setDeleteDialogOpen(false)}
                         >
-                            Cancel
+                            {finalUiText["Cancel"]}
                         </Button>
                         <Button variant="destructive" onClick={handleDelete}>
-                            Delete
+                            {finalUiText["Delete"]}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -35,16 +36,21 @@ export function RejectionReasonDialog({
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Enter Rejection Reason</DialogTitle>
+                    <DialogTitle>
+                        {finalUiText["Enter Rejection Reason"]}
+                    </DialogTitle>
                     <DialogDescription>
-                        Please provide a reason for rejecting this report. This
-                        is optional but recommended.
+                        {
+                            finalUiText[
+                                "Please provide a reason for rejecting this report. This is optional but recommended."
+                            ]
+                        }
                     </DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="reason" className="text-right">
-                            Reason
+                            {finalUiText["Reason"]}
                         </Label>
                         <Input
                             id="reason"
@@ -56,10 +62,10 @@ export function RejectionReasonDialog({
                 </div>
                 <DialogFooter>
                     <Button type="button" variant="secondary" onClick={onClose}>
-                        Cancel
+                        {finalUiText["Cancel"]}
                     </Button>
                     <Button type="submit" onClick={handleConfirm}>
-                        Confirm
+                        {finalUiText["Confirm"]}
                     </Button>
                 </DialogFooter>
             </DialogContent>

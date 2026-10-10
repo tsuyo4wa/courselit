@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText, finalUiMessages } from "@/config/strings";
 
 import { useState, useContext } from "react";
 import { Button } from "@/components/ui/button";
@@ -59,8 +60,9 @@ export function ScormLessonUpload({
                 }
 
                 toast({
-                    title: "Success",
-                    description: "SCORM package uploaded successfully",
+                    title: finalUiText["Success"],
+                    description:
+                        finalUiText["SCORM package uploaded successfully"],
                 });
 
                 onUploadComplete({
@@ -76,7 +78,7 @@ export function ScormLessonUpload({
             } catch (err: any) {
                 setError(err.message);
                 toast({
-                    title: "Error",
+                    title: finalUiText["Error"],
                     description: err.message,
                     variant: "destructive",
                 });
@@ -88,7 +90,7 @@ export function ScormLessonUpload({
             setUploading(false);
             setError(err.message || "Upload failed");
             toast({
-                title: "Upload Failed",
+                title: finalUiText["Upload Failed"],
                 description: err.message,
                 variant: "destructive",
             });
@@ -100,13 +102,15 @@ export function ScormLessonUpload({
         if (!file) return;
 
         if (!file.name.endsWith(".zip")) {
-            setError("Please select a ZIP file");
+            setError(finalUiText["Please select a ZIP file"]);
             return;
         }
 
         if (file.size > constants.scormPackageSizeLimit) {
             setError(
-                `File size must be less than ${constants.scormPackageSizeLimit / 1024 / 1024}MB`,
+                finalUiMessages.fileSize(
+                    constants.scormPackageSizeLimit / 1024 / 1024,
+                ),
             );
             return;
         }
@@ -121,7 +125,9 @@ export function ScormLessonUpload({
 
     return (
         <div className="space-y-4">
-            <Label className="font-semibold">SCORM Package</Label>
+            <Label className="font-semibold">
+                {finalUiText["SCORM Package"]}
+            </Label>
 
             {error && (
                 <div className="flex items-center gap-2 p-3 rounded-md bg-destructive/10 text-destructive text-sm">
@@ -142,7 +148,8 @@ export function ScormLessonUpload({
                                     {content?.title || "SCORM Package"}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1">
-                                    Version {content?.version || "1.2"}
+                                    {finalUiText["Version"]}
+                                    {content?.version || "1.2"}
                                     {content?.fileCount &&
                                         ` • ${content.fileCount} files`}
                                 </p>
@@ -158,8 +165,8 @@ export function ScormLessonUpload({
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="h-4 w-4 animate-spin" />
                         {processing
-                            ? "Processing SCORM package..."
-                            : "Uploading..."}
+                            ? finalUiText["Processing SCORM package..."]
+                            : finalUiText["Uploading..."]}
                     </div>
                     {showProgress && (
                         <ShadProgress value={uploadProgress} className="h-2" />
@@ -183,13 +190,17 @@ export function ScormLessonUpload({
                             <span>
                                 <Upload className="mr-2 h-4 w-4" />
                                 {hasPackage
-                                    ? "Replace Package"
-                                    : "Upload SCORM Package"}
+                                    ? finalUiText["Replace Package"]
+                                    : finalUiText["Upload SCORM Package"]}
                             </span>
                         </Button>
                     </label>
                     <p className="text-xs text-muted-foreground mt-2">
-                        Upload a SCORM 1.2 or 2004 package (ZIP file)
+                        {
+                            finalUiText[
+                                "Upload a SCORM 1.2 or 2004 package (ZIP file)"
+                            ]
+                        }
                     </p>
                 </div>
             )}

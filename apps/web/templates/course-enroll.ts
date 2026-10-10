@@ -1,3 +1,4 @@
+import { finalUiText, finalUiMail } from "@/config/strings";
 const courseEnrollTemplate = `
 doctype html
 html
@@ -32,17 +33,17 @@ html
                 text-align: center;
             }
     body
-        p   You have been enrolled in a course: <strong> #{courseName} </strong>.
+        p   ${finalUiMail.enrolled} <strong> #{courseName} </strong>.
         p 
-            |   To access all of your content, 
-            |   #[a(href=\`\${loginLink}\`) log in] here.
+            |   ${finalUiMail.access} 
+            |   #[a(href=\`\${loginLink}\`) ${finalUiMail.login}]
         if !hideCourseLitBranding
             div(class="courselit-branding-container")
                 a(
                     href="https://courselit.app"
                     target="_blank"
                     class="courselit-branding-cta"
-                ) Powered by <strong> CourseLit </strong>
+                ) ${finalUiText["Powered by"]} <strong> CourseLit </strong>
 `;
 
 export default courseEnrollTemplate;

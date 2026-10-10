@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import {
@@ -420,8 +423,8 @@ export default function CommunityPostPage({
                 .build();
             await fetch.exec();
             toast({
-                title: "Reported",
-                description: "Post has been reported",
+                title: finalUiText["Reported"],
+                description: finalUiText["Post has been reported"],
             });
             setShowReportConfirmation(false);
             setPostToReport(null);
@@ -460,7 +463,8 @@ export default function CommunityPostPage({
             if (response.communityMembershipStatus) {
                 toast({
                     title: TOAST_TITLE_SUCCESS,
-                    description: "Your request to join has been sent.",
+                    description:
+                        finalUiText["Your request to join has been sent."],
                 });
             }
         } catch (error: any) {
@@ -494,7 +498,7 @@ export default function CommunityPostPage({
                 setMembership(undefined);
                 toast({
                     title: TOAST_TITLE_SUCCESS,
-                    description: "You have left the community.",
+                    description: finalUiText["You have left the community."],
                 });
             }
         } catch (error: any) {
@@ -526,8 +530,11 @@ export default function CommunityPostPage({
         <div className="container mx-auto p-0">
             {!community?.enabled && (
                 <div className="mb-4 rounded-md bg-red-400 p-2 text-sm text-white">
-                    This community is not enabled. It is not visible to your
-                    audience (including moderators).{" "}
+                    {
+                        finalUiText[
+                            "This community is not enabled. It is not visible to your audience (including moderators)."
+                        ]
+                    }{" "}
                     <Link
                         href={`/dashboard/community/${communityId}/manage`}
                         className="underline"
@@ -563,7 +570,9 @@ export default function CommunityPostPage({
                                             currentPost.user.avatar?.file ||
                                             "/courselit_backdrop_square.webp"
                                         }
-                                        alt={`${currentPost.user.name}'s avatar`}
+                                        alt={finalUiDynamic.avatar(
+                                            currentPost.user.name,
+                                        )}
                                     />
                                     <AvatarFallback>
                                         {currentPost.user.name &&
@@ -600,7 +609,7 @@ export default function CommunityPostPage({
                                             }
                                         >
                                             <FlagTriangleRight className="h-4 w-4" />
-                                            Report
+                                            {finalUiText["Report"]}
                                         </DropdownMenuItem>
                                     )}
                                     {profile.userId ===
@@ -613,7 +622,7 @@ export default function CommunityPostPage({
                                             }}
                                         >
                                             <MessageSquare className="h-4 w-4" />
-                                            Edit
+                                            {finalUiText["Edit"]}
                                         </DropdownMenuItem>
                                     )}
                                     {((membership &&
@@ -630,7 +639,7 @@ export default function CommunityPostPage({
                                             }
                                         >
                                             <Trash className="h-4 w-4" />
-                                            Delete
+                                            {finalUiText["Delete"]}
                                         </DropdownMenuItem>
                                     )}
                                 </DropdownMenuContent>
@@ -709,9 +718,15 @@ export default function CommunityPostPage({
                         onOpenChange={setShowDeleteConfirmation}
                     >
                         <DialogContent>
-                            <DialogTitle>Delete post</DialogTitle>
+                            <DialogTitle>
+                                {finalUiText["Delete post"]}
+                            </DialogTitle>
                             <DialogDescription>
-                                Are you sure you want to delete this post?
+                                {
+                                    finalUiText[
+                                        "Are you sure you want to delete this post?"
+                                    ]
+                                }
                             </DialogDescription>
                             <DialogFooter>
                                 <Button
@@ -720,13 +735,13 @@ export default function CommunityPostPage({
                                         setShowDeleteConfirmation(false)
                                     }
                                 >
-                                    Cancel
+                                    {finalUiText["Cancel"]}
                                 </Button>
                                 <Button
                                     variant="destructive"
                                     onClick={confirmDeletePost}
                                 >
-                                    Delete
+                                    {finalUiText["Delete"]}
                                 </Button>
                             </DialogFooter>
                         </DialogContent>
@@ -737,12 +752,20 @@ export default function CommunityPostPage({
                         onOpenChange={setShowReportConfirmation}
                     >
                         <DialogContent>
-                            <DialogTitle>Report Post</DialogTitle>
+                            <DialogTitle>
+                                {finalUiText["Report Post"]}
+                            </DialogTitle>
                             <DialogDescription>
-                                Please provide a reason for reporting this post.
+                                {
+                                    finalUiText[
+                                        "Please provide a reason for reporting this post."
+                                    ]
+                                }
                             </DialogDescription>
                             <Textarea
-                                placeholder="Reason for reporting..."
+                                placeholder={
+                                    finalUiText["Reason for reporting..."]
+                                }
                                 value={reportReason}
                                 onChange={(e) =>
                                     setReportReason(e.target.value)
@@ -755,14 +778,14 @@ export default function CommunityPostPage({
                                         setShowReportConfirmation(false)
                                     }
                                 >
-                                    Cancel
+                                    {finalUiText["Cancel"]}
                                 </Button>
                                 <Button
                                     variant="destructive"
                                     onClick={confirmReportPost}
                                     disabled={!reportReason.trim()}
                                 >
-                                    Submit
+                                    {finalUiText["Submit"]}
                                 </Button>
                             </DialogFooter>
                         </DialogContent>

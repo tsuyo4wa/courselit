@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import React, { useEffect, useState } from "react";
 import Settings, { Item } from "../settings";
 import ItemEditor from "./item-editor";
@@ -58,7 +59,9 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Optional text goes here. You can use rich text here.",
+                        text: finalUiText[
+                            "Optional text goes here. You can use rich text here."
+                        ],
                     },
                 ],
             },
@@ -72,14 +75,14 @@ export default function AdminWidget({
                 content: [
                     {
                         type: "text",
-                        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                        text: "ここに説明文を入力してください。",
                     },
                 ],
             },
         ],
     };
     const dummyItem: Item = {
-        title: "Item",
+        title: finalUiText["Item"],
         description: dummyItemDescription,
     };
     const [title, setTitle] = useState(settings.title || "FAQs");
@@ -176,15 +179,17 @@ export default function AdminWidget({
             type="multiple"
             defaultValue={["header", "items", "design"]}
         >
-            <AdminWidgetPanel title="Header" value="header">
+            <AdminWidgetPanel title={finalUiText["Header"]} value="header">
                 <Form>
                     <FormField
-                        label="Title"
+                        label={finalUiText["Title"]}
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <div>
-                        <p className="mb-1 font-medium">Description</p>
+                        <p className="mb-1 font-medium">
+                            {finalUiText["Description"]}
+                        </p>
                         <Editor
                             initialContent={description}
                             onChange={(state: any) => setDescription(state)}
@@ -194,7 +199,7 @@ export default function AdminWidget({
                     </div>
                 </Form>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Items" value="items">
+            <AdminWidgetPanel title={finalUiText["Items"]} value="items">
                 <DragAndDrop
                     items={items.map((item: Item) => ({
                         item,
@@ -227,26 +232,29 @@ export default function AdminWidget({
                 />
                 <div>
                     <Button component="button" onClick={addNewItem}>
-                        Add new item
+                        {finalUiText["Add new item"]}
                     </Button>
                 </div>
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Design" value="design">
+            <AdminWidgetPanel title={finalUiText["Design"]} value="design">
                 <Select
-                    title="Header alignment"
+                    title={finalUiText["Header alignment"]}
                     value={headerAlignment}
                     options={[
-                        { label: "Left", value: "left" },
-                        { label: "Center", value: "center" },
+                        { label: finalUiText["Left"], value: "left" },
+                        { label: finalUiText["Center"], value: "center" },
                     ]}
                     onChange={(value: Alignment) => setHeaderAlignment(value)}
                 />
                 <Select
-                    title="Layout"
+                    title={finalUiText["Layout"]}
                     value={layout}
                     options={[
-                        { label: "Horizontal", value: "horizontal" },
-                        { label: "Vertical", value: "vertical" },
+                        {
+                            label: finalUiText["Horizontal"],
+                            value: "horizontal",
+                        },
+                        { label: finalUiText["Vertical"], value: "vertical" },
                     ]}
                     onChange={(value: "horizontal" | "vertical") =>
                         setLayout(value)
@@ -264,7 +272,7 @@ export default function AdminWidget({
                     onChange={setVerticalPadding}
                 />
             </AdminWidgetPanel>
-            <AdminWidgetPanel title="Advanced" value="advanced">
+            <AdminWidgetPanel title={finalUiText["Advanced"]} value="advanced">
                 <CssIdField value={cssId} onChange={setCssId} />
             </AdminWidgetPanel>
         </AdminWidgetPanelContainer>

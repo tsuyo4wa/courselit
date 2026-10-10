@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { ReactNode, useState } from "react";
 import Header from "./base-layout/header";
 import { usePathname, useRouter } from "next/navigation";
@@ -86,7 +87,7 @@ export const ComponentScaffold = ({
                         openInSameTab={false}
                         className="px-2 py-1 my-[10px] border rounded-md bg-background text-foreground text-sm text-center"
                     >
-                        Powered by{" "}
+                        {finalUiText["Powered by"]}{" "}
                         <span className="font-semibold">CourseLit</span>
                     </Link>
                 </span>

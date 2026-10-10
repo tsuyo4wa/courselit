@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -60,7 +61,7 @@ const { PaymentPlanType: paymentPlanType } = Constants;
 export const formSchema = z
     .object({
         planId: z.string().optional(),
-        name: z.string().min(1, "Name is required"),
+        name: z.string().min(1, finalUiText["Name is required"]),
         description: z.string().optional(),
         type: z.enum([
             paymentPlanType.FREE,
@@ -70,20 +71,23 @@ export const formSchema = z
         ] as const),
         oneTimeAmount: z
             .number()
-            .min(0, "Amount cannot be negative")
+            .min(0, finalUiText["Amount cannot be negative"])
             .optional(),
-        emiAmount: z.number().min(0, "Amount cannot be negative").optional(),
+        emiAmount: z
+            .number()
+            .min(0, finalUiText["Amount cannot be negative"])
+            .optional(),
         emiTotalInstallments: z
             .number()
-            .min(0, "Installments cannot be negative")
+            .min(0, finalUiText["Installments cannot be negative"])
             .optional(),
         subscriptionMonthlyAmount: z
             .number()
-            .min(0, "Amount cannot be negative")
+            .min(0, finalUiText["Amount cannot be negative"])
             .optional(),
         subscriptionYearlyAmount: z
             .number()
-            .min(0, "Amount cannot be negative")
+            .min(0, finalUiText["Amount cannot be negative"])
             .optional(),
         subscriptionType: z.enum(["monthly", "yearly"] as const).optional(),
         includedProducts: z.array(z.string()).default([]),
@@ -121,7 +125,9 @@ export const formSchema = z
         },
         {
             message:
-                "Please fill in all required fields for the selected plan type",
+                finalUiText[
+                    "Please fill in all required fields for the selected plan type"
+                ],
             path: ["type"],
         },
     );
@@ -316,7 +322,7 @@ export function PaymentPlanForm({
             }
         } catch (error) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: error.message || "Failed to create payment plan",
                 variant: "destructive",
             });
@@ -382,11 +388,15 @@ function BasicInformationSection({
                 <div className="flex items-center gap-2">
                     <Info className="h-5 w-5 text-primary" />
                     <Label className="text-base font-medium">
-                        Basic Information
+                        {finalUiText["Basic Information"]}
                     </Label>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                    Configure the basic details of your payment plan
+                    {
+                        finalUiText[
+                            "Configure the basic details of your payment plan"
+                        ]
+                    }
                 </p>
             </div>
             <div className="space-y-6">
@@ -415,7 +425,9 @@ function BasicInformationSection({
                             <FormLabel>{SEO_FORM_DESC_LABEL}</FormLabel>
                             <FormControl>
                                 <Textarea
-                                    placeholder="Enter plan description"
+                                    placeholder={
+                                        finalUiText["Enter plan description"]
+                                    }
                                     {...field}
                                 />
                             </FormControl>
@@ -453,10 +465,16 @@ function PricingSection({
             <div className="space-y-2">
                 <div className="flex items-center gap-2">
                     <DollarSign className="h-5 w-5 text-primary" />
-                    <Label className="text-base font-medium">Pricing</Label>
+                    <Label className="text-base font-medium">
+                        {finalUiText["Pricing"]}
+                    </Label>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                    Set the pricing structure for your payment plan
+                    {
+                        finalUiText[
+                            "Set the pricing structure for your payment plan"
+                        ]
+                    }
                 </p>
             </div>
             <div className="space-y-6">
@@ -475,7 +493,13 @@ function PricingSection({
                             >
                                 <FormControl>
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Select a plan type" />
+                                        <SelectValue
+                                            placeholder={
+                                                finalUiText[
+                                                    "Select a plan type"
+                                                ]
+                                            }
+                                        />
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
@@ -513,7 +537,9 @@ function PricingSection({
                         name="oneTimeAmount"
                         render={({ field }: any) => (
                             <FormItem>
-                                <FormLabel>One-time Amount</FormLabel>
+                                <FormLabel>
+                                    {finalUiText["One-time Amount"]}
+                                </FormLabel>
                                 <FormControl>
                                     <div className="flex items-center border rounded-md">
                                         <span className="text-muted-foreground text-sm pl-2">
@@ -522,7 +548,9 @@ function PricingSection({
                                         <Input
                                             type="number"
                                             className="border-0 focus-visible:ring-0 focus:outline-none"
-                                            placeholder="Enter amount"
+                                            placeholder={
+                                                finalUiText["Enter amount"]
+                                            }
                                             {...field}
                                             onChange={(e) =>
                                                 field.onChange(
@@ -545,7 +573,11 @@ function PricingSection({
                     <div className="space-y-4">
                         <div>
                             <FormLabel>
-                                Monthly Payments (All fields required)
+                                {
+                                    finalUiText[
+                                        "Monthly Payments (All fields required)"
+                                    ]
+                                }
                             </FormLabel>
                             <div className="flex items-center gap-2 mt-2">
                                 <div className="flex-1">
@@ -559,7 +591,11 @@ function PricingSection({
                                                         <Input
                                                             type="number"
                                                             className="border-0 focus-visible:ring-0 focus:outline-none"
-                                                            placeholder="Enter number"
+                                                            placeholder={
+                                                                finalUiText[
+                                                                    "Enter number"
+                                                                ]
+                                                            }
                                                             {...field}
                                                             onChange={(e) =>
                                                                 field.onChange(
@@ -571,7 +607,11 @@ function PricingSection({
                                                             }
                                                         />
                                                         <span className="text-muted-foreground text-sm pr-2">
-                                                            payments
+                                                            {
+                                                                finalUiText[
+                                                                    "payments"
+                                                                ]
+                                                            }
                                                         </span>
                                                     </div>
                                                 </FormControl>
@@ -595,7 +635,11 @@ function PricingSection({
                                                         <Input
                                                             type="number"
                                                             className="border-0 focus-visible:ring-0 focus:outline-none"
-                                                            placeholder="Enter amount"
+                                                            placeholder={
+                                                                finalUiText[
+                                                                    "Enter amount"
+                                                                ]
+                                                            }
                                                             {...field}
                                                             onChange={(e) =>
                                                                 field.onChange(
@@ -619,7 +663,7 @@ function PricingSection({
                             </div>
                             <div className="flex items-center mt-2">
                                 <span className="text-muted-foreground text-sm mr-1">
-                                    Total:
+                                    {finalUiText["Total:"]}
                                 </span>
                                 <span className="font-medium">
                                     {currencySymbol}
@@ -639,7 +683,9 @@ function PricingSection({
                             name="subscriptionType"
                             render={({ field }: any) => (
                                 <FormItem>
-                                    <FormLabel>Subscription Type</FormLabel>
+                                    <FormLabel>
+                                        {finalUiText["Subscription Type"]}
+                                    </FormLabel>
                                     <Select
                                         onValueChange={(
                                             value: "monthly" | "yearly",
@@ -663,15 +709,21 @@ function PricingSection({
                                     >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select subscription type" />
+                                                <SelectValue
+                                                    placeholder={
+                                                        finalUiText[
+                                                            "Select subscription type"
+                                                        ]
+                                                    }
+                                                />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
                                             <SelectItem value="monthly">
-                                                Monthly
+                                                {finalUiText["Monthly"]}
                                             </SelectItem>
                                             <SelectItem value="yearly">
-                                                Yearly
+                                                {finalUiText["Yearly"]}
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -686,7 +738,9 @@ function PricingSection({
                                 name="subscriptionMonthlyAmount"
                                 render={({ field }: any) => (
                                     <FormItem>
-                                        <FormLabel>Monthly Amount</FormLabel>
+                                        <FormLabel>
+                                            {finalUiText["Monthly Amount"]}
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="flex items-center border rounded-md">
                                                 <span className="text-muted-foreground text-sm pl-2">
@@ -695,7 +749,11 @@ function PricingSection({
                                                 <Input
                                                     type="number"
                                                     className="border-0 focus-visible:ring-0 focus:outline-none"
-                                                    placeholder="Enter monthly amount"
+                                                    placeholder={
+                                                        finalUiText[
+                                                            "Enter monthly amount"
+                                                        ]
+                                                    }
                                                     {...field}
                                                     onChange={(e) =>
                                                         field.onChange(
@@ -722,7 +780,9 @@ function PricingSection({
                                 name="subscriptionYearlyAmount"
                                 render={({ field }: any) => (
                                     <FormItem>
-                                        <FormLabel>Yearly Amount</FormLabel>
+                                        <FormLabel>
+                                            {finalUiText["Yearly Amount"]}
+                                        </FormLabel>
                                         <FormControl>
                                             <div className="flex items-center border rounded-md">
                                                 <span className="text-muted-foreground text-sm pl-2">
@@ -731,7 +791,11 @@ function PricingSection({
                                                 <Input
                                                     type="number"
                                                     className="border-0 focus-visible:ring-0 focus:outline-none"
-                                                    placeholder="Enter yearly amount"
+                                                    placeholder={
+                                                        finalUiText[
+                                                            "Enter yearly amount"
+                                                        ]
+                                                    }
                                                     {...field}
                                                     onChange={(e) =>
                                                         field.onChange(
@@ -779,16 +843,22 @@ function IncludedProductsSection({ form }: { form: any }) {
                 <div className="flex items-center gap-2">
                     <Package className="h-5 w-5 text-primary" />
                     <Label className="text-base font-medium">
-                        Included Products
+                        {finalUiText["Included Products"]}
                     </Label>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                    Specify which products are included with this payment plan
+                    {
+                        finalUiText[
+                            "Specify which products are included with this payment plan"
+                        ]
+                    }
                 </p>
             </div>
             <div className="space-y-6">
                 <div className="space-y-2">
-                    <Label htmlFor="product-select">Add Product</Label>
+                    <Label htmlFor="product-select">
+                        {finalUiText["Add Product"]}
+                    </Label>
                     <Select
                         value=""
                         onValueChange={(value) => {
@@ -803,12 +873,16 @@ function IncludedProductsSection({ form }: { form: any }) {
                         }}
                     >
                         <SelectTrigger>
-                            <SelectValue placeholder="Select a product to add" />
+                            <SelectValue
+                                placeholder={
+                                    finalUiText["Select a product to add"]
+                                }
+                            />
                         </SelectTrigger>
                         <SelectContent>
                             {productsLoading ? (
                                 <div className="p-2 text-center text-sm text-muted-foreground">
-                                    Loading products...
+                                    {finalUiText["Loading products..."]}
                                 </div>
                             ) : (
                                 products
@@ -848,8 +922,12 @@ function IncludedProductsSection({ form }: { form: any }) {
                                 ).length === 0 && (
                                     <div className="p-2 text-center text-sm text-muted-foreground">
                                         {products.length === 0
-                                            ? "No products available"
-                                            : "All products already added"}
+                                            ? finalUiText[
+                                                  "No products available"
+                                              ]
+                                            : finalUiText[
+                                                  "All products already added"
+                                              ]}
                                     </div>
                                 )}
                         </SelectContent>
@@ -861,11 +939,11 @@ function IncludedProductsSection({ form }: { form: any }) {
                     <div className="space-y-3">
                         <div className="flex items-center gap-2">
                             <Label className="text-sm font-medium">
-                                Selected Products
+                                {finalUiText["Selected Products"]}
                             </Label>
                             <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
                                 {form.watch("includedProducts")?.length}{" "}
-                                selected
+                                {finalUiText["selected"]}
                             </span>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -898,7 +976,11 @@ function IncludedProductsSection({ form }: { form: any }) {
                                                         </span>
                                                         {!product.published && (
                                                             <Badge variant="destructive">
-                                                                Unpublished
+                                                                {
+                                                                    finalUiText[
+                                                                        "Unpublished"
+                                                                    ]
+                                                                }
                                                             </Badge>
                                                         )}
                                                     </div>

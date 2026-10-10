@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { useEffect, useState, startTransition } from "react";
 import { renderEmailToHtml } from "@courselit/email-editor";
 import type { Email } from "@courselit/email-editor";
@@ -52,15 +53,20 @@ export default function EmailViewer({
     }
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div>{finalUiText["Loading..."]}</div>;
     }
 
     if (error) {
-        return <div className="text-red-500">Error: {error}</div>;
+        return (
+            <div className="text-red-500">
+                {finalUiText["Error:"]}
+                {error}
+            </div>
+        );
     }
 
     if (!renderedHTML) {
-        return <div>No content to display</div>;
+        return <div>{finalUiText["No content to display"]}</div>;
     }
 
     return (
@@ -69,13 +75,13 @@ export default function EmailViewer({
                 srcDoc={renderedHTML}
                 className="w-full border rounded-lg"
                 style={{ minHeight: "480px" }}
-                title="Email Preview"
+                title={finalUiText["Email Preview"]}
             />
             {emailEditorLink && (
                 <Link
                     href={emailEditorLink}
                     className="absolute bottom-8 right-8 bg-accent hover:bg-accent/80 text-accent-foreground rounded-full p-3 shadow-lg transition-colors duration-200 z-10"
-                    title="Edit Email"
+                    title={finalUiText["Edit Email"]}
                 >
                     <Edit className="w-5 h-5" />
                 </Link>

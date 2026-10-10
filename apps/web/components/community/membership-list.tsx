@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -293,8 +296,8 @@ export function MembershipList({ id }: { id: string }) {
     const handleCopyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
         toast({
-            title: "Success",
-            description: "Subscription ID is copied to clipboard",
+            title: finalUiText["Success"],
+            description: finalUiText["Subscription ID is copied to clipboard"],
         });
     };
 
@@ -315,10 +318,14 @@ export function MembershipList({ id }: { id: string }) {
                         onValueChange={(value: any) => setFilter(value)}
                     >
                         <SelectTrigger className="w-full sm:w-[180px]">
-                            <SelectValue placeholder="Filter by status" />
+                            <SelectValue
+                                placeholder={finalUiText["Filter by status"]}
+                            />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="all">All</SelectItem>
+                            <SelectItem value="all">
+                                {finalUiText["All"]}
+                            </SelectItem>
                             {[
                                 Constants.MembershipStatus.PENDING,
                                 Constants.MembershipStatus.ACTIVE,
@@ -341,17 +348,21 @@ export function MembershipList({ id }: { id: string }) {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="w-[250px]">
-                                        User
+                                        {finalUiText["User"]}
                                     </TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead>Role</TableHead>
+                                    <TableHead>
+                                        {finalUiText["Status"]}
+                                    </TableHead>
+                                    <TableHead>{finalUiText["Role"]}</TableHead>
                                     <TableHead className="hidden lg:table-cell">
-                                        Joining Reason
+                                        {finalUiText["Joining Reason"]}
                                     </TableHead>
                                     <TableHead className="hidden xl:table-cell">
-                                        Rejection Reason
+                                        {finalUiText["Rejection Reason"]}
                                     </TableHead>
-                                    <TableHead>Subscription</TableHead>
+                                    <TableHead>
+                                        {finalUiText["Subscription"]}
+                                    </TableHead>
                                     {/* <TableHead>Subscription Method</TableHead> */}
                                 </TableRow>
                             </TableHeader>
@@ -430,7 +441,13 @@ export function MembershipList({ id }: { id: string }) {
                                                 </Badge>
                                                 {member.user.userId !==
                                                     profile?.userId && (
-                                                    <Tooltip title="Change status">
+                                                    <Tooltip
+                                                        title={
+                                                            finalUiText[
+                                                                "Change status"
+                                                            ]
+                                                        }
+                                                    >
                                                         <Button
                                                             size="sm"
                                                             variant="outline"
@@ -456,7 +473,13 @@ export function MembershipList({ id }: { id: string }) {
                                                 </Badge>
                                                 {member.user.userId !==
                                                     profile?.userId && (
-                                                    <Tooltip title="Change role">
+                                                    <Tooltip
+                                                        title={
+                                                            finalUiText[
+                                                                "Change role"
+                                                            ]
+                                                        }
+                                                    >
                                                         <Button
                                                             size="sm"
                                                             variant="outline"
@@ -484,7 +507,9 @@ export function MembershipList({ id }: { id: string }) {
                                         <TableCell>
                                             <div className="flex items-center gap-2">
                                                 <Tooltip
-                                                    title={`Subscription ID: ${member.subscriptionId}`}
+                                                    title={finalUiDynamic.subscription(
+                                                        member.subscriptionId,
+                                                    )}
                                                 >
                                                     {member.subscriptionId
                                                         ? truncate(
@@ -494,7 +519,13 @@ export function MembershipList({ id }: { id: string }) {
                                                         : "-"}
                                                 </Tooltip>
                                                 {member.subscriptionId && (
-                                                    <Tooltip title="Copy Subscription ID">
+                                                    <Tooltip
+                                                        title={
+                                                            finalUiText[
+                                                                "Copy Subscription ID"
+                                                            ]
+                                                        }
+                                                    >
                                                         <Button
                                                             size="sm"
                                                             variant="outline"
@@ -520,15 +551,22 @@ export function MembershipList({ id }: { id: string }) {
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Reject Membership Request</DialogTitle>
+                        <DialogTitle>
+                            {finalUiText["Reject Membership Request"]}
+                        </DialogTitle>
                         <DialogDescription>
-                            Please provide a reason for rejecting this
-                            membership request.
+                            {
+                                finalUiText[
+                                    "Please provide a reason for rejecting this membership request."
+                                ]
+                            }
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid gap-4">
-                            <Label htmlFor="rejection-reason">Reason</Label>
+                            <Label htmlFor="rejection-reason">
+                                {finalUiText["Reason"]}
+                            </Label>
                             <Textarea
                                 id="rejection-reason"
                                 value={rejectionReason}
@@ -544,14 +582,14 @@ export function MembershipList({ id }: { id: string }) {
                             variant="secondary"
                             onClick={() => setIsDialogOpen(false)}
                         >
-                            Cancel
+                            {finalUiText["Cancel"]}
                         </Button>
                         <Button
                             type="submit"
                             onClick={handleDialogConfirm}
                             disabled={!rejectionReason}
                         >
-                            Confirm Rejection
+                            {finalUiText["Confirm Rejection"]}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

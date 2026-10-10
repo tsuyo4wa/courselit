@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
@@ -34,9 +35,15 @@ export default function PaymentPlans({
         <div className="space-y-8">
             <div className="space-y-4 flex flex-col md:flex-row md:items-start md:justify-between w-full">
                 <div className="space-y-2">
-                    <Label className="text-base font-semibold">Pricing</Label>
+                    <Label className="text-base font-semibold">
+                        {finalUiText["Pricing"]}
+                    </Label>
                     <p className="text-sm text-muted-foreground">
-                        Manage your product&apos;s pricing plans
+                        {
+                            finalUiText[
+                                "Manage your product&apos;s pricing plans"
+                            ]
+                        }
                     </p>
                 </div>
                 <PaymentPlanList

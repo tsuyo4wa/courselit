@@ -1,4 +1,5 @@
 "use client";
+import { finalUiAccessibility } from "@/config/strings";
 
 import {
     CircleCheck,
@@ -17,6 +18,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
     return (
         <Sonner
+            containerAriaLabel={finalUiAccessibility.notifications}
             theme={theme as ToasterProps["theme"]}
             className="toaster group"
             icons={{

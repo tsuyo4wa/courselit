@@ -1,3 +1,4 @@
+import { finalUiText } from "../../../ui-strings";
 import { useState } from "react";
 import { Item } from "../settings";
 import {
@@ -51,12 +52,12 @@ export default function ItemEditor({
             onSubmit={(e) => e.preventDefault()}
         >
             <FormField
-                label="Title"
+                label={finalUiText["Title"]}
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
             <div>
-                <p className="mb-1 font-medium">Description</p>
+                <p className="mb-1 font-medium">{finalUiText["Description"]}</p>
                 <Editor
                     initialContent={description}
                     onChange={(state: any) => setDescription(state)}
@@ -65,25 +66,27 @@ export default function ItemEditor({
                 />
             </div>
             <FormField
-                label="Price"
+                label={finalUiText["Price"]}
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
             />
             {pricingSwitcherEnabled && (
                 <FormField
-                    label="Yearly price"
+                    label={finalUiText["Yearly price"]}
                     value={priceYearly}
                     onChange={(e) => setPriceYearly(e.target.value)}
                 />
             )}
             <FormField
-                label="Features"
+                label={finalUiText["Features"]}
                 value={features}
                 onChange={(e) => setFeatures(e.target.value)}
             />
             <div className="flex justify-between">
                 <div className="flex grow items-center gap-1">
-                    <p className="font-medium">Is recommended</p>
+                    <p className="font-medium">
+                        {finalUiText["Is recommended"]}
+                    </p>
                 </div>
                 <Checkbox
                     checked={primary}
@@ -91,9 +94,11 @@ export default function ItemEditor({
                 />
             </div>
             <div className="flex flex-col gap-2">
-                <h2 className="text-lg font-medium">Call to action</h2>
+                <h2 className="text-lg font-medium">
+                    {finalUiText["Call to action"]}
+                </h2>
                 <FormField
-                    label="Label"
+                    label={finalUiText["Label"]}
                     value={action.label}
                     onChange={(e) =>
                         setAction(
@@ -104,7 +109,7 @@ export default function ItemEditor({
                     }
                 />
                 <FormField
-                    label="Href"
+                    label={finalUiText["Href"]}
                     value={action.href}
                     onChange={(e) =>
                         setAction(
@@ -116,7 +121,7 @@ export default function ItemEditor({
                 />
                 {pricingSwitcherEnabled && (
                     <FormField
-                        label="Href (Yearly)"
+                        label={finalUiText["Href (Yearly)"]}
                         value={action.yearlyHref}
                         onChange={(e) =>
                             setAction(
@@ -129,18 +134,18 @@ export default function ItemEditor({
                 )}
             </div>
             <div className="flex justify-between">
-                <Tooltip title="Delete">
+                <Tooltip title={finalUiText["Delete"]}>
                     <Button
                         component="button"
                         onClick={onDelete}
                         variant="soft"
                     >
-                        Delete
+                        {finalUiText["Delete"]}
                     </Button>
                 </Tooltip>
-                <Tooltip title="Go back">
+                <Tooltip title={finalUiText["Go back"]}>
                     <Button component="button" onClick={itemChanged}>
-                        Done
+                        {finalUiText["Done"]}
                     </Button>
                 </Tooltip>
             </div>

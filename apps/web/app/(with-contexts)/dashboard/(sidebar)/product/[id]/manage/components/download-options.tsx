@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
@@ -95,18 +96,24 @@ export default function DownloadOptions({
                     <Label
                         className={`${!hasExactlyOneFreePlan ? "text-muted-foreground" : ""} text-base font-semibold`}
                     >
-                        Lead Magnet
+                        {finalUiText["Lead Magnet"]}
                     </Label>
                     <p className="text-sm text-muted-foreground">
-                        Send the product to user for free in exchange of their
-                        email address
+                        {
+                            finalUiText[
+                                "Send the product to user for free in exchange of their email address"
+                            ]
+                        }
                     </p>
                     {!hasExactlyOneFreePlan && (
                         <div className="flex items-start gap-2 text-red-600">
                             <AlertCircle className="h-4 w-4 mt-0.5 text-red-600" />
                             <p className="text-xs leading-5">
-                                Product must have exactly one free payment plan
-                                to enable lead magnet
+                                {
+                                    finalUiText[
+                                        "Product must have exactly one free payment plan to enable lead magnet"
+                                    ]
+                                }
                             </p>
                         </div>
                     )}

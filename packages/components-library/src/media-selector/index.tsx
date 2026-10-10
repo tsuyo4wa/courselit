@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "../ui-strings";
+
+import { finalUiText } from "../ui-strings";
 
 import { useState } from "react";
 import { Image } from "../image";
@@ -72,8 +75,8 @@ const MediaSelector = (props: MediaSelectorProps) => {
         disabled = false,
         onError = (err: Error) => {
             toast({
-                title: "Error",
-                description: `Media upload: ${err.message}`,
+                title: finalUiText["Error"],
+                description: finalUiDynamic.uploadError(err.message),
                 variant: "destructive",
             });
         },
@@ -138,7 +141,7 @@ const MediaSelector = (props: MediaSelectorProps) => {
                     >
                         <X className="mr-2 h-4 w-4" />
                         {uploading
-                            ? "Working..."
+                            ? finalUiText["Working..."]
                             : strings.removeButtonCaption || "Remove"}
                     </Button2>
                 )}

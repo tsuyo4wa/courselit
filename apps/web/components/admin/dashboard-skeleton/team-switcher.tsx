@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import * as React from "react";
 import { ChevronsUpDown, Plus } from "lucide-react";
@@ -61,7 +62,7 @@ export function TeamSwitcher({
                         sideOffset={4}
                     >
                         <DropdownMenuLabel className="text-xs text-muted-foreground">
-                            Teams
+                            {finalUiText["Teams"]}
                         </DropdownMenuLabel>
                         {teams.map((team, index) => (
                             <DropdownMenuItem
@@ -84,7 +85,7 @@ export function TeamSwitcher({
                                 <Plus className="size-4" />
                             </div>
                             <div className="font-medium text-muted-foreground">
-                                Add team
+                                {finalUiText["Add team"]}
                             </div>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

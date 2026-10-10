@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React from "react";
 import { useEffect, useState } from "react";
 import {
@@ -118,7 +119,7 @@ export default function Widget({
             }
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
                 variant: "destructive",
             });
@@ -237,7 +238,9 @@ export default function Widget({
                                 </span>
 
                                 {!lesson.requiresEnrollment && (
-                                    <Badge variant="outline">Preview</Badge>
+                                    <Badge variant="outline">
+                                        {finalUiText["Preview"]}
+                                    </Badge>
                                 )}
                             </div>
                         </Link>

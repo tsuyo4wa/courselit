@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Course, SiteInfo, UIConstants } from "@courselit/common-models";
 import { FetchBuilder, checkPermission } from "@courselit/utils";
@@ -127,7 +128,7 @@ export default function Blogs() {
                         )}
                 </div>
             </div>
-            <Table aria-label="Products">
+            <Table aria-label={finalUiText["Products"]}>
                 <TableHead className="border-0 border-b border-slate-200">
                     <td>{BLOG_TABLE_HEADER_NAME}</td>
                     <td align="right">{PRODUCTS_TABLE_HEADER_STATUS}</td>

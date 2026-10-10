@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "./ui-strings";
+
+import { finalUiText } from "./ui-strings";
 
 import { KeyboardEvent, useEffect, useMemo, useState } from "react";
 import { Check, ChevronDown, PlusCircle, X } from "lucide-react";
@@ -184,7 +187,9 @@ export default function ComboBox({
                                                     event.stopPropagation();
                                                     handleRemoveOption(option);
                                                 }}
-                                                aria-label={`Remove ${option}`}
+                                                aria-label={finalUiDynamic.remove(
+                                                    option,
+                                                )}
                                             >
                                                 <X className="h-3 w-3" />
                                             </button>
@@ -214,7 +219,7 @@ export default function ComboBox({
             <PopoverContent className="w-[320px] p-0">
                 <Command shouldFilter={false}>
                     <CommandInput
-                        placeholder="Search..."
+                        placeholder={finalUiText["Search..."]}
                         value={searchValue}
                         onValueChange={setSearchValue}
                         onKeyDown={handleInputKeyDown}
@@ -237,7 +242,7 @@ export default function ComboBox({
                                 )}
                             </div>
                         </CommandEmpty>
-                        <CommandGroup heading="Options">
+                        <CommandGroup heading={finalUiText["Options"]}>
                             {filteredOptions.map((option) => {
                                 const isSelected = internalSelected.has(option);
                                 return (

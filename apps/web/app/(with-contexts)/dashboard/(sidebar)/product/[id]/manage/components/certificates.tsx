@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useContext, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -345,14 +346,16 @@ export default function Certificates({
     return (
         <div className="space-y-8">
             <div className="space-y-6" id="publish">
-                <h2 className="text-base font-semibold">Certificates</h2>
+                <h2 className="text-base font-semibold">
+                    {finalUiText["Certificates"]}
+                </h2>
                 <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                         <Label className="text-base font-semibold">
-                            Issue certificates
+                            {finalUiText["Issue certificates"]}
                         </Label>
                         <p className="text-sm text-muted-foreground">
-                            Enable certificate for this course.
+                            {finalUiText["Enable certificate for this course."]}
                         </p>
                     </div>
                     <div className="flex gap-4 items-center">
@@ -362,7 +365,7 @@ export default function Certificates({
                                 target="_blank"
                                 className="underline text-black font-medium text-sm text-muted-foreground"
                             >
-                                Preview
+                                {finalUiText["Preview"]}
                             </Link>
                         )}
                         <Switch
@@ -378,11 +381,14 @@ export default function Certificates({
                             <div className="flex items-center justify-between">
                                 <div className="space-y-0.5">
                                     <h2 className="text-base font-semibold">
-                                        Certificate Template
+                                        {finalUiText["Certificate Template"]}
                                     </h2>
                                     <p className="text-sm text-muted-foreground">
-                                        Customize the content and branding for
-                                        issued certificates
+                                        {
+                                            finalUiText[
+                                                "Customize the content and branding for issued certificates"
+                                            ]
+                                        }
                                     </p>
                                 </div>
                                 <CollapsibleTrigger asChild>
@@ -392,7 +398,9 @@ export default function Certificates({
                                         className="w-9 p-0 group"
                                     >
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180" />
-                                        <span className="sr-only">Toggle</span>
+                                        <span className="sr-only">
+                                            {finalUiText["Toggle"]}
+                                        </span>
                                     </Button>
                                 </CollapsibleTrigger>
                             </div>
@@ -408,7 +416,7 @@ export default function Certificates({
                                             htmlFor="certificate-title"
                                             className="text-sm font-semibold"
                                         >
-                                            Certificate Title
+                                            {finalUiText["Certificate Title"]}
                                         </Label>
                                         <Input
                                             id="certificate-title"
@@ -417,7 +425,11 @@ export default function Certificates({
                                             onChange={
                                                 handleCertificateTemplateInputChange
                                             }
-                                            placeholder="Certificate of Completion"
+                                            placeholder={
+                                                finalUiText[
+                                                    "Certificate of Completion"
+                                                ]
+                                            }
                                             className={
                                                 certificateTemplateErrors.title
                                                     ? "border-red-500"
@@ -439,7 +451,11 @@ export default function Certificates({
                                             htmlFor="certificate-subtitle"
                                             className="text-sm font-semibold"
                                         >
-                                            Certificate Subtitle
+                                            {
+                                                finalUiText[
+                                                    "Certificate Subtitle"
+                                                ]
+                                            }
                                         </Label>
                                         <Input
                                             id="certificate-subtitle"
@@ -448,7 +464,11 @@ export default function Certificates({
                                             onChange={
                                                 handleCertificateTemplateInputChange
                                             }
-                                            placeholder="This certificate is awarded to"
+                                            placeholder={
+                                                finalUiText[
+                                                    "This certificate is awarded to"
+                                                ]
+                                            }
                                             className={
                                                 certificateTemplateErrors.subtitle
                                                     ? "border-red-500"
@@ -470,7 +490,11 @@ export default function Certificates({
                                             htmlFor="certificate-description"
                                             className="text-sm font-semibold"
                                         >
-                                            Certificate Description
+                                            {
+                                                finalUiText[
+                                                    "Certificate Description"
+                                                ]
+                                            }
                                         </Label>
                                         <Input
                                             id="certificate-description"
@@ -481,7 +505,11 @@ export default function Certificates({
                                             onChange={
                                                 handleCertificateTemplateInputChange
                                             }
-                                            placeholder="for completing the course"
+                                            placeholder={
+                                                finalUiText[
+                                                    "for completing the course"
+                                                ]
+                                            }
                                             className={
                                                 certificateTemplateErrors.description
                                                     ? "border-red-500"
@@ -514,7 +542,7 @@ export default function Certificates({
                                             htmlFor="signature-name"
                                             className="text-sm font-semibold"
                                         >
-                                            Signature Name
+                                            {finalUiText["Signature Name"]}
                                         </Label>
                                         <Input
                                             id="signature-name"
@@ -525,7 +553,9 @@ export default function Certificates({
                                             onChange={
                                                 handleCertificateTemplateInputChange
                                             }
-                                            placeholder="Instructor Name"
+                                            placeholder={
+                                                finalUiText["Instructor Name"]
+                                            }
                                             className={
                                                 certificateTemplateErrors.signatureName
                                                     ? "border-red-500"
@@ -547,7 +577,11 @@ export default function Certificates({
                                             htmlFor="signature-designation"
                                             className="text-sm font-semibold"
                                         >
-                                            Signature Designation
+                                            {
+                                                finalUiText[
+                                                    "Signature Designation"
+                                                ]
+                                            }
                                         </Label>
                                         <Input
                                             id="signature-designation"
@@ -558,7 +592,9 @@ export default function Certificates({
                                             onChange={
                                                 handleCertificateTemplateInputChange
                                             }
-                                            placeholder="Course Instructor"
+                                            placeholder={
+                                                finalUiText["Course Instructor"]
+                                            }
                                             disabled={loading}
                                         />
                                     </div>
@@ -577,11 +613,14 @@ export default function Certificates({
                                 <div className="space-y-6">
                                     <div className="space-y-4">
                                         <Label className="text-sm font-semibold">
-                                            Signature Image
+                                            {finalUiText["Signature Image"]}
                                         </Label>
                                         <p className="text-sm text-muted-foreground">
-                                            Upload a signature image for the
-                                            certificate (saves automatically)
+                                            {
+                                                finalUiText[
+                                                    "Upload a signature image for the certificate (saves automatically)"
+                                                ]
+                                            }
                                         </p>
                                         <MediaSelector
                                             title=""
@@ -645,11 +684,14 @@ export default function Certificates({
 
                                     <div className="space-y-4">
                                         <Label className="text-sm font-semibold">
-                                            Logo
+                                            {finalUiText["Logo"]}
                                         </Label>
                                         <p className="text-sm text-muted-foreground">
-                                            Upload a logo for the certificate
-                                            (saves automatically)
+                                            {
+                                                finalUiText[
+                                                    "Upload a logo for the certificate (saves automatically)"
+                                                ]
+                                            }
                                         </p>
                                         <MediaSelector
                                             title=""

@@ -1,3 +1,4 @@
+import { finalUiText } from "./ui-strings";
 import { ComponentProps } from "react";
 import { cn } from "./lib/utils";
 import {
@@ -59,7 +60,8 @@ const PaginatedTableContainer = ({
                     </PaginationItem>
                     <PaginationItem>
                         <PaginationLink className="pointer-events-none">
-                            of {totalPages}
+                            {finalUiText["of"]}
+                            {totalPages}
                         </PaginationLink>
                     </PaginationItem>
                 </PaginationContent>

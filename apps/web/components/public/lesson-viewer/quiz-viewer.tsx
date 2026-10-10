@@ -1,3 +1,4 @@
+import { finalUiMessages } from "@/config/strings";
 import {
     Address,
     Question,
@@ -11,7 +12,6 @@ import {
     QUIZ_VIEWER_EVALUATE_BTN_LOADING,
     TOAST_QUIZ_FAIL_MESSAGE,
     TOAST_QUIZ_PASS_MESSAGE,
-    QUIZ_SCORE_PREFIX_MESSAGE,
 } from "@/ui-config/strings";
 import { Form, useToast } from "@courselit/components-library";
 import { Button, Header2, Text1 } from "@courselit/page-primitives";
@@ -97,12 +97,17 @@ export default function QuizViewer({
                 if (pass) {
                     toast({
                         title: TOAST_QUIZ_PASS_MESSAGE,
-                        description: `${QUIZ_SCORE_PREFIX_MESSAGE} ${score.toFixed(2)} points.`,
+                        description: finalUiMessages.quizScore(
+                            score.toFixed(2),
+                        ),
                     });
                 } else {
                     toast({
                         title: TOAST_QUIZ_FAIL_MESSAGE,
-                        description: `${QUIZ_SCORE_PREFIX_MESSAGE} ${score.toFixed(2)} points. Requires ${passingGrade} points.`,
+                        description: finalUiMessages.quizScore(
+                            score.toFixed(2),
+                            passingGrade,
+                        ),
                         variant: "destructive",
                     });
                 }

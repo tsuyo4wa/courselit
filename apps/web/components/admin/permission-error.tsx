@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { ShieldAlert } from "lucide-react";
 
 interface PermissionErrorProps {
@@ -13,16 +14,18 @@ export default function PermissionError({
                 <div className="mx-auto w-12 h-12 rounded-full bg-red-100 flex items-center justify-center">
                     <ShieldAlert className="w-6 h-6 text-red-600" />
                 </div>
-                <h1 className="text-2xl font-bold">Permission Required</h1>
+                <h1 className="text-2xl font-bold">
+                    {finalUiText["Permission Required"]}
+                </h1>
                 <p className="text-muted-foreground">
-                    You don&apos;t have the required permission
-                    {missingPermissions.length !== 1 ? "s" : ""} to access this
-                    area.
+                    {finalUiText["You don&apos;t have the required permission"]}
+                    {missingPermissions.length !== 1 ? "s" : ""}
+                    {finalUiText["to access this area."]}
                 </p>
                 {missingPermissions.length > 0 && (
                     <div className="space-y-2">
                         <p className="font-medium">
-                            Required at-least one of these:
+                            {finalUiText["Required at-least one of these:"]}
                         </p>
                         <div className="flex flex-wrap justify-center gap-2">
                             {missingPermissions.map((permission, index) => (

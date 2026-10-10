@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useEffect, useRef, useCallback, useState, useContext } from "react";
 import { debounce } from "@courselit/utils";
@@ -298,7 +299,7 @@ export function ScormViewer({ lessonId, launchUrl }: ScormViewerProps) {
     return (
         <div>
             <Button theme={theme.theme} onClick={openInPopup}>
-                Enter
+                {finalUiText["Enter"]}
             </Button>
         </div>
     );

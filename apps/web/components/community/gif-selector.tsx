@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     useState,
@@ -89,7 +90,7 @@ function GifSelectorComponent({ onGifSelect }: GifSelectorProps) {
             <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                    placeholder="Search GIFs"
+                    placeholder={finalUiText["Search GIFs"]}
                     className="pl-8"
                     value={search}
                     onChange={handleSearchChange}
@@ -99,7 +100,7 @@ function GifSelectorComponent({ onGifSelect }: GifSelectorProps) {
             <ScrollArea className="h-[300px]">
                 {loading ? (
                     <div className="flex justify-center items-center h-full">
-                        <p>Loading GIFs...</p>
+                        <p>{finalUiText["Loading GIFs..."]}</p>
                     </div>
                 ) : (
                     <div className="grid grid-cols-2 gap-2">

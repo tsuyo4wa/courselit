@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import {
     State,
     WidgetDefaultSettings,
@@ -43,7 +44,7 @@ const EditableWidget = ({
             >
                 <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity z-30">
                     <div className="text-white/90 border border-white/50 px-3 py-1.5 rounded text-sm font-medium">
-                        Click to update
+                        {finalUiText["Click to update"]}
                     </div>
                 </div>
                 <WidgetByName
@@ -56,7 +57,7 @@ const EditableWidget = ({
                 />
                 <div className="w-full justify-evenly hidden group-hover:flex absolute bottom-[-16px] z-30">
                     {allowsUpwardMovement && (
-                        <Tooltip title="Move up">
+                        <Tooltip title={finalUiText["Move up"]}>
                             <Button
                                 size="icon"
                                 className="bg-black text-white shadow-md hover:bg-black/90 h-8 w-8 rounded-full"
@@ -70,7 +71,7 @@ const EditableWidget = ({
                         </Tooltip>
                     )}
                     {allowsWidgetAddition && (
-                        <Tooltip title="Add widget below">
+                        <Tooltip title={finalUiText["Add widget below"]}>
                             <Button
                                 size="icon"
                                 className="bg-black text-white shadow-md hover:bg-black/90 h-8 w-8 rounded-full"
@@ -84,7 +85,7 @@ const EditableWidget = ({
                         </Tooltip>
                     )}
                     {allowsDownwardMovement && (
-                        <Tooltip title="Move down">
+                        <Tooltip title={finalUiText["Move down"]}>
                             <Button
                                 size="icon"
                                 className="bg-black text-white shadow-md hover:bg-black/90 h-8 w-8 rounded-full"

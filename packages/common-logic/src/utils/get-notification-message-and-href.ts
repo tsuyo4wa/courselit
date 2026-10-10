@@ -1,3 +1,4 @@
+import { finalUiDynamic } from "../ui-strings";
 import {
     ActivityType,
     COMMUNITY_HEART_EMOJI,
@@ -130,7 +131,11 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} created a post '${truncate(post.title, 20).trim()}' in ${community.name}`,
+                message: finalUiDynamic.newPost(
+                    actorName,
+                    truncate(post.title, 20).trim(),
+                    community.name,
+                ),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/${post.postId}`,
                     hrefPrefix,
@@ -158,7 +163,12 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} commented on ${recipientUserId === post.userId ? "your" : "a"} post '${truncate(post.title, 20).trim()}' in ${community.name}`,
+                message: finalUiDynamic.newComment(
+                    actorName,
+                    recipientUserId === post.userId ? "your" : "a",
+                    truncate(post.title, 20).trim(),
+                    community.name,
+                ),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/${post.postId}#${entityId}`,
                     hrefPrefix,
@@ -212,7 +222,12 @@ export async function getNotificationMessageAndHref({
                   : "a";
 
             return {
-                message: `${actorName} replied to ${prefix} comment on '${truncate(post.title, 20).trim()}' in ${community.name}`,
+                message: finalUiDynamic.newReply(
+                    actorName,
+                    prefix,
+                    truncate(post.title, 20).trim(),
+                    community.name,
+                ),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/${post.postId}#${entityId}`,
                     hrefPrefix,
@@ -237,7 +252,12 @@ export async function getNotificationMessageAndHref({
             const emoji = (metadata?.emoji as string) || COMMUNITY_HEART_EMOJI;
 
             return {
-                message: `${actorName} reacted ${emoji} to your post '${truncate(post.title, 20).trim()}' in ${community.name}`,
+                message: finalUiDynamic.postReaction(
+                    actorName,
+                    emoji,
+                    truncate(post.title, 20).trim(),
+                    community.name,
+                ),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/${post.postId}`,
                     hrefPrefix,
@@ -262,7 +282,13 @@ export async function getNotificationMessageAndHref({
             const emoji = (metadata?.emoji as string) || COMMUNITY_HEART_EMOJI;
 
             return {
-                message: `${actorName} reacted ${emoji} to your comment '${truncate(comment.content, 20).trim()}' on '${truncate(post.title, 20).trim()}' in ${community.name}`,
+                message: finalUiDynamic.commentReaction(
+                    actorName,
+                    emoji,
+                    truncate(comment.content, 20).trim(),
+                    truncate(post.title, 20).trim(),
+                    community.name,
+                ),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/${post.postId}#${entityId}`,
                     hrefPrefix,
@@ -301,7 +327,13 @@ export async function getNotificationMessageAndHref({
             const emoji = (metadata?.emoji as string) || COMMUNITY_HEART_EMOJI;
 
             return {
-                message: `${actorName} reacted ${emoji} to your reply '${truncate(reply.content, 20).trim()}' on '${truncate(post.title, 20).trim()}' in ${community.name}`,
+                message: finalUiDynamic.replyReaction(
+                    actorName,
+                    emoji,
+                    truncate(reply.content, 20).trim(),
+                    truncate(post.title, 20).trim(),
+                    community.name,
+                ),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/${post.postId}#${entityId}`,
                     hrefPrefix,
@@ -319,7 +351,7 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} requested to join ${community.name}`,
+                message: finalUiDynamic.joinRequest(actorName, community.name),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/manage/memberships`,
                     hrefPrefix,
@@ -337,7 +369,7 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} granted your request to join ${community.name}`,
+                message: finalUiDynamic.joinAccepted(actorName, community.name),
                 href: toHref(
                     `/dashboard/community/${community.communityId}`,
                     hrefPrefix,
@@ -355,7 +387,7 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} joined ${community.name}`,
+                message: finalUiDynamic.joined(actorName, community.name),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/manage/memberships`,
                     hrefPrefix,
@@ -373,7 +405,7 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} left ${community.name}`,
+                message: finalUiDynamic.left(actorName, community.name),
                 href: toHref(
                     `/dashboard/community/${community.communityId}/manage/memberships`,
                     hrefPrefix,
@@ -383,13 +415,13 @@ export async function getNotificationMessageAndHref({
 
         case Constants.ActivityType.NEWSLETTER_SUBSCRIBED:
             return {
-                message: `${actorName} subscribed to the updates`,
+                message: finalUiDynamic.subscribed(actorName),
                 href: toHref(`/dashboard/users/${entityId}`, hrefPrefix),
             };
 
         case Constants.ActivityType.NEWSLETTER_UNSUBSCRIBED:
             return {
-                message: `${actorName} unsubscribed from the updates`,
+                message: finalUiDynamic.unsubscribed(actorName),
                 href: toHref(`/dashboard/users/${entityId}`, hrefPrefix),
             };
 
@@ -400,7 +432,10 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} enrolled in ${truncate(course.title, 20).trim()}`,
+                message: finalUiDynamic.enrolled(
+                    actorName,
+                    truncate(course.title, 20).trim(),
+                ),
                 href: toHref(
                     `/dashboard/product/${course.courseId}/customers`,
                     hrefPrefix,
@@ -410,7 +445,7 @@ export async function getNotificationMessageAndHref({
 
         case Constants.ActivityType.USER_CREATED:
             return {
-                message: `${actorName} signed up`,
+                message: finalUiDynamic.signedUp(actorName),
                 href: toHref(`/dashboard/users/${entityId}`, hrefPrefix),
             };
 
@@ -421,7 +456,10 @@ export async function getNotificationMessageAndHref({
             }
 
             return {
-                message: `${actorName} downloaded ${truncate(course.title, 20).trim()}`,
+                message: finalUiDynamic.downloaded(
+                    actorName,
+                    truncate(course.title, 20).trim(),
+                ),
                 href: toHref(
                     `/dashboard/product/${course.courseId}/customers`,
                     hrefPrefix,
@@ -473,8 +511,8 @@ export async function getNotificationMessageAndHref({
                 message:
                     activityType ===
                     Constants.ActivityType.COURSE_DISCUSSION_REACTED
-                        ? `${actorName} reacted to your ${contentType === Constants.ProductDiscussionContentType.REPLY ? Constants.ProductDiscussionContentType.REPLY : Constants.ProductDiscussionContentType.COMMENT} on ${truncate(course.title, 20).trim()}`
-                        : `${actorName} ${eventType === "reply_created" ? "replied" : "commented"} on ${truncate(course.title, 20).trim()}`,
+                        ? `${actorName}さんが「${truncate(course.title, 20).trim()}」のあなたの${contentType === Constants.ProductDiscussionContentType.REPLY ? "返信" : "コメント"}にリアクションしました`
+                        : `${actorName}さんが「${truncate(course.title, 20).trim()}」に${eventType === "reply_created" ? "返信" : "コメント"}しました`,
                 href: toHref(
                     `/course/${course.slug}/${course.courseId}/${lessonId}?${query.toString()}${
                         targetId && targetHash ? `#${targetHash}` : ""
@@ -486,14 +524,10 @@ export async function getNotificationMessageAndHref({
 
         default:
             return {
-                message: `${actorName} triggered ${humanizeActivityType(activityType)}`,
+                message: `${actorName}さんの新しいアクティビティがあります`,
                 href: toHref("/dashboard", hrefPrefix),
             };
     }
-}
-
-function humanizeActivityType(activityType: ActivityType): string {
-    return activityType.replace(/_/g, " ");
 }
 
 function toHref(path: string, hrefPrefix: string): string {

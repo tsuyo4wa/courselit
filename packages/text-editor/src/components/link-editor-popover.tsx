@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "../ui-strings";
 
 import React, { useEffect, useRef, useState } from "react";
 import type { Editor } from "@tiptap/react";
@@ -92,7 +93,7 @@ const LinkEditorPopover = ({
                 />
                 <button
                     type="button"
-                    aria-label="Cancel link editing"
+                    aria-label={finalUiText["Cancel link editing"]}
                     className="inline-flex h-8 w-8 items-center justify-center rounded border border-border text-foreground transition-colors hover:bg-muted"
                     onClick={onClose}
                 >
@@ -100,7 +101,7 @@ const LinkEditorPopover = ({
                 </button>
                 <button
                     type="button"
-                    aria-label="Remove link"
+                    aria-label={finalUiText["Remove link"]}
                     className="inline-flex h-8 w-8 items-center justify-center rounded border border-border text-foreground transition-colors hover:bg-muted"
                     onClick={removeLink}
                 >
@@ -108,7 +109,7 @@ const LinkEditorPopover = ({
                 </button>
                 <button
                     type="button"
-                    aria-label="Apply link"
+                    aria-label={finalUiText["Apply link"]}
                     className="inline-flex h-8 w-8 items-center justify-center rounded bg-primary text-primary-foreground transition-colors hover:bg-primary/90"
                     onClick={applyLink}
                 >
@@ -125,7 +126,7 @@ const LinkEditorPopover = ({
         >
             <div className="flex flex-col gap-2">
                 <label className="text-xs font-medium text-muted-foreground">
-                    Link URL
+                    {finalUiText["Link URL"]}
                 </label>
                 <input
                     ref={inputRef}
@@ -143,7 +144,7 @@ const LinkEditorPopover = ({
                         onClick={onClose}
                     >
                         <X className="h-4 w-4" />
-                        Cancel
+                        {finalUiText["Cancel"]}
                     </button>
                     <button
                         type="button"
@@ -151,7 +152,7 @@ const LinkEditorPopover = ({
                         onClick={removeLink}
                     >
                         <Trash2 className="h-4 w-4" />
-                        Remove
+                        {finalUiText["Remove"]}
                     </button>
                     <button
                         type="button"
@@ -159,7 +160,7 @@ const LinkEditorPopover = ({
                         onClick={applyLink}
                     >
                         <Check className="h-4 w-4" />
-                        Apply
+                        {finalUiText["Apply"]}
                     </button>
                 </div>
             </div>

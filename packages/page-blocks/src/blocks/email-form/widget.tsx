@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import React from "react";
 import { FormEvent, useState, useEffect } from "react";
 import { WidgetProps } from "@courselit/common-models";
@@ -105,14 +106,14 @@ const Widget = ({
             const response = await fetch.exec();
             if (response.response) {
                 toast({
-                    title: "Success",
+                    title: finalUiText["Success"],
                     description: successMessage || DEFAULT_SUCCESS_MESSAGE,
                 });
                 setName("");
                 setEmail("");
             } else {
                 toast({
-                    title: "Error",
+                    title: finalUiText["Error"],
                     description: failureMessage || DEFAULT_FAILURE_MESSAGE,
                 });
             }
@@ -155,14 +156,14 @@ const Widget = ({
                             htmlFor="name"
                             className="font-medium"
                         >
-                            Name
+                            {finalUiText["Name"]}
                         </Label>
                         <Input
                             theme={overiddenTheme}
                             id="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Enter your name"
+                            placeholder={finalUiText["Enter your name"]}
                             type="text"
                             required
                         />
@@ -173,14 +174,14 @@ const Widget = ({
                             htmlFor="email"
                             className="font-medium"
                         >
-                            Email
+                            {finalUiText["Email"]}
                         </Label>
                         <Input
                             theme={overiddenTheme}
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
+                            placeholder={finalUiText["Enter your email"]}
                             type="email"
                             required
                         />

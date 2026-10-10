@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import React, { FormEvent, useContext, useState } from "react";
 import {
     Form,
@@ -67,7 +68,7 @@ export default function NewBlog() {
                 <Form onSubmit={createCourse} className="flex flex-col gap-4">
                     <FormField
                         required
-                        label="Title"
+                        label={finalUiText["Title"]}
                         name="title"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}

@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import type { Email, EmailStyle } from "@/types/email-editor";
 
 export const defaultStyle: EmailStyle = {
@@ -105,7 +106,7 @@ export const defaultEmail: Email = {
         {
             blockType: "link",
             settings: {
-                text: "Visit Our Website",
+                text: finalUiText["Visit Our Website"],
                 url: "#",
                 alignment: "center",
                 isButton: true,
@@ -114,7 +115,7 @@ export const defaultEmail: Email = {
         {
             blockType: "link",
             settings: {
-                text: "Learn more about our services",
+                text: finalUiText["Learn more about our services"],
                 url: "#",
                 alignment: "center",
             },

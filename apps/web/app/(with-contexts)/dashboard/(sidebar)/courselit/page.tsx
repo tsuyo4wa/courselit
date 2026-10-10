@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { UIConstants } from "@courselit/common-models";
@@ -17,10 +18,14 @@ export default function Page() {
                     {HEADER_COURSELIT}
                 </h1>
             </div>
-            <p className="mb-8 text-slate-600">Tech stuff about CourseLit</p>
+            <p className="mb-8 text-slate-600">
+                {finalUiText["Tech stuff about CourseLit"]}
+            </p>
             <div className="mb-8">
                 <p className="text-slate-600">
-                    <span className="font-medium">Version:</span>{" "}
+                    <span className="font-medium">
+                        {finalUiText["Version:"]}
+                    </span>{" "}
                     {process.env.version || "0.0.0"}
                 </p>
             </div>

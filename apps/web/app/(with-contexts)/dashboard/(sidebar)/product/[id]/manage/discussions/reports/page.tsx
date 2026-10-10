@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -257,19 +258,19 @@ export default function ProductDiscussionReportsPage() {
             case Constants.ProductDiscussionReportStatus.PENDING:
                 return (
                     <Badge variant="secondary" className="text-[10px]">
-                        PENDING
+                        未対応
                     </Badge>
                 );
             case Constants.ProductDiscussionReportStatus.ACCEPTED:
                 return (
                     <Badge variant="default" className="text-[10px]">
-                        ACCEPTED
+                        承認済み
                     </Badge>
                 );
             case Constants.ProductDiscussionReportStatus.REJECTED:
                 return (
                     <Badge variant="outline" className="text-[10px]">
-                        REJECTED
+                        却下
                     </Badge>
                 );
             default:
@@ -292,7 +293,11 @@ export default function ProductDiscussionReportsPage() {
                             {COURSE_DISCUSSIONS_ADMIN_REPORTS}
                         </h2>
                         <p className="text-muted-foreground">
-                            Review and manage reported discussion content
+                            {
+                                finalUiText[
+                                    "Review and manage reported discussion content"
+                                ]
+                            }
                         </p>
                     </div>
                 </div>
@@ -311,17 +316,19 @@ export default function ProductDiscussionReportsPage() {
                             }}
                         >
                             <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="All" />
+                                <SelectValue placeholder={finalUiText["All"]} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="all">
+                                    {finalUiText["All"]}
+                                </SelectItem>
                                 <SelectItem
                                     value={
                                         Constants.ProductDiscussionReportStatus
                                             .PENDING
                                     }
                                 >
-                                    Pending
+                                    {finalUiText["Pending"]}
                                 </SelectItem>
                                 <SelectItem
                                     value={
@@ -329,7 +336,7 @@ export default function ProductDiscussionReportsPage() {
                                             .ACCEPTED
                                     }
                                 >
-                                    Accepted
+                                    {finalUiText["Accepted"]}
                                 </SelectItem>
                                 <SelectItem
                                     value={
@@ -337,7 +344,7 @@ export default function ProductDiscussionReportsPage() {
                                             .REJECTED
                                     }
                                 >
-                                    Rejected
+                                    {finalUiText["Rejected"]}
                                 </SelectItem>
                             </SelectContent>
                         </Select>
@@ -397,7 +404,7 @@ export default function ProductDiscussionReportsPage() {
                                                 {COURSE_DISCUSSIONS_ADMIN_DATE}
                                             </TableHead>
                                             <TableHead className="text-right">
-                                                Actions
+                                                {finalUiText["Actions"]}
                                             </TableHead>
                                         </TableRow>
                                     </TableHeader>
@@ -459,7 +466,7 @@ export default function ProductDiscussionReportsPage() {
                                                         }
                                                     >
                                                         <RotateCCW className="mr-2 h-4 w-4" />
-                                                        Change
+                                                        {finalUiText["Change"]}
                                                     </Button>
                                                 </TableCell>
                                             </TableRow>

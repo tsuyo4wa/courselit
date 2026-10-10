@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import {
     AlertDialog,
@@ -21,18 +22,24 @@ export default function FirstRunPopup() {
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle>
-                        Welcome to your new school! 🎉
+                        {finalUiText["Welcome to your new school! 🎉"]}
                     </AlertDialogTitle>
                     <AlertDialogDescription>
-                        You are almost ready to monetize your knowledge.
+                        {
+                            finalUiText[
+                                "You are almost ready to monetize your knowledge."
+                            ]
+                        }
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel onClick={() => setOpen(false)}>
-                        I&apos;ll do it on my own
+                        {finalUiText["I&apos;ll do it on my own"]}
                     </AlertDialogCancel>
                     <AlertDialogAction asChild>
-                        <Link href="/dashboard/get-set-up">Continue setup</Link>
+                        <Link href="/dashboard/get-set-up">
+                            {finalUiText["Continue setup"]}
+                        </Link>
                     </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>

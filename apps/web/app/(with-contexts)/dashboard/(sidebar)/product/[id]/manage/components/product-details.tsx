@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { FormEvent, useContext, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -108,7 +109,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
             <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="space-y-4">
                     <Label htmlFor="name" className="text-base font-semibold">
-                        Name
+                        {finalUiText["Name"]}
                     </Label>
                     <Input
                         id="name"
@@ -125,7 +126,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
 
                 <div className="space-y-4">
                     <Label htmlFor="slug" className="text-base font-semibold">
-                        Slug
+                        {finalUiText["Slug"]}
                     </Label>
                     <Input
                         id="slug"
@@ -136,7 +137,11 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                         placeholder="my-awesome-course"
                     />
                     <p className="text-sm text-muted-foreground">
-                        The URL-friendly identifier for this product page.
+                        {
+                            finalUiText[
+                                "The URL-friendly identifier for this product page."
+                            ]
+                        }
                     </p>
                 </div>
 
@@ -145,7 +150,7 @@ export default function ProductDetails({ product }: ProductDetailsProps) {
                         htmlFor="description"
                         className="text-base font-semibold"
                     >
-                        Description
+                        {finalUiText["Description"]}
                     </Label>
 
                     <Editor

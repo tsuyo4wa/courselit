@@ -1,3 +1,4 @@
+import { finalUiText } from "../../ui-strings";
 import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import {
@@ -89,7 +90,7 @@ export function SettingsSelect({
                         type="button"
                         onClick={handleReset}
                         className="text-gray-400 hover:text-gray-600 transition-colors"
-                        aria-label="Reset to default"
+                        aria-label={finalUiText["Reset to default"]}
                     >
                         <X className="h-3 w-3" />
                     </button>
@@ -100,7 +101,9 @@ export function SettingsSelect({
                     id={`select-${label.replace(/\s+/g, "-").toLowerCase()}`}
                     className="w-full"
                 >
-                    <SelectValue placeholder="Select an option" />
+                    <SelectValue
+                        placeholder={finalUiText["Select an option"]}
+                    />
                 </SelectTrigger>
                 <SelectContent>
                     {options.map((option) => (

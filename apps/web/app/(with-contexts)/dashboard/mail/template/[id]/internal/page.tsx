@@ -1,4 +1,7 @@
 "use client";
+import { finalUiDynamic } from "@/config/strings";
+
+import { finalUiText } from "@/config/strings";
 
 import { EmailEditor } from "@courselit/email-editor";
 import "@courselit/email-editor/styles.css";
@@ -153,7 +156,10 @@ export default function EmailTemplateEditorPage({
 
     if (loading) {
         return (
-            <EmailEditorLayout title="Loading..." isSaving={isSaving}>
+            <EmailEditorLayout
+                title={finalUiText["Loading..."]}
+                isSaving={isSaving}
+            >
                 <LoadingState />
             </EmailEditorLayout>
         );
@@ -161,7 +167,10 @@ export default function EmailTemplateEditorPage({
 
     if (error) {
         return (
-            <EmailEditorLayout title={`Error: ${error}`} isSaving={isSaving}>
+            <EmailEditorLayout
+                title={finalUiDynamic.error(error)}
+                isSaving={isSaving}
+            >
                 <ErrorState error={error} />
             </EmailEditorLayout>
         );
@@ -178,12 +187,17 @@ export default function EmailTemplateEditorPage({
 
 const LoadingState = () => (
     <div className="flex items-center justify-center h-full">
-        <div className="text-muted-foreground">Loading template editor...</div>
+        <div className="text-muted-foreground">
+            {finalUiText["Loading template editor..."]}
+        </div>
     </div>
 );
 
 const ErrorState = ({ error }: { error: string }) => (
     <div className="flex items-center justify-center h-full">
-        <div className="text-red-500">Failed to load template: {error}</div>
+        <div className="text-red-500">
+            {finalUiText["Failed to load template:"]}
+            {error}
+        </div>
     </div>
 );

@@ -1,3 +1,4 @@
+import { finalUiText } from "../ui-strings";
 import React, { useEffect, useId, useRef, useState } from "react";
 
 interface SandboxedEmbedProps {
@@ -94,7 +95,7 @@ export const SandboxedEmbed = ({
                 ...style,
             }}
             sandbox="allow-scripts allow-popups allow-forms allow-same-origin"
-            title="Embedded Content"
+            title={finalUiText["Embedded Content"]}
         />
     );
 };

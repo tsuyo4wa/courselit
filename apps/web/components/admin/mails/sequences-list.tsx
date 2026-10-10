@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { Constants, Sequence, SequenceType } from "@courselit/common-models";
 import { Chip, Link, useToast } from "@courselit/components-library";
@@ -136,7 +137,7 @@ const SequencesList = ({ type }: SequencesListProps) => {
 
     return (
         <div className="space-y-4">
-            <Table aria-label="Broadcasts" className="w-full">
+            <Table aria-label={finalUiText["Broadcasts"]} className="w-full">
                 <TableHeader>
                     <TableRow>
                         <TableHead>{MAIL_TABLE_HEADER_SUBJECT}</TableHead>
@@ -197,7 +198,7 @@ const SequencesList = ({ type }: SequencesListProps) => {
                                                       ),
                                                   ) && (
                                                       <Chip className="!bg-black text-white !border-black">
-                                                          Sent
+                                                          {finalUiText["Sent"]}
                                                       </Chip>
                                                   )}
                                               {broadcast.status ===
@@ -206,7 +207,15 @@ const SequencesList = ({ type }: SequencesListProps) => {
                                                       new Date(
                                                           broadcast.emails[0].delayInMillis,
                                                       ),
-                                                  ) && <Chip>Scheduled</Chip>}
+                                                  ) && (
+                                                      <Chip>
+                                                          {
+                                                              finalUiText[
+                                                                  "Scheduled"
+                                                              ]
+                                                          }
+                                                      </Chip>
+                                                  )}
                                               {[
                                                   Constants.sequenceStatus[0],
                                                   Constants.sequenceStatus[2],
@@ -214,7 +223,11 @@ const SequencesList = ({ type }: SequencesListProps) => {
                                                   broadcast.status as
                                                       | (typeof Constants.sequenceStatus)[0]
                                                       | (typeof Constants.sequenceStatus)[2],
-                                              ) && <Chip>Draft</Chip>}
+                                              ) && (
+                                                  <Chip>
+                                                      {finalUiText["Draft"]}
+                                                  </Chip>
+                                              )}
                                           </>
                                       )}
                                       {type === "sequence" && (

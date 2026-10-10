@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import React, { useState, ChangeEvent, useContext } from "react";
 import {
@@ -101,7 +102,7 @@ export default function Page() {
             <Form onSubmit={createTag} className="flex flex-col gap-4">
                 <FormField
                     required
-                    label="Tag name"
+                    label={finalUiText["Tag name"]}
                     name="name"
                     value={name}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>

@@ -228,7 +228,7 @@ describe("getNotificationEmailContent", () => {
             commentText: "The product-discussion reply.",
             parentText: "The parent discussion comment.",
             threadTitle: "Default resolver course",
-            conversationLabel: "New reply",
+            conversationLabel: "新しい返信",
             replyContext: {
                 product: {
                     productId: "course-default",
@@ -330,10 +330,11 @@ describe("getNotificationEmailContent", () => {
         });
 
         expect(content).toMatchObject({
-            subject: "Alex created a post 'Welcome to the commu...' in General",
+            subject:
+                "Alexさんが「General」に投稿「Welcome to the commu...」を作成しました",
             commentText: "First line\nSecond line\n\nThird paragraph",
             threadTitle: "Welcome to the community",
-            conversationLabel: "New post",
+            conversationLabel: "新しい投稿",
             replyContext: {
                 community: { communityId: "community-1", postId: "post-1" },
             },
@@ -356,7 +357,7 @@ describe("getNotificationEmailContent", () => {
             parentText: "An earlier reply",
             parentAuthorName: "Jamie",
             threadTitle: "Welcome to the community",
-            conversationLabel: "New reply",
+            conversationLabel: "新しい返信",
             replyContext: {
                 community: {
                     communityId: "community-1",
@@ -423,9 +424,9 @@ describe("getNotificationEmailContent", () => {
             commentText: "A parent comment",
             parentText: "The full post body",
             parentAuthorName: "Post author",
-            parentLabel: "Original post",
+            parentLabel: "元の投稿",
             threadTitle: "Welcome to the community",
-            conversationLabel: "New comment",
+            conversationLabel: "新しいコメント",
             replyContext: {
                 community: {
                     communityId: "community-1",
@@ -457,7 +458,7 @@ describe("getNotificationEmailContent", () => {
         expect(content).toMatchObject({
             commentText: "A course reply",
             threadTitle: "Course discussion",
-            conversationLabel: "New reply",
+            conversationLabel: "新しい返信",
             replyContext: {
                 product: {
                     productId: "course-1",
@@ -490,7 +491,7 @@ describe("getNotificationEmailContent", () => {
         expect(content).toMatchObject({
             commentText: "A course comment",
             threadTitle: "Course discussion",
-            conversationLabel: "New comment",
+            conversationLabel: "新しいコメント",
             replyContext: {
                 product: {
                     productId: "course-1",
@@ -577,8 +578,8 @@ describe("getNotificationEmailContent", () => {
         });
 
         expect(content).toEqual({
-            subject: "Alex enrolled in Course discussion",
-            message: "Alex enrolled in Course discussion",
+            subject: "Alexさんが「Course discussion」に受講登録しました",
+            message: "Alexさんが「Course discussion」に受講登録しました",
             href: "/dashboard/product/course-1/customers",
         });
     });

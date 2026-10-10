@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import { ThemeContext } from "@components/contexts";
 import { Community } from "@courselit/common-models";
 import { useContext } from "react";
@@ -59,7 +60,7 @@ export function CommunityContentCard({
                             <Users className="h-4 w-4 mr-2" />
                             <Text2 theme={theme}>
                                 {community.membersCount.toLocaleString()}{" "}
-                                members
+                                {finalUiText["members"]}
                             </Text2>
                         </div>
                         {!publicView && (
@@ -74,8 +75,8 @@ export function CommunityContentCard({
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         {community.enabled
-                                            ? "Enabled"
-                                            : "Draft"}
+                                            ? finalUiText["Enabled"]
+                                            : finalUiText["Draft"]}
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>

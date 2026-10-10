@@ -1,3 +1,4 @@
+import { finalUiText } from "@/config/strings";
 import {
     Card,
     CardContent,
@@ -206,7 +207,15 @@ export default function MiscellaneousTab() {
                                                 {!!provider.featureFlag &&
                                                     !features.includes(
                                                         provider.featureFlag as Features,
-                                                    ) && <Chip>Upgrade</Chip>}
+                                                    ) && (
+                                                        <Chip>
+                                                            {
+                                                                finalUiText[
+                                                                    "Upgrade"
+                                                                ]
+                                                            }
+                                                        </Chip>
+                                                    )}
                                                 {<Chip>{BETA_LABEL}</Chip>}
                                             </>
                                         )}
@@ -249,7 +258,7 @@ export default function MiscellaneousTab() {
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Learn more
+                            {finalUiText["Learn more"]}
                         </a>
                         .
                     </CardDescription>
@@ -258,10 +267,13 @@ export default function MiscellaneousTab() {
                     {apikeys.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
                             <Key className="h-8 w-8 mb-2 opacity-50" />
-                            <p>No API keys found</p>
+                            <p>{finalUiText["No API keys found"]}</p>
                         </div>
                     ) : (
-                        <Table aria-label="API keys" className="mb-4 w-full">
+                        <Table
+                            aria-label={finalUiText["API keys"]}
+                            className="mb-4 w-full"
+                        >
                             <TableHead className="border-0 border-b border-slate-200">
                                 <td>{APIKEY_EXISTING_TABLE_HEADER_NAME}</td>
                                 <td>{APIKEY_EXISTING_TABLE_HEADER_CREATED}</td>
@@ -330,7 +342,7 @@ export default function MiscellaneousTab() {
                         </Link>
                     ) : (
                         <Button variant="secondary" disabled>
-                            Upgrade
+                            {finalUiText["Upgrade"]}
                         </Button>
                     )}
                 </CardFooter>

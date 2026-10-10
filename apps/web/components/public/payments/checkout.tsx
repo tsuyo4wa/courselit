@@ -1,4 +1,5 @@
 "use client";
+import { finalUiText } from "@/config/strings";
 
 import { checkoutStrings } from "@/config/strings";
 
@@ -64,7 +65,7 @@ export interface CheckoutScreenProps {
 }
 
 const formSchema = z.object({
-    selectedPlan: z.string().min(1, "Please select a plan"),
+    selectedPlan: z.string().min(1, finalUiText["Please select a plan"]),
     joiningReason: z.string().optional(),
 });
 
@@ -133,7 +134,7 @@ export default function Checkout({
                 }
             } catch (err) {
                 toast({
-                    title: "Error",
+                    title: finalUiText["Error"],
                     description: err.message,
                     variant: "destructive",
                 });
@@ -249,7 +250,7 @@ export default function Checkout({
             }
         } catch (err) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
                 variant: "destructive",
             });
@@ -284,7 +285,7 @@ export default function Checkout({
             router.replace(`/checkout/verify?id=${verifyResponse.purchaseId}`);
         } catch (err: any) {
             toast({
-                title: "Error",
+                title: finalUiText["Error"],
                 description: err.message,
                 variant: "destructive",
             });
