@@ -239,3 +239,35 @@ export const checkoutStrings = {
     period: (period: string) =>
         period === "/yr" ? "/年" : period === "/mo" ? "/月" : period,
 };
+
+export const colorPresetStrings = {
+    title: "Astroの配色（15種類）",
+    description:
+        "色見本を押すと、公開サイト全体の配色を保存・適用します。文字サイズ・行間・ページ内容は保ちます。",
+    applying: "配色を保存・適用しています…",
+    applied: "配色を適用しました",
+    active: "適用中",
+    error: "配色を適用できませんでした。公開画面を確認し、もう一度お試しください。",
+    restore: "直前の配色に戻す",
+    restored: "直前の配色に戻しました",
+    systemThemes: "標準テーマ",
+    customThemes: "カスタムテーマ",
+    emptyCustomThemes: "カスタムテーマはまだありません",
+    names: {
+        navy: "ネイビー（紺）",
+        rose: "ローズ（薔薇）",
+        pink: "ピンク（キュート）",
+        forest: "フォレスト（深緑）",
+        terracotta: "テラコッタ（橙茶）",
+        plum: "プラム（紫）",
+        charcoal: "チャコール（墨）",
+        sky: "スカイ（シアン）",
+        sunny: "サニー（イエロー）",
+        greige: "グレージュ（白基調）",
+        luxe: "リュクス（深緑×金）",
+        champagne: "シャンパン（ボルドー×金）",
+        slate: "スレート（墨×金）",
+        azure: "アジュール（紺×金）",
+        amethyst: "アメジスト（紫×金）",
+    },
+} as const;
