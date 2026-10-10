@@ -44,12 +44,78 @@ import WidgetErrorBoundary from "../base-layout/template/widget-error-boundary";
 import { Button, Header1, Text1 } from "@courselit/page-primitives";
 import { ThemeContext } from "@components/contexts";
 import NextLink from "next/link";
-import { BookOpen, Check } from "lucide-react";
+import {
+    BookOpen,
+    Check,
+    Target,
+    ListChecks,
+    NotebookPen,
+    PackageCheck,
+    FileText,
+} from "lucide-react";
+import { extractTextFromNode } from "@courselit/text-editor";
 import {
     appendCourseViewerSessionParamsToHref,
     getCourseViewerSessionParams,
     getCourseViewerReturnPath,
 } from "@/lib/course-viewer-session-params";
+
+// Group existing rich-text nodes for presentation only; content and heading IDs stay intact.
+function LessonText({
+    json,
+    theme,
+}: React.ComponentProps<typeof TextRenderer>) {
+    const sections: TextEditorContent[] = [];
+    for (const node of json.content ?? []) {
+        const level = (node.attrs as Record<string, unknown> | undefined)
+            ?.level;
+        if (!sections.length || (node.type === "heading" && level === 2)) {
+            sections.push({ type: "doc", content: [] });
+        }
+        sections[sections.length - 1].content.push(node);
+    }
+
+    return (
+        <div className="lesson-content-sections">
+            {sections.map((section, index) => {
+                const first = section.content[0];
+                const hasHeading =
+                    first?.type === "heading" &&
+                    (first.attrs as Record<string, unknown> | undefined)
+                        ?.level === 2;
+                const heading = hasHeading ? extractTextFromNode(first) : "";
+                const isGoal = heading.includes("ゴール");
+                const Icon = isGoal
+                    ? Target
+                    : heading.includes("やって")
+                      ? ListChecks
+                      : heading.includes("振り返り")
+                        ? NotebookPen
+                        : heading.includes("残す")
+                          ? PackageCheck
+                          : FileText;
+                return (
+                    <section
+                        key={index}
+                        className={
+                            hasHeading
+                                ? `lesson-content-section${isGoal ? " lesson-content-section--goal" : ""}`
+                                : undefined
+                        }
+                    >
+                        {hasHeading && (
+                            <Icon
+                                className="lesson-section-icon"
+                                aria-hidden="true"
+                            />
+                        )}
+                        <TextRenderer json={section} theme={theme} />
+                    </section>
+                );
+            })}
+        </div>
+    );
+}
 
 interface CaptionProps {
     text: string;
@@ -368,7 +434,7 @@ export const LessonViewer = ({
                             lesson.type &&
                             lesson.content && (
                                 <WidgetErrorBoundary widgetName="text-editor">
-                                    <TextRenderer
+                                    <LessonText
                                         json={
                                             lesson.content as TextEditorContent
                                         }
