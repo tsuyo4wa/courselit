@@ -9,7 +9,7 @@ import {
 import { Constants } from "@courselit/common-models";
 import { BadgeCheck, Download } from "lucide-react";
 import { BookOpen } from "lucide-react";
-import { capitalize } from "@courselit/utils";
+import { learnerCardStrings } from "@/config/strings";
 import { Badge } from "@components/ui/badge";
 
 interface ContentCardProps {
@@ -47,12 +47,14 @@ export function MyContentCard({ item }: ContentCardProps) {
                             ) : (
                                 <Download className="h-4 w-4 mr-1" />
                             )}
-                            {capitalize(entity.type)}
+                            {entity.type === Constants.CourseType.COURSE
+                                ? learnerCardStrings.course
+                                : learnerCardStrings.download}
                         </Badge>
                         {entity.certificateId && (
                             <p className="flex items-center text-sm text-muted-foreground">
                                 <BadgeCheck className="h-4 w-4 mr-1" />
-                                Certificate
+                                {learnerCardStrings.certificate}
                             </p>
                         )}
                     </div>
@@ -65,7 +67,17 @@ export function MyContentCard({ item }: ContentCardProps) {
                     <div className="space-y-2 mt-4">
                         <ProgressBar value={progress} />
                         <p className="text-sm text-muted-foreground flex justify-between">
-                            <span>{`${entity.completedLessonsCount} of ${entity.totalLessons} lessons completed`}</span>
+                            <span>
+                                {learnerCardStrings.progress
+                                    .replace(
+                                        "{total}",
+                                        String(entity.totalLessons),
+                                    )
+                                    .replace(
+                                        "{completed}",
+                                        String(entity.completedLessonsCount),
+                                    )}
+                            </span>
                             <span>{`${Math.round(progress)}%`}</span>
                         </p>
                     </div>
