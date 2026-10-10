@@ -154,13 +154,13 @@ function getSidebarItems({
         ])
     ) {
         navMainItems.push({
-            title: "Overview",
+            title: "概要",
             url: "/dashboard/overview",
             icon: Target,
             isActive: path === "/dashboard/overview",
         });
         navMainItems.push({
-            title: "Products",
+            title: "講座・商品",
             url: "/dashboard/products",
             icon: Box,
             isActive:
@@ -171,7 +171,7 @@ function getSidebarItems({
     }
     if (checkPermission(profile.permissions!, [permissions.manageCommunity])) {
         navMainItems.push({
-            title: "Communities",
+            title: "コミュニティ",
             beta: true,
             url: "/dashboard/communities",
             icon: MessageCircleHeart,
@@ -209,12 +209,12 @@ function getSidebarItems({
             isActive: path?.startsWith("/dashboard/users"),
             items: [
                 {
-                    title: "All users",
+                    title: "すべてのユーザー",
                     url: "/dashboard/users",
                     isActive: path === "/dashboard/users",
                 },
                 {
-                    title: "Tags",
+                    title: "タグ",
                     url: "/dashboard/users/tags",
                     isActive: path === "/dashboard/users/tags",
                 },
@@ -324,7 +324,7 @@ function getSidebarItems({
             });
         }
         navSecondaryItems.push({
-            title: "Support",
+            title: "サポート",
             url: "/dashboard/support",
             icon: <LifeBuoy />,
             isActive: path === "/dashboard/support",
