@@ -1,5 +1,7 @@
 "use client";
 
+import { checkoutStrings } from "@/config/strings";
+
 import { useContext, useEffect, useState } from "react";
 import { useForm, FormProvider } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -357,14 +359,14 @@ export default function Checkout({
                                     )}
                                     {membershipStatus ===
                                     Constants.MembershipStatus.ACTIVE
-                                        ? "Already owned"
-                                        : "Access Denied"}
+                                        ? checkoutStrings.alreadyOwned
+                                        : checkoutStrings.accessDenied}
                                 </Header3>
                                 <Text1 theme={theme.theme}>
                                     {membershipStatus ===
                                     Constants.MembershipStatus.ACTIVE
-                                        ? "You already have access to this resource."
-                                        : "You have been rejected and cannot proceed with the checkout."}
+                                        ? checkoutStrings.alreadyHasAccess
+                                        : checkoutStrings.rejected}
                                 </Text1>
                                 {membershipStatus ===
                                     Constants.MembershipStatus.ACTIVE && (
@@ -390,7 +392,7 @@ export default function Checkout({
                                         }}
                                         theme={theme.theme}
                                     >
-                                        Go to the resource
+                                        {checkoutStrings.openResource}
                                     </Button>
                                 )}
                             </div>
@@ -413,13 +415,13 @@ export default function Checkout({
                                         <div className="text-sm space-y-2">
                                             <Text1 theme={theme.theme}>
                                                 <span className="font-semibold">
-                                                    Email:
+                                                    {checkoutStrings.email}
                                                 </span>{" "}
                                                 {userEmail}
                                             </Text1>
                                             <Text1 theme={theme.theme}>
                                                 <span className="font-semibold">
-                                                    Name:
+                                                    {checkoutStrings.name}
                                                 </span>{" "}
                                                 {userName}
                                             </Text1>
@@ -433,7 +435,7 @@ export default function Checkout({
                                     >
                                         <div className="mb-6 space-y-4">
                                             <Header3 theme={theme.theme}>
-                                                Select Your Plan
+                                                {checkoutStrings.selectPlan}
                                             </Header3>
                                             <FormField
                                                 control={form.control}
@@ -515,13 +517,15 @@ export default function Checkout({
                                                         <FormItem className="mb-6">
                                                             <FormLabel className="text-sm font-semibold mb-4">
                                                                 {product.joiningReasonText ||
-                                                                    "Reason for joining"}
+                                                                    checkoutStrings.joiningReason}
                                                             </FormLabel>
                                                             <FormControl>
                                                                 <textarea
                                                                     className="w-full border rounded p-2"
                                                                     {...field}
-                                                                    placeholder="Please provide your reason for joining"
+                                                                    placeholder={
+                                                                        checkoutStrings.joiningReasonPlaceholder
+                                                                    }
                                                                 />
                                                             </FormControl>
                                                             <FormMessage />
@@ -548,8 +552,8 @@ export default function Checkout({
                                             theme={theme.theme}
                                         >
                                             {isSubmitting
-                                                ? "Working..."
-                                                : "Complete Purchase"}
+                                                ? checkoutStrings.working
+                                                : checkoutStrings.completePurchase}
                                         </Button>
                                     </form>
                                 </FormProvider>
