@@ -315,7 +315,10 @@ export default function Widget({
                                     href={`/checkout?type=course&id=${product.courseId}`}
                                 >
                                     <Button theme={overiddenTheme}>
-                                        {buttonCaption || "Buy now"}
+                                        {!buttonCaption ||
+                                        buttonCaption === "Buy now"
+                                            ? "購入する"
+                                            : buttonCaption}
                                     </Button>
                                 </Link>
                             )}
