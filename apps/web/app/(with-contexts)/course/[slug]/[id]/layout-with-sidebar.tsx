@@ -72,6 +72,7 @@ import {
 } from "@/lib/course-viewer-session-params";
 import { Badge } from "@/components/ui/badge";
 import ProductDiscussionPanel from "@/components/public/product-discussions/panel";
+import { generateThemeStyles } from "@/lib/theme-styles";
 
 function MobileStateSync() {
     const { open, setOpenMobile, isMobile } = useSidebar();
@@ -116,6 +117,7 @@ export default function ProductPage({
     children: React.ReactNode;
 }) {
     const { profile } = useContext(ProfileContext);
+    const { theme } = useContext(ThemeContext);
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const viewerSessionParams = getCourseViewerSessionParams(searchParams);
@@ -150,14 +152,22 @@ export default function ProductPage({
                     "--sidebar-width-mobile": "20rem",
                 } as React.CSSProperties
             }
-            className="courselit-theme"
+            className="courselit-theme course-learning-shell"
         >
+            <style>
+                {theme?.theme?.colors
+                    ? generateThemeStyles(theme).replaceAll(
+                          ".courselit-theme",
+                          ":is(.course-learning-shell, .course-learning-sidebar)",
+                      )
+                    : ""}
+            </style>
             <AppSidebar
                 course={product}
                 profile={profile || {}}
                 viewerSessionParams={viewerSessionParams}
             />
-            <SidebarInset>
+            <SidebarInset className="course-learning-main">
                 <header className="flex h-16 shrink-0 items-center gap-2 px-4 justify-between text-foreground transition-all duration-200">
                     <SidebarTrigger className="-ml-1" />
                     <div className="flex items-center gap-2">
@@ -308,7 +318,11 @@ export function AppSidebar({
     const { theme } = useContext(ThemeContext);
 
     return (
-        <Sidebar variant="floating" {...rest} className="bg-background">
+        <Sidebar
+            variant="floating"
+            {...rest}
+            className="course-learning-sidebar"
+        >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -322,7 +336,7 @@ export function AppSidebar({
                                         className="w-full h-full object-cover"
                                     />
                                 </div>
-                                <div className="grid flex-1 text-left leading-tight text-foreground font-semibold">
+                                <div className="grid flex-1 text-left leading-tight font-semibold">
                                     {siteinfo.title}
                                 </div>
                             </Link>
@@ -354,9 +368,9 @@ export function AppSidebar({
                                                     delayDuration={1000}
                                                 >
                                                     <span className="flex min-w-0 items-center gap-2">
-                                                        <Folder className="h-4 w-4 shrink-0 text-foreground" />
+                                                        <Folder className="h-4 w-4 shrink-0" />
                                                         <Tooltip>
-                                                            <TooltipTrigger className="min-w-0 truncate text-foreground">
+                                                            <TooltipTrigger className="min-w-0 truncate">
                                                                 {truncate(
                                                                     item.title,
                                                                     item.badge
@@ -372,12 +386,12 @@ export function AppSidebar({
                                                 </TooltipProvider>
                                                 {item.badge?.text && (
                                                     <Tooltip>
-                                                        <TooltipTrigger className="text-muted-foreground">
+                                                        <TooltipTrigger className="text-sidebar-foreground">
                                                             <Caption
                                                                 theme={
                                                                     theme.theme
                                                                 }
-                                                                className="flex text-muted-foreground text-xs items-center gap-1"
+                                                                className="flex text-sidebar-foreground text-xs items-center gap-1"
                                                             >
                                                                 <Clock className="w-4 h-4" />
                                                                 {
@@ -397,7 +411,7 @@ export function AppSidebar({
                                                     </Tooltip>
                                                 )}
                                             </span>
-                                            <ChevronRight className="ml-auto text-foreground transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                                         </div>
                                     </CollapsibleTrigger>
                                 </SidebarGroupLabel>
@@ -415,7 +429,7 @@ export function AppSidebar({
                                                                 isActive={
                                                                     item.isActive
                                                                 }
-                                                                className="text-foreground"
+                                                                className="course-lesson-item"
                                                             >
                                                                 <span className="flex items-center gap-2 w-full">
                                                                     {
@@ -425,7 +439,12 @@ export function AppSidebar({
                                                                         href={
                                                                             item.href
                                                                         }
-                                                                        className="flex-1"
+                                                                        aria-current={
+                                                                            item.isActive
+                                                                                ? "page"
+                                                                                : undefined
+                                                                        }
+                                                                        className="min-w-0 flex-1 text-left"
                                                                     >
                                                                         <TooltipProvider
                                                                             delayDuration={
@@ -433,11 +452,14 @@ export function AppSidebar({
                                                                             }
                                                                         >
                                                                             <Tooltip>
-                                                                                <TooltipTrigger>
-                                                                                    {truncate(
-                                                                                        item.title,
-                                                                                        22,
-                                                                                    )}
+                                                                                <TooltipTrigger
+                                                                                    asChild
+                                                                                >
+                                                                                    <span className="course-lesson-name">
+                                                                                        {
+                                                                                            item.title
+                                                                                        }
+                                                                                    </span>
                                                                                 </TooltipTrigger>
                                                                                 <TooltipContent>
                                                                                     {
@@ -467,7 +489,7 @@ export function AppSidebar({
                                         asChild
                                         isActive={item.isActive}
                                         tooltip={item.title}
-                                        className="text-foreground"
+                                        className="text-sidebar-foreground"
                                     >
                                         <Link href={item.href}>
                                             {item.icon}
@@ -486,7 +508,7 @@ export function AppSidebar({
                         href={`https://courselit.app`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-2 py-1 my-[10px] border rounded-md bg-background text-foreground text-sm text-center"
+                        className="px-2 py-1 my-[10px] border rounded-md bg-background text-sm text-center"
                     >
                         {finalUiText["Powered by"]}{" "}
                         <span className="font-semibold">CourseLit</span>
@@ -593,7 +615,7 @@ export function generateSideBarItems(
                         lessonId: lesson.lessonId,
                         profile: profile as Profile,
                     }) ? (
-                        <CheckCircled />
+                        <CheckCircled className="course-lesson-completed" />
                     ) : (
                         <Circle />
                     );

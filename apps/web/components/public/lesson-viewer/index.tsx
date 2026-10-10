@@ -353,9 +353,7 @@ export const LessonViewer = ({
                                     frameBorder="0"
                                     width="100%"
                                     height="500"
-                                    src={`${
-                                        lesson.media && lesson.media.file
-                                    }#view=fit`}
+                                    src={`${lesson.media && lesson.media.file}#view=fit`}
                                 ></iframe>
                                 <Caption
                                     text={
@@ -436,7 +434,7 @@ export const LessonViewer = ({
                                         <Button
                                             theme={theme.theme}
                                             disabled
-                                            className="flex gap-1.5 items-center"
+                                            className="lesson-completed-status flex gap-1.5 items-center"
                                         >
                                             <Check className="h-4 w-4 text-current" />
                                             {COURSE_PROGRESS_COMPLETED}
