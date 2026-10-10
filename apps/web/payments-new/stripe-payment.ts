@@ -14,6 +14,21 @@ const {
     currency_iso_not_set: currencyISONotSet,
 } = responses;
 
+// JPY charges use whole yen; existing two-decimal currency behavior is preserved.
+export function getStripeUnitAmount(amount: number, currency: string): number {
+    const scaled = amount * (currency.toLowerCase() === "jpy" ? 1 : 100);
+    const rounded = Math.round(scaled);
+    if (
+        !Number.isFinite(amount) ||
+        amount < 0 ||
+        !Number.isSafeInteger(rounded) ||
+        Math.abs(scaled - rounded) > 0.000001
+    ) {
+        throw new Error("Invalid Stripe payment amount");
+    }
+    return rounded;
+}
+
 export default class StripePayment implements Payment {
     public siteinfo: SiteInfo;
     public name: string;
@@ -41,7 +56,10 @@ export default class StripePayment implements Payment {
     }
 
     async initiate({ metadata, paymentPlan, product, origin }: InitiateProps) {
-        const unit_amount = getUnitAmount(paymentPlan) * 100;
+        const unit_amount = getStripeUnitAmount(
+            getUnitAmount(paymentPlan),
+            this.siteinfo.currencyISOCode!,
+        );
         const sessionPayload: any = {
             payment_method_types: ["card"],
             line_items: [
