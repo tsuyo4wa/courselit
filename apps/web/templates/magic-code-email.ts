@@ -1,3 +1,4 @@
+import { checkoutStrings } from "@/config/strings";
 const magicCodeEmail = `
 doctype html
 html
@@ -16,11 +17,10 @@ html
                 text-align: center;
             }
     body
-        p   #{code} is your verification code.
+        p   #{code} ${checkoutStrings.codeMail}
         p
-            strong IMPORTANT:
-            |   Do not share this email with anyone as anyone can log in to your
-            |   account using the link in this email.
+            strong ${checkoutStrings.codeMailImportant}
+            |   ${checkoutStrings.codeMailWarning}
         if !hideCourseLitBranding
             div(class="courselit-branding-container")
                 a(
