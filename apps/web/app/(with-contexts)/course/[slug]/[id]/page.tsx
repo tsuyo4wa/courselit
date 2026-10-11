@@ -32,6 +32,9 @@ import {
     appendCourseViewerSessionParamsToHref,
 } from "@/lib/course-viewer-session-params";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { resumeLessonId } from "@/lib/learning-navigation";
+import { checkoutStrings } from "@/config/strings";
 import type { Profile } from "@courselit/common-models";
 
 export default function ProductPage(props: {
@@ -46,6 +49,8 @@ export default function ProductPage(props: {
     const searchParams = useSearchParams();
     const viewerSessionParams = getCourseViewerSessionParams(searchParams);
     const [progress, setProgress] = useState<any>(null);
+    const [loadedCourseId, setLoadedCourseId] = useState<string | null>(null);
+    const router = useRouter();
     const { theme } = useContext(ThemeContext);
 
     useEffect(() => {
@@ -69,9 +74,29 @@ export default function ProductPage(props: {
                         (purchase) => purchase.courseId === product.courseId,
                     ),
                 );
+                setLoadedCourseId(product.courseId);
             });
         }
     }, [product]);
+
+    useEffect(() => {
+        if (
+            searchParams?.get("learn") !== "true" ||
+            !product ||
+            loadedCourseId !== product.courseId ||
+            !profile?.userId ||
+            !isEnrolled(product.courseId, profile as Profile)
+        )
+            return;
+        const lesson = resumeLessonId(
+            product,
+            progress?.completedLessons || [],
+        );
+        if (lesson)
+            router.replace(
+                `/course/${encodeURIComponent(product.slug)}/${encodeURIComponent(product.courseId)}/${encodeURIComponent(lesson)}`,
+            );
+    }, [product, profile, loadedCourseId, progress, router, searchParams]);
 
     if (!product || !siteInfo) {
         return null;
@@ -154,7 +179,7 @@ export default function ProductPage(props: {
                 <div className="self-end">
                     <Link
                         href={appendCourseViewerSessionParamsToHref(
-                            `/course/${product.slug}/${product.courseId}/${product.firstLesson}`,
+                            `/course/${product.slug}/${product.courseId}/${resumeLessonId(product, progress?.completedLessons || [])}`,
                             viewerSessionParams,
                         )}
                     >
@@ -162,7 +187,9 @@ export default function ProductPage(props: {
                             theme={theme.theme}
                             className="flex gap-1 items-center"
                         >
-                            {COURSE_PROGRESS_START}
+                            {progress?.completedLessons?.length
+                                ? checkoutStrings.resumeLearning
+                                : COURSE_PROGRESS_START}
                             <ArrowRight />
                         </Button>
                     </Link>

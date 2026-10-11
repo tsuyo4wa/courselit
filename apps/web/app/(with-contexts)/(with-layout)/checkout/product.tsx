@@ -234,7 +234,12 @@ export default function ProductCheckout() {
     return (
         <>
             <Header1 theme={theme.theme} className="mb-8">
-                {checkoutStrings.title}
+                {paymentPlans.length > 0 &&
+                paymentPlans.every(
+                    (plan) => plan.type === Constants.PaymentPlanType.FREE,
+                )
+                    ? checkoutStrings.freeCheckoutTitle
+                    : checkoutStrings.title}
             </Header1>
             <Checkout
                 product={product}

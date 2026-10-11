@@ -5,6 +5,9 @@ import { auth } from "@/auth";
 import { error } from "@/services/logger";
 import InvoiceModel from "@models/Invoice";
 import Membership from "@models/Membership";
+import CourseModel from "@models/Course";
+import { Constants } from "@courselit/common-models";
+import { learningPath } from "@/lib/learning-navigation";
 
 interface RequestPayload {
     id: string;
@@ -38,7 +41,10 @@ export async function POST(req: NextRequest) {
             return Response.json({ message: "Bad request" }, { status: 400 });
         }
 
-        const invoice = await InvoiceModel.findOne({ invoiceId: id });
+        const invoice = await InvoiceModel.findOne({
+            domain: domain._id,
+            invoiceId: id,
+        });
 
         if (!invoice) {
             return Response.json(
@@ -48,6 +54,7 @@ export async function POST(req: NextRequest) {
         }
 
         const membership = await Membership.findOne({
+            domain: domain._id,
             membershipId: invoice.membershipId,
         });
 
@@ -55,7 +62,27 @@ export async function POST(req: NextRequest) {
             return Response.json({}, { status: 401 });
         }
 
-        return Response.json({ status: invoice.status });
+        if (invoice.status !== Constants.InvoiceStatus.PAID)
+            return Response.json({ status: invoice.status });
+        // A paid invoice may be saved just before its learning grant finishes.
+        if (membership.status !== Constants.MembershipStatus.ACTIVE)
+            return Response.json({ status: Constants.InvoiceStatus.PENDING });
+        const course =
+            membership.entityType === Constants.MembershipEntityType.COURSE
+                ? await CourseModel.findOne({
+                      domain: domain._id,
+                      courseId: membership.entityId,
+                  })
+                : null;
+        return Response.json({
+            status: invoice.status,
+            learningPath: learningPath(
+                membership.entityType,
+                membership.entityId,
+                course?.slug,
+            ),
+            title: course?.title,
+        });
     } catch (err: any) {
         error(`Error verifying invoice: ${err.message}`, {
             domain: domainName,

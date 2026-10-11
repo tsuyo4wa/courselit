@@ -8,6 +8,9 @@ import CommunityModel from "@models/Community";
 import { activateMembership } from "../helpers";
 
 jest.mock("@models/Community");
+jest.mock("@/services/learning-welcome", () => ({
+    sendLearningWelcome: jest.fn(),
+}));
 jest.mock("@/graphql/paymentplans/logic", () => ({
     addIncludedProductsMemberships: jest.fn(),
 }));

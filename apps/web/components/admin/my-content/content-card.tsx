@@ -9,7 +9,8 @@ import {
 import { Constants } from "@courselit/common-models";
 import { BadgeCheck, Download } from "lucide-react";
 import { BookOpen } from "lucide-react";
-import { learnerCardStrings } from "@/config/strings";
+import { learnerCardStrings, checkoutStrings } from "@/config/strings";
+import { learningPath } from "@/lib/learning-navigation";
 import { Badge } from "@components/ui/badge";
 
 interface ContentCardProps {
@@ -29,7 +30,11 @@ export function MyContentCard({ item }: ContentCardProps) {
             href={
                 entityType.toLowerCase() ===
                 Constants.MembershipEntityType.COURSE
-                    ? `/course/${item.entity.slug}/${item.entity.id}`
+                    ? learningPath(
+                          Constants.MembershipEntityType.COURSE,
+                          item.entity.id,
+                          item.entity.slug,
+                      )
                     : `/dashboard/community/${item.entity.id}`
             }
         >
@@ -58,6 +63,20 @@ export function MyContentCard({ item }: ContentCardProps) {
                             </p>
                         )}
                     </div>
+                ) : (
+                    ""
+                )}
+                {entityType.toLowerCase() ===
+                    Constants.MembershipEntityType.COURSE &&
+                entity.type === Constants.CourseType.COURSE ? (
+                    <p className="mt-4 font-medium text-sm text-primary">
+                        {progress >= 100
+                            ? checkoutStrings.reviewLearning
+                            : progress > 0
+                              ? checkoutStrings.resumeLearning
+                              : checkoutStrings.startLearning}{" "}
+                        <span aria-hidden="true">→</span>
+                    </p>
                 ) : (
                     ""
                 )}

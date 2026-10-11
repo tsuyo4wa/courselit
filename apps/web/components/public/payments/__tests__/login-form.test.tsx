@@ -221,7 +221,7 @@ describe("Checkout LoginForm", () => {
         renderLoginForm();
 
         fireEvent.click(
-            screen.getByRole("button", { name: "Continue with SSO" }),
+            screen.getByRole("button", { name: LOGIN_PROVIDER_SSO_BUTTON }),
         );
 
         await waitFor(() => {

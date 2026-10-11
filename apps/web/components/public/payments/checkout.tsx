@@ -41,6 +41,7 @@ import { PaymentPlanCard } from "./payment-plan-card";
 import { MobileOrderSummary, DesktopOrderSummary } from "./order-summary";
 import type { RuntimeLoginProvider } from "@/lib/login-providers";
 import { LOGIN_FORM_PERSONAL_INFORMATION_LABEL } from "@ui-config/strings";
+import { learningPath } from "@/lib/learning-navigation";
 const { PaymentPlanType: paymentPlanType } = Constants;
 
 export interface Product {
@@ -244,7 +245,7 @@ export default function Checkout({
                 }
                 if (product.type === Constants.MembershipEntityType.COURSE) {
                     router.replace(
-                        `/course/${product.slug}/${product.id}?success=true`,
+                        learningPath(product.type, product.id, product.slug),
                     );
                 }
             }
@@ -346,6 +347,9 @@ export default function Checkout({
                 />
                 <div className="w-full grid md:grid-cols-[1fr,400px] gap-8">
                     <div className="space-y-8">
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            {checkoutStrings.loginExplanation}
+                        </p>
                         {membershipStatus ===
                             Constants.MembershipStatus.ACTIVE ||
                         membershipStatus ===
@@ -387,7 +391,11 @@ export default function Checkout({
                                                     .COURSE
                                             ) {
                                                 router.replace(
-                                                    `/course/${product.slug}/${product.id}`,
+                                                    learningPath(
+                                                        product.type,
+                                                        product.id,
+                                                        product.slug,
+                                                    ),
                                                 );
                                             }
                                         }}
@@ -554,7 +562,10 @@ export default function Checkout({
                                         >
                                             {isSubmitting
                                                 ? checkoutStrings.working
-                                                : checkoutStrings.completePurchase}
+                                                : selectedPlan?.type ===
+                                                    paymentPlanType.FREE
+                                                  ? checkoutStrings.freeEnrollment
+                                                  : checkoutStrings.completePurchase}
                                         </Button>
                                     </form>
                                 </FormProvider>

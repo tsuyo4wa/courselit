@@ -41,6 +41,9 @@ export const MembershipSchema = new mongoose.Schema<InternalMembership>(
         rejectionReason: { type: String },
         subscriptionId: { type: String },
         subscriptionMethod: { type: String },
+        learningEmailAttemptedAt: { type: Date },
+        learningEmailSentAt: { type: Date },
+        learningEmailFailedAt: { type: Date },
     },
     {
         timestamps: true,

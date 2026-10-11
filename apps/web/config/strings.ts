@@ -181,6 +181,22 @@ export const checkoutStrings = {
     title: "購入手続き",
     selectPlan: "プランを選択",
     completePurchase: "購入を完了する",
+    freeEnrollment: "無料で受講する",
+    freeCheckoutTitle: "無料講座の申込",
+    startLearning: "学習を始める",
+    resumeLearning: "続きから学ぶ",
+    reviewLearning: "もう一度見る",
+    nextVisit: "次回は受講一覧から、続きのレッスンを開けます。",
+    loginExplanation:
+        "初めての方はメール認証で受講用アカウントが作成されます。ログイン済みの方は、そのままお申し込みいただけます。",
+    verifyError:
+        "購入状況を確認できませんでした。時間をおいて再確認してください。",
+    enrollmentMailSubject: "受講のご案内：",
+    enrollmentMailHeading: "受講の準備ができました",
+    enrollmentMailBody:
+        "お申し込みありがとうございます。下のボタンから学習を始められます。",
+    enrollmentMailLogin:
+        "ログインが必要な場合は、お申し込みに使ったメールアドレスで認証してください。",
     working: "処理中…",
     email: "メールアドレス：",
     name: "名前：",
@@ -211,7 +227,7 @@ export const checkoutStrings = {
     thanksOrder: "ご注文を確認しています",
     orderNumber: "注文番号：",
     paymentVerified: "お支払いを確認しました",
-    learningReady: "購入・登録したコンテンツは受講一覧から開けます。",
+    learningReady: "受講の準備ができました。下のボタンから学習を始められます。",
     dashboard: "受講一覧へ",
     checkAgain: "決済状況を再確認",
     paymentPending: "お支払いを確認中です",

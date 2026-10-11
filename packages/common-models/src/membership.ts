@@ -25,4 +25,7 @@ export interface Membership {
     createdAt?: Date;
     updatedAt?: Date;
     isIncludedInPlan?: boolean;
+    learningEmailAttemptedAt?: Date;
+    learningEmailSentAt?: Date;
+    learningEmailFailedAt?: Date;
 }

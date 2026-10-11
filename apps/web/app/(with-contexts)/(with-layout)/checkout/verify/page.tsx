@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { PaymentVerificationStatus } from "./payment-verification-status";
 import { useSearchParams } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { AddressContext } from "@components/contexts";
 import { FetchBuilder } from "@courselit/utils";
 import { InvoicesStatus } from "@courselit/common-models";
@@ -18,10 +18,20 @@ export default function Page() {
     const [paymentStatus, setPaymentStatus] =
         useState<InvoicesStatus>("pending");
     const [loading, setLoading] = useState(false);
+    const [learningHref, setLearningHref] = useState(
+        "/dashboard/my-content/products",
+    );
+    const [courseTitle, setCourseTitle] = useState("");
+    const [verificationError, setVerificationError] = useState(false);
+    const [attempts, setAttempts] = useState(0);
     const address = useContext(AddressContext);
 
-    const verifyPayment = async () => {
-        setPaymentStatus("pending"); // Hide check status again
+    const verifyPayment = useCallback(async () => {
+        if (!id) {
+            setVerificationError(true);
+            return;
+        }
+        setVerificationError(false);
         const fetch = new FetchBuilder()
             .setUrl(`${address.backend}/api/payment/verify-new`)
             .setHeaders({
@@ -35,16 +45,38 @@ export default function Page() {
             const response = await fetch.exec();
             if (response.status) {
                 setPaymentStatus(response.status);
+                if (response.status === "paid") {
+                    setLearningHref(
+                        response.learningPath ||
+                            "/dashboard/my-content/products",
+                    );
+                    setCourseTitle(response.title || "");
+                }
             }
         } catch (error) {
+            setVerificationError(true);
         } finally {
             setLoading(false);
+            setAttempts((count) => count + 1);
         }
-    };
+    }, [id, address.backend]);
 
     useEffect(() => {
         verifyPayment();
-    }, []);
+    }, [verifyPayment]);
+
+    useEffect(() => {
+        if (
+            paymentStatus !== "pending" ||
+            loading ||
+            verificationError ||
+            attempts === 0 ||
+            attempts >= 12
+        )
+            return;
+        const timer = setTimeout(verifyPayment, 2500);
+        return () => clearTimeout(timer);
+    }, [paymentStatus, loading, verificationError, attempts, verifyPayment]);
 
     return (
         <div className="flex flex-col items-center justify-center space-y-6 text-center max-w-md mx-auto pt-20">
@@ -65,6 +97,9 @@ export default function Page() {
                     <p className="text-muted-foreground">
                         {checkoutStrings.learningReady}
                     </p>
+                    {courseTitle && (
+                        <p className="font-medium">{courseTitle}</p>
+                    )}
                 </>
             ) : (
                 <>
@@ -80,16 +115,32 @@ export default function Page() {
                         onRetryVerification={verifyPayment}
                         loading={loading}
                     />
+                    {verificationError && (
+                        <p role="alert" className="text-sm text-destructive">
+                            {checkoutStrings.verifyError}
+                        </p>
+                    )}
                 </>
             )}
 
-            <div className="flex space-x-4 mt-6">
+            <div className="flex flex-col items-center gap-4 mt-6">
                 {paymentStatus === "paid" && (
                     <Button asChild>
-                        <Link href="/dashboard/my-content">
-                            {checkoutStrings.dashboard}
+                        <Link href={learningHref}>
+                            {checkoutStrings.startLearning}
                         </Link>
                     </Button>
+                )}
+                <Link
+                    href="/dashboard/my-content/products"
+                    className="text-sm underline underline-offset-4"
+                >
+                    {checkoutStrings.dashboard}
+                </Link>
+                {paymentStatus === "paid" && (
+                    <p className="text-sm text-muted-foreground">
+                        {checkoutStrings.nextVisit}
+                    </p>
                 )}
                 {/* <Button variant="outline" asChild>
           <Link href="/support">Need Help?</Link>

@@ -5,6 +5,7 @@ export type PaymentPlanType =
     (typeof PaymentPlanTypeConst)[keyof typeof PaymentPlanTypeConst];
 
 export interface PaymentPlan {
+    internal?: boolean;
     name: string;
     planId: string;
     type: PaymentPlanType;

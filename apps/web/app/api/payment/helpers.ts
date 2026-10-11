@@ -7,6 +7,7 @@ import {
 } from "@courselit/common-models";
 import CommunityModel from "@models/Community";
 import mongoose from "mongoose";
+import { sendLearningWelcome } from "@/services/learning-welcome";
 
 export async function activateMembership(
     domain: Domain & { _id: mongoose.Types.ObjectId },
@@ -68,5 +69,6 @@ export async function activateMembership(
             membership,
             paymentPlan,
         });
+        await sendLearningWelcome(domain, membership, paymentPlan);
     }
 }
