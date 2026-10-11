@@ -1124,3 +1124,16 @@ export function localizeProductType(type: string | undefined): string {
             return finalUiLabels.otherProduct;
     }
 }
+
+// Owner-only prepublication review.
+export const POLICY_REVIEW_TITLE = "規約・プライバシーの公開前確認";
+export const POLICY_REVIEW_NOTICE =
+    "管理者限定の確認ページです。一般向けページはまだ変更していません。";
+export const POLICY_REVIEW_TERMS = "利用規約";
+export const POLICY_REVIEW_PRIVACY = "プライバシーポリシー";
+export const POLICY_REVIEW_CONTACT = "フォームを確認する";
+export const POLICY_REVIEW_RESULT =
+    "通知・受付メール・運営メールからの返信まで確認済みです。受信先と保管方針は確定しています。";
+export const POLICY_REVIEW_PENDING =
+    "本文とフォームをご確認ください。海外委託先の残件、公開時のリンク、公表・施行日は別途確認します。今回のページ表示だけで規約の適用やフォームの一般公開は行いません。";
+export const POLICY_REVIEW_DATE = "確認用原稿：2026年10月12日 / 未公開・未適用";
