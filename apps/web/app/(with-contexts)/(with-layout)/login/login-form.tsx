@@ -1,5 +1,5 @@
 "use client";
-import { finalUiText, finalUiLabels } from "@/config/strings";
+import { finalUiText, finalUiLabels, localizeUiError } from "@/config/strings";
 
 import {
     AddressContext,
@@ -142,7 +142,13 @@ export default function LoginForm({
                 otp: code,
             });
             if (error) {
-                setError(finalUiLabels.authenticationError);
+                setError(
+                    localizeUiError(
+                        error.message,
+                        finalUiLabels.authenticationError,
+                        error.code,
+                    ),
+                );
             } else {
                 window.location.href =
                     redirectTo ||
@@ -198,7 +204,13 @@ export default function LoginForm({
             });
 
             if (error) {
-                setError(error.message as any);
+                setError(
+                    localizeUiError(
+                        error.message,
+                        finalUiLabels.authenticationError,
+                        error.code,
+                    ),
+                );
             } else {
                 setShowCode(true);
             }

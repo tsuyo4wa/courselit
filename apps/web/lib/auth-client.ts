@@ -5,6 +5,7 @@ import { ssoClient } from "@better-auth/sso/client";
 type AuthClientResult = Promise<{
     error?: {
         message?: string;
+        code?: string;
     } | null;
 }>;
 

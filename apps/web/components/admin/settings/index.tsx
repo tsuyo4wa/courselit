@@ -1,5 +1,5 @@
 "use client";
-import { finalUiText } from "@/config/strings";
+import { finalUiText, localizeCurrencyName } from "@/config/strings";
 
 import React, { useState, useEffect, useContext } from "react";
 import {
@@ -860,7 +860,7 @@ const Settings = (props: SettingsProps) => {
                             <Select
                                 title={SITE_SETTINGS_CURRENCY}
                                 options={currencies.map((currency) => ({
-                                    label: currency.name,
+                                    label: `${localizeCurrencyName(currency.isoCode)} (${currency.isoCode})`,
                                     value: currency.isoCode,
                                 }))}
                                 value={

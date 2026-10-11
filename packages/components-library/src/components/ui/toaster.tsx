@@ -1,3 +1,4 @@
+import { finalUiAccessibility } from "../../ui-strings";
 import { useToast } from "@/hooks/use-toast";
 import {
     Toast,
@@ -12,7 +13,7 @@ export function Toaster() {
     const { toasts } = useToast();
 
     return (
-        <ToastProvider>
+        <ToastProvider label={finalUiAccessibility.notifications}>
             {toasts.map(function ({
                 id,
                 title,
@@ -35,7 +36,7 @@ export function Toaster() {
                     </Toast>
                 );
             })}
-            <ToastViewport />
+            <ToastViewport label={finalUiAccessibility.notificationsHotkey} />
         </ToastProvider>
     );
 }

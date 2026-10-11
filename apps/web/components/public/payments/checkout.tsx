@@ -1,5 +1,5 @@
 "use client";
-import { finalUiText } from "@/config/strings";
+import { finalUiText, localizeUiError } from "@/config/strings";
 
 import { checkoutStrings } from "@/config/strings";
 
@@ -135,7 +135,7 @@ export default function Checkout({
             } catch (err) {
                 toast({
                     title: finalUiText["Error"],
-                    description: err.message,
+                    description: localizeUiError(err.message),
                     variant: "destructive",
                 });
             }
@@ -251,7 +251,7 @@ export default function Checkout({
         } catch (err) {
             toast({
                 title: finalUiText["Error"],
-                description: err.message,
+                description: localizeUiError(err.message),
                 variant: "destructive",
             });
         } finally {
@@ -286,7 +286,7 @@ export default function Checkout({
         } catch (err: any) {
             toast({
                 title: finalUiText["Error"],
-                description: err.message,
+                description: localizeUiError(err.message),
                 variant: "destructive",
             });
         }

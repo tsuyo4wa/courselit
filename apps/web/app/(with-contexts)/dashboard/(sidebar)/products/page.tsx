@@ -1,5 +1,5 @@
 "use client";
-import { finalUiText } from "@/config/strings";
+import { finalUiText, localizeProductType } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
 import { SiteInfoContext } from "@components/contexts";
@@ -9,7 +9,6 @@ import {
     CourseType,
     UIConstants,
 } from "@courselit/common-models";
-import { capitalize } from "@courselit/utils";
 import {
     BTN_NEW_PRODUCT,
     MANAGE_COURSES_PAGE_HEADING,
@@ -90,7 +89,7 @@ function ProductCard({ product }: { product: DashboardCourse }) {
                         ) : (
                             <Download className="h-4 w-4 mr-1" />
                         )}
-                        {capitalize(product.type)}
+                        {localizeProductType(product.type)}
                     </Badge>
                     <div className="flex items-center gap-2">
                         <TooltipProvider>
@@ -132,13 +131,13 @@ function ProductCard({ product }: { product: DashboardCourse }) {
                 <div className="flex items-center justify-between gap-2 text-sm">
                     <div className="flex items-center text-muted-foreground">
                         <span>
+                            {finalUiText["sales"]}：
                             <span className="text-base">
                                 {getSymbolFromCurrency(
                                     siteinfo.currencyISOCode || "USD",
                                 )}{" "}
                             </span>
                             {(product.sales ?? 0).toLocaleString()}
-                            {finalUiText["sales"]}
                         </span>
                     </div>
                     <div className="flex items-center text-muted-foreground">
@@ -237,7 +236,7 @@ export default function Page() {
                             Constants.CourseType.DOWNLOAD,
                         ].map((status) => (
                             <SelectItem value={status} key={status}>
-                                {capitalize(status)}
+                                {localizeProductType(status)}
                             </SelectItem>
                         ))}
                     </SelectContent>

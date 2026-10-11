@@ -1,5 +1,5 @@
 "use client";
-import { finalUiText } from "@/config/strings";
+import { localizeProductType, finalUiText } from "@/config/strings";
 
 import { useContext, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -53,7 +53,6 @@ import {
 } from "@/ui-config/strings";
 import { SiteInfoContext } from "@components/contexts";
 import { useProducts } from "@/hooks/use-products";
-import { capitalize } from "@courselit/utils";
 import { Badge } from "@components/ui/badge";
 
 const { PaymentPlanType: paymentPlanType } = Constants;
@@ -907,7 +906,9 @@ function IncludedProductsSection({ form }: { form: any }) {
                                             <div className="flex justify-between items-center w-full">
                                                 <span>{product.title}</span>
                                                 <span className="text-sm text-muted-foreground ml-2">
-                                                    {capitalize(product.type)}
+                                                    {localizeProductType(
+                                                        product.type,
+                                                    )}
                                                 </span>
                                             </div>
                                         </SelectItem>
@@ -970,7 +971,7 @@ function IncludedProductsSection({ form }: { form: any }) {
                                                     </span>
                                                     <div className="flex items-center gap-2">
                                                         <span className="text-xs text-muted-foreground capitalize">
-                                                            {capitalize(
+                                                            {localizeProductType(
                                                                 product.type,
                                                             )}
                                                         </span>

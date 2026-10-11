@@ -87,3 +87,8 @@ export const finalUiDynamic = {
     remove: (p0: unknown) => `${p0}を削除`,
     uploadError: (p0: unknown) => `アップロードできませんでした：${p0}`,
 } as const;
+
+export const finalUiAccessibility = {
+    notifications: "通知",
+    notificationsHotkey: "通知（{hotkey}）",
+} as const;

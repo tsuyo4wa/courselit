@@ -962,7 +962,7 @@ export const finalUiText = {
         "認証を確認できませんでした。もう一度お試しください。",
     "reCAPTCHA verification failed. Please try again.":
         "認証を確認できませんでした。もう一度お試しください。",
-    sales: "件の購入",
+    sales: "売上",
     selected: "選択中",
     steps: "項目",
     "support. Please reach out to us on": "です。詳しくは",
@@ -1046,3 +1046,65 @@ export const finalUiDynamic = {
     community: (p0: unknown) => `${p0}のコミュニティ`,
     subscription: (p0: unknown) => `継続契約ID：${p0}`,
 } as const;
+
+/** Display-only translations; persisted currency codes and auth responses stay intact. */
+export function localizeCurrencyName(isoCode: string): string {
+    const code = isoCode.toUpperCase();
+    try {
+        return (
+            new Intl.DisplayNames(["ja"], { type: "currency" }).of(code) || code
+        );
+    } catch {
+        return code;
+    }
+}
+
+export const finalUiErrors = {
+    expiredOtp:
+        "認証コードの有効期限が切れました。新しいコードを取得してください。",
+    tooManyAttempts:
+        "試行回数が多いため、少し待ってから新しい認証コードを取得してください。",
+    tooManyRequests:
+        "送信回数が多いため、少し待ってからもう一度お試しください。",
+    invalidEmail: "メールアドレスを確認してください。",
+} as const;
+
+export function localizeUiError(
+    message: string | undefined,
+    fallback: string = responses.internal_error,
+    code?: string,
+): string {
+    const errors: Record<string, string> = {
+        INVALID_OTP: checkoutStrings.invalidOtp,
+        OTP_EXPIRED: finalUiErrors.expiredOtp,
+        TOO_MANY_ATTEMPTS: finalUiErrors.tooManyAttempts,
+        TOO_MANY_REQUESTS: finalUiErrors.tooManyRequests,
+        INVALID_EMAIL: finalUiErrors.invalidEmail,
+        "Invalid OTP": checkoutStrings.invalidOtp,
+        "OTP expired": finalUiErrors.expiredOtp,
+        "Too many attempts": finalUiErrors.tooManyAttempts,
+        "Too many requests": finalUiErrors.tooManyRequests,
+        "Invalid email": finalUiErrors.invalidEmail,
+        Unauthorized: responses.request_not_authenticated,
+        Forbidden: responses.action_not_allowed,
+        "Domain not found": responses.domain_doesnt_exist,
+        "Invalid payment plan": responses.invalid_input,
+    };
+    if (code && errors[code]) return errors[code];
+    if (message && errors[message]) return errors[message];
+    // Keep Japanese validation feedback; never expose raw provider errors to learners.
+    return message && /[\u3040-\u30ff\u3400-\u9fff]/.test(message)
+        ? message
+        : fallback;
+}
+
+export function localizeProductType(type: string | undefined): string {
+    switch (type?.toLowerCase()) {
+        case "course":
+            return finalUiLabels.course;
+        case "download":
+            return finalUiLabels.download;
+        default:
+            return finalUiLabels.otherProduct;
+    }
+}

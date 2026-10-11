@@ -1,5 +1,5 @@
 "use client";
-import { finalUiText, finalUiLabels } from "@/config/strings";
+import { finalUiText, finalUiLabels, localizeUiError } from "@/config/strings";
 
 import { checkoutStrings } from "@/config/strings";
 
@@ -181,10 +181,11 @@ export function LoginForm({
             if (error) {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description:
-                        error.message === "Invalid OTP"
-                            ? checkoutStrings.invalidOtp
-                            : error.message,
+                    description: localizeUiError(
+                        error.message,
+                        finalUiLabels.authenticationError,
+                        error.code,
+                    ),
                     variant: "destructive",
                 });
             } else {
@@ -207,10 +208,11 @@ export function LoginForm({
             if (error) {
                 toast({
                     title: TOAST_TITLE_ERROR,
-                    description:
-                        error.message === "Invalid OTP"
-                            ? checkoutStrings.invalidOtp
-                            : error.message,
+                    description: localizeUiError(
+                        error.message,
+                        finalUiLabels.authenticationError,
+                        error.code,
+                    ),
                     variant: "destructive",
                 });
             } else {

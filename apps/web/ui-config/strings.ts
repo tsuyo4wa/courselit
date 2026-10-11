@@ -95,7 +95,8 @@ export const SITE_SETTINGS_LOGO = "ロゴ";
 export const SITE_SETTINGS_DEFAULT_TITLE = "CourseLit";
 export const SITE_SETTINGS_COURSELIT_BRANDING_CAPTION =
     "CourseLitのブランド表示を非表示にする";
-export const SITE_SETTINGS_COURSELIT_BRANDING_SUB_CAPTION = "講座とサイトの「Powered by CourseLit」を非表示にします。";
+export const SITE_SETTINGS_COURSELIT_BRANDING_SUB_CAPTION =
+    "講座とサイトの「使用サービス CourseLit」を非表示にします。";
 export const SITE_SETTINGS_PAGE_HEADING = "設定";
 export const HEADER_COURSELIT = "CourseLitについて";
 export const MEDIA_SELECTOR_UPLOAD_BTN_CAPTION = "画像をアップロード";
@@ -110,8 +111,7 @@ export const SITE_SETTINGS_SECTION_GENERAL = "基本情報・ブランド";
 export const SITE_SETTINGS_SECTION_PAYMENT = "決済";
 export const SITE_SETTINGS_SECTION_MAILS = "メール";
 export const SITE_ADMIN_SETTINGS_PAYMENT_METHOD = "決済方法";
-export const SITE_SETTINGS_STRIPE_PUBLISHABLE_KEY_TEXT =
-    "Stripe公開キー";
+export const SITE_SETTINGS_STRIPE_PUBLISHABLE_KEY_TEXT = "Stripe公開キー";
 export const SITE_SETTINGS_RAZORPAY_KEY_TEXT = "Razorpayキー";
 export const SITE_SETTINGS_LEMONSQUEEZY_KEY_TEXT = "Lemon Squeezyキー";
 export const SITE_SETTINGS_LEMONSQUEEZY_STOREID_TEXT = "Lemon SqueezyストアID";
@@ -151,16 +151,15 @@ export const COURSE_DISCUSSIONS_REPORT = "報告";
 export const COURSE_DISCUSSIONS_DELETE = "削除";
 export const COURSE_DISCUSSIONS_DELETED = "削除済み";
 export const COURSE_DISCUSSIONS_DELETE_CONFIRM_TITLE = "質問・コメントを削除";
-export const COURSE_DISCUSSIONS_DELETE_CONFIRM =
-    "本当に削除しますか？";
+export const COURSE_DISCUSSIONS_DELETE_CONFIRM = "本当に削除しますか？";
 export const COURSE_DISCUSSIONS_DELETE_CONFIRM_DESCRIPTION =
     "この操作は取り消せません。";
 export const COURSE_DISCUSSIONS_DELETE_CANCEL = "キャンセル";
 export const COURSE_DISCUSSIONS_REPORT_REASON = "報告する理由を教えてください";
 export const COURSE_DISCUSSIONS_REPORTED = "報告済み";
-export const COURSE_DISCUSSIONS_CONTENT_REQUIRED = "コメントを入力してください。";
-export const COURSE_DISCUSSIONS_CONTENT_TOO_LONG =
-    "コメントが長すぎます。";
+export const COURSE_DISCUSSIONS_CONTENT_REQUIRED =
+    "コメントを入力してください。";
+export const COURSE_DISCUSSIONS_CONTENT_TOO_LONG = "コメントが長すぎます。";
 export const COURSE_DISCUSSIONS_ADMIN_REPORTS = "報告";
 export const COURSE_DISCUSSIONS_ADMIN_VIEW_REPORTS = "報告された内容を管理";
 export const COURSE_DISCUSSIONS_ADMIN_NO_REPORTS = "報告はありません";
@@ -188,15 +187,13 @@ export const COURSE_DISCUSSIONS_ADMIN_REJECTION_DIALOG_LABEL = "理由";
 export const COURSE_DISCUSSIONS_REPORT_DIALOG_TITLE = "投稿を報告";
 export const COURSE_DISCUSSIONS_REPORT_DIALOG_DESCRIPTION =
     "この投稿を報告する理由を入力してください。";
-export const COURSE_DISCUSSIONS_REPORT_DIALOG_PLACEHOLDER =
-    "報告する理由…";
+export const COURSE_DISCUSSIONS_REPORT_DIALOG_PLACEHOLDER = "報告する理由…";
 export const COURSE_DISCUSSIONS_REPORT_DIALOG_SUBMIT = "送信";
 export const COURSE_DISCUSSIONS_EDIT = "編集";
 export const COURSE_DISCUSSIONS_EDITED_LABEL = "編集済み";
 export const COURSE_DISCUSSIONS_SAVE = "保存";
 export const COURSE_DISCUSSIONS_CANCEL = "キャンセル";
-export const REACT_COMPONENT_CRASHED =
-    "コンテンツの表示中に問題が発生しました";
+export const REACT_COMPONENT_CRASHED = "コンテンツの表示中に問題が発生しました";
 export const CHECKOUT_PAGE_TITLE = "購入手続き";
 export const PAYMENT_MODAL_PAYMENT_DETAILS_HEADER = "決済情報";
 export const PAYMENT_MODAL_COST_PREFIX = "価格";
@@ -239,7 +236,8 @@ export const LOGIN_NO_CODE = "認証コードが届かない場合";
 export const BTN_LOGIN_GET_CODE = "認証コードを送信";
 export const LOGIN_CODE_INTIMATION_MESSAGE =
     "メールに届いた認証コードを入力してください";
-export const LOGIN_FORM_DISCLAIMER = "送信すると次の規約に同意したものとみなされます：";
+export const LOGIN_FORM_DISCLAIMER =
+    "送信すると次の規約に同意したものとみなされます：";
 export const SIGNUP_SECTION_HEADER = "アカウントを作成";
 export const SIGNUP_SECTION_BUTTON = "参加する";
 export const MEDIA_MANAGER_PAGE_HEADING = "ファイル";
@@ -319,10 +317,8 @@ export const CARD_DESCRIPTION_PAGE_LAYOUT =
     "「＋」ボタンで、ページの各部分に必要なコンポーネントを追加できます。";
 export const ADD_COMPONENT_POPUP_HEADER = "ブロックを追加";
 export const APP_MESSAGE_CHANGES_SAVED = "変更を保存しました";
-export const SUBHEADER_COURSES_SECTION =
-    "講座で新しいスキルを学びましょう。";
-export const SUBHEADER_FEATURED_SECTION =
-    "おすすめの教材をご紹介します。";
+export const SUBHEADER_COURSES_SECTION = "講座で新しいスキルを学びましょう。";
+export const SUBHEADER_FEATURED_SECTION = "おすすめの教材をご紹介します。";
 export const SUBHEADER_THEME_ADD_THEME = "新しいテーマ";
 export const SUBHEADER_THEME_ADDED_THEME = "インストール済みテーマ";
 export const SUBHEADER_THEME_ADD_THEME_INPUT_LABEL = "テーマ編集";
@@ -341,8 +337,7 @@ export const NO_THEMES_INSTALLED = "インストール済みテーマはあり�
 export const APP_MESSAGE_THEME_INSTALLED = "テーマをインストールしました";
 export const APP_MESSAGE_THEME_APPLIED = "テーマを適用しました";
 export const APP_MESSAGE_THEME_UNINSTALLED = "テーマをアンインストールしました";
-export const HEADER_SECTION_PAYMENT_CONFIRMATION_WEBHOOK =
-    "決済Webhook URL";
+export const HEADER_SECTION_PAYMENT_CONFIRMATION_WEBHOOK = "決済Webhook URL";
 export const SUBHEADER_SECTION_PAYMENT_CONFIRMATION_WEBHOOK =
     "決済サービスからの購入通知を受け取るためのURLです。購入状況を正しく反映するため、決済サービスのWebhook設定にコピーしてください。";
 export const PURCHASE_STATUS_PAGE_HEADER = "購入状況";
@@ -359,7 +354,8 @@ export const LAYOUT_SECTION_ASIDE = "サイドバー";
 export const TRANSACTION_STATUS_SUCCESS = "お支払いを確認しました。";
 export const TRANSACTION_STATUS_SUCCESS_DETAILS =
     "ありがとうございます。講座を開いて学習を始められます。";
-export const TRANSACTION_STATUS_INITIATED = "お支払いをまだ確認できていません。";
+export const TRANSACTION_STATUS_INITIATED =
+    "お支払いをまだ確認できていません。";
 export const TRANSACTION_STATUS_FAILED = "お支払いに失敗しました。";
 export const TRANSACTION_STATUS_FAILED_DETAILS =
     "決済サービスでお支払いを処理できませんでした。戻ってもう一度お試しください。";
@@ -373,7 +369,8 @@ export const EMPTY_COURSES_LIST_ADMIN =
 export const HEADER_RESET_PASSWORD = "パスワードをリセット";
 export const HEADER_DESIGN = "サイト";
 export const HEADER_YOUR_PROFILE = "プロフィール";
-export const PROFILE_PAGE_MESSAGE_NOT_LOGGED_IN = "プロフィールを表示するにはログインしてください。";
+export const PROFILE_PAGE_MESSAGE_NOT_LOGGED_IN =
+    "プロフィールを表示するにはログインしてください。";
 export const PROFILE_PAGE_HEADER = "プロフィール";
 export const MY_CONTENT_HEADER = "受講中のコンテンツ";
 export const MY_CONTENT_PRODUCTS_TAB = "講座・商品";
@@ -437,7 +434,8 @@ export const USER_FILTER_APPLY_BTN = "適用";
 export const USER_FILTER_SAVE = "新しいセグメントとして保存";
 export const USER_FILTER_SAVE_DESCRIPTION =
     "保存したセグメントは「セグメント」メニューから選択できます";
-export const USER_SEGMENT_DESCRIPTION = "条件ごとにユーザーをグループ分けします。";
+export const USER_SEGMENT_DESCRIPTION =
+    "条件ごとにユーザーをグループ分けします。";
 export const USER_FILTER_LABEL_DEFAULT = "すべてのユーザー";
 export const USER_FILTER_AGGREGATOR_HEADER = "一致条件";
 export const USER_FILTER_AGGREGATOR_ALL = "すべて";
@@ -447,8 +445,7 @@ export const USER_FILTER_COMMUNITY_DROPDOWN_LABEL = "コミュニティを選択
 export const USER_FILTER_TAGGED_DROPDOWN_LABEL = "タグを選択";
 export const USER_FILTER_PERMISSION_DROPDOWN_LABEL = "権限を選択";
 export const USER_DELETE_SEGMENT = "セグメントを削除";
-export const USER_DELETE_SEGMENT_DESCRIPTION =
-    "次の項目を削除しますか：";
+export const USER_DELETE_SEGMENT_DESCRIPTION = "次の項目を削除しますか：";
 export const USER_FILTER_NEW_SEGMENT_NAME = "セグメント名";
 export const USER_FILTER_SUBSCRIPTION_SUBSCRIBED = "配信登録済み";
 export const USER_FILTER_SUBSCRIPTION_NOT_SUBSCRIBED = "配信未登録";
@@ -518,7 +515,8 @@ export const PRODUCT_STATUS_DRAFT = "下書き";
 export const PRODUCT_STATUS_PUBLISHED = "公開済み";
 export const PRODUCT_TABLE_CONTEXT_MENU_DELETE_PRODUCT = "削除";
 export const PRODUCT_TABLE_CONTEXT_MENU_EDIT_PAGE = "ページを編集";
-export const PRODUCT_TABLE_CONTEXT_MENU_INVITE_A_CUSTOMER = "受講者・購入者を招待";
+export const PRODUCT_TABLE_CONTEXT_MENU_INVITE_A_CUSTOMER =
+    "受講者・購入者を招待";
 export const BTN_INVITE = "招待";
 export const BTN_GO_BACK = "戻る";
 export const BTN_NEW_PRODUCT = "新しい講座・商品";
@@ -559,13 +557,11 @@ export const PAYMENT_PLAN_FREE_LABEL = "無料";
 export const PAYMENT_PLAN_ONETIME_LABEL = "一括払い";
 export const PAYMENT_PLAN_SUBSCRIPTION_LABEL = "定期払い";
 export const PAYMENT_PLAN_EMI_LABEL = "分割払い";
-export const PRICING_PAID_SUBTITLE =
-    "ログインして一度支払うと利用できます。";
+export const PRICING_PAID_SUBTITLE = "ログインして一度支払うと利用できます。";
 export const PRICING_PAID_NO_PAYMENT_METHOD =
     "この機能を使うには「設定」で決済方法を設定してください。";
 export const PUBLISH_TAB_STATUS_TITLE = "状態";
-export const PUBLISH_TAB_STATUS_SUBTITLE =
-    "講座の公開・非公開を切り替えます。";
+export const PUBLISH_TAB_STATUS_SUBTITLE = "講座の公開・非公開を切り替えます。";
 export const PUBLISH_TAB_VISIBILITY_TITLE = "公開状態";
 export const PUBLISH_TAB_VISIBILITY_SUBTITLE =
     "一覧には表示されず、直接リンクを知っている人だけがアクセスできます。";
@@ -598,7 +594,8 @@ export const MENU_BLOG_VISIT = "ブログを見る";
 export const ACCOUNT_NO_PURCHASE_PLACEHOLDER =
     "受講登録した講座がここに表示されます。";
 export const EXPORT_CSV = "CSVに出力";
-export const GENERIC_FAILURE_MESSAGE = "処理できませんでした。もう一度お試しください。";
+export const GENERIC_FAILURE_MESSAGE =
+    "処理できませんでした。もう一度お試しください。";
 export const LESSON_QUIZ_ADD_QUESTION = "問題を追加";
 export const LESSON_QUIZ_ADD_OPTION_BTN = "選択肢を追加";
 export const LESSON_QUIZ_CONTENT_HEADER = "問題";
@@ -634,8 +631,7 @@ export const BTN_SENDING = "送信中";
 export const MAIL_SUBJECT_PLACEHOLDER = "件名";
 export const MAIL_PREVIEW_TITLE = "プレビューテキスト";
 export const COMPOSE_SEQUENCE_FORM_TITLE = "ステップ配信名";
-export const COMPOSE_SEQUENCE_ENTRANCE_CONDITION_DATA =
-    "開始条件のデータ";
+export const COMPOSE_SEQUENCE_ENTRANCE_CONDITION_DATA = "開始条件のデータ";
 export const COMPOSE_SEQUENCE_FORM_FROM = "送信者";
 export const COMPOSE_SEQUENCE_FROM_PLC = "送信者名";
 export const COMPOSE_SEQUENCE_ENTRANCE_CONDITION = "開始条件";
@@ -743,7 +739,8 @@ export const SSO_PROVIDER_CARD_DESCRIPTION =
 export const SSO_PROVIDER_SP_EMTPY =
     "IDPの設定を入力すると、ここに設定値が表示されます";
 export const SSO_PROVIDER_SP_ACS_LABEL = "SAML ACS URL";
-export const SSO_PROVIDER_SP_ENTITY_ID_LABEL = "Audience URI（SPエンティティID）";
+export const SSO_PROVIDER_SP_ENTITY_ID_LABEL =
+    "Audience URI（SPエンティティID）";
 export const APIKEY_NEW_LABEL = "名前";
 export const SSO_PROVIDER_DOMAIN_LABEL = "ドメイン";
 export const SSO_PROVIDER_ENTRY_POINT_LABEL = "エントリーポイント";
@@ -768,7 +765,8 @@ export const GOOGLE_PROVIDER_SUCCESS_MESSAGE =
 export const GOOGLE_PROVIDER_REMOVE_DIALOG_HEADER = "Googleログインを解除";
 export const GOOGLE_PROVIDER_SECRET_HELPER =
     "空欄にすると、現在のクライアントシークレットを保持します。";
-export const GOOGLE_PROVIDER_SECRET_SAVED = "クライアントシークレットは保存済みです。";
+export const GOOGLE_PROVIDER_SECRET_SAVED =
+    "クライアントシークレットは保存済みです。";
 export const URL_COPIED_TO_CLIPBOARD = "URLをコピーしました";
 export const PROVIDER_RESET_SUCCESS_MESSAGE = "認証サービスをリセットしました";
 export const APIKEY_NEW_BTN_CAPTION = "作成";
@@ -808,7 +806,8 @@ export const USER_DELETE_DIALOG_DELETION_ITEM_COMMERCE =
     "メンバーシップ、請求書、受講登録、ステップ配信への登録。";
 export const USER_DELETE_DIALOG_DELETION_ITEM_ACCOUNT =
     "ユーザーのプロフィール画像とアカウント。";
-export const USER_DELETE_CONFIRMATION_LABEL = "確認のため「delete」と入力してください";
+export const USER_DELETE_CONFIRMATION_LABEL =
+    "確認のため「delete」と入力してください";
 export const USER_DELETE_CONFIRMATION_PLACEHOLDER = "確認のためdeleteと入力";
 export const USER_DELETE_CONFIRMATION_TOKEN = "delete";
 export const USER_DELETE_ACTION_LOADING = "削除中…";
@@ -858,8 +857,7 @@ export const COMMUNITY_SETTINGS = "管理";
 export const NEW_PAYMENT_PLAN_HEADER = "新しい料金プラン";
 export const EDIT_PAYMENT_PLAN_HEADER = "料金プランを編集";
 export const PAYMENT_PLANS_HEADER = "料金プラン";
-export const NEW_PAYMENT_PLAN_DESCRIPTION =
-    "新しい料金プランを設定します：";
+export const NEW_PAYMENT_PLAN_DESCRIPTION = "新しい料金プランを設定します：";
 export const EDIT_PAYMENT_PLAN_DESCRIPTION = "設定を更新します：";
 export const TOAST_TITLE_SUCCESS = "成功";
 export const TOAST_SEQUENCE_SAVED = "ステップ配信の変更を保存しました";
@@ -894,8 +892,7 @@ export const PRODUCTS_LIST_EMPTY_DESCRIPTION_PUBLIC =
     "まだ公開されている講座・商品はありません。";
 export const PRODUCTS_LIST_EMPTY_DESCRIPTION_PRIVATE =
     "まだ講座・商品を追加していません。";
-export const LOGIN_CODE_SENT_MESSAGE =
-    "メールに認証コードを送信しました。";
+export const LOGIN_CODE_SENT_MESSAGE = "メールに認証コードを送信しました。";
 export const LESSON_EMBED_URL_LABEL = "埋め込みコード";
 export const LESSON_CONTENT_LABEL = "内容";
 export const EMAIL_EDITOR_EMAIL_EDIT_HEADER = "メールを編集中";
