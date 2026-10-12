@@ -167,7 +167,8 @@ const Settings = (props: SettingsProps) => {
                         codeInjectionHead,
                         codeInjectionBody,
                         mailingAddress,
-                        hideCourseLitBranding
+                        hideCourseLitBranding,
+                        blogEnabled
                     }
                 },
                 apikeys: getApikeys {
@@ -210,6 +211,7 @@ const Settings = (props: SettingsProps) => {
             mailingAddress: settingsResponse.mailingAddress || "",
             hideCourseLitBranding:
                 settingsResponse.hideCourseLitBranding ?? false,
+            blogEnabled: settingsResponse.blogEnabled !== false,
             lemonsqueezyOneTimeVariantId:
                 settingsResponse.lemonsqueezyOneTimeVariantId || "",
             lemonsqueezySubscriptionMonthlyVariantId:
@@ -230,10 +232,11 @@ const Settings = (props: SettingsProps) => {
     ) => {
         event.preventDefault();
         const query = `
-            mutation UpdateSiteInfo($title: String, $subtitle: String, $hideCourseLitBranding: Boolean){
+            mutation UpdateSiteInfo($title: String, $subtitle: String, $hideCourseLitBranding: Boolean, $blogEnabled: Boolean){
                 settings: updateSiteInfo(siteData: {
                     title: $title,
                     subtitle: $subtitle,
+                    blogEnabled: $blogEnabled,
                     hideCourseLitBranding: $hideCourseLitBranding
                 }) {
                     settings {
@@ -260,7 +263,8 @@ const Settings = (props: SettingsProps) => {
                         codeInjectionHead,
                         codeInjectionBody,
                         mailingAddress,
-                        hideCourseLitBranding
+                        hideCourseLitBranding,
+                        blogEnabled
                     }
                 }
             }`;
@@ -271,6 +275,7 @@ const Settings = (props: SettingsProps) => {
                 .setPayload({
                     query,
                     variables: {
+                        blogEnabled: newSettings.blogEnabled,
                         title: newSettings.title,
                         subtitle: newSettings.subtitle,
                         hideCourseLitBranding:
@@ -281,6 +286,7 @@ const Settings = (props: SettingsProps) => {
             const response = await fetchRequest.exec();
             if (response.settings.settings) {
                 setSettingsState(response.settings.settings);
+                router.refresh();
                 toast({
                     title: TOAST_TITLE_SUCCESS,
                     description: APP_MESSAGE_SETTINGS_SAVED,
@@ -327,7 +333,8 @@ const Settings = (props: SettingsProps) => {
                         codeInjectionHead,
                         codeInjectionBody,
                         mailingAddress,
-                        hideCourseLitBranding
+                        hideCourseLitBranding,
+                        blogEnabled
                     }
                 }
             }`;
@@ -406,7 +413,8 @@ const Settings = (props: SettingsProps) => {
                     codeInjectionHead,
                     codeInjectionBody,
                     mailingAddress,
-                    hideCourseLitBranding
+                    hideCourseLitBranding,
+                    blogEnabled
                 }
             }
         }`;
@@ -471,7 +479,8 @@ const Settings = (props: SettingsProps) => {
                     codeInjectionHead,
                     codeInjectionBody,
                     mailingAddress,
-                    hideCourseLitBranding
+                    hideCourseLitBranding,
+                    blogEnabled
                 }
             }
         }`;
@@ -578,7 +587,8 @@ const Settings = (props: SettingsProps) => {
                         codeInjectionHead,
                         codeInjectionBody,
                         mailingAddress,
-                        hideCourseLitBranding
+                        hideCourseLitBranding,
+                        blogEnabled
                     }
                 }
             }`;
@@ -657,7 +667,8 @@ const Settings = (props: SettingsProps) => {
                         codeInjectionHead,
                         codeInjectionBody,
                         mailingAddress,
-                        hideCourseLitBranding
+                        hideCourseLitBranding,
+                        blogEnabled
                     }
                 }
             }`;
@@ -771,6 +782,33 @@ const Settings = (props: SettingsProps) => {
                             onChange={onChangeData}
                         />
 
+                        <div className="flex items-start justify-between gap-6 rounded-md border p-4">
+                            <div>
+                                <label
+                                    htmlFor="blog-enabled"
+                                    className="font-medium"
+                                >
+                                    ブログ機能
+                                </label>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    OFFにするとブログのメニュー・閲覧・編集を停止します。保存済みの記事は残ります。
+                                </p>
+                            </div>
+                            <input
+                                id="blog-enabled"
+                                type="checkbox"
+                                className="mt-1 h-5 w-5 accent-primary"
+                                disabled={loading}
+                                checked={newSettings.blogEnabled !== false}
+                                onChange={(event) =>
+                                    setNewSettings({
+                                        ...newSettings,
+                                        blogEnabled: event.target.checked,
+                                    })
+                                }
+                            />
+                        </div>
+
                         <div>
                             <PageBuilderPropertyHeader
                                 label={SITE_SETTINGS_COURSELIT_BRANDING_CAPTION}
@@ -804,12 +842,15 @@ const Settings = (props: SettingsProps) => {
                                 color="primary"
                                 disabled={
                                     JSON.stringify({
+                                        blogEnabled: settings.blogEnabled,
                                         title: settings.title,
                                         subtitle: settings.subtitle,
                                         hideCourseLitBranding:
                                             settings.hideCourseLitBranding,
                                     }) ===
                                         JSON.stringify({
+                                            blogEnabled:
+                                                newSettings.blogEnabled,
                                             title: newSettings.title,
                                             subtitle: newSettings.subtitle,
                                             hideCourseLitBranding:

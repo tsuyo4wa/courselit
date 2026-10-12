@@ -17,6 +17,7 @@ export default interface SiteInfo {
     paytmSecret?: string;
     mailingAddress?: string;
     hideCourseLitBranding?: boolean;
+    blogEnabled?: boolean;
     razorpayKey?: string;
     razorpaySecret?: string;
     razorpayWebhookSecret?: string;

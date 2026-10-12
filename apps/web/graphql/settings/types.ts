@@ -58,6 +58,10 @@ const siteType = new GraphQLObjectType({
         codeInjectionHead: { type: GraphQLString },
         codeInjectionBody: { type: GraphQLString },
         mailingAddress: { type: GraphQLString },
+        blogEnabled: {
+            type: GraphQLBoolean,
+            resolve: (settings) => settings.blogEnabled !== false,
+        },
         hideCourseLitBranding: { type: GraphQLBoolean },
         logins: { type: new GraphQLList(GraphQLString) },
     },
@@ -72,6 +76,7 @@ const siteUpdateType = new GraphQLInputObjectType({
         codeInjectionHead: { type: GraphQLString },
         codeInjectionBody: { type: GraphQLString },
         mailingAddress: { type: GraphQLString },
+        blogEnabled: { type: GraphQLBoolean },
         hideCourseLitBranding: { type: GraphQLBoolean },
     },
 });

@@ -1,3 +1,4 @@
+import { assertBlogEnabled, isBlogEnabled } from "@/lib/blog-feature";
 import { responses } from "../../config/strings";
 import DomainModel from "@models/Domain";
 import { checkIfAuthenticated } from "../../lib/graphql";
@@ -72,6 +73,8 @@ export async function getPage({
             },
         );
         if (!page) return;
+        if (page.type === blogPage && !isBlogEnabled(ctx.subdomain.settings))
+            return;
 
         return getPageResponse(page, ctx);
     } else {
@@ -93,6 +96,8 @@ export async function getPage({
             },
         );
         if (!page) return;
+        if (page.type === blogPage && !isBlogEnabled(ctx.subdomain.settings))
+            return;
 
         if (page.type === product) {
             const course = await Course.findOne({
@@ -149,6 +154,8 @@ export const updatePage = async ({
     if (!page) {
         return null;
     }
+
+    assertBlogEnabled(ctx.subdomain.settings, page.type);
 
     const deletedMediaIds = getDeletedMediaIds(
         JSON.stringify(page.draftLayout || ""),
@@ -255,6 +262,8 @@ export const publish = async (
         return null;
     }
 
+    assertBlogEnabled(ctx.subdomain.settings, page.type);
+
     // 1. Identify all media currently in PUBLISHED state (to be potentially deleted)
     const currentPublishedMedia = extractMediaIDs(
         JSON.stringify(page.layout || []),
@@ -338,6 +347,10 @@ export const getPages = async (
 
     if (type) {
         filter.type = type;
+    }
+
+    if (!isBlogEnabled(ctx.subdomain.settings)) {
+        filter.$and = [{ type: { $ne: blogPage } }];
     }
 
     const pages: Page[] = await PageModel.find(filter, {

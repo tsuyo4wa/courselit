@@ -1,4 +1,5 @@
 "use client";
+import { isBlogEnabled } from "@/lib/blog-feature";
 import { finalUiText } from "@/config/strings";
 
 import {
@@ -93,7 +94,14 @@ export function AppSidebar({ ...props }: ComponentProps<typeof Sidebar>) {
     }
 
     const { navMainItems, navProjectItems, navSecondaryItems } =
-        getSidebarItems({ profile, path, tab, checklist, totalChecklistItems });
+        getSidebarItems({
+            profile,
+            path,
+            tab,
+            checklist,
+            totalChecklistItems,
+            blogEnabled: isBlogEnabled(siteInfo),
+        });
 
     return (
         <Sidebar collapsible="icon" {...props}>
@@ -137,12 +145,14 @@ function getSidebarItems({
     profile,
     checklist = [],
     totalChecklistItems = 0,
+    blogEnabled = true,
     path,
     tab,
 }: {
     profile: Partial<Profile>;
     checklist: string[];
     totalChecklistItems: number;
+    blogEnabled?: boolean;
     path?: string | null;
     tab?: string | null;
 }) {
@@ -180,7 +190,10 @@ function getSidebarItems({
             items: [],
         });
     }
-    if (checkPermission(profile.permissions!, [permissions.publishCourse])) {
+    if (
+        blogEnabled &&
+        checkPermission(profile.permissions!, [permissions.publishCourse])
+    ) {
         navMainItems.push({
             title: SIDEBAR_MENU_BLOGS,
             url: "/dashboard/blogs",

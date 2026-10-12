@@ -16,6 +16,7 @@ export const SettingsSchema = new mongoose.Schema<SiteInfo>({
     paypalSecret: { type: String },
     mailingAddress: { type: String },
     hideCourseLitBranding: { type: Boolean, default: false },
+    blogEnabled: { type: Boolean, default: true },
     razorpayKey: { type: String },
     razorpaySecret: { type: String },
     razorpayWebhookSecret: { type: String },

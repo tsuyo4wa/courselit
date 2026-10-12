@@ -1,3 +1,4 @@
+import { blogAwareWidgetSettings } from "@/lib/blog-feature";
 import React, { useState, useEffect } from "react";
 import widgets from "@/ui-config/widgets";
 import { COMPONENT_MISSING_SUFFIX } from "@/ui-config/strings";
@@ -33,7 +34,12 @@ const WidgetByName = ({
 
     const widgetProps: WidgetProps<WidgetDefaultSettings> = {
         name,
-        settings,
+        settings: blogAwareWidgetSettings(
+            name,
+            settings,
+            state.siteinfo,
+            state.address.backend,
+        ),
         state,
         id,
         pageData,

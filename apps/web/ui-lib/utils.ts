@@ -155,6 +155,7 @@ export const getSiteInfo = cache(
                     codeInjectionBody,
                     mailingAddress,
                     hideCourseLitBranding,
+                    blogEnabled,
                     razorpayKey,
                     lemonsqueezyStoreId,
                     lemonsqueezyOneTimeVariantId,

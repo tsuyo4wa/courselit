@@ -1,3 +1,4 @@
+import { assertBlogEnabled } from "@/lib/blog-feature";
 import { internal, responses } from "../../config/strings";
 import GQLContext from "../../models/GQLContext";
 import CourseModel from "../../models/Course";
@@ -14,6 +15,7 @@ export const validateCourse = async (
     courseData: InternalCourse,
     ctx: GQLContext,
 ) => {
+    assertBlogEnabled(ctx.subdomain.settings, courseData.type);
     if (courseData.type === Constants.CourseType.BLOG) {
         if (courseData.published && !courseData.description) {
             throw new Error(responses.blog_description_empty);

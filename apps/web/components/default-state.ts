@@ -36,6 +36,7 @@ export const defaultState: {
         codeInjectionBody: "",
         mailingAddress: "",
         hideCourseLitBranding: false,
+        blogEnabled: true,
         razorpayKey: "",
         lemonsqueezyStoreId: "",
         lemonsqueezyOneTimeVariantId: "",

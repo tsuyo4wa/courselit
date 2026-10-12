@@ -171,6 +171,7 @@ export const updateSiteInfo = async (
     }
 
     await (domain as any).save();
+    invalidateDomainCache(domain.name);
 
     return domain;
 };

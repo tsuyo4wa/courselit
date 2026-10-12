@@ -1,6 +1,11 @@
 /**
  * Business logic for managing courses.
  */
+import {
+    assertBlogEnabled,
+    isBlogEnabled,
+    withoutBlogTypes,
+} from "@/lib/blog-feature";
 import CourseModel from "@/models/Course";
 import {
     deleteProductDiscussionData,
@@ -86,6 +91,8 @@ export const getCourseOrThrow = async (
         throw new Error(responses.item_not_found);
     }
 
+    assertBlogEnabled(ctx.subdomain.settings, course.type);
+
     const access = getCourseManagementAccess(course, ctx);
 
     if (!access.canManage) {
@@ -164,6 +171,8 @@ export const getCourse = async (
         throw new Error(responses.item_not_found);
     }
 
+    assertBlogEnabled(ctx.subdomain.settings, course.type);
+
     const isPreview =
         !asGuest && preview && canManageCourseInContext(course, ctx);
 
@@ -199,6 +208,8 @@ export const createCourse = async (
     ) {
         throw new Error(responses.action_not_allowed);
     }
+
+    assertBlogEnabled(ctx.subdomain.settings, courseData.type);
 
     if (courseData.type === "blog") {
         return await setupBlog({
@@ -454,7 +465,9 @@ export const getCoursesAsAdmin = async ({
     }
 
     if (filterBy) {
-        query.type = { $in: filterBy };
+        query.type = {
+            $in: withoutBlogTypes(filterBy, context.subdomain.settings),
+        };
     } else {
         query.type = { $in: [constants.download, constants.course] };
     }
@@ -502,6 +515,10 @@ export const getCourses = async ({
         privacy: Constants.ProductAccessType.PUBLIC,
         domain: ctx.subdomain._id,
     };
+
+    if (!isBlogEnabled(ctx.subdomain.settings)) {
+        query.$and = [{ type: { $ne: constants.blog } }];
+    }
 
     let courses;
     if (ids) {
@@ -599,7 +616,7 @@ const getProductsQuery = (
     }
 
     if (filter) {
-        query.type = { $in: filter };
+        query.type = { $in: withoutBlogTypes(filter, ctx.subdomain.settings) };
     } else {
         query.type = { $in: [constants.download, constants.course] };
     }

@@ -58,6 +58,7 @@ const formatSiteInfo = (siteinfo?: SiteInfo) => ({
         : defaultState.siteinfo.codeInjectionBody,
     mailingAddress:
         siteinfo?.mailingAddress || defaultState.siteinfo.mailingAddress,
+    blogEnabled: siteinfo?.blogEnabled !== false,
     hideCourseLitBranding:
         siteinfo?.hideCourseLitBranding ||
         defaultState.siteinfo.hideCourseLitBranding,
