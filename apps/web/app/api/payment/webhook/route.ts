@@ -17,6 +17,9 @@ import Payment from "@/payments-new/payment";
 import Stripe from "stripe";
 import { activateMembership } from "../helpers";
 
+import { signedTestEvent } from "@/services/admin-payment-tests";
+import { isProductionStripeEvent } from "@/lib/payment-test-guards";
+
 export async function POST(req: NextRequest) {
     try {
         const domainName = req.headers.get("domain");
@@ -36,6 +39,14 @@ export async function POST(req: NextRequest) {
 
         let body;
         if (paymentMethod.getName() === UIConstants.PAYMENT_METHOD_STRIPE) {
+            const rawBody = await req.text();
+            const testSignature = req.headers.get("stripe-signature");
+            if (
+                testSignature &&
+                (await signedTestEvent(domain, rawBody, testSignature))
+            ) {
+                return Response.json({ testReceived: true });
+            }
             // A per-school secret takes precedence over the single-school host setting.
             const signingSecret =
                 domain.settings.stripeWebhookSecret ||
@@ -58,7 +69,7 @@ export async function POST(req: NextRequest) {
                     typescript: true,
                 });
                 body = stripe.webhooks.constructEvent(
-                    await req.text(),
+                    rawBody,
                     signature,
                     signingSecret,
                 );
@@ -76,7 +87,15 @@ export async function POST(req: NextRequest) {
             return Response.json({ message: "Payment not verified" });
         }
 
+        if (
+            paymentMethod.getName() === UIConstants.PAYMENT_METHOD_STRIPE &&
+            !isProductionStripeEvent(body)
+        )
+            return Response.json({ ignored: true });
         const metadata = paymentMethod.getMetadata(body);
+        // A shared Stripe account can send events for other sites; acknowledge without grants.
+        if (!metadata?.membershipId || !metadata?.invoiceId)
+            return Response.json({ ignored: true });
         const { membershipId, invoiceId, currencyISOCode } = metadata;
 
         const membership = await getMembership(domain._id, membershipId);

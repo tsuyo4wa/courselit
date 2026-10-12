@@ -5,6 +5,7 @@ import User from "@models/User";
 import {
     Community,
     Constants,
+    UIConstants,
     Course,
     MembershipEntityType,
     PaymentPlan,
@@ -94,6 +95,22 @@ export async function POST(req: NextRequest) {
         }
 
         const siteinfo = domain.settings;
+        if (
+            paymentPlan.type !== Constants.PaymentPlanType.FREE &&
+            siteinfo.paymentMethod === UIConstants.PAYMENT_METHOD_STRIPE &&
+            (!siteinfo.stripeLiveReady ||
+                !siteinfo.stripeSecret?.startsWith("sk_live_") ||
+                !siteinfo.stripeKey?.startsWith("pk_live_") ||
+                siteinfo.stripeBlockedProductIds?.includes(id))
+        ) {
+            return Response.json(
+                {
+                    status: transactionFailed,
+                    error: "この商品の本番決済はまだ受付を開始していません。",
+                },
+                { status: 409 },
+            );
+        }
         const paymentMethod = await getPaymentMethodFromSettings(siteinfo);
 
         if (

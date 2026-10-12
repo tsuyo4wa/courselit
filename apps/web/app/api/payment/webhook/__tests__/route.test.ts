@@ -7,6 +7,7 @@ import DomainModel from "@models/Domain";
 import MembershipModel from "@models/Membership";
 import PaymentPlanModel from "@models/PaymentPlan";
 import InvoiceModel from "@models/Invoice";
+import { signedTestEvent } from "@/services/admin-payment-tests";
 import { getPaymentMethod } from "@/payments-new";
 import { activateMembership } from "../../helpers";
 import { Constants, UIConstants } from "@courselit/common-models";
@@ -27,6 +28,9 @@ jest.mock("@models/Invoice", () => ({
     __esModule: true,
     default: { findOne: jest.fn(), create: jest.fn() },
 }));
+jest.mock("@/services/admin-payment-tests", () => ({
+    signedTestEvent: jest.fn().mockResolvedValue(false),
+}));
 jest.mock("@/payments-new", () => ({ getPaymentMethod: jest.fn() }));
 jest.mock("../../helpers", () => ({ activateMembership: jest.fn() }));
 jest.mock("@/services/logger", () => ({ error: jest.fn() }));
@@ -35,10 +39,12 @@ const stripe = new Stripe("sk_test_local_fixture_only");
 const signingSecret = "whsec_local_fixture_only";
 const payload = JSON.stringify({
     id: "evt_local",
+    livemode: true,
     type: "checkout.session.completed",
     data: {
         object: {
             id: "cs_local",
+            livemode: true,
             payment_status: "paid",
             metadata: {
                 membershipId: "membership-local",
@@ -51,7 +57,7 @@ const payload = JSON.stringify({
 const domain = {
     _id: { toString: () => "domain-local" },
     settings: {
-        stripeSecret: "sk_test_local_fixture_only",
+        stripeSecret: "sk_live_local_fixture_only",
         stripeWebhookSecret: signingSecret,
     },
 };
@@ -203,5 +209,37 @@ describe("Stripe webhook signature", () => {
             message: "Payment not verified",
         });
         expect(activateMembership).not.toHaveBeenCalled();
+    });
+});
+
+describe("isolated test webhook dispatch", () => {
+    test("does not grant production access for an authenticated test event", async () => {
+        (signedTestEvent as jest.Mock).mockResolvedValueOnce(true);
+        const response = await POST(request(payload, sign()));
+        expect(await response.json()).toEqual({ testReceived: true });
+        expectNoPaymentWrites();
+    });
+    test("ignores foreign live-account checkout events without school membership metadata", async () => {
+        const foreign = JSON.stringify({
+            id: "evt_foreign",
+            livemode: true,
+            type: "checkout.session.completed",
+            data: {
+                object: {
+                    id: "cs_foreign",
+                    livemode: true,
+                    payment_status: "paid",
+                    metadata: {},
+                },
+            },
+        });
+        (getPaymentMethod as jest.Mock).mockResolvedValue({
+            getName: () => UIConstants.PAYMENT_METHOD_STRIPE,
+            verify: jest.fn().mockResolvedValue(true),
+            getMetadata: () => ({}),
+        });
+        const response = await POST(request(foreign, sign(foreign)));
+        expect(await response.json()).toEqual({ ignored: true });
+        expect(MembershipModel.findOne).not.toHaveBeenCalled();
     });
 });

@@ -119,6 +119,9 @@ export const getSiteInfo = async (ctx: GQLContext) => {
         deleted: 0,
         customDomain: 0,
         "settings.stripeSecret": 0,
+        "settings.stripeWebhookSecret": 0,
+        "settings.stripeTestSecret": 0,
+        "settings.stripeTestWebhookSecret": 0,
         "settings.paytmSecret": 0,
         "settings.paypalSecret": 0,
         "settings.razorpaySecret": 0,
@@ -231,6 +234,14 @@ export const updatePaymentInfo = async (
         throw new Error(responses.school_title_not_set);
     }
 
+    if (
+        domain.settings.stripeLiveReady &&
+        String(siteData.stripeKey || "").startsWith("pk_test_")
+    ) {
+        throw new Error(
+            "テスト接続は管理者専用のテスト購入設定で変更してください。",
+        );
+    }
     for (const key of Object.keys(siteData)) {
         domain.settings[key] = siteData[key];
     }

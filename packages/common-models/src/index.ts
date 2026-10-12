@@ -90,3 +90,16 @@ export type {
 } from "./community-reaction";
 export type { InboundEmailReceiptStatus } from "./inbound-email-receipt-status";
 export type { InboundEmailProvider } from "./inbound-email-provider";
+
+export type {
+    AdminPaymentTest,
+    PaymentTestSettingsInput,
+    PaymentTestProduct,
+    PaymentTestStatus,
+} from "./admin-payment-test";
+
+export type {
+    PaymentTestPlan,
+    PaymentTestLearningLink,
+    AdminPaymentConnectionProps,
+} from "./admin-payment-test";

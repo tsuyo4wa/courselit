@@ -1,4 +1,5 @@
 "use client";
+import { paymentTestText } from "@/config/strings";
 import { finalUiText, finalUiLabels } from "@/config/strings";
 
 import { useState, useContext } from "react";
@@ -464,6 +465,15 @@ export default function DashboardPage() {
                 </Card>
             </div> */}
 
+            {checkPermission(profile?.permissions || [], [
+                permissions.manageSettings,
+            ]) && (
+                <Button asChild variant="outline">
+                    <Link href="/dashboard/payment-tests">
+                        {paymentTestText.start}
+                    </Link>
+                </Button>
+            )}
             <Resources
                 links={[
                     {

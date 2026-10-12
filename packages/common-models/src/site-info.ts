@@ -13,6 +13,11 @@ export default interface SiteInfo {
     codeInjectionBody?: string;
     stripeSecret?: string;
     stripeWebhookSecret?: string;
+    stripeTestKey?: string;
+    stripeTestSecret?: string;
+    stripeTestWebhookSecret?: string;
+    stripeLiveReady?: boolean;
+    stripeBlockedProductIds?: string[];
     paypalSecret?: string;
     paytmSecret?: string;
     mailingAddress?: string;

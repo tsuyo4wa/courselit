@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { paymentTestText } from "@/config/strings";
 import { blogFeatureText } from "@/config/strings";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -1087,6 +1089,11 @@ const Settings = (props: SettingsProps) => {
                         {newSettings.paymentMethod ===
                             PAYMENT_METHOD_STRIPE && (
                             <>
+                                <Button asChild variant="outline">
+                                    <Link href="/dashboard/payment-tests">
+                                        {paymentTestText.open}
+                                    </Link>
+                                </Button>
                                 <FormField
                                     label={
                                         SITE_SETTINGS_STRIPE_PUBLISHABLE_KEY_TEXT

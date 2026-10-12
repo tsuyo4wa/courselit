@@ -3,7 +3,7 @@ import constants from "@/config/constants";
 import { responses } from "@/config/strings";
 import DomainModel from "@/models/Domain";
 import UserModel from "@/models/User";
-import { resetPaymentMethod } from "../logic";
+import { getSiteInfo, resetPaymentMethod } from "../logic";
 
 const SUITE_PREFIX = `payment-settings-${Date.now()}`;
 const id = (suffix: string) => `${SUITE_PREFIX}-${suffix}`;
@@ -99,5 +99,26 @@ describe("Payment settings", () => {
             UIConstants.PAYMENT_METHOD_NONE,
         );
         expect(updatedDomain?.settings?.currencyISOCode).toBe("usd");
+    });
+});
+
+describe("payment secret projection", () => {
+    test("the public site info read excludes both live and test signing/secret values", async () => {
+        const spy = jest.spyOn(DomainModel, "findOne").mockResolvedValue(null);
+        try {
+            await getSiteInfo({ subdomain: { _id: "fixture" } } as any);
+            expect(spy).toHaveBeenCalledWith(
+                expect.anything(),
+                expect.objectContaining({
+                    "settings.stripeSecret": 0,
+                    "settings.stripeWebhookSecret": 0,
+                    "settings.stripeTestSecret": 0,
+                    "settings.stripeTestWebhookSecret": 0,
+                }),
+                undefined,
+            );
+        } finally {
+            spy.mockRestore();
+        }
     });
 });
