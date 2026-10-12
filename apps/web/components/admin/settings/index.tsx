@@ -1,7 +1,12 @@
 "use client";
+import { blogFeatureText } from "@/config/strings";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Switch } from "@components/ui/switch";
 import { finalUiText, localizeCurrencyName } from "@/config/strings";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import {
     SITE_SETTINGS_TITLE,
     SITE_SETTINGS_SUBTITLE,
@@ -52,7 +57,11 @@ import {
 import { FetchBuilder, capitalize } from "@courselit/utils";
 import { decode, encode } from "base-64";
 import { Profile, UIConstants } from "@courselit/common-models";
-import type { SiteInfo, Media } from "@courselit/common-models";
+import type {
+    SiteInfo,
+    Media,
+    GeneralSchoolSettings,
+} from "@courselit/common-models";
 import currencies from "@/data/currencies.json";
 import {
     Select,
@@ -112,10 +121,46 @@ interface SettingsProps {
         | typeof SITE_MISCELLANEOUS_SETTING_HEADER;
 }
 
+const generalSettingsSchema = z.object({
+    title: z.string().trim().min(1),
+    subtitle: z.string(),
+    hideCourseLitBranding: z.boolean(),
+    blogEnabled: z.boolean(),
+});
+
+function getGeneralSettings(
+    settings: Partial<GeneralSchoolSettings>,
+): GeneralSchoolSettings {
+    return {
+        title: settings.title || "",
+        subtitle: settings.subtitle || "",
+        hideCourseLitBranding: settings.hideCourseLitBranding === true,
+        blogEnabled: settings.blogEnabled !== false,
+    };
+}
+
 const Settings = (props: SettingsProps) => {
     const [settings, setSettings] = useState<Partial<SiteInfo>>({});
     const [newSettings, setNewSettings] = useState<Partial<SiteInfo>>({});
     const [loading, setLoading] = useState(false);
+    const currentGeneralSettings = useRef<GeneralSchoolSettings | null>(null);
+    const savedGeneralSettings = useRef<GeneralSchoolSettings | null>(null);
+    const [generalSettingsChanged, setGeneralSettingsChanged] = useState(false);
+    const generalForm = useForm<GeneralSchoolSettings>({
+        resolver: zodResolver(generalSettingsSchema),
+        values: getGeneralSettings(newSettings),
+    });
+
+    function updateGeneralSettings(change: Partial<GeneralSchoolSettings>) {
+        const next = { ...getGeneralSettings(newSettings), ...change };
+        currentGeneralSettings.current = next;
+        setGeneralSettingsChanged(
+            JSON.stringify(currentGeneralSettings.current) !==
+                JSON.stringify(savedGeneralSettings.current),
+        );
+        setNewSettings({ ...newSettings, ...change });
+    }
+
     const [isResetPaymentMethodDialogOpen, setIsResetPaymentMethodDialogOpen] =
         useState(false);
     const selectedTab = [
@@ -219,6 +264,10 @@ const Settings = (props: SettingsProps) => {
             lemonsqueezySubscriptionYearlyVariantId:
                 settingsResponse.lemonsqueezySubscriptionYearlyVariantId || "",
         };
+        const general = getGeneralSettings(settingsResponseWithNullsRemoved);
+        currentGeneralSettings.current = general;
+        savedGeneralSettings.current = general;
+        setGeneralSettingsChanged(false);
         setSettings(
             Object.assign({}, settings, settingsResponseWithNullsRemoved),
         );
@@ -227,10 +276,7 @@ const Settings = (props: SettingsProps) => {
         );
     };
 
-    const handleSettingsSubmit = async (
-        event: React.FormEvent<HTMLFormElement>,
-    ) => {
-        event.preventDefault();
+    const handleSettingsSubmit = async (data: GeneralSchoolSettings) => {
         const query = `
             mutation UpdateSiteInfo($title: String, $subtitle: String, $hideCourseLitBranding: Boolean, $blogEnabled: Boolean){
                 settings: updateSiteInfo(siteData: {
@@ -275,11 +321,10 @@ const Settings = (props: SettingsProps) => {
                 .setPayload({
                     query,
                     variables: {
-                        blogEnabled: newSettings.blogEnabled,
-                        title: newSettings.title,
-                        subtitle: newSettings.subtitle,
-                        hideCourseLitBranding:
-                            newSettings.hideCourseLitBranding,
+                        blogEnabled: data.blogEnabled,
+                        title: data.title,
+                        subtitle: data.subtitle,
+                        hideCourseLitBranding: data.hideCourseLitBranding,
                     },
                 })
                 .build();
@@ -517,7 +562,18 @@ const Settings = (props: SettingsProps) => {
                   logo: e,
               }
             : { [e.target.name]: e.target.value };
-        setNewSettings(Object.assign({}, newSettings, change));
+        if (
+            e.target &&
+            (e.target.name === "title" || e.target.name === "subtitle")
+        ) {
+            updateGeneralSettings(
+                e.target.name === "title"
+                    ? { title: e.target.value }
+                    : { subtitle: e.target.value },
+            );
+        } else {
+            setNewSettings(Object.assign({}, newSettings, change));
+        }
     };
 
     const copyToClipboard = (text: string) => {
@@ -765,7 +821,16 @@ const Settings = (props: SettingsProps) => {
             >
                 <div className="flex flex-col gap-8">
                     <Form
-                        onSubmit={handleSettingsSubmit}
+                        onSubmit={generalForm.handleSubmit(
+                            handleSettingsSubmit,
+                            () =>
+                                toast({
+                                    title: TOAST_TITLE_ERROR,
+                                    description:
+                                        blogFeatureText.invalidSettings,
+                                    variant: "destructive",
+                                }),
+                        )}
                         className="flex flex-col gap-4 pt-4"
                     >
                         <FormField
@@ -788,22 +853,19 @@ const Settings = (props: SettingsProps) => {
                                     htmlFor="blog-enabled"
                                     className="font-medium"
                                 >
-                                    ブログ機能
+                                    {blogFeatureText.label}
                                 </label>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    OFFにするとブログのメニュー・閲覧・編集を停止します。保存済みの記事は残ります。
+                                    {blogFeatureText.description}
                                 </p>
                             </div>
-                            <input
+                            <Switch
                                 id="blog-enabled"
-                                type="checkbox"
-                                className="mt-1 h-5 w-5 accent-primary"
                                 disabled={loading}
                                 checked={newSettings.blogEnabled !== false}
-                                onChange={(event) =>
-                                    setNewSettings({
-                                        ...newSettings,
-                                        blogEnabled: event.target.checked,
+                                onCheckedChange={(value) =>
+                                    updateGeneralSettings({
+                                        blogEnabled: value,
                                     })
                                 }
                             />
@@ -825,11 +887,9 @@ const Settings = (props: SettingsProps) => {
                                         newSettings.hideCourseLitBranding,
                                     )}
                                     onChange={(value: boolean) => {
-                                        setNewSettings(
-                                            Object.assign({}, newSettings, {
-                                                hideCourseLitBranding: value,
-                                            }),
-                                        );
+                                        updateGeneralSettings({
+                                            hideCourseLitBranding: value,
+                                        });
                                     }}
                                 />
                             </div>
@@ -841,21 +901,7 @@ const Settings = (props: SettingsProps) => {
                                 value={BUTTON_SAVE}
                                 color="primary"
                                 disabled={
-                                    JSON.stringify({
-                                        blogEnabled: settings.blogEnabled,
-                                        title: settings.title,
-                                        subtitle: settings.subtitle,
-                                        hideCourseLitBranding:
-                                            settings.hideCourseLitBranding,
-                                    }) ===
-                                        JSON.stringify({
-                                            blogEnabled:
-                                                newSettings.blogEnabled,
-                                            title: newSettings.title,
-                                            subtitle: newSettings.subtitle,
-                                            hideCourseLitBranding:
-                                                newSettings.hideCourseLitBranding,
-                                        }) ||
+                                    !generalSettingsChanged ||
                                     !newSettings.title ||
                                     loading
                                 }

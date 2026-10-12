@@ -1,3 +1,4 @@
+import { blogFeatureText } from "./config/strings";
 import { NextResponse, type NextRequest } from "next/server";
 import { getBackendAddress } from "@/app/actions";
 import { auth } from "./auth";
@@ -49,7 +50,7 @@ export async function proxy(request: NextRequest) {
 
     if (resp.blogEnabled === false && isBlogRoute(request.nextUrl.pathname)) {
       return new NextResponse(
-        '<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="robots" content="noindex"><title>ページが見つかりません</title><body style="font:16px/1.9 sans-serif;padding:40px;max-width:640px;margin:auto"><h1 style="font-size:24px">このページはご利用いただけません</h1><p>ブログ機能はOFFになっています。</p><a href="/">トップページへ</a></body></html>',
+        `<!doctype html><html lang="ja"><meta charset="utf-8"><meta name="robots" content="noindex"><title>${blogFeatureText.unavailableTitle}</title><body style="font:16px/1.9 sans-serif;padding:40px;max-width:640px;margin:auto"><h1 style="font-size:24px">${blogFeatureText.unavailableHeading}</h1><p>${blogFeatureText.disabled}。</p><a href="/">${blogFeatureText.home}</a></body></html>`,
         {
           status: 404,
           headers: {

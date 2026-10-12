@@ -1137,3 +1137,14 @@ export const POLICY_REVIEW_RESULT =
 export const POLICY_REVIEW_PENDING =
     "本文とフォームをご確認ください。海外委託先の残件、公開時のリンク、公表・施行日は別途確認します。今回のページ表示だけで規約の適用やフォームの一般公開は行いません。";
 export const POLICY_REVIEW_DATE = "確認用原稿：2026年10月12日 / 未公開・未適用";
+
+export const blogFeatureText = {
+    label: "ブログ機能",
+    description:
+        "OFFにするとブログのメニュー・閲覧・編集を停止します。保存済みの記事は残ります。",
+    disabled: "ブログ機能はOFFになっています",
+    unavailableTitle: "ページが見つかりません",
+    unavailableHeading: "このページはご利用いただけません",
+    home: "トップページへ",
+    invalidSettings: "タイトルを入力し、設定内容を確認してください",
+} as const;

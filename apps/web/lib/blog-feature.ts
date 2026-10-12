@@ -1,3 +1,4 @@
+import { blogFeatureText } from "@/config/strings";
 import type { SiteInfo, WidgetDefaultSettings } from "@courselit/common-models";
 
 // Existing schools retain their blog until explicitly disabled by an operator.
@@ -10,7 +11,7 @@ export function assertBlogEnabled(
     type?: string,
 ) {
     if (type === "blog" && !isBlogEnabled(settings)) {
-        throw new Error("ブログ機能はOFFになっています");
+        throw new Error(blogFeatureText.disabled);
     }
 }
 

@@ -30,3 +30,10 @@ export default interface SiteInfo {
     logins?: LoginProvider[];
     ssoTrustedDomain?: string;
 }
+
+export interface GeneralSchoolSettings {
+    title: string;
+    subtitle: string;
+    hideCourseLitBranding: boolean;
+    blogEnabled: boolean;
+}
