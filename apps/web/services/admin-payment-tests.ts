@@ -16,7 +16,11 @@ import CommunityModel from "@models/Community";
 import PaymentPlanModel from "@models/PaymentPlan";
 import { invalidateDomainCache } from "@/lib/domain-cache";
 import { getStripeUnitAmount } from "../payments-new/stripe-payment";
-import { acceptsTestSession, testKeys } from "@/lib/payment-test-guards";
+import {
+    acceptsTestSession,
+    testKeys,
+    paymentConnectionStatus,
+} from "@/lib/payment-test-guards";
 export const startTestInput = z
     .object({
         entityId: z.string().min(1).max(100),
@@ -183,6 +187,10 @@ export async function paymentTestStatus(
             !!domain.settings.stripeSecret?.startsWith("sk_live_") &&
             !!domain.settings.stripeWebhookSecret,
         testReady,
+        connections: paymentConnectionStatus(
+            domain.settings,
+            process.env.STRIPE_WEBHOOK_SECRET,
+        ),
         blockedProducts: domain.settings.stripeBlockedProductIds || [],
         products,
         tests: tests as AdminPaymentTest[],

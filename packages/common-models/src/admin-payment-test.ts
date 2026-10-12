@@ -32,6 +32,10 @@ export interface PaymentTestStatus {
     currency: string;
     liveReady: boolean;
     testReady: boolean;
+    connections: Record<
+        "live" | "test",
+        Record<keyof PaymentTestSettingsInput, boolean>
+    >;
     blockedProducts: string[];
     products: PaymentTestProduct[];
     tests: AdminPaymentTest[];
@@ -48,5 +52,7 @@ export interface PaymentTestLearningLink {
 }
 export interface AdminPaymentConnectionProps {
     mode: "live" | "test";
+    status?: PaymentTestStatus["connections"]["live"];
+    ready?: boolean;
     onSaved: () => void;
 }

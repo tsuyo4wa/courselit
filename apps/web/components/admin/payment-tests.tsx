@@ -28,7 +28,12 @@ async function action(body: unknown) {
     if (!r.ok) throw new Error(data.error || t.failed);
     return data;
 }
-function Connection({ mode, onSaved }: AdminPaymentConnectionProps) {
+function Connection({
+    mode,
+    status,
+    ready,
+    onSaved,
+}: AdminPaymentConnectionProps) {
     const [busy, setBusy] = useState(false),
         [message, setMessage] = useState("");
     const current = useRef<PaymentTestSettingsInput>({
@@ -65,16 +70,53 @@ function Connection({ mode, onSaved }: AdminPaymentConnectionProps) {
                 }
             })}
         >
-            <h2 className="font-semibold text-lg">
-                {mode === "live" ? t.live : t.test}
-            </h2>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+                <h2 className="font-semibold text-lg">
+                    {mode === "live" ? t.live : t.test}
+                </h2>
+                <span
+                    role="status"
+                    className={`rounded-full px-3 py-1 text-sm font-medium ${ready === true ? "bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200" : "bg-muted text-muted-foreground"}`}
+                >
+                    {ready === undefined
+                        ? t.checking
+                        : ready
+                          ? t.connectionConfigured
+                          : t.connectionIncomplete}
+                </span>
+            </div>
+            <p className="text-sm leading-relaxed text-muted-foreground">
+                {t.connectionHelp}
+            </p>
             {(["publicKey", "secretKey", "webhookSecret"] as const).map(
                 (name, i) => (
                     <label key={name} className="block text-sm">
-                        {[t.key, t.secret, t.webhook][i]}
+                        <span className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                            <span>{[t.key, t.secret, t.webhook][i]}</span>
+                            <span
+                                className={
+                                    status?.[name]
+                                        ? "font-medium text-emerald-700 dark:text-emerald-300"
+                                        : "text-muted-foreground"
+                                }
+                            >
+                                {status === undefined
+                                    ? t.checking
+                                    : status[name]
+                                      ? t.configured
+                                      : t.unconfigured}
+                            </span>
+                        </span>
                         <Input
                             type="password"
                             autoComplete="off"
+                            placeholder={
+                                status?.[name]
+                                    ? t.configuredPlaceholder
+                                    : status === undefined
+                                      ? t.checking
+                                      : t.unconfigured
+                            }
                             {...form.register(name)}
                         />
                     </label>
@@ -88,7 +130,7 @@ function Connection({ mode, onSaved }: AdminPaymentConnectionProps) {
                     !current.current.secretKey
                 }
             >
-                {t.save}
+                {ready ? t.updateConnection : t.save}
             </Button>
             <p role="status">{message}</p>
         </form>
@@ -139,12 +181,46 @@ export default function PaymentTests() {
             <h1 className="text-2xl font-semibold">{t.title}</h1>
             <p className="leading-relaxed">{t.description}</p>
             <p className="text-sm">
-                {t.live}：{data?.liveReady ? t.ready : t.notReady} ／ {t.test}：
-                {data?.testReady ? t.ready : t.notReady}
+                {t.live}：
+                {data === undefined
+                    ? t.checking
+                    : data.liveReady
+                      ? t.ready
+                      : t.notReady}{" "}
+                ／ {t.test}：
+                {data === undefined
+                    ? t.checking
+                    : data.testReady
+                      ? t.ready
+                      : t.notReady}
             </p>
             <div className="grid gap-4 md:grid-cols-2">
-                <Connection mode="live" onSaved={() => void load()} />
-                <Connection mode="test" onSaved={() => void load()} />
+                <Connection
+                    mode="live"
+                    status={data?.connections?.live}
+                    ready={
+                        data?.connections
+                            ? data.liveReady &&
+                              Object.values(data.connections.live).every(
+                                  Boolean,
+                              )
+                            : undefined
+                    }
+                    onSaved={() => void load()}
+                />
+                <Connection
+                    mode="test"
+                    status={data?.connections?.test}
+                    ready={
+                        data?.connections
+                            ? data.testReady &&
+                              Object.values(data.connections.test).every(
+                                  Boolean,
+                              )
+                            : undefined
+                    }
+                    onSaved={() => void load()}
+                />
             </div>
             <p className="text-sm text-muted-foreground">{t.keyNote}</p>
             <p className="text-sm">{t.blocked}</p>

@@ -41,3 +41,40 @@ export function sameOrigin(headers: Headers): boolean {
     const host = headers.get("host");
     return !!host && headers.get("origin") === `https://${host}`;
 }
+
+// Only presence flags leave the server; never return credential values or fragments.
+export function paymentConnectionStatus(
+    settings: SiteInfo,
+    fallbackWebhook?: string,
+) {
+    const legacyTest = settings.stripeSecret?.startsWith("sk_test_") === true;
+    return {
+        live: {
+            publicKey: settings.stripeKey?.startsWith("pk_live_") === true,
+            secretKey: settings.stripeSecret?.startsWith("sk_live_") === true,
+            webhookSecret:
+                settings.stripeWebhookSecret?.startsWith("whsec_") === true &&
+                !legacyTest,
+        },
+        test: {
+            publicKey: (
+                settings.stripeTestKey ||
+                (settings.stripeKey?.startsWith("pk_test_")
+                    ? settings.stripeKey
+                    : "")
+            ).startsWith("pk_test_"),
+            secretKey: (
+                settings.stripeTestSecret ||
+                (legacyTest ? settings.stripeSecret : "") ||
+                ""
+            ).startsWith("sk_test_"),
+            webhookSecret: (
+                settings.stripeTestWebhookSecret ||
+                (legacyTest
+                    ? settings.stripeWebhookSecret || fallbackWebhook
+                    : "") ||
+                ""
+            ).startsWith("whsec_"),
+        },
+    };
+}

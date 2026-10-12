@@ -17,8 +17,9 @@ import {
     isProductionStripeEvent,
     sameOrigin,
     testKeys,
+    paymentConnectionStatus,
 } from "@/lib/payment-test-guards";
-import type { AdminPaymentTest } from "@courselit/common-models";
+import type { AdminPaymentTest, SiteInfo } from "@courselit/common-models";
 import type Stripe from "stripe";
 jest.mock("stripe", () => ({
     __esModule: true,
@@ -443,5 +444,59 @@ describe("real isolated persistence", () => {
         await expect(
             actual.testLearningLinks(d, randomUUID()),
         ).rejects.toThrow();
+    });
+});
+
+describe("write-only connection presence flags", () => {
+    test("empty settings expose only false booleans", () => {
+        const x = paymentConnectionStatus({} as SiteInfo);
+        expect(Object.values(x).flatMap(Object.values)).toEqual(
+            Array(6).fill(false),
+        );
+    });
+    test("legacy test connection and environment signature stay in test mode", () => {
+        const x = paymentConnectionStatus(
+            {
+                stripeKey: "pk_test_fixture",
+                stripeSecret: "sk_test_fixture",
+            } as SiteInfo,
+            "whsec_fixture",
+        );
+        expect(x.test).toEqual({
+            publicKey: true,
+            secretKey: true,
+            webhookSecret: true,
+        });
+        expect(Object.values(x.live)).toEqual([false, false, false]);
+    });
+    test("partial live connection identifies the missing field without exposing values", () => {
+        const x = paymentConnectionStatus(
+            {
+                stripeKey: "pk_live_fixture",
+                stripeSecret: "sk_live_fixture",
+            } as SiteInfo,
+            "whsec_test_only",
+        );
+        expect(x.live).toEqual({
+            publicKey: true,
+            secretKey: true,
+            webhookSecret: false,
+        });
+        expect(Object.values(x.test)).toEqual([false, false, false]);
+        expect(JSON.stringify(x)).not.toMatch(/pk_|sk_|whsec_/);
+    });
+    test("separate live and test connections report six saved flags", () => {
+        const x = paymentConnectionStatus({
+            stripeKey: "pk_live_fixture",
+            stripeSecret: "sk_live_fixture",
+            stripeWebhookSecret: "whsec_live_fixture",
+            stripeTestKey: "pk_test_fixture",
+            stripeTestSecret: "sk_test_fixture",
+            stripeTestWebhookSecret: "whsec_test_fixture",
+        } as SiteInfo);
+        expect(Object.values(x).flatMap(Object.values)).toEqual(
+            Array(6).fill(true),
+        );
+        expect(JSON.stringify(x)).not.toMatch(/pk_|sk_|whsec_/);
     });
 });
