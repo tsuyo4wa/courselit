@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 import { NextRequest } from "next/server";
 import { proxy } from "../../../proxy";
 import { getBackendAddress } from "@/app/actions";
