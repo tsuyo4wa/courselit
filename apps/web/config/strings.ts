@@ -680,7 +680,7 @@ export const finalUiText = {
     "Post media": "投稿の画像・動画",
     "Post not found": "記事が見つかりません",
     "Posting...": "投稿中…",
-    "Powered by": "使用サービス",
+    "Powered by": "Powered by",
     Preview: "プレビュー",
     Previous: "前へ",
     Pricing: "料金プラン",

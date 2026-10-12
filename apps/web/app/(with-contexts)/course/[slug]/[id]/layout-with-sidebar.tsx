@@ -503,15 +503,14 @@ export function AppSidebar({
                 )}
             </SidebarContent>
             {!siteinfo.hideCourseLitBranding && (
-                <span className="flex justify-center align-center">
+                <span className="flex shrink-0 items-center justify-center px-3 py-2">
                     <a
                         href={`https://courselit.app`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-2 py-1 my-[10px] border rounded-md bg-background text-sm text-center"
+                        className="rounded-sm px-2 py-1 text-center text-xs font-normal leading-relaxed text-sidebar-foreground opacity-75 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sidebar-ring focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar"
                     >
-                        {finalUiText["Powered by"]}{" "}
-                        <span className="font-semibold">CourseLit</span>
+                        {finalUiText["Powered by"]} <span>CourseLit</span>
                     </a>
                 </span>
             )}
