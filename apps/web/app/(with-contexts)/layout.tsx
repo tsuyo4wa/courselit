@@ -59,6 +59,7 @@ const formatSiteInfo = (siteinfo?: SiteInfo) => ({
     mailingAddress:
         siteinfo?.mailingAddress || defaultState.siteinfo.mailingAddress,
     blogEnabled: siteinfo?.blogEnabled !== false,
+    learnerUploadsEnabled: siteinfo?.learnerUploadsEnabled !== false,
     hideCourseLitBranding:
         siteinfo?.hideCourseLitBranding ||
         defaultState.siteinfo.hideCourseLitBranding,
