@@ -1025,3 +1025,60 @@ describe("findMembership", () => {
         expect(result).toBeNull();
     });
 });
+
+describe("learner media scope", () => {
+    it("rejects profile-media binding while OFF before looking up or sealing a file", async () => {
+        const ctx: any = {
+            subdomain: {
+                _id: new mongoose.Types.ObjectId(),
+                email: "owner@example.com",
+                settings: { learnerUploadsEnabled: false },
+            },
+            user: {
+                userId: "learner",
+                email: "learner@example.com",
+                permissions: [UIConstants.permissions.manageMedia],
+            },
+        };
+        await expect(
+            updateUser(
+                { id: "learner", avatar: { mediaId: "existing-file" } as any },
+                ctx,
+            ),
+        ).rejects.toThrow(responses.action_not_allowed);
+    });
+    it("keeps ordinary profile editing and existing avatar data", async () => {
+        const id = new mongoose.Types.ObjectId();
+        const learner = await UserModel.create({
+            domain: id,
+            userId: "media-scope-learner",
+            email: "media-scope@example.com",
+            active: true,
+            name: "Before",
+            avatar: {
+                mediaId: "preserved",
+                originalFileName: "old.png",
+                mimeType: "image/png",
+                size: 10,
+                access: "public",
+                file: "https://example.com/old.png",
+            },
+            permissions: [UIConstants.permissions.enrollInCourse],
+        });
+        const ctx: any = {
+            subdomain: {
+                _id: id,
+                email: "owner@example.com",
+                settings: { learnerUploadsEnabled: false },
+            },
+            user: learner,
+        };
+        const result = await updateUser(
+            { id: learner.userId, name: "After" },
+            ctx,
+        );
+        expect(result.name).toBe("After");
+        expect(result.avatar?.mediaId).toBe("preserved");
+        await UserModel.deleteMany({ domain: id });
+    });
+});

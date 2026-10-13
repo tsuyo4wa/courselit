@@ -3343,6 +3343,39 @@ describe("tenant blog switch", () => {
         course.privacy = "public";
         await course.save();
     });
+
+    it("saves learner-upload OFF/ON without changing course or owner records", async () => {
+        const other = await DomainModel.create({
+            name: prefix + Math.random(),
+            email: "other@example.com",
+            settings: { learnerUploadsEnabled: true },
+        });
+        const saved = await updateSiteInfo(
+            { learnerUploadsEnabled: false },
+            ctx,
+        );
+        expect(saved!.settings!.learnerUploadsEnabled).toBe(false);
+        expect(
+            (await DomainModel.findById(other._id))!.settings!
+                .learnerUploadsEnabled,
+        ).toBe(true);
+        expect(saved!.email).toBe(domain.email);
+        expect((await CourseModel.findById(course._id))!.title).toBe(
+            course.title,
+        );
+        await expect(
+            updateSiteInfo(
+                { learnerUploadsEnabled: true },
+                { ...ctx, user: { ...user.toObject(), permissions: [] } },
+            ),
+        ).rejects.toThrow();
+        const restored = await updateSiteInfo(
+            { learnerUploadsEnabled: true },
+            ctx,
+        );
+        expect(restored!.settings!.learnerUploadsEnabled).toBe(true);
+        await DomainModel.deleteOne({ _id: other._id });
+    });
     async function disable() {
         domain = await updateSiteInfo({ blogEnabled: false }, ctx);
         ctx.subdomain = domain;

@@ -43,7 +43,7 @@ export const mediaApiOpenApi = {
                     },
                     403: {
                         description:
-                            "The resolved school owner or logged-in dashboard user does not have `media:manage` permission.",
+                            "The actor lacks `media:manage` permission, or learner uploads are OFF and the actor is not the school owner or staff. No upload signature is issued.",
                         content: {
                             "application/json": {
                                 schema: {

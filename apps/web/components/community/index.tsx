@@ -1,4 +1,5 @@
 "use client";
+import { canUploadLearnerMedia } from "@/lib/learner-media";
 import { finalUiText } from "@/config/strings";
 
 import {
@@ -19,7 +20,11 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 import { FetchBuilder } from "@courselit/utils";
-import { AddressContext, ProfileContext } from "@components/contexts";
+import {
+    AddressContext,
+    ProfileContext,
+    SiteInfoContext,
+} from "@components/contexts";
 import {
     PaginatedTable,
     useToast,
@@ -84,6 +89,8 @@ export function CommunityForum({
     const { community, loaded, setCommunity } = useCommunity(id);
     const { membership, setMembership } = useMembership(id);
     const { profile } = useContext(ProfileContext);
+    const siteinfo = useContext(SiteInfoContext);
+    const uploadsAllowed = canUploadLearnerMedia(siteinfo, profile);
     const [showReportConfirmation, setShowReportConfirmation] = useState(false);
     const [reportReason, setReportReason] = useState("");
     const [postToReport, setPostToReport] = useState<CommunityPost | null>(
@@ -375,7 +382,7 @@ export function CommunityForum({
             },
         ) => {
             try {
-                if (newPost.media.length > 0) {
+                if (uploadsAllowed && newPost.media.length > 0) {
                     newPost.media = await uploadAttachments(newPost.media);
                 }
 
@@ -484,12 +491,14 @@ export function CommunityForum({
                                       content: newPost.content,
                                       category: newPost.category,
                                       title: newPost.title,
-                                      media: newPost.media.map((m) => ({
-                                          type: m.type,
-                                          title: m.title,
-                                          url: m.url,
-                                          media: m.media,
-                                      })),
+                                      media: uploadsAllowed
+                                          ? newPost.media.map((m) => ({
+                                                type: m.type,
+                                                title: m.title,
+                                                url: m.url,
+                                                media: m.media,
+                                            }))
+                                          : undefined,
                                   },
                               }
                             : {
@@ -499,12 +508,14 @@ export function CommunityForum({
                                       content: newPost.content,
                                       category: newPost.category,
                                       title: newPost.title,
-                                      media: newPost.media.map((m) => ({
-                                          type: m.type,
-                                          title: m.title,
-                                          url: m.url,
-                                          media: m.media,
-                                      })),
+                                      media: uploadsAllowed
+                                          ? newPost.media.map((m) => ({
+                                                type: m.type,
+                                                title: m.title,
+                                                url: m.url,
+                                                media: m.media,
+                                            }))
+                                          : undefined,
                                   },
                               },
                     )
@@ -548,6 +559,7 @@ export function CommunityForum({
             community?.communityId,
             isEditModalOpen,
             postToEdit?.postId,
+            uploadsAllowed,
         ],
     );
 

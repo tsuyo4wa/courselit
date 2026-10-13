@@ -1,3 +1,4 @@
+import { canUploadLearnerMedia } from "@/lib/learner-media";
 import {
     checkPermission,
     extractMediaIDs,
@@ -658,6 +659,16 @@ export async function createCommunityPost({
     ctx: GQLContext;
 }): Promise<PublicPost> {
     checkIfAuthenticated(ctx);
+    if (
+        media?.length &&
+        !canUploadLearnerMedia(
+            ctx.subdomain.settings,
+            ctx.user,
+            ctx.subdomain.email,
+        )
+    ) {
+        throw new Error(responses.action_not_allowed);
+    }
 
     const community = await CommunityModel.findOne<InternalCommunity>(
         getCommunityQuery(ctx, communityId),
@@ -753,6 +764,16 @@ export async function updateCommunityPost({
     ctx: GQLContext;
 }): Promise<PublicPost> {
     checkIfAuthenticated(ctx);
+    if (
+        media?.length &&
+        !canUploadLearnerMedia(
+            ctx.subdomain.settings,
+            ctx.user,
+            ctx.subdomain.email,
+        )
+    ) {
+        throw new Error(responses.action_not_allowed);
+    }
 
     const community = await CommunityModel.findOne<InternalCommunity>(
         getCommunityQuery(ctx, communityId),

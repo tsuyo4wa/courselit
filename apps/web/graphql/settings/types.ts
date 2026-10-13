@@ -62,6 +62,10 @@ const siteType = new GraphQLObjectType({
             type: GraphQLBoolean,
             resolve: (settings) => settings.blogEnabled !== false,
         },
+        learnerUploadsEnabled: {
+            type: GraphQLBoolean,
+            resolve: (settings) => settings.learnerUploadsEnabled !== false,
+        },
         hideCourseLitBranding: { type: GraphQLBoolean },
         logins: { type: new GraphQLList(GraphQLString) },
     },
@@ -77,6 +81,7 @@ const siteUpdateType = new GraphQLInputObjectType({
         codeInjectionBody: { type: GraphQLString },
         mailingAddress: { type: GraphQLString },
         blogEnabled: { type: GraphQLBoolean },
+        learnerUploadsEnabled: { type: GraphQLBoolean },
         hideCourseLitBranding: { type: GraphQLBoolean },
     },
 });

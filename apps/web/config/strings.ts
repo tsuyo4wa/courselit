@@ -1204,3 +1204,11 @@ export const LAUNCH_PREVIEW_RECRUITMENT = "募集ページ";
 export const LAUNCH_PREVIEW_SIGNUP = "申込案内";
 export const LAUNCH_PREVIEW_POLICY = "規約・プライバシー";
 export const LAUNCH_PREVIEW_CONTACT = "問い合わせフォーム";
+
+export const learnerMediaText = {
+    label: "生徒の写真・ファイルのアップロード",
+    description:
+        "OFFにすると生徒のプロフィール写真と投稿への添付を停止します。運営者の講座画像・動画の登録、受講と進捗は継続できます。",
+    disabled:
+        "このスクールでは生徒の写真・ファイルのアップロードを利用していません。",
+};

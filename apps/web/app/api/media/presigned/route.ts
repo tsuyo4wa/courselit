@@ -1,3 +1,4 @@
+import { canUploadLearnerMedia } from "@/lib/learner-media";
 import { NextRequest } from "next/server";
 import { responses } from "@/config/strings";
 import { UIConstants as constants } from "@courselit/common-models";
@@ -70,7 +71,10 @@ export async function POST(req: NextRequest) {
     const { domain, user } = authResult;
 
     if (
-        !checkPermission(user!.permissions, [constants.permissions.manageMedia])
+        !checkPermission(user!.permissions, [
+            constants.permissions.manageMedia,
+        ]) ||
+        !canUploadLearnerMedia(domain!.settings, user!, domain!.email)
     ) {
         return Response.json(
             { message: responses.action_not_allowed },

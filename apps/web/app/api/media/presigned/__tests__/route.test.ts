@@ -111,3 +111,37 @@ describe("POST /api/media/presigned", () => {
         });
     });
 });
+
+describe("learner uploads OFF", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        (Domain.findOne as jest.Mock).mockResolvedValue({
+            ...domain,
+            settings: { learnerUploadsEnabled: false },
+        });
+        (auth.api.getSession as unknown as jest.Mock).mockResolvedValue({
+            user: { email: "learner@example.com" },
+        });
+    });
+    it("rejects a learner before MediaLit receives any request", async () => {
+        (User.findOne as jest.Mock).mockResolvedValue({
+            email: "learner@example.com",
+            permissions: [UIConstants.permissions.manageMedia],
+        });
+        const { POST } = await import("../route");
+        expect((await POST(request({ domain: "school" }))).status).toBe(403);
+        expect(MediaLit).not.toHaveBeenCalled();
+    });
+    it("preserves operator upload access", async () => {
+        (User.findOne as jest.Mock).mockResolvedValue({
+            email: domain.email,
+            permissions: [UIConstants.permissions.manageMedia],
+        });
+        (MediaLit as jest.Mock).mockImplementation(function (this: any) {
+            this.endpoint = "https://media.example.com";
+            this.getSignature = jest.fn().mockResolvedValue("test-signature");
+        });
+        const { POST } = await import("../route");
+        expect((await POST(request({ domain: "school" }))).status).toBe(200);
+    });
+});

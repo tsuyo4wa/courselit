@@ -24,6 +24,7 @@ export default interface SiteInfo {
     mailingAddress?: string;
     hideCourseLitBranding?: boolean;
     blogEnabled?: boolean;
+    learnerUploadsEnabled?: boolean;
     razorpayKey?: string;
     razorpaySecret?: string;
     razorpayWebhookSecret?: string;
@@ -42,6 +43,7 @@ export interface GeneralSchoolSettings {
     subtitle: string;
     hideCourseLitBranding: boolean;
     blogEnabled: boolean;
+    learnerUploadsEnabled: boolean;
 }
 
 export interface LaunchReviewPageProps {

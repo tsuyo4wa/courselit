@@ -1,8 +1,14 @@
 "use client";
+import { canUploadLearnerMedia } from "@/lib/learner-media";
+import { learnerMediaText } from "@/config/strings";
 import { finalUiText } from "@/config/strings";
 
 import DashboardContent from "@components/admin/dashboard-content";
-import { AddressContext, ProfileContext } from "@components/contexts";
+import {
+    AddressContext,
+    ProfileContext,
+    SiteInfoContext,
+} from "@components/contexts";
 import { Media, Profile } from "@courselit/common-models";
 import {
     Avatar,
@@ -62,6 +68,8 @@ export default function Page() {
 
     const { profile, setProfile } = useContext(ProfileContext);
     const address = useContext(AddressContext);
+    const siteinfo = useContext(SiteInfoContext);
+    const uploadsAllowed = canUploadLearnerMedia(siteinfo, profile);
 
     useEffect(() => {
         const getUser = async function (userId: string) {
@@ -303,32 +311,39 @@ export default function Page() {
                                 />
                             </AvatarFallback>
                         </Avatar>
-                        <MediaSelector
-                            title=""
-                            profile={profile as Profile}
-                            address={address}
-                            mediaId={avatar?.mediaId}
-                            src={avatar?.thumbnail || ""}
-                            srcTitle={avatar?.originalFileName || ""}
-                            onSelection={(media?: Media) => {
-                                if (media) {
-                                    updateProfilePic(media);
-                                }
-                            }}
-                            onRemove={() => {
-                                updateProfilePic();
-                            }}
-                            access="public"
-                            strings={{
-                                buttonCaption:
-                                    MEDIA_SELECTOR_UPLOAD_BTN_CAPTION,
-                                removeButtonCaption:
-                                    MEDIA_SELECTOR_REMOVE_BTN_CAPTION,
-                            }}
-                            type="user"
-                            hidePreview={true}
-                            mimeTypesToShow={MIMETYPE_IMAGE}
-                        />
+                        {uploadsAllowed && (
+                            <MediaSelector
+                                title=""
+                                profile={profile as Profile}
+                                address={address}
+                                mediaId={avatar?.mediaId}
+                                src={avatar?.thumbnail || ""}
+                                srcTitle={avatar?.originalFileName || ""}
+                                onSelection={(media?: Media) => {
+                                    if (media) {
+                                        updateProfilePic(media);
+                                    }
+                                }}
+                                onRemove={() => {
+                                    updateProfilePic();
+                                }}
+                                access="public"
+                                strings={{
+                                    buttonCaption:
+                                        MEDIA_SELECTOR_UPLOAD_BTN_CAPTION,
+                                    removeButtonCaption:
+                                        MEDIA_SELECTOR_REMOVE_BTN_CAPTION,
+                                }}
+                                type="user"
+                                hidePreview={true}
+                                mimeTypesToShow={MIMETYPE_IMAGE}
+                            />
+                        )}
+                        {!uploadsAllowed && (
+                            <p className="text-sm text-muted-foreground">
+                                {learnerMediaText.disabled}
+                            </p>
+                        )}
                     </CardContent>
                 </Card>
                 <Card className="w-full lg:w-4/6">

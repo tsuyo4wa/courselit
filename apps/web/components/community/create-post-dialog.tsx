@@ -1,4 +1,5 @@
 "use client";
+import { canUploadLearnerMedia } from "@/lib/learner-media";
 import { finalUiDynamic } from "@/config/strings";
 
 import { finalUiText } from "@/config/strings";
@@ -35,7 +36,11 @@ import {
     TextEditorContent,
 } from "@courselit/common-models";
 import { type MediaItem } from "./media-item";
-import { AddressContext, ProfileContext } from "@components/contexts";
+import {
+    AddressContext,
+    ProfileContext,
+    SiteInfoContext,
+} from "@components/contexts";
 import {
     Dialog,
     DialogContent,
@@ -126,6 +131,8 @@ export default function CreatePostDialog({
         category?: string;
     }>({});
     const { profile } = useContext(ProfileContext);
+    const siteinfo = useContext(SiteInfoContext);
+    const uploadsAllowed = canUploadLearnerMedia(siteinfo, profile);
     const address = useContext(AddressContext);
     const [isPosting, setIsPosting] = useState(false);
     const mediaRef = useRef<MediaItem[]>(initialMediaWithClientIds);
@@ -422,6 +429,7 @@ export default function CreatePostDialog({
                                     variant="ghost"
                                     size="icon"
                                     className="h-9 w-9"
+                                    disabled={!uploadsAllowed}
                                 >
                                     <Paperclip className="h-5 w-5" />
                                     <span className="sr-only">
@@ -439,6 +447,7 @@ export default function CreatePostDialog({
                                         type="file"
                                         multiple
                                         accept="image/*,video/*,application/pdf"
+                                        disabled={!uploadsAllowed}
                                         onChange={handleFileUpload}
                                     />
                                 </div>
@@ -450,6 +459,7 @@ export default function CreatePostDialog({
                                     variant="ghost"
                                     size="icon"
                                     className="h-9 w-9"
+                                    disabled={!uploadsAllowed}
                                 >
                                     <Link2 className="h-5 w-5" />
                                     <span className="sr-only">Add link</span>
@@ -487,6 +497,7 @@ export default function CreatePostDialog({
                                     variant="ghost"
                                     size="icon"
                                     className="h-9 w-9"
+                                    disabled={!uploadsAllowed}
                                 >
                                     <Video className="h-5 w-5" />
                                     <span className="sr-only">
@@ -530,6 +541,7 @@ export default function CreatePostDialog({
                                     variant="ghost"
                                     size="icon"
                                     className="h-9 w-9"
+                                    disabled={!uploadsAllowed}
                                 >
                                     <ImageIcon className="h-5 w-5" />
                                     <span className="sr-only">

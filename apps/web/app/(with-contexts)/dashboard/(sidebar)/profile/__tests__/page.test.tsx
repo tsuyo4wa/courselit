@@ -2,7 +2,11 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import ProfilePage from "../page";
-import { AddressContext, ProfileContext } from "@components/contexts";
+import {
+    AddressContext,
+    ProfileContext,
+    SiteInfoContext,
+} from "@components/contexts";
 
 const mockToast = jest.fn();
 const mockExec = jest.fn();
@@ -39,7 +43,7 @@ jest.mock("@courselit/components-library", () => ({
     Image: ({ alt, src }: { alt: string; src: string }) => (
         <img alt={alt} src={src} />
     ),
-    MediaSelector: () => null,
+    MediaSelector: () => <button>Test media upload</button>,
     useToast: () => ({
         toast: mockToast,
     }),
@@ -107,6 +111,7 @@ jest.mock("@components/ui/button", () => ({
 }));
 
 jest.mock("@courselit/utils", () => ({
+    checkPermission: jest.requireActual("@courselit/utils").checkPermission,
     FetchBuilder: jest.fn().mockImplementation(() => ({
         setUrl: jest.fn().mockReturnThis(),
         setPayload: jest.fn().mockReturnThis(),
@@ -116,7 +121,7 @@ jest.mock("@courselit/utils", () => ({
     })),
 }));
 
-function renderPage() {
+function renderPage(learnerUploadsEnabled = true) {
     return render(
         <AddressContext.Provider
             value={{
@@ -142,7 +147,11 @@ function renderPage() {
                     setProfile: mockSetProfile,
                 }}
             >
-                <ProfilePage />
+                <SiteInfoContext.Provider
+                    value={{ learnerUploadsEnabled } as any}
+                >
+                    <ProfilePage />
+                </SiteInfoContext.Provider>
             </ProfileContext.Provider>
         </AddressContext.Provider>,
     );
@@ -189,7 +198,7 @@ describe("ProfilePage", () => {
             },
         });
 
-        fireEvent.click(screen.getByRole("button", { name: "Save" }));
+        fireEvent.click(screen.getByRole("button", { name: "保存" }));
 
         await waitFor(() => {
             expect(mockSetProfile).toHaveBeenCalledTimes(1);
@@ -221,4 +230,21 @@ describe("ProfilePage", () => {
             subscribedToUpdates: false,
         });
     });
+});
+
+it("does not render the profile upload control while OFF", async () => {
+    mockExec.mockReset();
+    mockExec.mockResolvedValueOnce({
+        user: { name: "Jane Doe", email: "jane@example.com", bio: "Old bio" },
+    });
+    renderPage(false);
+    await screen.findByDisplayValue("Jane Doe");
+    expect(
+        screen.queryByRole("button", { name: "Test media upload" }),
+    ).not.toBeInTheDocument();
+    expect(
+        screen.getByText(
+            "このスクールでは生徒の写真・ファイルのアップロードを利用していません。",
+        ),
+    ).toBeInTheDocument();
 });

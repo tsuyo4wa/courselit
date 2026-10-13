@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { paymentTestText } from "@/config/strings";
-import { blogFeatureText } from "@/config/strings";
+import { blogFeatureText, learnerMediaText } from "@/config/strings";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -128,6 +128,7 @@ const generalSettingsSchema = z.object({
     subtitle: z.string(),
     hideCourseLitBranding: z.boolean(),
     blogEnabled: z.boolean(),
+    learnerUploadsEnabled: z.boolean(),
 });
 
 function getGeneralSettings(
@@ -138,6 +139,7 @@ function getGeneralSettings(
         subtitle: settings.subtitle || "",
         hideCourseLitBranding: settings.hideCourseLitBranding === true,
         blogEnabled: settings.blogEnabled !== false,
+        learnerUploadsEnabled: settings.learnerUploadsEnabled !== false,
     };
 }
 
@@ -216,6 +218,7 @@ const Settings = (props: SettingsProps) => {
                         mailingAddress,
                         hideCourseLitBranding,
                         blogEnabled
+                    learnerUploadsEnabled
                     }
                 },
                 apikeys: getApikeys {
@@ -259,6 +262,8 @@ const Settings = (props: SettingsProps) => {
             hideCourseLitBranding:
                 settingsResponse.hideCourseLitBranding ?? false,
             blogEnabled: settingsResponse.blogEnabled !== false,
+            learnerUploadsEnabled:
+                settingsResponse.learnerUploadsEnabled !== false,
             lemonsqueezyOneTimeVariantId:
                 settingsResponse.lemonsqueezyOneTimeVariantId || "",
             lemonsqueezySubscriptionMonthlyVariantId:
@@ -280,11 +285,12 @@ const Settings = (props: SettingsProps) => {
 
     const handleSettingsSubmit = async (data: GeneralSchoolSettings) => {
         const query = `
-            mutation UpdateSiteInfo($title: String, $subtitle: String, $hideCourseLitBranding: Boolean, $blogEnabled: Boolean){
+            mutation UpdateSiteInfo($title: String, $subtitle: String, $hideCourseLitBranding: Boolean, $blogEnabled: Boolean, $learnerUploadsEnabled: Boolean){
                 settings: updateSiteInfo(siteData: {
                     title: $title,
                     subtitle: $subtitle,
                     blogEnabled: $blogEnabled,
+                    learnerUploadsEnabled: $learnerUploadsEnabled,
                     hideCourseLitBranding: $hideCourseLitBranding
                 }) {
                     settings {
@@ -313,6 +319,7 @@ const Settings = (props: SettingsProps) => {
                         mailingAddress,
                         hideCourseLitBranding,
                         blogEnabled
+                    learnerUploadsEnabled
                     }
                 }
             }`;
@@ -324,6 +331,7 @@ const Settings = (props: SettingsProps) => {
                     query,
                     variables: {
                         blogEnabled: data.blogEnabled,
+                        learnerUploadsEnabled: data.learnerUploadsEnabled,
                         title: data.title,
                         subtitle: data.subtitle,
                         hideCourseLitBranding: data.hideCourseLitBranding,
@@ -382,6 +390,7 @@ const Settings = (props: SettingsProps) => {
                         mailingAddress,
                         hideCourseLitBranding,
                         blogEnabled
+                    learnerUploadsEnabled
                     }
                 }
             }`;
@@ -462,6 +471,7 @@ const Settings = (props: SettingsProps) => {
                     mailingAddress,
                     hideCourseLitBranding,
                     blogEnabled
+                    learnerUploadsEnabled
                 }
             }
         }`;
@@ -528,6 +538,7 @@ const Settings = (props: SettingsProps) => {
                     mailingAddress,
                     hideCourseLitBranding,
                     blogEnabled
+                    learnerUploadsEnabled
                 }
             }
         }`;
@@ -647,6 +658,7 @@ const Settings = (props: SettingsProps) => {
                         mailingAddress,
                         hideCourseLitBranding,
                         blogEnabled
+                    learnerUploadsEnabled
                     }
                 }
             }`;
@@ -727,6 +739,7 @@ const Settings = (props: SettingsProps) => {
                         mailingAddress,
                         hideCourseLitBranding,
                         blogEnabled
+                    learnerUploadsEnabled
                     }
                 }
             }`;
@@ -848,6 +861,33 @@ const Settings = (props: SettingsProps) => {
                             value={newSettings.subtitle || ""}
                             onChange={onChangeData}
                         />
+
+                        <div className="flex items-start justify-between gap-6 rounded-md border p-4">
+                            <div>
+                                <label
+                                    htmlFor="learner-uploads-enabled"
+                                    className="font-medium"
+                                >
+                                    {learnerMediaText.label}
+                                </label>
+                                <p className="mt-1 text-sm text-muted-foreground">
+                                    {learnerMediaText.description}
+                                </p>
+                            </div>
+                            <Switch
+                                id="learner-uploads-enabled"
+                                disabled={loading}
+                                checked={
+                                    newSettings.learnerUploadsEnabled !== false
+                                }
+                                onCheckedChange={(value) =>
+                                    setNewSettings({
+                                        ...newSettings,
+                                        learnerUploadsEnabled: value,
+                                    })
+                                }
+                            />
+                        </div>
 
                         <div className="flex items-start justify-between gap-6 rounded-md border p-4">
                             <div>

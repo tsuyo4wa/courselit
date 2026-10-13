@@ -1,5 +1,6 @@
 "use server";
 
+import { canUploadLearnerMedia } from "@/lib/learner-media";
 import UserModel from "@models/User";
 import { responses } from "@/config/strings";
 import { makeModelTextSearchable, checkIfAuthenticated } from "@/lib/graphql";
@@ -115,6 +116,16 @@ interface UserData {
 
 export const updateUser = async (userData: UserData, ctx: GQLContext) => {
     checkIfAuthenticated(ctx);
+    if (
+        userData.avatar?.mediaId &&
+        !canUploadLearnerMedia(
+            ctx.subdomain.settings,
+            ctx.user,
+            ctx.subdomain.email,
+        )
+    ) {
+        throw new Error(responses.action_not_allowed);
+    }
     const { id } = userData;
     const keys = Object.keys(userData);
 

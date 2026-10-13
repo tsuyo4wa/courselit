@@ -4,6 +4,8 @@
 
 import {
     getCommentsCount,
+    createCommunityPost,
+    updateCommunityPost,
     getCommunities,
     getCommunitiesCount,
     getFeed,
@@ -1511,5 +1513,52 @@ describe("Community Logic - Reactions", () => {
                 communityId: bulkCommunityId,
             }),
         ).toBe(0);
+    });
+});
+
+describe("learner file-post scope", () => {
+    const ctx: any = {
+        subdomain: {
+            _id: "scope",
+            email: "owner@example.com",
+            settings: { learnerUploadsEnabled: false },
+        },
+        user: {
+            userId: "learner",
+            email: "learner@example.com",
+            permissions: [constants.permissions.manageMedia],
+        },
+    };
+    it("rejects new attachments even with a pre-existing media ID", async () => {
+        await expect(
+            createCommunityPost({
+                communityId: "scope",
+                title: "x",
+                category: "x",
+                content: "x",
+                media: [
+                    {
+                        type: "image",
+                        media: { mediaId: "pre-existing" },
+                    } as any,
+                ],
+                ctx,
+            }),
+        ).rejects.toThrow(responses.action_not_allowed);
+    });
+    it("rejects replacement attachments on edits", async () => {
+        await expect(
+            updateCommunityPost({
+                communityId: "scope",
+                postId: "scope",
+                media: [
+                    {
+                        type: "image",
+                        media: { mediaId: "pre-existing" },
+                    } as any,
+                ],
+                ctx,
+            }),
+        ).rejects.toThrow(responses.action_not_allowed);
     });
 });
