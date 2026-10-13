@@ -5,6 +5,7 @@
 import {
     getCommentsCount,
     createCommunityPost,
+    postComment,
     updateCommunityPost,
     getCommunities,
     getCommunitiesCount,
@@ -1561,4 +1562,39 @@ describe("learner file-post scope", () => {
             }),
         ).rejects.toThrow(responses.action_not_allowed);
     });
+});
+
+describe("learner comment media scope", () => {
+    const ctx: any = {
+        subdomain: {
+            _id: "scope",
+            email: "owner@example.com",
+            settings: { learnerUploadsEnabled: false },
+        },
+        user: {
+            userId: "learner",
+            email: "learner@example.com",
+            permissions: [constants.permissions.manageMedia],
+        },
+    };
+    it.each([undefined, "parent-comment"])(
+        "rejects attachments in comments and replies (%s)",
+        async (parentCommentId) => {
+            await expect(
+                postComment({
+                    ctx,
+                    communityId: "scope",
+                    postId: "scope",
+                    content: "text",
+                    parentCommentId,
+                    media: [
+                        {
+                            type: "image",
+                            media: { mediaId: "old-file" },
+                        } as any,
+                    ],
+                }),
+            ).rejects.toThrow(responses.action_not_allowed);
+        },
+    );
 });

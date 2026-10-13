@@ -1726,6 +1726,16 @@ export async function postComment({
     parentReplyId?: string;
 }): Promise<PublicComment> {
     checkIfAuthenticated(ctx);
+    if (
+        media?.length &&
+        !canUploadLearnerMedia(
+            ctx.subdomain.settings,
+            ctx.user,
+            ctx.subdomain.email,
+        )
+    ) {
+        throw new Error(responses.action_not_allowed);
+    }
 
     const community = await CommunityModel.findOne<InternalCommunity>(
         getCommunityQuery(ctx, communityId),
