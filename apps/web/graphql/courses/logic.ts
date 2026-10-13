@@ -626,9 +626,14 @@ const getProductsQuery = (
     }
 
     if (ids) {
-        query.courseId = {
-            $in: ids,
-        };
+        query.courseId = { $in: ids };
+    }
+    // Discovery only: do not alter enrollment, direct access or admin listings.
+    if (query.privacy === Constants.ProductAccessType.PUBLIC) {
+        const hidden = ctx.subdomain.settings?.catalogHiddenProductIds || [];
+        if (hidden.length) {
+            query.courseId = { ...(query.courseId as object), $nin: hidden };
+        }
     }
 
     if (!publicView && typeof published === "boolean") {

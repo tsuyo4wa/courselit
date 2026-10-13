@@ -25,7 +25,7 @@ export default async function Page() {
                     {POLICY_REVIEW_TITLE}
                 </Link>
             </nav>
-            <ContactForm />
+            <ContactForm privacyHref="/dashboard/policy-preview#privacy" />
         </main>
     );
 }

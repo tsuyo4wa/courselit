@@ -18,6 +18,7 @@ export default interface SiteInfo {
     stripeTestWebhookSecret?: string;
     stripeLiveReady?: boolean;
     stripeBlockedProductIds?: string[];
+    catalogHiddenProductIds?: string[];
     paypalSecret?: string;
     paytmSecret?: string;
     mailingAddress?: string;
@@ -41,4 +42,8 @@ export interface GeneralSchoolSettings {
     subtitle: string;
     hideCourseLitBranding: boolean;
     blogEnabled: boolean;
+}
+
+export interface LaunchReviewPageProps {
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
 }

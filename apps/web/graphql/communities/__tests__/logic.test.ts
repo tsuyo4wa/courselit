@@ -660,6 +660,32 @@ describe("Community Logic - Enabled Communities Count Tests", () => {
         await DomainModel.deleteMany({ _id: testDomain._id });
     });
 
+    it("catalog hiding excludes only discovery without disabling bundles or changing memberships", async () => {
+        const bundle = await CommunityModel.create({
+            domain: testDomain._id,
+            communityId: "hidden-bundle",
+            name: "Hidden bundle",
+            pageId: "hidden-bundle",
+            slug: "hidden-bundle",
+            enabled: true,
+            deleted: false,
+        });
+        const ctx = {
+            ...mockCtx,
+            subdomain: {
+                ...testDomain.toObject(),
+                settings: { catalogHiddenProductIds: ["hidden-bundle"] },
+            },
+        };
+        expect(await getCommunities({ ctx, publicOnly: true })).toEqual([]);
+        expect(await getCommunitiesCount({ ctx, publicOnly: true })).toBe(0);
+        expect(await getCommunitiesCount({ ctx: { ...ctx, user: null } })).toBe(
+            0,
+        );
+        expect(await getCommunitiesCount({ ctx })).toBe(1);
+        expect((await CommunityModel.findById(bundle._id))?.enabled).toBe(true);
+    });
+
     it("counts only enabled and non-deleted communities for the domain", async () => {
         await CommunityModel.create([
             {

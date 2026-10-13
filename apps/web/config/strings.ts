@@ -1194,3 +1194,12 @@ export const paymentTestText = {
     keyNote:
         "秘密値は保存後に表示しません。本番はpk_live_/sk_live_、テストはpk_test_/sk_test_の組を使います。本番切替前のテスト接続は学校内で保全します。",
 };
+
+export const LAUNCH_PREVIEW_TITLE = "公開前の入口確認";
+export const LAUNCH_PREVIEW_NOTICE =
+    "公開前の確認用です。申込案内は確認用で、登録や課金は行いません。";
+export const LAUNCH_PREVIEW_HOME = "トップの案";
+export const LAUNCH_PREVIEW_RECRUITMENT = "募集ページ";
+export const LAUNCH_PREVIEW_SIGNUP = "申込案内";
+export const LAUNCH_PREVIEW_POLICY = "規約・プライバシー";
+export const LAUNCH_PREVIEW_CONTACT = "問い合わせフォーム";

@@ -5,7 +5,11 @@ export type { default as Group } from "./group";
 export type { default as Lesson } from "./lesson";
 export type { default as Link } from "./link";
 export type { default as Profile } from "./profile";
-export type { default as SiteInfo, GeneralSchoolSettings } from "./site-info";
+export type {
+    default as SiteInfo,
+    GeneralSchoolSettings,
+    LaunchReviewPageProps,
+} from "./site-info";
 export type { default as State } from "./state";
 export type { default as User } from "./user";
 export type { default as WidgetMetadata } from "./widget-metadata";

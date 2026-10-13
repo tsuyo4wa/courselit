@@ -18,6 +18,7 @@ export const SettingsSchema = new mongoose.Schema<SiteInfo>({
     stripeTestWebhookSecret: { type: String },
     stripeLiveReady: { type: Boolean, default: false },
     stripeBlockedProductIds: { type: [String], default: [] },
+    catalogHiddenProductIds: { type: [String], default: [] },
     paytmSecret: { type: String },
     paypalSecret: { type: String },
     mailingAddress: { type: String },

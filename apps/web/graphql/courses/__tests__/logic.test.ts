@@ -2617,6 +2617,34 @@ describe("public API product read helpers", () => {
         await DomainModel.deleteOne({ _id: testDomain._id });
     });
 
+    it("catalog hiding intersects explicit ids and preserves admin listings", async () => {
+        const paginatedFind = jest
+            .spyOn(CourseModel as any, "paginatedFind")
+            .mockResolvedValue([]);
+        const ctx = {
+            subdomain: {
+                ...testDomain.toObject(),
+                settings: { catalogHiddenProductIds: ["test-product"] },
+            },
+            user: adminUser,
+            address: "",
+        };
+        await getProducts({
+            ctx,
+            publicView: true,
+            ids: ["test-product", "real-product"],
+        });
+        expect(paginatedFind.mock.calls[0][0]).toMatchObject({
+            courseId: {
+                $in: ["test-product", "real-product"],
+                $nin: ["test-product"],
+            },
+        });
+        await getProducts({ ctx });
+        expect(paginatedFind.mock.calls[1][0]).not.toHaveProperty("courseId");
+        paginatedFind.mockRestore();
+    });
+
     it("passes public API list filters through the existing product query helper", async () => {
         const paginatedFind = jest
             .spyOn(CourseModel as any, "paginatedFind")

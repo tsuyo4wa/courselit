@@ -206,7 +206,7 @@ export async function getCommunities({
     limit?: number;
     publicOnly?: boolean;
 }): Promise<Community[]> {
-    const query: Partial<InternalCommunity> = {
+    const query: Record<string, unknown> = {
         domain: ctx.subdomain._id,
         deleted: false,
     };
@@ -220,6 +220,8 @@ export async function getCommunities({
             ]))
     ) {
         query.enabled = true;
+        const hidden = ctx.subdomain.settings?.catalogHiddenProductIds || [];
+        if (hidden.length) query.communityId = { $nin: hidden };
     }
 
     const communities = await (CommunityModel as any).paginatedFind(query, {
@@ -260,7 +262,7 @@ export async function getCommunitiesCount({
     ctx: GQLContext;
     publicOnly?: boolean;
 }): Promise<number> {
-    const query: Partial<InternalCommunity> = {
+    const query: Record<string, unknown> = {
         domain: ctx.subdomain._id,
         deleted: false,
     };
@@ -274,6 +276,8 @@ export async function getCommunitiesCount({
             ]))
     ) {
         query.enabled = true;
+        const hidden = ctx.subdomain.settings?.catalogHiddenProductIds || [];
+        if (hidden.length) query.communityId = { $nin: hidden };
     }
 
     const count = await (CommunityModel as any).countDocuments(query);
