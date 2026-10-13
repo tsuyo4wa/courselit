@@ -283,6 +283,7 @@ export const colorPresetStrings = {
 
 /** Japanese display labels. Identifiers and stored values remain unchanged. */
 export const finalUiText = {
+    Free: "無料",
     "% from previous period": "%（前期間比）",
     "&apos;s Progress": "さんの学習進捗",
     "&quot; before deleting.": "。",
