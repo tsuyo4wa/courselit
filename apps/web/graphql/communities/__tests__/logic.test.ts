@@ -29,6 +29,7 @@ import PageModel from "@models/Page";
 import DomainModel from "@models/Domain";
 import UserModel from "@models/User";
 import constants from "@/config/constants";
+import { responses } from "@/config/strings";
 import {
     COMMUNITY_HEART_EMOJI,
     Constants,
@@ -1042,7 +1043,7 @@ describe("Community Logic - Reactions", () => {
                 postId: post.postId,
                 emoji: "🚀",
             }),
-        ).rejects.toThrow("Invalid input");
+        ).rejects.toThrow(responses.invalid_input);
     });
 
     it("toggles comment and reply reactions", async () => {
