@@ -881,8 +881,7 @@ const Settings = (props: SettingsProps) => {
                                     newSettings.learnerUploadsEnabled !== false
                                 }
                                 onCheckedChange={(value) =>
-                                    setNewSettings({
-                                        ...newSettings,
+                                    updateGeneralSettings({
                                         learnerUploadsEnabled: value,
                                     })
                                 }
