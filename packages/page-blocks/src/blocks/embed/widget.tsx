@@ -84,9 +84,15 @@ export default function Widget({
     };
 
     return (
-        <Section theme={overiddenTheme} id={cssId}>
+        <Section
+            theme={overiddenTheme}
+            id={cssId}
+            className={isEmbedCode ? "max-sm:[&>div]:!px-0" : ""}
+        >
             <div className="mx-auto lg:max-w-[1200px]">
-                <div className={`flex flex-col px-4 w-full mx-auto`}>
+                <div
+                    className={`flex flex-col ${isEmbedCode ? "px-0 sm:px-4" : "px-4"} w-full mx-auto`}
+                >
                     <div
                         className={`w-full overflow-hidden relative`}
                         style={containerStyle}
