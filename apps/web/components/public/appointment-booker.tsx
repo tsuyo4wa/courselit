@@ -1,9 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { ThemeContext } from "@/components/contexts";
+import { generateThemeStyles } from "@/lib/theme-styles";
 import { CalendarDays, ArrowRight, Check, Video, Clock3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +31,7 @@ export default function AppointmentBooker({
     loggedIn,
     initialBookings = [],
 }: AppointmentUiProps) {
+    const { theme } = useContext(ThemeContext);
     const [date, setDate] = useState(
         new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10),
     );
@@ -183,7 +186,15 @@ export default function AppointmentBooker({
         }
     }
     return (
-        <div className="mx-auto w-full max-w-4xl px-4 py-8 sm:px-6 sm:py-12 space-y-9 text-foreground">
+        <div className="courselit-theme appointment-booking-shell mx-auto w-full max-w-4xl bg-background px-4 py-8 sm:px-6 sm:py-12 space-y-9 text-foreground">
+            <style>
+                {theme?.theme?.colors
+                    ? generateThemeStyles(theme).replaceAll(
+                          ".courselit-theme",
+                          ".appointment-booking-shell",
+                      )
+                    : ""}
+            </style>
             {(preview || sample) && (
                 <p className="border-l-2 border-primary bg-muted/50 px-4 py-3 text-sm leading-7">
                     {sample ? t.sampleNotice : t.previewNotice}
