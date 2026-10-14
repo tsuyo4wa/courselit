@@ -39,6 +39,34 @@ function data(bookings: AppointmentView[] = []): AppointmentAdminData {
     };
 }
 beforeEach(() => jest.clearAllMocks());
+it("keeps the saved calendar selected when refreshed options replace its fallback", async () => {
+    const initial = data();
+    initial.connected = true;
+    initial.config.calendarId = "consultation-calendar";
+    (appointmentRequest as jest.Mock).mockResolvedValue({
+        calendars: [
+            {
+                id: "consultation-calendar",
+                summary: "個別コンサル",
+                accessRole: "owner",
+            },
+        ],
+        checkedAt: new Date().toISOString(),
+    });
+    render(<AppointmentAdmin initial={initial} />);
+    fireEvent.click(screen.getByRole("button", { name: "Google連携" }));
+    expect(screen.getByLabelText("予約を書き込むカレンダー")).toHaveValue(
+        "consultation-calendar",
+    );
+    fireEvent.click(
+        screen.getByRole("button", { name: "接続とカレンダーを確認" }),
+    );
+    await screen.findByRole("option", { name: "個別コンサル" });
+    expect(screen.getByLabelText("予約を書き込むカレンダー")).toHaveValue(
+        "consultation-calendar",
+    );
+    expect(screen.getByRole("button", { name: "設定を保存" })).toBeDisabled();
+});
 it("retains edited multiple weekday windows across management panels and saves without enabling public booking", async () => {
     const initial = data();
     const request = appointmentRequest as jest.Mock;

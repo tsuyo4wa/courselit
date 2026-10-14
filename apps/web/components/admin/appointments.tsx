@@ -406,6 +406,7 @@ export default function AppointmentAdmin({
                             id="appointment-calendar"
                             className="w-full rounded-md border bg-background p-2 text-sm"
                             {...form.register("config.calendarId")}
+                            value={current.current.config.calendarId || ""}
                         >
                             <option value="">{t.choose}</option>
                             {data.config.calendarId &&
