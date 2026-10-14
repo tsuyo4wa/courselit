@@ -270,7 +270,7 @@ export default function Funnels({ initial, selectedId }: FunnelsProps) {
                                     >
                                         <div className="flex flex-wrap items-center justify-between gap-3">
                                             <h2 className="text-lg font-semibold">
-                                                <span className="mr-3 text-xs font-normal tabular-nums text-muted-foreground">
+                                                <span className="admin-step mr-3">
                                                     01
                                                 </span>
                                                 {t.lpStage}
@@ -278,20 +278,39 @@ export default function Funnels({ initial, selectedId }: FunnelsProps) {
                                                     {entries.length}件
                                                 </span>
                                             </h2>
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                disabled={dirty}
-                                                onClick={() =>
-                                                    setAdding((v) => !v)
-                                                }
-                                            >
-                                                <Plus
-                                                    size={16}
-                                                    className="mr-2"
-                                                />
-                                                {adding ? t.cancelAdd : t.addLp}
-                                            </Button>
+                                            <div className="flex flex-wrap gap-2">
+                                                <Button
+                                                    type="button"
+                                                    size="sm"
+                                                    disabled={
+                                                        !dirty || !name.trim()
+                                                    }
+                                                    onClick={() =>
+                                                        void run(
+                                                            "save",
+                                                            formRef.current,
+                                                        )
+                                                    }
+                                                >
+                                                    設定を保存
+                                                </Button>
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    disabled={dirty}
+                                                    onClick={() =>
+                                                        setAdding((v) => !v)
+                                                    }
+                                                >
+                                                    <Plus
+                                                        size={16}
+                                                        className="mr-2"
+                                                    />
+                                                    {adding
+                                                        ? t.cancelAdd
+                                                        : t.addLp}
+                                                </Button>
+                                            </div>
                                         </div>
                                         <p className="text-sm text-muted-foreground">
                                             {t.lpDescription}
@@ -316,11 +335,12 @@ export default function Funnels({ initial, selectedId }: FunnelsProps) {
                                                 return (
                                                     <li
                                                         key={e.pageId}
+                                                        data-admin-surface="tinted"
                                                         className="min-w-0 space-y-4 rounded-lg border bg-card p-4"
                                                     >
                                                         <div className="flex flex-wrap items-start justify-between gap-3">
                                                             <div className="min-w-0">
-                                                                <h4 className="font-medium">
+                                                                <h4 className="text-base font-semibold">
                                                                     {p?.name ||
                                                                         e.pageId}
                                                                 </h4>
@@ -552,15 +572,7 @@ export default function Funnels({ initial, selectedId }: FunnelsProps) {
                                             </p>
                                         )}
                                     </section>
-                                    <Button
-                                        type="button"
-                                        disabled={!dirty || !name.trim()}
-                                        onClick={() =>
-                                            void run("save", formRef.current)
-                                        }
-                                    >
-                                        設定を保存
-                                    </Button>
+
                                     {adding && (
                                         <section
                                             aria-label="LPを追加"

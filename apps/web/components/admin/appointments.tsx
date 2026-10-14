@@ -281,6 +281,7 @@ export default function AppointmentAdmin({
             </nav>
             <form onSubmit={form.handleSubmit(save)} className="space-y-6">
                 <section
+                    data-admin-surface="panel"
                     hidden={panel !== "connection"}
                     aria-label="Google連携設定"
                     className="space-y-5 border rounded-lg p-4 sm:p-6"
@@ -456,6 +457,7 @@ export default function AppointmentAdmin({
                     </fieldset>
                 </section>
                 <section
+                    data-admin-surface="panel"
                     hidden={panel !== "settings"}
                     aria-label="日程・受付設定"
                     className="border rounded-lg p-4 sm:p-6 space-y-6"
@@ -745,6 +747,7 @@ export default function AppointmentAdmin({
                 </div>
             </form>
             <section
+                data-admin-surface="panel"
                 hidden={panel !== "bookings"}
                 aria-label="予約一覧"
                 className="space-y-4"

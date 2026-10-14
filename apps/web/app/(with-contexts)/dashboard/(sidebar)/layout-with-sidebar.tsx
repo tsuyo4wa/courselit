@@ -5,12 +5,16 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { ThemeContext } from "@components/contexts";
 import { themes } from "@courselit/page-primitives";
 import { Theme } from "@courselit/page-models";
+import { usePathname } from "next/navigation";
+import { isAdminWorkspace } from "@/lib/admin-workspace";
+import "@/components/admin/admin-ui.css";
 
 export default function LayoutWithSidebar({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const admin = isAdminWorkspace(usePathname());
     const classicTheme = themes.find((theme) => theme.id === "classic");
     const theme: Theme = {
         id: "classic",
@@ -19,7 +23,10 @@ export default function LayoutWithSidebar({
     };
 
     return (
-        <SidebarProvider>
+        <SidebarProvider
+            className={admin ? "admin-ui" : undefined}
+            data-admin-ui={admin ? "true" : undefined}
+        >
             <AppSidebar />
             <SidebarInset>
                 <ThemeContext.Provider value={{ theme, setTheme: () => {} }}>

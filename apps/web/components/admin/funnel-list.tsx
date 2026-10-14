@@ -63,7 +63,10 @@ export default function FunnelList({ data, busy }: FunnelListProps) {
                         <span>{t.status}</span>
                         <span />
                     </div>
-                    <ul className="divide-y border-b">
+                    <ul
+                        data-admin-surface="panel"
+                        className="divide-y border-b"
+                    >
                         {list.map((f) => (
                             <li key={f.funnelId}>
                                 <Link

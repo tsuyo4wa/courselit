@@ -1,7 +1,8 @@
 "use client";
 import type { ReactNode } from "react";
 import Link from "next/link";
-import { ArrowDown, CreditCard, FileCheck2, Settings2 } from "lucide-react";
+import { CreditCard, FileCheck2, Settings2 } from "lucide-react";
+import AdminFlowConnector from "./admin-flow-connector";
 import { Button } from "@/components/ui/button";
 import type { FunnelCourse } from "@/lib/funnel-types";
 import { readThankYouUrl } from "@/lib/thank-you-url";
@@ -24,29 +25,24 @@ export default function FunnelFlow({
     return (
         <section aria-label={t.flowLabel} className="mx-auto max-w-4xl">
             {children}
-            <div
-                className="flex flex-col items-center gap-1 py-5 text-muted-foreground"
-                aria-hidden
-            >
-                <ArrowDown size={27} strokeWidth={1.5} />
-                <span className="text-xs">
-                    {lpCount > 1 ? t.merge : t.checkoutStage}
-                </span>
-            </div>
+            <AdminFlowConnector
+                merge={lpCount > 1}
+                label={lpCount > 1 ? t.merge : t.checkoutStage}
+            />
             <section
                 aria-label={t.checkoutStage}
+                data-admin-surface="panel"
+                data-admin-node="true"
                 className="mx-auto max-w-xl rounded-lg border border-border bg-card p-4 sm:p-5"
             >
-                <div className="flex items-center gap-3">
+                <div className="admin-node-heading flex items-center gap-3">
                     <CreditCard
                         size={20}
                         className="shrink-0 text-primary"
                         aria-hidden
                     />
                     <h2 className="min-w-0 flex-1 font-semibold">
-                        <span className="mr-3 text-xs font-normal tabular-nums text-muted-foreground">
-                            02
-                        </span>
+                        <span className="admin-step mr-3">02</span>
                         {t.checkoutStage}
                     </h2>
                     <Button
@@ -79,27 +75,21 @@ export default function FunnelFlow({
                     </Link>
                 )}
             </section>
-            <div
-                className="flex flex-col items-center gap-1 py-5 text-muted-foreground"
-                aria-hidden
-            >
-                <ArrowDown size={27} strokeWidth={1.5} />
-                <span className="text-xs">{t.afterSignup}</span>
-            </div>
+            <AdminFlowConnector label={t.afterSignup} />
             <section
                 aria-label={t.thanksStage}
+                data-admin-surface="panel"
+                data-admin-node="true"
                 className="mx-auto max-w-xl rounded-lg border border-border bg-card p-4 sm:p-5"
             >
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="admin-node-heading flex flex-wrap items-center gap-3">
                     <FileCheck2
                         size={20}
                         className="shrink-0 text-primary"
                         aria-hidden
                     />
                     <h2 className="min-w-0 flex-1 font-semibold">
-                        <span className="mr-3 text-xs font-normal tabular-nums text-muted-foreground">
-                            03
-                        </span>
+                        <span className="admin-step mr-3">03</span>
                         {t.thanksStage}
                     </h2>
                     {course && (

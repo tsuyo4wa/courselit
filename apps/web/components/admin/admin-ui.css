@@ -1,0 +1,316 @@
+/* One management palette and surface system. Public pages, previews and editors
+   never receive .admin-ui. Body inheritance also covers Radix portal menus. */
+body:has(.admin-ui),
+.admin-ui {
+    --background: 212 28% 96%;
+    --foreground: 215 28% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 28% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 28% 18%;
+    --primary: 213 43% 28%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 213 32% 93%;
+    --secondary-foreground: 213 43% 28%;
+    --muted: 213 25% 92%;
+    --muted-foreground: 215 15% 37%;
+    --accent: 213 35% 91%;
+    --accent-foreground: 213 43% 25%;
+    --border: 214 23% 83%;
+    --input: 214 23% 76%;
+    --ring: 213 43% 35%;
+    --sidebar-background: 210 24% 98%;
+    --sidebar-foreground: 215 22% 25%;
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: 213 37% 91%;
+    --sidebar-accent-foreground: 213 43% 25%;
+    --sidebar-border: var(--border);
+    --sidebar-ring: var(--ring);
+    --admin-tint: 213 44% 94%;
+    --admin-shadow-color: 215 35% 25%;
+    --admin-shadow:
+        0 1px 2px hsl(var(--admin-shadow-color) / 0.04),
+        0 5px 16px -6px hsl(var(--admin-shadow-color) / 0.13);
+    font-family:
+        var(--font-inter), "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo,
+        sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    color: hsl(var(--foreground));
+}
+.dark body:has(.admin-ui),
+.dark .admin-ui {
+    --background: 216 29% 10%;
+    --foreground: 210 25% 94%;
+    --card: 216 27% 15%;
+    --card-foreground: 210 25% 94%;
+    --popover: 216 27% 15%;
+    --popover-foreground: 210 25% 94%;
+    --primary: 210 55% 78%;
+    --primary-foreground: 218 35% 14%;
+    --secondary: 215 28% 22%;
+    --secondary-foreground: 210 35% 90%;
+    --muted: 216 24% 19%;
+    --muted-foreground: 214 18% 74%;
+    --accent: 215 28% 25%;
+    --accent-foreground: 210 35% 92%;
+    --border: 215 22% 29%;
+    --input: 215 22% 43%;
+    --ring: 210 55% 72%;
+    --sidebar-background: 216 28% 12%;
+    --sidebar-foreground: 214 20% 86%;
+    --sidebar-accent: 215 28% 24%;
+    --sidebar-accent-foreground: 210 45% 90%;
+    --admin-tint: 215 29% 19%;
+    --admin-shadow-color: 218 50% 2%;
+    --admin-shadow:
+        0 1px 2px hsl(var(--admin-shadow-color) / 0.2),
+        0 6px 18px -6px hsl(var(--admin-shadow-color) / 0.4);
+}
+.admin-ui {
+    background: hsl(var(--background));
+}
+.admin-ui > main {
+    background: transparent;
+    min-width: 0;
+}
+.admin-ui h1 {
+    font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.025em;
+    text-wrap: pretty;
+}
+.admin-ui h2,
+.admin-ui h3,
+.admin-ui h4 {
+    line-height: 1.55;
+}
+.admin-ui .text-sm {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+}
+.admin-ui .text-xs {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+}
+.admin-ui :is([data-slot="card"], [data-admin-surface]) {
+    border: 1px solid hsl(var(--border) / 0.8);
+    border-radius: 12px;
+    background: hsl(var(--card));
+    color: hsl(var(--card-foreground));
+    box-shadow: var(--admin-shadow);
+}
+.admin-ui [data-admin-surface="tinted"] {
+    background: hsl(var(--admin-tint));
+}
+.admin-ui [data-sidebar="sidebar"] {
+    border-right: 1px solid hsl(var(--sidebar-border) / 0.7);
+}
+.admin-ui [data-sidebar="menu-button"][data-active="true"] {
+    box-shadow: inset 3px 0 hsl(var(--primary));
+    font-weight: 600;
+}
+.admin-ui
+    :is(
+        input:not([type="checkbox"]):not([type="radio"]):not(
+                [type="hidden"]
+            ):not([type="file"]),
+        textarea,
+        select,
+        [role="combobox"]
+    ) {
+    background: hsl(var(--card));
+    border-color: hsl(var(--input));
+    color: hsl(var(--foreground));
+    border-radius: 8px;
+}
+.admin-ui :is(input, textarea)::placeholder {
+    color: hsl(var(--muted-foreground));
+    opacity: 1;
+}
+.admin-ui :is(input[type="checkbox"], input[type="radio"]) {
+    accent-color: hsl(var(--primary));
+}
+.admin-ui [data-slot="button"] {
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    transition:
+        background-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+.admin-ui [data-slot="button"][data-variant="default"] {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow:
+        0 1px 2px hsl(var(--admin-shadow-color) / 0.16),
+        inset 0 1px hsl(0 0% 100% / 0.12);
+}
+.admin-ui [data-slot="button"][data-variant="outline"] {
+    background: hsl(var(--card));
+    border-color: hsl(var(--input));
+    color: hsl(var(--primary));
+    box-shadow: 0 1px 2px hsl(var(--admin-shadow-color) / 0.05);
+}
+.admin-ui [data-slot="button"][data-variant="secondary"] {
+    background: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+}
+.admin-ui
+    [data-slot="button"]:not(:disabled):not([aria-disabled="true"]):active {
+    transform: translateY(1px);
+}
+.admin-ui [data-slot="button"]:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+}
+.admin-ui [data-slot="button"]:disabled {
+    opacity: 0.65;
+    box-shadow: none;
+}
+@media (hover: hover) {
+    .admin-ui
+        [data-slot="button"][data-variant="default"]:not(:disabled):hover {
+        background: hsl(var(--primary) / 0.9);
+    }
+    .admin-ui
+        [data-slot="button"][data-variant="outline"]:not(:disabled):hover {
+        background: hsl(var(--admin-tint));
+    }
+    .admin-ui a:has(> [data-slot="card"]):hover > [data-slot="card"] {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 22px -10px hsl(var(--admin-shadow-color) / 0.28);
+    }
+}
+.admin-ui :is(a.underline, button.underline) {
+    color: hsl(var(--primary));
+    font-weight: 500;
+    text-underline-offset: 4px;
+}
+.admin-ui thead {
+    background: hsl(var(--admin-tint));
+}
+.admin-ui th {
+    color: hsl(var(--foreground));
+    font-weight: 600;
+}
+.admin-ui tbody tr:hover {
+    background: hsl(var(--admin-tint) / 0.65);
+}
+.admin-ui [data-admin-node] {
+    --node-padding: 1rem;
+}
+.admin-ui .admin-node-heading {
+    margin: calc(-1 * var(--node-padding)) calc(-1 * var(--node-padding)) 0;
+    padding: 1rem var(--node-padding);
+    border-radius: 11px 11px 0 0;
+    border-bottom: 1px solid hsl(var(--border) / 0.75);
+    background: hsl(var(--admin-tint));
+}
+.admin-ui .admin-step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 8px;
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    vertical-align: middle;
+}
+.admin-flow-connector {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 26px 0 14px;
+    color: hsl(var(--primary));
+}
+.admin-flow-connector::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 1px);
+    width: 2px;
+    background: hsl(var(--primary) / 0.3);
+}
+.admin-flow-label,
+.admin-flow-arrow {
+    position: relative;
+    background: hsl(var(--background));
+}
+.admin-flow-label {
+    padding: 2px 12px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+.admin-flow-arrow {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--primary) / 0.24);
+    background: hsl(var(--card));
+    box-shadow: var(--admin-shadow);
+}
+.admin-flow-bridge {
+    display: none;
+}
+@media (min-width: 640px) {
+    .admin-ui [data-admin-node] {
+        --node-padding: 1.25rem;
+    }
+    .admin-flow-connector[data-merge] {
+        margin-top: 20px;
+    }
+    .admin-flow-bridge {
+        display: block;
+        position: absolute;
+        top: 0;
+        width: 50%;
+        height: 1px;
+        border-top: 2px solid hsl(var(--primary) / 0.3);
+    }
+    .admin-flow-bridge::before,
+    .admin-flow-bridge::after {
+        content: "";
+        position: absolute;
+        top: -20px;
+        height: 20px;
+        border-left: 2px solid hsl(var(--primary) / 0.3);
+    }
+    .admin-flow-bridge::before {
+        left: 0;
+    }
+    .admin-flow-bridge::after {
+        right: 0;
+    }
+}
+@media (max-width: 639px) {
+    .admin-ui [data-slot="button"]:not([data-size="icon"]) {
+        min-height: 42px;
+    }
+    .admin-ui main {
+        min-width: 0;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .admin-ui [data-slot="button"],
+    .admin-ui [data-slot="card"] {
+        transition: none;
+    }
+}
+
+.admin-ui nav [data-slot="button"][aria-pressed] {
+    border-radius: 0;
+    box-shadow: none;
+}

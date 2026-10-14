@@ -44,6 +44,8 @@ const Button = React.forwardRef((props: ButtonProps, forwardedRef: any) => {
     if (component === "link") {
         return (
             <Link
+                data-slot="button"
+                data-variant={variant === "classic" ? "default" : "secondary"}
                 href={props.href}
                 className={`${commonClasses} ${className}`}
                 style={{ ...style }}
@@ -57,6 +59,8 @@ const Button = React.forwardRef((props: ButtonProps, forwardedRef: any) => {
 
     return (
         <button
+            data-slot="button"
+            data-variant={variant === "classic" ? "default" : "secondary"}
             className={`${commonClasses} ${className}`}
             onClick={props.onClick}
             style={{ ...style }}
