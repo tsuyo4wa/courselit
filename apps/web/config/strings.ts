@@ -1228,7 +1228,8 @@ export const thankYouStrings = {
 };
 
 export const appointmentText = {
-    loginExpired: "予約画面から、新しい認証コードを発行してログインしてください。",
+    loginExpired:
+        "予約画面から、新しい認証コードを発行してログインしてください。",
     online: "オンライン（Zoom）",
     checkedAt: "最終接続確認",
     unchecked: "未確認",
@@ -1374,4 +1375,73 @@ export const appointmentText = {
         invalid: "入力内容をご確認ください。",
         unavailable: "処理を完了できませんでした。時間をおいてお試しください。",
     },
+};
+
+export const funnelUiText = {
+    flowLabel: "ファネル",
+    lpStage: "LP",
+    checkoutStage: "販売・申込",
+    thanksStage: "サンクスページ",
+    checkoutSettings: "講座・販売設定",
+    nodeSettings: "設定",
+    thanksSettings: "URLを設定",
+    thanksPreview: "ページを確認",
+    merge: "同じ申込フォームへ",
+    afterSignup: "申込完了後",
+    normalThanks: "未設定：通常の受講案内へ進みます。",
+    commonThanksDescription:
+        "申込完了後の案内先です。この講座に申し込むすべてのLPで共通です。",
+    menu: "プロモーション",
+    listTitle: "プロモーション",
+    listDescription:
+        "LPから申込完了まで、ページのつながりをまとめて管理します。",
+    create: "プロモーションを作る",
+    createForm: "プロモーションの作成",
+    name: "プロモーション名",
+    course: "対象の講座",
+    count: "LP数",
+    status: "公開状況",
+    search: "プロモーションを検索",
+    searchPlaceholder: "プロモーション名・講座名で検索",
+    archivedToggle: "アーカイブも表示",
+    draft: "下書き",
+    live: "公開中",
+    paused: "公開停止中",
+    archived: "アーカイブ",
+    free: "無料講座",
+    paid: "有料講座",
+    mixed: "無料・有料",
+    unspecified: "料金未設定",
+    emptyTitle: "プロモーションはまだありません",
+    emptyDescription:
+        "「プロモーションを作る」から名前と講座を選んで始められます。",
+    noMatches: "一致するプロモーションがありません",
+    noMatchesDescription:
+        "検索する言葉やアーカイブの表示設定を変えてください。",
+    open: "詳細を開く",
+    back: "プロモーションへ戻る",
+    unsaved:
+        "保存していない変更があります。「設定を保存」するか、変更を破棄してプロモーションへ戻ってください。",
+    discard: "変更を破棄して戻る",
+    lpTab: "ファネル",
+    settingsTab: "基本設定",
+    publicationTab: "公開・停止",
+    lpDescription:
+        "入口になるLPです。どのLPからも、下の同じ申込フォームへ進みます。",
+    lpSettings: "LPの設定",
+    lpDraft: "下書き",
+    include: "次回の公開に含める",
+    inclusion: "次回公開の対象",
+    excluded: "次回公開から除外",
+    addLp: "LPを追加",
+    cancelAdd: "LP追加を閉じる",
+    settingsDescription:
+        "プロモーション名と対象講座を設定します。申込後のURLは講座の設定から変更できます。",
+    publicationDescription:
+        "LPの内容と移動先を確認してから、このプロモーションを公開できます。",
+    clone: "このプロモーションを複製する",
+    archive: "停止済みのプロモーションをアーカイブ",
+    pause: "このプロモーションを公開停止",
+    pauseMessage: "このプロモーションの公開を停止しました。",
+    previewBack: "プロモーションの流れへ戻る",
 };

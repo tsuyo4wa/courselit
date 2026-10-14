@@ -1,6 +1,6 @@
 "use client";
 import { isBlogEnabled } from "@/lib/blog-feature";
-import { appointmentText, finalUiText } from "@/config/strings";
+import { appointmentText, finalUiText, funnelUiText } from "@/config/strings";
 
 import {
     Box,
@@ -216,7 +216,7 @@ function getSidebarItems({
     }
     if (profile.permissions!.includes(permissions.manageSite)) {
         navMainItems.push({
-            title: "LP・ファネル",
+            title: funnelUiText.menu,
             url: "/dashboard/funnels",
             icon: Files,
             isActive: path?.startsWith("/dashboard/funnels"),

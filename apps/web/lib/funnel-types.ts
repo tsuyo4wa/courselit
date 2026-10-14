@@ -48,3 +48,10 @@ export interface FunnelAdminItem extends FunnelRecord {
     course?: FunnelCourse;
     pages: { pageId: string; name: string }[];
 }
+
+export interface FunnelAdminData {
+    funnels: FunnelAdminItem[];
+    courses: FunnelCourse[];
+    pages: { pageId: string; name: string; managed: boolean }[];
+    publicOrigin: string;
+}

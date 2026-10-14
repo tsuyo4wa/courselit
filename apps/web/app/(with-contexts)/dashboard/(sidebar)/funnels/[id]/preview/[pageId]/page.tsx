@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { funnelUiText } from "@/config/strings";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getFullSiteSetup } from "@ui-lib/utils";
@@ -28,5 +30,17 @@ export default async function Page({
         await getAddressFromHeaders(headers),
     );
     if (!siteInfo) notFound();
-    return <FunnelLanding view={view} siteInfo={siteInfo} />;
+    return (
+        <>
+            <nav className="px-3 py-4 text-sm sm:px-6">
+                <Link
+                    className="underline underline-offset-4"
+                    href={`/dashboard/funnels/${p.id}`}
+                >
+                    {funnelUiText.previewBack}
+                </Link>
+            </nav>
+            <FunnelLanding view={view} siteInfo={siteInfo} />
+        </>
+    );
 }
