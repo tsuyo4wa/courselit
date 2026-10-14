@@ -9,6 +9,7 @@ import {
     POLICY_REVIEW_RESULT,
     POLICY_REVIEW_PENDING,
     POLICY_REVIEW_DATE,
+    POLICY_REVIEW_CONSULTATIONS,
 } from "@/config/strings";
 
 function inline(text: string): ReactNode {
@@ -38,7 +39,18 @@ function manuscript(text: string) {
                     </h2>
                 );
             if (block.startsWith("## "))
-                return <h3 key={i}>{block.slice(3)}</h3>;
+                return (
+                    <h3
+                        id={
+                            block.slice(3) === POLICY_REVIEW_CONSULTATIONS
+                                ? "consultations"
+                                : undefined
+                        }
+                        key={i}
+                    >
+                        {block.slice(3)}
+                    </h3>
+                );
             if (block.startsWith("- "))
                 return (
                     <ul key={i}>
@@ -67,6 +79,7 @@ export default function PolicyReview(content: Record<string, string>) {
             <nav aria-label={POLICY_REVIEW_TITLE}>
                 <a href="#terms">{POLICY_REVIEW_TERMS}</a>
                 <a href="#privacy">{POLICY_REVIEW_PRIVACY}</a>
+                <a href="#consultations">{POLICY_REVIEW_CONSULTATIONS}</a>
                 <Link href="/dashboard/contact-preview">
                     {POLICY_REVIEW_CONTACT}
                 </Link>

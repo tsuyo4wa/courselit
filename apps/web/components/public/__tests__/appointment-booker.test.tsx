@@ -92,6 +92,11 @@ it("requires existing login without forcing course enrollment", async () => {
         "/login?redirect=%2Fappointments",
     );
     expect(screen.getByText(t.loginHelp)).toBeInTheDocument();
+    expect(screen.getByText(t.privacyPurpose)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: t.privacy })).toHaveAttribute(
+        "href",
+        "/p/privacy#consultations",
+    );
 });
 it("provides accessible date, name, note and consent fields before confirmation", async () => {
     render(
@@ -111,7 +116,21 @@ it("provides accessible date, name, note and consent fields before confirmation"
     expect(screen.getByLabelText(t.name)).toBeInTheDocument();
     expect(screen.getByLabelText(t.notes)).toBeInTheDocument();
     expect(screen.getByRole("checkbox", { name: t.consent })).not.toBeChecked();
-    expect(screen.getByRole("link", { name: t.privacy })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: t.privacy })).toHaveAttribute(
+        "href",
+        "/dashboard/policy-preview#consultations",
+    );
+    const notice = screen.getByText(t.privacyPurpose);
+    const checkbox = screen.getByRole("checkbox", { name: t.consent });
+    expect(
+        notice.compareDocumentPosition(screen.getByLabelText(t.name)) &
+            Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(
+        notice.compareDocumentPosition(checkbox) &
+            Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(screen.getByText(t.privacyStorage)).toBeInTheDocument();
 });
 
 it("uses the saved school palette for private preview and scopes it to the booking surface", () => {

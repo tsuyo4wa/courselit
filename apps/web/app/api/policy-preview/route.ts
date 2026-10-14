@@ -21,10 +21,10 @@ export async function POST(req: NextRequest) {
             return reply(403);
         if (!req.headers.get("content-type")?.startsWith("application/json"))
             return reply(400);
-        if (Number(req.headers.get("content-length") || 0) > 128000)
+        if (Number(req.headers.get("content-length") || 0) > 256000)
             return reply(413);
         const raw = await req.text();
-        if (new TextEncoder().encode(raw).length > 128000) return reply(413);
+        if (new TextEncoder().encode(raw).length > 256000) return reply(413);
         let content;
         try {
             content = policyReviewInput.parse(JSON.parse(raw));

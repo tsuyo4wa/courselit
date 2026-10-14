@@ -59,3 +59,30 @@ it("saves only the owner tenant's draft and returns no manuscript", async () => 
         good,
     );
 });
+it("stores a bounded consultation LP for the same owner-only review", async () => {
+    const content = {
+        ...good,
+        consultationHtml: "<!doctype html><p>Private LP</p>",
+    };
+    const response = await POST(request(content));
+    expect(response.status).toBe(200);
+    expect(await response.json()).toEqual({ ready: true });
+    expect(savePolicyReview).toHaveBeenCalledWith(
+        { customDomain: "school.example.com" },
+        content,
+    );
+});
+it("rejects oversized HTML and oversized UTF-8 bodies", async () => {
+    expect(
+        (await POST(request({ ...good, consultationHtml: "x".repeat(150001) })))
+            .status,
+    ).toBe(400);
+    expect(
+        (
+            await POST(
+                request({ ...good, consultationHtml: "あ".repeat(100000) }),
+            )
+        ).status,
+    ).toBe(413);
+    expect(savePolicyReview).not.toHaveBeenCalled();
+});

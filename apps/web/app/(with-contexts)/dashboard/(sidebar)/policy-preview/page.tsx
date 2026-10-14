@@ -14,5 +14,5 @@ export default async function Page() {
     if (!context?.owner) notFound();
     const content = await getPolicyReview(context.domain);
     if (!content) notFound();
-    return <PolicyReview {...content} />;
+    return <PolicyReview terms={content.terms} privacy={content.privacy} />;
 }

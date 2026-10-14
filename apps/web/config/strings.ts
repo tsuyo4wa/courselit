@@ -1132,12 +1132,29 @@ export const POLICY_REVIEW_NOTICE =
     "管理者限定の確認ページです。一般向けページはまだ変更していません。";
 export const POLICY_REVIEW_TERMS = "利用規約";
 export const POLICY_REVIEW_PRIVACY = "プライバシーポリシー";
+export const POLICY_REVIEW_CONSULTATIONS = "11. 個別相談の予約について";
 export const POLICY_REVIEW_CONTACT = "フォームを確認する";
 export const POLICY_REVIEW_RESULT =
-    "通知・受付メール・運営メールからの返信まで確認済みです。受信先と保管方針は確定しています。";
+    "現在公開中の利用規約・プライバシーポリシーをもとに、個別相談の予約に関する案内を追記した確認版です。";
 export const POLICY_REVIEW_PENDING =
-    "本文とフォームをご確認ください。海外委託先の残件、公開時のリンク、公表・施行日は別途確認します。今回のページ表示だけで規約の適用やフォームの一般公開は行いません。";
-export const POLICY_REVIEW_DATE = "確認用原稿：2026年10月12日 / 未公開・未適用";
+    "末尾の「個別相談の予約について」と予約画面をご確認ください。今回の表示では一般向け本文の差し替えや予約受付の開始は行いません。";
+export const POLICY_REVIEW_DATE = "確認用原稿：2026年10月15日 / 未公開・未適用";
+export const appointmentReleaseText = {
+    title: "個別相談の公開前確認",
+    notice: "管理者だけが見られる確認版です。公開中のLPと個人情報の案内は差し替えていません。この確認ページから予約受付は開始されません。",
+    sample: "下のLPの予約ボタンから、画面見本のカレンダーへ進めます。予約・Google予定・メールは作成されません。表示日時は見本です。",
+    lp: "予約入口を変更したLP",
+    privacy: "個人情報の案内を確認",
+    booking: "予約画面の見本を確認",
+    back: "個別相談の一覧へ",
+    flow: [
+        "LPの予約ボタン",
+        "カレンダーで日時を選ぶ",
+        "個人情報の案内・入力内容を確認",
+    ],
+    retention:
+        "この確認版は保存から7日間表示できます。確認後、一般向けの案内とLPを反映し、最後に予約受付を開始します。",
+};
 
 export const blogFeatureText = {
     label: "ブログ機能",
@@ -1326,7 +1343,11 @@ export const appointmentText = {
     confirm: "この内容で予約する",
     confirmPreview: "確認用の予約を作成する",
     consent:
-        "予約対応のため、お名前・メールアドレス・相談内容を利用することに同意します。",
+        "個人情報の取り扱いを確認し、お名前・メールアドレス・予約日時・相談内容を、予約管理と相談対応に利用することに同意します。",
+    privacyPurpose:
+        "お名前・メールアドレス・予約日時・相談内容は、本人確認、日程調整、相談対応、予約・変更・キャンセルの連絡に利用します。講座やメルマガには自動登録されません。",
+    privacyStorage:
+        "予約情報は当サイトで管理します。Googleカレンダーには日時・相談名・予約番号・Zoom URLを登録し、お名前・メールアドレス・相談内容は登録しません。保管や削除については、個人情報の取り扱いをご確認ください。",
     privacy: "個人情報の取り扱い",
     login: "メール認証でログインして予約する",
     loginHelp:

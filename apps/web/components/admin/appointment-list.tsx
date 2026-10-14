@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, ChevronRight, CalendarDays } from "lucide-react";
 import { appointmentText as t } from "@/config/strings";
+import { appointmentReleaseText } from "@/config/strings";
 import AdminEmptyState from "./empty-state";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -53,10 +54,20 @@ export default function AppointmentList({ initial }: AppointmentListProps) {
                         {t.listIntro}
                     </p>
                 </div>
-                <Button disabled={busy} onClick={() => setCreating((v) => !v)}>
-                    <Plus size={16} />
-                    {t.createType}
-                </Button>
+                <div className="flex flex-wrap gap-2">
+                    <Button asChild variant="outline">
+                        <Link href="/dashboard/appointments/release-review">
+                            {appointmentReleaseText.title}
+                        </Link>
+                    </Button>
+                    <Button
+                        disabled={busy}
+                        onClick={() => setCreating((v) => !v)}
+                    >
+                        <Plus size={16} />
+                        {t.createType}
+                    </Button>
+                </div>
             </header>
             <section
                 data-admin-surface="panel"

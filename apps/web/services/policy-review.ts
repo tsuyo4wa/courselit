@@ -5,6 +5,7 @@ export const policyReviewInput = z
     .object({
         terms: z.string().max(50000).startsWith("# 利用規約"),
         privacy: z.string().max(50000).startsWith("# プライバシーポリシー"),
+        consultationHtml: z.string().max(150000).optional(),
     })
     .strict();
 let indexed: Promise<unknown> | undefined;
@@ -14,7 +15,7 @@ function collection() {
 }
 export async function savePolicyReview(
     domain: any,
-    content: Record<string, string>,
+    content: z.infer<typeof policyReviewInput>,
 ) {
     const store = collection();
     indexed ||= store
@@ -32,6 +33,7 @@ export async function savePolicyReview(
             $set: {
                 terms: content.terms,
                 privacy: content.privacy,
+                consultationHtml: content.consultationHtml || null,
                 updatedAt: new Date(),
                 expiresAt: new Date(Date.now() + 7 * 86400000),
             },
@@ -50,5 +52,14 @@ export async function getPolicyReview(domain: any) {
         typeof data.privacy !== "string"
     )
         return null;
-    return { terms: data.terms as string, privacy: data.privacy as string };
+    const content: z.infer<typeof policyReviewInput> = {
+        terms: data.terms as string,
+        privacy: data.privacy as string,
+    };
+    if (
+        typeof data.consultationHtml === "string" &&
+        data.consultationHtml.length <= 150000
+    )
+        content.consultationHtml = data.consultationHtml;
+    return content;
 }

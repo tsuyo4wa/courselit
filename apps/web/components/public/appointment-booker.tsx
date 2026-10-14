@@ -329,6 +329,15 @@ export default function AppointmentBooker({
                                 <p className="text-sm leading-7">
                                     {t.loginHelp}
                                 </p>
+                                <p className="text-sm leading-7 text-muted-foreground">
+                                    {t.privacyPurpose}
+                                </p>
+                                <Link
+                                    className="text-sm underline"
+                                    href="/p/privacy#consultations"
+                                >
+                                    {t.privacy}
+                                </Link>
                                 <Button asChild>
                                     <Link href={loginTarget}>{t.login}</Link>
                                 </Button>
@@ -352,6 +361,25 @@ export default function AppointmentBooker({
                                 </p>
                                 {!changing && (
                                     <>
+                                        <div
+                                            className="space-y-2 rounded-md bg-muted/50 p-4 text-sm leading-7"
+                                            aria-label={t.privacy}
+                                        >
+                                            <p>{t.privacyPurpose}</p>
+                                            <p className="text-muted-foreground">
+                                                {t.privacyStorage}
+                                            </p>
+                                            <Link
+                                                className="underline underline-offset-4"
+                                                href={
+                                                    preview
+                                                        ? "/dashboard/policy-preview#consultations"
+                                                        : "/p/privacy#consultations"
+                                                }
+                                            >
+                                                {t.privacy}
+                                            </Link>
+                                        </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="appointment-name">
                                                 {t.name}
@@ -387,12 +415,6 @@ export default function AppointmentBooker({
                                             />
                                             {t.consent}
                                         </label>
-                                        <Link
-                                            className="text-sm underline"
-                                            href="/p/privacy"
-                                        >
-                                            {t.privacy}
-                                        </Link>
                                     </>
                                 )}
                                 {Object.keys(form.formState.errors).length >
