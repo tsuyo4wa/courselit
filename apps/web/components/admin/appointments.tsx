@@ -230,7 +230,7 @@ export default function AppointmentAdmin({
         horizonDays: t.horizon,
     };
     return (
-        <main className="mx-auto w-full max-w-5xl p-4 sm:p-7 space-y-8">
+        <main className="mx-auto w-full max-w-5xl p-4 sm:p-7 space-y-6">
             {mode && (
                 <Link
                     href="/dashboard/appointments"
@@ -340,7 +340,11 @@ export default function AppointmentAdmin({
                         </Button>
                     ))}
             </nav>
-            <form onSubmit={form.handleSubmit(save)} className="space-y-6">
+            <form
+                hidden={panel === "bookings"}
+                onSubmit={form.handleSubmit(save)}
+                className="space-y-6"
+            >
                 <section
                     data-admin-surface="panel"
                     hidden={panel !== "connection"}
@@ -466,7 +470,7 @@ export default function AppointmentAdmin({
                         </Label>
                         <select
                             id="appointment-calendar"
-                            className="w-full rounded-md border bg-background p-2 text-sm"
+                            className="h-10 w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm"
                             {...form.register("config.calendarId")}
                             value={current.current.config.calendarId || ""}
                         >
@@ -530,7 +534,7 @@ export default function AppointmentAdmin({
                         </Label>
                         <select
                             id="appointment-acceptance"
-                            className="w-full rounded-md border bg-background p-2 text-sm"
+                            className="h-10 w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm"
                             value={
                                 current.current.config.enabled
                                     ? "open"
@@ -811,11 +815,13 @@ export default function AppointmentAdmin({
                 data-admin-surface="panel"
                 hidden={panel !== "bookings"}
                 aria-label="予約一覧"
-                className="space-y-4"
+                className="space-y-4 p-4 sm:p-6"
             >
-                <h2 className="font-bold text-lg">{t.bookings}</h2>
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                    <div className="space-y-2">
+                <h2 className="border-b pb-4 text-lg font-semibold">
+                    {t.bookings}
+                </h2>
+                <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+                    <div className="col-span-2 min-w-0 space-y-2 lg:col-span-1">
                         <Label htmlFor="appointment-search">
                             名前・メールアドレス
                         </Label>
@@ -826,29 +832,31 @@ export default function AppointmentAdmin({
                             type="search"
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="min-w-0 space-y-2">
                         <Label htmlFor="appointment-from">予約日（開始）</Label>
                         <Input
                             id="appointment-from"
+                            className="min-w-0"
                             type="date"
                             value={dateFrom}
                             onChange={(e) => setDateFrom(e.target.value)}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="min-w-0 space-y-2">
                         <Label htmlFor="appointment-to">予約日（終了）</Label>
                         <Input
                             id="appointment-to"
+                            className="min-w-0"
                             type="date"
                             value={dateTo}
                             onChange={(e) => setDateTo(e.target.value)}
                         />
                     </div>
-                    <div className="space-y-2">
+                    <div className="col-span-2 min-w-0 space-y-2 lg:col-span-1">
                         <Label htmlFor="appointment-status">予約の状態</Label>
                         <select
                             id="appointment-status"
-                            className="w-full rounded-md border bg-background p-2 text-sm"
+                            className="h-10 w-full min-w-0 rounded-md border bg-background px-3 py-2 text-sm"
                             value={status}
                             onChange={(e) => setStatus(e.target.value)}
                         >
