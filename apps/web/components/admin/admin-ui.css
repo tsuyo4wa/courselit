@@ -109,7 +109,6 @@ body:has(.admin-ui),
     border-right: 1px solid hsl(var(--sidebar-border) / 0.7);
 }
 .admin-ui [data-sidebar="menu-button"][data-active="true"] {
-    box-shadow: inset 3px 0 hsl(var(--primary));
     font-weight: 600;
 }
 .admin-ui
