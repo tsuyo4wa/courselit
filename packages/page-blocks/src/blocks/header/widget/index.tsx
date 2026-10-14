@@ -72,8 +72,8 @@ export default function Widget({
 
     const mainContent = (
         <div className={`flex justify-between items-center w-full`}>
-            <AppLink href="/" className="!no-underline">
-                <div className="flex items-center">
+            <AppLink href="/" className="!no-underline min-w-0">
+                <div className="flex items-center min-w-0">
                     {state.siteinfo.logo && (
                         <div className="mr-2">
                             <Image
@@ -85,7 +85,10 @@ export default function Widget({
                             />
                         </div>
                     )}
-                    <Header4 theme={overiddenTheme}>
+                    <Header4
+                        theme={overiddenTheme}
+                        className="min-w-0 truncate max-sm:!text-base max-sm:!leading-snug"
+                    >
                         {state.siteinfo.title}
                     </Header4>
                 </div>
@@ -95,8 +98,8 @@ export default function Widget({
                     linkAlignment === "right"
                         ? "justify-end"
                         : linkAlignment === "center"
-                        ? "justify-center"
-                        : "justify-start"
+                          ? "justify-center"
+                          : "justify-start"
                 }`}
                 style={{
                     gap: `${spacingBetweenLinks}px`,
