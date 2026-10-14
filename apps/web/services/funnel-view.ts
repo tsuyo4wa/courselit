@@ -1,3 +1,5 @@
+import { portablePageLayout } from "@/lib/portable-page-layout";
+import { publicSiteOrigin } from "@/lib/portable-site-url";
 import { Constants } from "@courselit/common-models";
 import Page from "@models/Page";
 import Funnel from "@models/Funnel";
@@ -83,6 +85,7 @@ export async function funnelView(
         JSON.stringify({
             page: {
                 ...page,
+                layout: portablePageLayout(page.layout, c.domain),
                 pageData: {
                     pageType: Constants.PageType.PRODUCT,
                     ...course,
@@ -94,7 +97,7 @@ export async function funnelView(
             courseTitle: course.title,
             courseId,
             siteTitle: c.domain.settings?.title || "なまけものマーケティング",
-            origin: "https://" + (c.domain.customDomain || process.env.DOMAIN),
+            origin: publicSiteOrigin(c.domain),
             booking: appointment
                 ? {
                       enabled: appointment.config.enabled,

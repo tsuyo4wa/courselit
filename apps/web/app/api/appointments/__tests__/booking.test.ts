@@ -18,6 +18,7 @@ import {
     availability,
     hostLock,
     ownedBooking,
+    notifyBooking,
 } from "@/services/appointments";
 import type { AppointmentContext } from "@/services/appointments";
 import type {
@@ -503,4 +504,37 @@ it("detects a manually deleted confirmed Google event during owner audit", async
     );
     expect(b.status).toBe("needs_review");
     expect((await Bookings.findOne())!.holds).toHaveLength(1);
+});
+
+it("uses the current configured school host for notifications about bookings created on an older host", async () => {
+    const created = await mutateBooking(student, create(), origin);
+    const b = (await Bookings.findOne({
+        bookingId: created.bookingId,
+    }))!.toObject();
+    await Bookings.updateOne(
+        { bookingId: b.bookingId },
+        { $set: { mailVersion: -1 } },
+    );
+    const movedContext = {
+        ...student,
+        domain: { ...student.domain, customDomain: "new-school.example.com" },
+    } as AppointmentContext;
+    const transport = {
+        sendMail: jest
+            .fn()
+            .mockResolvedValue({ accepted: ["test"], rejected: [] }),
+        close: jest.fn(),
+    };
+    (nodemailer.createTransport as jest.Mock).mockReturnValue(transport);
+    await notifyBooking(movedContext, b);
+    expect(transport.sendMail).toHaveBeenCalled();
+    expect(transport.sendMail.mock.calls[0][0].text).toContain(
+        "https://new-school.example.com/appointments",
+    );
+    expect(transport.sendMail.mock.calls[0][0].text).not.toContain(
+        "https://school.example.com/appointments",
+    );
+    expect((await Bookings.findOne({ bookingId: b.bookingId }))!.origin).toBe(
+        origin,
+    );
 });

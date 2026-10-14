@@ -1,4 +1,4 @@
-import { readThankYouUrl } from "@/lib/thank-you-url";
+import { readSiteThankYouUrl } from "@/lib/portable-site-url";
 import { NextRequest } from "next/server";
 import DomainModel, { Domain } from "@models/Domain";
 import { auth } from "@/auth";
@@ -143,7 +143,10 @@ export async function POST(req: NextRequest) {
             if (paymentPlan.type === Constants.PaymentPlanType.FREE) {
                 return Response.json({
                     status: transactionSuccess,
-                    redirectUrl: readThankYouUrl(entity.thankYouUrl),
+                    redirectUrl: readSiteThankYouUrl(
+                        entity.thankYouUrl,
+                        domain,
+                    ),
                 });
             }
             if (
@@ -158,7 +161,10 @@ export async function POST(req: NextRequest) {
                 ) {
                     return Response.json({
                         status: transactionSuccess,
-                        redirectUrl: readThankYouUrl(entity.thankYouUrl),
+                        redirectUrl: readSiteThankYouUrl(
+                            entity.thankYouUrl,
+                            domain,
+                        ),
                     });
                 } else {
                     membership.status = Constants.MembershipStatus.EXPIRED;
@@ -191,7 +197,7 @@ export async function POST(req: NextRequest) {
                 status: transactionSuccess,
                 redirectUrl:
                     membership.status === Constants.MembershipStatus.ACTIVE
-                        ? readThankYouUrl(entity.thankYouUrl)
+                        ? readSiteThankYouUrl(entity.thankYouUrl, domain)
                         : undefined,
             });
         }

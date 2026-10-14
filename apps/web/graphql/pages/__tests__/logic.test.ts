@@ -109,6 +109,60 @@ describe("updatePage media handling", () => {
         );
     });
 
+    it("serves hydrated existing Page links relative on a new host without changing stored body or publication", async () => {
+        domain.customDomain = "new-school.example.com";
+        const original =
+            '<a href="https://new-school.example.com/p/course?from=lp#top">講座</a><img src="https://new-school.example.com/photo.png">';
+        const layout = [
+            makeHeaderWidget(),
+            {
+                widgetId: "embed",
+                name: "embed",
+                shared: false,
+                settings: { content: original },
+            },
+            makeFooterWidget(),
+        ];
+        await PageModel.create({
+            domain: domain._id,
+            pageId: "portable-existing",
+            type: constants.site,
+            creatorId: "creator-1",
+            name: "Existing",
+            layout,
+            draftLayout: layout,
+        });
+        const result = await getPage({ id: "portable-existing", ctx });
+        expect(
+            result?.layout?.find((w) => w.name === "embed")?.settings?.content,
+        ).toBe(
+            '<a href="/p/course?from=lp#top">講座</a><img src="https://new-school.example.com/photo.png">',
+        );
+        const stored = await PageModel.findOne({
+            domain: domain._id,
+            pageId: "portable-existing",
+        });
+        expect(
+            stored.layout.find((w) => w.name === "embed").settings.content,
+        ).toBe(original);
+        await updatePage({
+            context: ctx,
+            pageId: "portable-existing",
+            layout: JSON.stringify(layout),
+        });
+        const saved = await PageModel.findOne({
+            domain: domain._id,
+            pageId: "portable-existing",
+        });
+        expect(
+            saved.draftLayout.find((w) => w.name === "embed").settings.content,
+        ).toContain('href="/p/course?from=lp#top"');
+        expect(
+            saved.layout.find((w) => w.name === "embed").settings.content,
+        ).toBe(original);
+        domain.customDomain = undefined;
+    });
+
     afterAll(async () => {
         await PageModel.deleteMany({ domain: domain._id });
         await DomainModel.deleteMany({ _id: domain._id });

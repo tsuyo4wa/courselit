@@ -1,3 +1,4 @@
+import { publicSiteOrigin } from "@/lib/portable-site-url";
 import {
     Constants,
     Domain,
@@ -51,13 +52,8 @@ export async function sendLearningWelcome(
                   })
                 : null;
         const title = course?.title || community?.name;
-        const host =
-            domain.customDomain ||
-            (domain.name === "main"
-                ? process.env.DOMAIN
-                : `${domain.name}.${process.env.DOMAIN || ""}`);
-        if (!user?.email || !title || !host) return;
-        const origin = new URL(`https://${host}`).origin;
+        const origin = publicSiteOrigin(domain);
+        if (!user?.email || !title || !origin) return;
         const path = learningPath(
             membership.entityType,
             membership.entityId,

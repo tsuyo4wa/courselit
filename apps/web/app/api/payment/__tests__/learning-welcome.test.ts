@@ -55,6 +55,16 @@ describe("transactional learning welcome", () => {
             userId: membership.userId,
         });
     });
+    it("uses the new configured hostname in newly prepared enrollment emails", async () => {
+        await sendLearningWelcome(
+            { ...domain, customDomain: "new-school.example.com" },
+            membership,
+            plan,
+        );
+        const mail = (addMailJob as jest.Mock).mock.calls[0][0];
+        expect(mail.body).toContain("https://new-school.example.com/login?");
+        expect(mail.body).not.toContain("https://school.example.com");
+    });
     it("claims only one delivery attempt across repeated or concurrent activations", async () => {
         (MembershipModel.findOneAndUpdate as jest.Mock)
             .mockResolvedValueOnce({})

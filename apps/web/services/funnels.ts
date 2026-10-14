@@ -1,3 +1,5 @@
+import { portablePageLayout } from "@/lib/portable-page-layout";
+import { publicSiteOrigin } from "@/lib/portable-site-url";
 import { randomUUID } from "crypto";
 import { z } from "zod";
 import { Constants, WidgetInstance } from "@courselit/common-models";
@@ -167,8 +169,7 @@ export async function funnelAdminData(c: FunnelContext) {
             name: p.name,
             managed: !!p.funnelManaged,
         })),
-        publicOrigin:
-            "https://" + (c.domain.customDomain || process.env.DOMAIN),
+        publicOrigin: publicSiteOrigin(c.domain),
     };
 }
 async function read(c: FunnelContext, input: FunnelInput) {
@@ -223,11 +224,16 @@ async function copyPage(
     if (source?.type === "product" && source.entityId !== courseId)
         throw new FunnelError("対象講座とコピー元の講座が異なります。");
     // Copies share media references; managed media is retained by protectFunnelMedia.
-    const layout = clone(
-        (source?.draftLayout?.length ? source.draftLayout : source?.layout) || [
-            { name: "header", shared: true, deleteable: false },
-            { name: "footer", shared: true, deleteable: false },
-        ],
+    const layout = portablePageLayout(
+        clone(
+            (source?.draftLayout?.length
+                ? source.draftLayout
+                : source?.layout) || [
+                { name: "header", shared: true, deleteable: false },
+                { name: "footer", shared: true, deleteable: false },
+            ],
+        ),
+        c.domain,
     ).map((w: any) => ({ ...w, widgetId: randomUUID() }));
     await Page.create({
         domain: c.domain._id,
@@ -316,7 +322,10 @@ async function snapshot(
             funnelManaged: true,
         }).lean();
         if (!p) throw new FunnelError("LPが見つかりません。", 404);
-        const layout = clone(p.draftLayout?.length ? p.draftLayout : p.layout);
+        const layout = portablePageLayout(
+            clone(p.draftLayout?.length ? p.draftLayout : p.layout),
+            c.domain,
+        );
         if (
             e.enabled &&
             !layout.some((w: any) => !["header", "footer"].includes(w.name))

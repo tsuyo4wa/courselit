@@ -1,3 +1,4 @@
+import { portablePageLayout } from "@/lib/portable-page-layout";
 import { Constants } from "@courselit/common-models";
 import constants from "../../config/constants";
 import GQLContext from "../../models/GQLContext";
@@ -167,11 +168,17 @@ export async function getPageResponse(
         type: page.type,
         entityId: page.entityId,
         pageData,
-        layout,
+        layout: portablePageLayout(layout, ctx.subdomain),
         draftLayout: page.draftLayout
             ? page.draftLayout.length
-                ? page.draftLayout.map(sharedWidgetsToDraftSharedWidgets)
-                : layout.map(sharedWidgetsToDraftSharedWidgets)
+                ? portablePageLayout(
+                      page.draftLayout.map(sharedWidgetsToDraftSharedWidgets),
+                      ctx.subdomain,
+                  )
+                : portablePageLayout(
+                      layout.map(sharedWidgetsToDraftSharedWidgets),
+                      ctx.subdomain,
+                  )
             : undefined,
         title: page.title,
         description: page.description,

@@ -1,3 +1,4 @@
+import { portablePageLayout } from "@/lib/portable-page-layout";
 import { publicFunnelSnapshot, protectFunnelMedia } from "@/services/funnels";
 import { assertBlogEnabled, isBlogEnabled } from "@/lib/blog-feature";
 import { responses } from "../../config/strings";
@@ -40,10 +41,13 @@ export async function getPage({
     if (!id) {
         return {
             type: site,
-            layout: [
-                ctx.subdomain.sharedWidgets.header,
-                ctx.subdomain.sharedWidgets.footer,
-            ],
+            layout: portablePageLayout(
+                [
+                    ctx.subdomain.sharedWidgets.header,
+                    ctx.subdomain.sharedWidgets.footer,
+                ],
+                ctx.subdomain,
+            ),
         };
     }
 
@@ -190,7 +194,10 @@ export const updatePage = async ({
         try {
             let layout;
             try {
-                layout = JSON.parse(inputLayout);
+                layout = portablePageLayout(
+                    JSON.parse(inputLayout),
+                    ctx.subdomain,
+                );
                 const headerWidget = layout.find(
                     (widget: any) => widget.name === "header",
                 );

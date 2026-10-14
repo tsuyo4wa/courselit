@@ -1,4 +1,4 @@
-import { readThankYouUrl } from "@/lib/thank-you-url";
+import { readSiteThankYouUrl } from "@/lib/portable-site-url";
 import CommunityModel from "@models/Community";
 import { finalUiText } from "@/config/strings";
 import { NextRequest } from "next/server";
@@ -86,8 +86,9 @@ export async function POST(req: NextRequest) {
                 : null;
         return Response.json({
             status: invoice.status,
-            redirectUrl: readThankYouUrl(
+            redirectUrl: readSiteThankYouUrl(
                 course?.thankYouUrl || community?.thankYouUrl,
+                domain,
             ),
             learningPath: learningPath(
                 membership.entityType,

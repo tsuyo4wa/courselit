@@ -1,3 +1,4 @@
+import { publicSiteOrigin } from "@/lib/portable-site-url";
 import { createHash, createHmac, randomUUID } from "crypto";
 import nodemailer from "nodemailer";
 import { auth } from "@/auth";
@@ -582,18 +583,23 @@ export async function notifyBooking(
         : b.operation === "reschedule"
           ? "個別相談の日時を変更しました"
           : "個別相談のご予約が確定しました";
+    const notificationOrigin = publicSiteOrigin(c.domain);
     const text = [
         b.name + " 様",
         title,
         "日時：" + time + "（日本時間）",
         "予約番号：" + b.bookingId,
         ...(!cancelled ? ["Zoom：" + s.config.zoomUrl] : []),
-        "予約の確認・変更・キャンセル：" + b.origin + "/appointments",
+        "予約の確認・変更・キャンセル：" + notificationOrigin + "/appointments",
         "※変更・キャンセルには予約時のメールアドレスでのログインが必要です。",
     ].join("\n\n");
     let state = "failed";
     try {
-        if (!process.env.EMAIL_HOST || !process.env.EMAIL_FROM)
+        if (
+            !notificationOrigin ||
+            !process.env.EMAIL_HOST ||
+            !process.env.EMAIL_FROM
+        )
             throw new Error();
         const port = Number(process.env.EMAIL_PORT || 587);
         const smtp = nodemailer.createTransport({
