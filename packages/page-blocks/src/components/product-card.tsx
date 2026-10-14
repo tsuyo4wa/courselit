@@ -40,7 +40,7 @@ export function ProductCard({
                         theme={theme}
                     />
                     {thumbnailLabel && (
-                        <span className="absolute left-3 top-3 z-10 inline-flex rounded px-2.5 py-1.5 text-[13px] font-semibold leading-5 bg-primary text-primary-foreground shadow-sm pointer-events-none">
+                        <span className="absolute left-3 top-3 z-10 inline-flex rounded-md border border-white/80 px-3 py-1.5 text-[13px] font-semibold leading-5 tracking-[0.02em] bg-primary/95 text-primary-foreground ring-2 ring-white/50 shadow-[0_3px_10px_rgba(0,0,0,0.14)] backdrop-blur-sm pointer-events-none">
                             {thumbnailLabel}
                         </span>
                     )}
