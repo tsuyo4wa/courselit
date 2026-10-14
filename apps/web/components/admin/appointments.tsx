@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { CalendarDays, CheckCircle2, ArrowUpRight } from "lucide-react";
@@ -37,6 +37,13 @@ export default function AppointmentAdmin({
               : "",
     );
     const [rows, setRows] = useState(initial.bookings);
+    const [panel, setPanel] = useState(
+        connectionStatus ? "connection" : "settings",
+    );
+    const [search, setSearch] = useState("");
+    const [status, setStatus] = useState("");
+    const [dateFrom, setDateFrom] = useState("");
+    const [dateTo, setDateTo] = useState("");
     const defaults = {
         config: initial.config,
         clientId: initial.clientId,
@@ -47,6 +54,10 @@ export default function AppointmentAdmin({
     const form = useForm<AppointmentConfigForm>({
         resolver: zodResolver(settingsInputSchema),
         defaultValues: defaults,
+    });
+    const windows = useFieldArray({
+        control: form.control,
+        name: "config.windows",
     });
     current.current = form.watch();
     const dirty = JSON.stringify(current.current) !== saved.current;
@@ -130,6 +141,31 @@ export default function AppointmentAdmin({
             setBusy(false);
         }
     }
+    const filteredRows = rows
+        .filter((row) => {
+            const day = new Date(Date.parse(row.start) + 9 * 3600000)
+                .toISOString()
+                .slice(0, 10);
+            const query = search.trim().toLocaleLowerCase();
+            return (
+                (!status || row.status === status) &&
+                (!dateFrom || day >= dateFrom) &&
+                (!dateTo || day <= dateTo) &&
+                (!query ||
+                    `${row.name} ${row.email || ""}`
+                        .toLocaleLowerCase()
+                        .includes(query))
+            );
+        })
+        .sort((a, b) => a.start.localeCompare(b.start));
+    const presets = {
+        duration: [30, 45, 60, 90, 120],
+        interval: [15, 30, 45, 60, 90, 120],
+        bufferBefore: [0, 15, 30, 45, 60],
+        bufferAfter: [0, 15, 30, 45, 60],
+        noticeHours: [12, 24, 48, 72],
+        horizonDays: [7, 14, 21, 30, 60],
+    };
     const numberFields = [
         "duration",
         "interval",
@@ -182,11 +218,47 @@ export default function AppointmentAdmin({
             >
                 {message}
             </p>
-            <form onSubmit={form.handleSubmit(save)} className="space-y-8">
-                <section className="space-y-5 border rounded-lg p-4 sm:p-6">
+            <nav
+                aria-label="個別相談の管理"
+                className="flex flex-wrap gap-1 border-b"
+            >
+                {[
+                    ["settings", "日程・受付設定"],
+                    ["bookings", "予約一覧"],
+                    ["connection", "Google連携"],
+                ].map(([value, label]) => (
+                    <Button
+                        key={value}
+                        type="button"
+                        variant="ghost"
+                        aria-pressed={panel === value}
+                        className={
+                            panel === value
+                                ? "rounded-none border-b-2 border-primary text-primary"
+                                : "rounded-none text-muted-foreground"
+                        }
+                        onClick={() => setPanel(value)}
+                    >
+                        {label}
+                    </Button>
+                ))}
+            </nav>
+            <form onSubmit={form.handleSubmit(save)} className="space-y-6">
+                <section
+                    hidden={panel !== "connection"}
+                    aria-label="Google連携設定"
+                    className="space-y-5 border rounded-lg p-4 sm:p-6"
+                >
                     <h2 className="font-bold text-lg">{t.connection}</h2>
                     <div className="flex items-center gap-2 text-sm">
-                        <CheckCircle2 size={17} className="text-primary" />
+                        <CheckCircle2
+                            size={17}
+                            className={
+                                data.connected
+                                    ? "text-primary"
+                                    : "text-muted-foreground"
+                            }
+                        />
                         {data.connected ? t.connected : t.missing}
                         {data.connected && (
                             <span className="text-muted-foreground">
@@ -327,7 +399,11 @@ export default function AppointmentAdmin({
                         ))}
                     </fieldset>
                 </section>
-                <section className="border rounded-lg p-4 sm:p-6 space-y-5">
+                <section
+                    hidden={panel !== "settings"}
+                    aria-label="日程・受付設定"
+                    className="border rounded-lg p-4 sm:p-6 space-y-6"
+                >
                     <h2 className="font-bold text-lg">{t.settings}</h2>
                     <div className="space-y-2">
                         <Label htmlFor="appointment-title">
@@ -353,8 +429,46 @@ export default function AppointmentAdmin({
                                 <Label htmlFor={"appointment-" + key}>
                                     {labels[key]}
                                 </Label>
+                                <div
+                                    role="group"
+                                    aria-label={labels[key] + "の候補"}
+                                    className="flex flex-wrap gap-1"
+                                >
+                                    {presets[key].map((value) => (
+                                        <Button
+                                            key={value}
+                                            type="button"
+                                            size="sm"
+                                            variant={
+                                                current.current.config[key] ===
+                                                value
+                                                    ? "default"
+                                                    : "outline"
+                                            }
+                                            aria-pressed={
+                                                current.current.config[key] ===
+                                                value
+                                            }
+                                            onClick={() =>
+                                                form.setValue(
+                                                    `config.${key}`,
+                                                    value,
+                                                    { shouldDirty: true },
+                                                )
+                                            }
+                                        >
+                                            {value}
+                                            {key === "noticeHours"
+                                                ? "時間"
+                                                : key === "horizonDays"
+                                                  ? "日"
+                                                  : "分"}
+                                        </Button>
+                                    ))}
+                                </div>
                                 <Input
                                     id={"appointment-" + key}
+                                    className="max-w-28 tabular-nums"
                                     type="number"
                                     {...form.register(`config.${key}`, {
                                         valueAsNumber: true,
@@ -375,65 +489,124 @@ export default function AppointmentAdmin({
                             </div>
                         ))}
                     </div>
-                    <fieldset className="space-y-3">
-                        <legend className="text-sm font-medium mb-2">
+                    <fieldset className="space-y-1">
+                        <legend className="font-semibold mb-2">
                             {t.windows}
                         </legend>
+                        <p className="text-xs text-muted-foreground leading-6 pb-3">
+                            曜日ごとに受付時間を設定します。昼休みを挟む場合は、時間帯を分けて追加してください（1日3枠まで）。
+                        </p>
                         {t.weekdays.map((label, day) => {
-                            const rows = current.current.config.windows;
-                            const i = rows.findIndex((v) => v.day === day);
+                            const dayRows = windows.fields
+                                .map((field, index) => ({ field, index }))
+                                .filter(({ field }) => field.day === day);
+                            const values =
+                                current.current.config.windows.filter(
+                                    (w) => w.day === day,
+                                );
+                            const latest = values.reduce(
+                                (end, w) => (w.end > end ? w.end : end),
+                                "00:00",
+                            );
+                            const addDisabled =
+                                dayRows.length >= 3 ||
+                                windows.fields.length >= 21 ||
+                                latest >= "23:59";
                             return (
                                 <div
                                     key={day}
-                                    className="flex flex-wrap items-center gap-3"
+                                    className="grid gap-3 border-t py-4 sm:grid-cols-[5rem_1fr]"
                                 >
-                                    <label className="flex items-center gap-2 w-12 text-sm">
+                                    <label className="flex items-center gap-2 self-start pt-2 text-sm font-medium">
                                         <input
                                             type="checkbox"
-                                            checked={i >= 0}
-                                            onChange={(e) =>
-                                                form.setValue(
-                                                    "config.windows",
-                                                    e.target.checked
-                                                        ? [
-                                                              ...rows,
-                                                              {
-                                                                  day,
-                                                                  start: "10:00",
-                                                                  end: "17:00",
-                                                              },
-                                                          ]
-                                                        : rows.filter(
-                                                              (v) =>
-                                                                  v.day !== day,
-                                                          ),
-                                                    { shouldDirty: true },
-                                                )
-                                            }
+                                            checked={dayRows.length > 0}
+                                            onChange={(e) => {
+                                                if (e.target.checked)
+                                                    windows.append({
+                                                        day,
+                                                        start: "10:00",
+                                                        end: "17:00",
+                                                    });
+                                                else
+                                                    windows.remove(
+                                                        dayRows.map(
+                                                            ({ index }) =>
+                                                                index,
+                                                        ),
+                                                    );
+                                            }}
                                         />
-                                        {label}
+                                        {label}曜日
                                     </label>
-                                    {i >= 0 && (
-                                        <>
-                                            <Input
-                                                type="time"
-                                                className="w-28"
-                                                aria-label={label + t.fromTime}
-                                                {...form.register(
-                                                    `config.windows.${i}.start`,
-                                                )}
-                                            />
-                                            <span aria-hidden>〜</span>
-                                            <Input
-                                                type="time"
-                                                className="w-28"
-                                                aria-label={label + t.toTime}
-                                                {...form.register(
-                                                    `config.windows.${i}.end`,
-                                                )}
-                                            />
-                                        </>
-                                    )}
+                                    <div className="space-y-2 min-w-0">
+                                        {!dayRows.length && (
+                                            <p className="py-2 text-sm text-muted-foreground">
+                                                受付しない
+                                            </p>
+                                        )}
+                                        {dayRows.map(({ field, index }, n) => (
+                                            <div
+                                                key={field.id}
+                                                className="flex flex-wrap items-center gap-2"
+                                            >
+                                                <Input
+                                                    type="time"
+                                                    className="w-28 tabular-nums"
+                                                    aria-label={`${label}開始${n + 1}`}
+                                                    {...form.register(
+                                                        `config.windows.${index}.start`,
+                                                    )}
+                                                />
+                                                <span aria-hidden>〜</span>
+                                                <Input
+                                                    type="time"
+                                                    className="w-28 tabular-nums"
+                                                    aria-label={`${label}終了${n + 1}`}
+                                                    {...form.register(
+                                                        `config.windows.${index}.end`,
+                                                    )}
+                                                />
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    aria-label={`${label}の時間帯${n + 1}を削除`}
+                                                    onClick={() =>
+                                                        windows.remove(index)
+                                                    }
+                                                >
+                                                    削除
+                                                </Button>
+                                            </div>
+                                        ))}
+                                        {!!dayRows.length && (
+                                            <Button
+                                                type="button"
+                                                size="sm"
+                                                variant="outline"
+                                                disabled={addDisabled}
+                                                aria-label={`${label}に時間帯を追加`}
+                                                onClick={() => {
+                                                    const [h, m] = latest
+                                                        .split(":")
+                                                        .map(Number);
+                                                    const end = Math.min(
+                                                        h * 60 + m + 60,
+                                                        1439,
+                                                    );
+                                                    const endText = `${String(Math.floor(end / 60)).padStart(2, "0")}:${String(end % 60).padStart(2, "0")}`;
+                                                    windows.append({
+                                                        day,
+                                                        start: latest,
+                                                        end: endText,
+                                                    });
+                                                }}
+                                            >
+                                                ＋ 時間帯を追加
+                                            </Button>
+                                        )}
+                                    </div>
                                 </div>
                             );
                         })}
@@ -474,6 +647,14 @@ export default function AppointmentAdmin({
                     <p className="text-xs text-muted-foreground leading-6">
                         {t.offHelp}
                     </p>
+                </section>
+                <div
+                    className={
+                        panel === "bookings"
+                            ? "hidden"
+                            : "sticky bottom-0 z-10 flex flex-wrap items-center gap-3 border-t bg-background py-4"
+                    }
+                >
                     {Object.keys(form.formState.errors).length > 0 && (
                         <p role="alert" className="text-sm text-destructive">
                             {t.errors.invalid}
@@ -482,14 +663,80 @@ export default function AppointmentAdmin({
                     <Button disabled={busy || !dirty} type="submit">
                         {busy ? t.saving : t.save}
                     </Button>
-                </section>
+                    <p className="text-xs text-muted-foreground">
+                        {dirty
+                            ? "変更はまだ保存されていません。"
+                            : "保存済みの設定を表示しています。"}
+                    </p>
+                </div>
             </form>
-            <section className="space-y-4">
+            <section
+                hidden={panel !== "bookings"}
+                aria-label="予約一覧"
+                className="space-y-4"
+            >
                 <h2 className="font-bold text-lg">{t.bookings}</h2>
+                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="appointment-search">
+                            名前・メールアドレス
+                        </Label>
+                        <Input
+                            id="appointment-search"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                            type="search"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="appointment-from">予約日（開始）</Label>
+                        <Input
+                            id="appointment-from"
+                            type="date"
+                            value={dateFrom}
+                            onChange={(e) => setDateFrom(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="appointment-to">予約日（終了）</Label>
+                        <Input
+                            id="appointment-to"
+                            type="date"
+                            value={dateTo}
+                            onChange={(e) => setDateTo(e.target.value)}
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="appointment-status">予約の状態</Label>
+                        <select
+                            id="appointment-status"
+                            className="w-full rounded-md border bg-background p-2 text-sm"
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                        >
+                            <option value="">すべて</option>
+                            {Object.entries(t.statuses).map(
+                                ([value, label]) => (
+                                    <option key={value} value={value}>
+                                        {label}
+                                    </option>
+                                ),
+                            )}
+                        </select>
+                    </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                    直近100件を対象に検索します。表示：{filteredRows.length}件
+                </p>
+                {!!rows.length && !filteredRows.length && (
+                    <p className="text-sm text-muted-foreground">
+                        条件に合う予約はありません。
+                    </p>
+                )}
                 {!rows.length && (
                     <p className="text-sm text-muted-foreground">{t.empty}</p>
                 )}
-                {rows.map((row) => (
+                {filteredRows.map((row) => (
                     <article
                         key={row.bookingId}
                         className="border-t py-4 space-y-2 text-sm"
