@@ -28,6 +28,7 @@ const dateLabel = (day: string) =>
     }).format(new Date(day + "T12:00:00+09:00"));
 
 export default function AppointmentSlotPicker({
+    typeId,
     preview,
     sample,
     bookingId,
@@ -38,6 +39,7 @@ export default function AppointmentSlotPicker({
     durationMinutes = 60,
     initialStart = "",
 }: {
+    typeId?: string;
     preview: boolean;
     sample: boolean;
     bookingId?: string;
@@ -154,6 +156,9 @@ export default function AppointmentSlotPicker({
                                     days: String(length),
                                     preview: preview ? "1" : "0",
                                     ...(bookingId ? { bookingId } : {}),
+                                    ...(typeId && typeId !== "default"
+                                        ? { typeId }
+                                        : {}),
                                 }),
                             undefined,
                             controller.signal,
@@ -187,6 +192,7 @@ export default function AppointmentSlotPicker({
         count,
         lastDay,
         preview,
+        typeId,
         sample,
         bookingId,
         revision,

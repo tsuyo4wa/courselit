@@ -8,6 +8,8 @@ export const AppointmentSettingsSchema =
     new mongoose.Schema<AppointmentSettings>({
         domainId: { type: String, required: true, unique: true },
         config: { type: mongoose.Schema.Types.Mixed, required: true },
+        types: { type: [mongoose.Schema.Types.Mixed], default: [] },
+        configVersion: { type: Number, default: 1 },
         clientId: { type: String, default: "" },
         secret: { type: String, default: "" },
         refresh: { type: String, default: "" },
@@ -18,6 +20,7 @@ export const AppointmentSettingsSchema =
 export const AppointmentBookingSchema = new mongoose.Schema<AppointmentBooking>(
     {
         bookingId: { type: String, required: true, unique: true },
+        typeId: { type: String, default: "default" },
         domainId: { type: String, required: true, index: true },
         userId: { type: String, required: true },
         email: { type: String, required: true },

@@ -294,3 +294,35 @@ it("rejects a client JSON registered for another callback without filling creden
     ).toHaveValue("");
     expect(appointmentRequest).not.toHaveBeenCalled();
 });
+
+it("a menu detail saves its own version and keeps Google connection in the common page", async () => {
+    const initial = { ...data(), typeId: "menu-90", version: 3 };
+    const request = appointmentRequest as jest.Mock;
+    request.mockImplementation(async (_path, body) => {
+        if (body?.config) initial.config = body.config;
+        return { ...initial, version: 4 };
+    });
+    render(<AppointmentAdmin initial={initial} mode="detail" />);
+    expect(
+        screen.queryByRole("button", { name: "Google連携" }),
+    ).not.toBeInTheDocument();
+    expect(
+        screen.getByRole("link", { name: /予約画面を確認/ }),
+    ).toHaveAttribute("href", "/dashboard/appointments/menu-90/preview");
+    fireEvent.change(screen.getByLabelText("所要時間（分）"), {
+        target: { value: "90" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "設定を保存" }));
+    await waitFor(() =>
+        expect(request).toHaveBeenCalledWith(
+            "types/menu-90",
+            expect.objectContaining({
+                version: 3,
+                config: expect.objectContaining({
+                    duration: 90,
+                    enabled: false,
+                }),
+            }),
+        ),
+    );
+});

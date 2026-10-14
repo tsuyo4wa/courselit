@@ -208,7 +208,12 @@ export default function LoginForm({
                 const response = await fetch("/api/appointments/login-intent", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email: email.trim().toLowerCase() }),
+                    body: JSON.stringify({
+                        email: email.trim().toLowerCase(),
+                        ...(redirectTo?.startsWith("/appointments/")
+                            ? { typeId: redirectTo.split("/")[2] }
+                            : {}),
+                    }),
                 });
                 if (!response.ok)
                     throw new Error(finalUiLabels.authenticationError);

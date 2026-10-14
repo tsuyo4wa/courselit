@@ -1,3 +1,4 @@
+import { selectedAppointmentSettings } from "@/services/appointment-types";
 import { NextRequest } from "next/server";
 import {
     appointmentContext,
@@ -25,12 +26,16 @@ export async function GET(req: NextRequest) {
             days > 14
         )
             throw new AppointmentError("invalid", 400);
-        const s = await settingsFor(c.domainId);
+        const base = await settingsFor(c.domainId);
         const b = q.get("bookingId")
             ? await ownedBooking(c, q.get("bookingId")!)
             : undefined;
         if (b && b.preview !== preview)
             throw new AppointmentError("forbidden", 403);
+        const typeId = b ? b.typeId || "default" : q.get("typeId") || "default";
+        if (b && q.get("typeId") && q.get("typeId") !== typeId)
+            throw new AppointmentError("forbidden", 403);
+        const s = selectedAppointmentSettings(base, typeId);
         await rateLimit(c, req.headers, "availability");
         return appointmentJson({
             slots: await availability(c, s, from, days, preview, b),

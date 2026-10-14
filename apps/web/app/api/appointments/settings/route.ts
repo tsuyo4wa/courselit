@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
         await rateLimit(c, req.headers, "settings");
         const raw = await appointmentBody(req);
         const action = z
-            .enum(["save", "check", "connect", "disconnect"])
+            .enum(["save", "save_connection", "check", "connect", "disconnect"])
             .parse(raw.action);
         if (action === "connect") {
             const s = await settingsFor(c.domainId);
@@ -131,7 +131,11 @@ export async function POST(req: NextRequest) {
                 ],
             });
             if (action === "disconnect") {
-                if (s.config.enabled || protectedBookings)
+                if (
+                    s.config.enabled ||
+                    s.types?.some((t) => t.config.enabled) ||
+                    protectedBookings
+                )
                     throw new AppointmentError("active_bookings", 409);
                 await Settings.updateOne(
                     { domainId: c.domainId },
@@ -145,12 +149,18 @@ export async function POST(req: NextRequest) {
             const parsed = settingsInputSchema.safeParse(raw.data);
             if (!parsed.success) throw new AppointmentError("invalid", 400);
             const input = parsed.data;
+            if (action === "save_connection")
+                input.config = {
+                    ...s.config,
+                    calendarId: input.config.calendarId,
+                    busyCalendarIds: input.config.busyCalendarIds,
+                };
             const credentialChange =
                 (input.clientId !== undefined &&
                     input.clientId !== s.clientId) ||
                 !!input.clientSecret;
             if (
-                protectedBookings &&
+                (protectedBookings || s.types?.some((t) => t.config.enabled)) &&
                 (credentialChange ||
                     input.config.calendarId !== s.config.calendarId)
             )
@@ -164,8 +174,9 @@ export async function POST(req: NextRequest) {
                 s.checkedAt = undefined;
             }
             s.config = input.config;
-            if (s.config.enabled) {
-                if (!ready(s))
+            s.configVersion = (s.configVersion || 1) + 1;
+            if (s.config.enabled || s.types?.some((t) => t.config.enabled)) {
+                if (s.config.enabled && !ready(s))
                     throw new AppointmentError("setup_required", 400);
                 const google = new AppointmentGoogle(s);
                 await google.validateCalendars();

@@ -1,12 +1,8 @@
 import { headers } from "next/headers";
-import { notFound } from "next/navigation";
-import {
-    appointmentContext,
-    settingsFor,
-    listBookings,
-    originFor,
-} from "@/services/appointments";
-import AppointmentAdmin from "@/components/admin/appointments";
+import { notFound, redirect } from "next/navigation";
+import { appointmentContext, settingsFor } from "@/services/appointments";
+import { appointmentTypeSummaries } from "@/lib/appointment-types";
+import AppointmentList from "@/components/admin/appointment-list";
 export const dynamic = "force-dynamic";
 export const metadata = { robots: { index: false, follow: false } };
 export default async function Page({
@@ -14,24 +10,20 @@ export default async function Page({
 }: {
     searchParams: Promise<{ connection?: string }>;
 }) {
-    const h = await headers();
-    const c = await appointmentContext(h);
+    const c = await appointmentContext(await headers());
     if (!c.owner) notFound();
+    const flag = (await searchParams).connection;
+    if (flag)
+        redirect(
+            `/dashboard/appointments/connection?connection=${flag === "connected" ? "connected" : "failed"}`,
+        );
     const s = await settingsFor(c.domainId);
     return (
-        <AppointmentAdmin
-            connectionStatus={(await searchParams).connection}
+        <AppointmentList
             initial={{
-                config: s.config,
-                clientId: s.clientId,
-                secretConfigured: !!s.secret,
+                types: appointmentTypeSummaries(s),
                 connected: !!s.refresh,
                 account: s.account,
-                checkedAt: s.checkedAt?.toISOString(),
-                redirectUri:
-                    originFor(c, h) + "/api/appointments/google/callback",
-                calendars: [],
-                bookings: await listBookings(c, s, true),
             }}
         />
     );

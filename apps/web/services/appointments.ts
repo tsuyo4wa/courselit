@@ -1,3 +1,8 @@
+import {
+    appointmentSettingsForType,
+    appointmentTypeFilter,
+    appointmentTypePath,
+} from "@/lib/appointment-types";
 import { publicSiteOrigin } from "@/lib/portable-site-url";
 import { createHash, createHmac, randomUUID } from "crypto";
 import nodemailer from "nodemailer";
@@ -183,7 +188,13 @@ export function bookingView(
         preview: b.preview,
         version: b.version,
         mailState: b.mailState,
-        ...(b.status === "confirmed" ? { zoomUrl: s.config.zoomUrl } : {}),
+        ...(b.status === "confirmed"
+            ? {
+                  zoomUrl:
+                      appointmentSettingsForType(s, b.typeId || "default")
+                          ?.config.zoomUrl || "",
+              }
+            : {}),
         ...(owner ? { email: b.email, notes: b.notes } : {}),
     };
 }
@@ -191,12 +202,14 @@ export async function listBookings(
     c: AppointmentContext,
     s: AppointmentSettings,
     owner = false,
+    typeId?: string,
 ) {
     const user = requireUser(c);
     if (owner) requireOwner(c);
     const data = await Bookings.find({
         domainId: c.domainId,
         ...(!owner ? { userId: user.userId } : {}),
+        ...(typeId ? appointmentTypeFilter(typeId) : {}),
     })
         .sort({ createdAt: -1 })
         .limit(100)
@@ -211,6 +224,12 @@ export async function availability(
     preview: boolean,
     exclude?: AppointmentBooking,
 ) {
+    if (exclude) {
+        const duration =
+            (Date.parse(exclude.end) - Date.parse(exclude.start)) / 60000;
+        if (duration >= 15 && duration <= 180)
+            s = { ...s, config: { ...s.config, duration } };
+    }
     gate(c, s, preview, !!exclude);
     if (!ready(s)) throw new AppointmentError("setup_required", 503);
     const today = jstDate(Date.now());
@@ -253,6 +272,7 @@ function fingerprint(v: unknown) {
     return createHash("sha256").update(JSON.stringify(v)).digest("hex");
 }
 export type AppointmentMutation = {
+    typeId?: string;
     action: "create" | "reschedule" | "cancel" | "reconcile";
     preview: boolean;
     id?: string;
@@ -270,7 +290,29 @@ export async function mutateBooking(
 ) {
     const user = requireUser(c);
     const result = await hostLock(c.domainId, async (assertLease) => {
-        const s = await settingsFor(c.domainId);
+        const base = await settingsFor(c.domainId);
+        const prior =
+            input.action !== "create"
+                ? await ownedBooking(c, input.id!)
+                : undefined;
+        const typeId = prior
+            ? prior.typeId || "default"
+            : input.typeId || "default";
+        if (prior && input.typeId && input.typeId !== typeId)
+            throw new AppointmentError("forbidden", 403);
+        const selected = appointmentSettingsForType(base, typeId);
+        if (!selected) throw new AppointmentError("not_found", 404);
+        const s = prior
+            ? {
+                  ...selected,
+                  config: {
+                      ...selected.config,
+                      duration:
+                          (Date.parse(prior.end) - Date.parse(prior.start)) /
+                          60000,
+                  },
+              }
+            : selected;
         gate(c, s, input.preview, input.action !== "create");
         const hash = fingerprint(input);
         const receiptKey =
@@ -299,6 +341,7 @@ export async function mutateBooking(
                     domainId: c.domainId,
                     userId: user.userId,
                     preview: input.preview,
+                    ...appointmentTypeFilter(typeId),
                     status: { $ne: "cancelled" },
                     end: { $gt: new Date().toISOString() },
                 })
@@ -317,6 +360,7 @@ export async function mutateBooking(
             const id = randomUUID();
             b = {
                 bookingId: id,
+                typeId,
                 domainId: c.domainId,
                 userId: user.userId,
                 email: user.email,
@@ -571,7 +615,11 @@ export async function notifyBooking(
         { $set: { mailVersion: b.version, mailState: "sending" } },
     );
     if (!claim.modifiedCount) return;
-    const s = await settingsFor(c.domainId);
+    const s = appointmentSettingsForType(
+        await settingsFor(c.domainId),
+        b.typeId || "default",
+    );
+    if (!s) return;
     const time = new Intl.DateTimeFormat("ja-JP", {
         timeZone: "Asia/Tokyo",
         dateStyle: "full",
@@ -587,10 +635,13 @@ export async function notifyBooking(
     const text = [
         b.name + " 様",
         title,
+        "相談：" + s.config.title,
         "日時：" + time + "（日本時間）",
         "予約番号：" + b.bookingId,
         ...(!cancelled ? ["Zoom：" + s.config.zoomUrl] : []),
-        "予約の確認・変更・キャンセル：" + notificationOrigin + "/appointments",
+        "予約の確認・変更・キャンセル：" +
+            notificationOrigin +
+            appointmentTypePath(b.typeId || "default"),
         "※変更・キャンセルには予約時のメールアドレスでのログインが必要です。",
     ].join("\n\n");
     let state = "failed";

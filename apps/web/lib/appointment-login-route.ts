@@ -1,6 +1,12 @@
 /** Recognize the explicit consultation login flow without accepting arbitrary return URLs. */
 export function isAppointmentLoginDestination(value?: string) {
-    if (value === "/appointments") return true;
+    if (
+        value === "/appointments" ||
+        /^\/appointments\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(
+            value || "",
+        )
+    )
+        return true;
     if (!value || !/^\/lp\/[a-z0-9-]+\?/.test(value)) return false;
     try {
         const url = new URL(value, "https://school.invalid");

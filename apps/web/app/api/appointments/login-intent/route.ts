@@ -1,3 +1,4 @@
+import { selectedAppointmentSettings } from "@/services/appointment-types";
 import { NextRequest } from "next/server";
 import { randomBytes } from "crypto";
 import { z } from "zod";
@@ -25,13 +26,23 @@ export async function POST(req: NextRequest) {
     try {
         const c = await appointmentContext(req.headers);
         checkOrigin(c, req.headers);
-        gate(c, await settingsFor(c.domainId), false);
         await rateLimit(c, req.headers, "login-intent");
         const body = z
-            .object({ email: z.string().trim().email().max(254) })
+            .object({
+                email: z.string().trim().email().max(254),
+                typeId: z.string().uuid().or(z.literal("default")).optional(),
+            })
             .strict()
             .safeParse(await appointmentBody(req));
         if (!body.success) throw new AppointmentError("invalid", 400);
+        gate(
+            c,
+            selectedAppointmentSettings(
+                await settingsFor(c.domainId),
+                body.data.typeId || "default",
+            ),
+            false,
+        );
         const token = randomBytes(32).toString("base64url");
         await Transient.create({
             key: appointmentIntentKey(token),

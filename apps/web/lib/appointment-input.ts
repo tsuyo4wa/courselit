@@ -73,6 +73,7 @@ export const settingsInputSchema = z
 export const bookingInputSchema = z
     .object({
         action: z.enum(["create", "reschedule", "cancel", "reconcile"]),
+        typeId: z.string().uuid().or(z.literal("default")).optional(),
         preview: z.boolean(),
         id: z.string().uuid().optional(),
         key: z.string().uuid(),

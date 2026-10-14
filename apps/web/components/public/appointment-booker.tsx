@@ -1,4 +1,5 @@
 "use client";
+import { appointmentTypePath } from "@/lib/appointment-types";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -25,6 +26,7 @@ const formSchema = z.object({
 });
 export default function AppointmentBooker({
     preview,
+    typeId = "default",
     themeStyles,
     sample = false,
     title,
@@ -64,7 +66,10 @@ export default function AppointmentBooker({
                       "?" +
                       new URLSearchParams({ slot: selected }).toString(),
               })
-            : "/login?redirect=%2Fappointments";
+            : "/login?" +
+              new URLSearchParams({
+                  redirect: appointmentTypePath(typeId),
+              }).toString();
     const [bookings, setBookings] = useState(initialBookings);
     const [changing, setChanging] = useState<AppointmentView | null>(null);
     const [busy, setBusy] = useState(false);
@@ -88,6 +93,7 @@ export default function AppointmentBooker({
         try {
             const data = await appointmentRequest("bookings", {
                 action: changing ? "reschedule" : "create",
+                ...(typeId !== "default" ? { typeId } : {}),
                 preview,
                 key: createKey.current,
                 start: selected,
@@ -123,6 +129,7 @@ export default function AppointmentBooker({
         try {
             const data = await appointmentRequest("bookings", {
                 action: "cancel",
+                ...(typeId !== "default" ? { typeId } : {}),
                 preview: b.preview,
                 key: crypto.randomUUID(),
                 id: b.bookingId,
@@ -297,6 +304,7 @@ export default function AppointmentBooker({
                             )}
                         </div>
                         <AppointmentSlotPicker
+                            typeId={typeId}
                             key={changing?.bookingId || "new"}
                             preview={preview}
                             sample={sample}

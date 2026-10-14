@@ -188,3 +188,28 @@ it("does not restore a no-longer-available requested time", async () => {
     expect(onSelect.mock.calls.every((args) => args[0] === "")).toBe(true);
     expect(screen.queryByRole("radio")).not.toBeInTheDocument();
 });
+
+it("keeps the selected menu on every month availability request", async () => {
+    request.mockResolvedValue({ slots: [] });
+    render(
+        <AppointmentSlotPicker
+            preview
+            sample={false}
+            typeId="11111111-1111-4111-8111-111111111111"
+            durationMinutes={90}
+            selected=""
+            onSelect={() => {}}
+        />,
+    );
+    await screen.findByText(
+        "この月に予約できる日時はありません。別の月をご確認ください。",
+    );
+    expect(request.mock.calls.length).toBeGreaterThan(0);
+    expect(
+        request.mock.calls.every(
+            (call) =>
+                new URLSearchParams(call[0].split("?")[1]).get("typeId") ===
+                "11111111-1111-4111-8111-111111111111",
+        ),
+    ).toBe(true);
+});

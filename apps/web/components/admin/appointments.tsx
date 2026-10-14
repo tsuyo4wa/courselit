@@ -20,6 +20,7 @@ import type {
 export default function AppointmentAdmin({
     initial,
     connectionStatus,
+    mode,
 }: AppointmentAdminProps) {
     const [data, setData] = useState(initial);
     const [calendars, setCalendars] = useState<AppointmentCalendar[]>(
@@ -38,7 +39,7 @@ export default function AppointmentAdmin({
     );
     const [rows, setRows] = useState(initial.bookings);
     const [panel, setPanel] = useState(
-        connectionStatus ? "connection" : "settings",
+        mode === "connection" || connectionStatus ? "connection" : "settings",
     );
     const [search, setSearch] = useState("");
     const [status, setStatus] = useState("");
@@ -129,11 +130,21 @@ export default function AppointmentAdmin({
         setBusy(true);
         setMessage("");
         try {
-            await appointmentRequest("settings", {
-                action: "save",
-                data: current.current,
-            });
-            const next = await appointmentRequest("settings");
+            const resource =
+                mode === "detail" ? `types/${data.typeId}` : "settings";
+            await appointmentRequest(
+                resource,
+                mode === "detail"
+                    ? { config: current.current.config, version: data.version }
+                    : {
+                          action:
+                              mode === "connection"
+                                  ? "save_connection"
+                                  : "save",
+                          data: current.current,
+                      },
+            );
+            const next = await appointmentRequest(resource);
             setData(next);
             const values = {
                 config: next.config,
@@ -220,28 +231,70 @@ export default function AppointmentAdmin({
     };
     return (
         <main className="mx-auto w-full max-w-5xl p-4 sm:p-7 space-y-8">
+            {mode && (
+                <Link
+                    href="/dashboard/appointments"
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground"
+                >
+                    ← {t.listTitle}
+                </Link>
+            )}
             <header className="space-y-3">
                 <p className="flex items-center gap-2 text-sm text-primary">
                     <CalendarDays size={18} />
-                    {data.config.enabled ? "予約受付中" : "受付停止中"}
+                    {mode === "connection"
+                        ? data.connected
+                            ? t.connected
+                            : t.notConnected
+                        : data.config.enabled
+                          ? t.accepting
+                          : t.paused}
                 </p>
-                <h1 className="text-2xl font-bold">{t.adminTitle}</h1>
+                <h1 className="text-2xl font-bold">
+                    {mode === "connection"
+                        ? t.sharedConnection
+                        : mode === "detail"
+                          ? data.config.title
+                          : t.adminTitle}
+                </h1>
+                {mode === "detail" && (
+                    <p className="text-sm text-muted-foreground">
+                        {data.config.duration}分・{t.fixedZoom}・
+                        {t.sharedConnection}
+                    </p>
+                )}
                 <p className="text-muted-foreground text-sm leading-7">
-                    {t.adminIntro}
+                    {mode === "connection"
+                        ? t.sharedConnectionHelp
+                        : t.adminIntro}
                 </p>
-                <div className="flex flex-wrap gap-3">
-                    <Button asChild variant="outline">
-                        <Link href="/dashboard/appointments/preview">
-                            {t.preview}
-                            <ArrowUpRight size={16} />
-                        </Link>
-                    </Button>
-                    <Button asChild variant="ghost">
-                        <Link href="/dashboard/appointments/preview?sample=1">
-                            {t.sample}
-                        </Link>
-                    </Button>
-                </div>
+                {mode !== "connection" && (
+                    <div className="flex flex-wrap gap-3">
+                        <Button asChild variant="outline">
+                            <Link
+                                href={
+                                    mode === "detail"
+                                        ? `/dashboard/appointments/${data.typeId}/preview`
+                                        : "/dashboard/appointments/preview"
+                                }
+                            >
+                                {t.preview}
+                                <ArrowUpRight size={16} />
+                            </Link>
+                        </Button>
+                        <Button asChild variant="ghost">
+                            <Link
+                                href={
+                                    mode === "detail"
+                                        ? `/dashboard/appointments/${data.typeId}/preview?sample=1`
+                                        : "/dashboard/appointments/preview?sample=1"
+                                }
+                            >
+                                {t.sample}
+                            </Link>
+                        </Button>
+                    </div>
+                )}
             </header>
             <p
                 role="status"
@@ -262,22 +315,30 @@ export default function AppointmentAdmin({
                     ["settings", "日程・受付設定"],
                     ["bookings", "予約一覧"],
                     ["connection", "Google連携"],
-                ].map(([value, label]) => (
-                    <Button
-                        key={value}
-                        type="button"
-                        variant="ghost"
-                        aria-pressed={panel === value}
-                        className={
-                            panel === value
-                                ? "rounded-none border-b-2 border-primary text-primary"
-                                : "rounded-none text-muted-foreground"
-                        }
-                        onClick={() => setPanel(value)}
-                    >
-                        {label}
-                    </Button>
-                ))}
+                ]
+                    .filter(([value]) =>
+                        mode === "connection"
+                            ? value === "connection"
+                            : mode === "detail"
+                              ? value !== "connection"
+                              : true,
+                    )
+                    .map(([value, label]) => (
+                        <Button
+                            key={value}
+                            type="button"
+                            variant="ghost"
+                            aria-pressed={panel === value}
+                            className={
+                                panel === value
+                                    ? "rounded-none border-b-2 border-primary text-primary"
+                                    : "rounded-none text-muted-foreground"
+                            }
+                            onClick={() => setPanel(value)}
+                        >
+                            {label}
+                        </Button>
+                    ))}
             </nav>
             <form onSubmit={form.handleSubmit(save)} className="space-y-6">
                 <section

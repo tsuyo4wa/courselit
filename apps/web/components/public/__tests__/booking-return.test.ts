@@ -22,3 +22,15 @@ it.each([
         expect(isAppointmentLoginDestination(value)).toBe(false);
     },
 );
+
+it("accepts only exact generated menu paths for booking-only login", () => {
+    const path = "/appointments/11111111-1111-4111-8111-111111111111";
+    expect(isAppointmentLoginDestination(path)).toBe(true);
+    for (const value of [
+        path + "?next=https://evil.example",
+        path + "/extra",
+        "https://evil.example" + path,
+        "/appointments/unknown",
+    ])
+        expect(isAppointmentLoginDestination(value)).toBe(false);
+});

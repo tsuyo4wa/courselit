@@ -18,7 +18,27 @@ export type AppointmentConfig = {
     calendarId: string;
     busyCalendarIds: string[];
 };
+export type AppointmentType = {
+    typeId: string;
+    config: AppointmentConfig;
+    version: number;
+    createdAt: string;
+};
+export type AppointmentTypeSummary = {
+    typeId: string;
+    title: string;
+    duration: number;
+    enabled: boolean;
+    version: number;
+};
+export type AppointmentTypeListData = {
+    types: AppointmentTypeSummary[];
+    connected: boolean;
+    account: string;
+};
 export type AppointmentSettings = {
+    types?: AppointmentType[];
+    configVersion?: number;
     domainId: string;
     config: AppointmentConfig;
     clientId: string;
@@ -36,6 +56,7 @@ export type AppointmentStatus =
     | "cancelled"
     | "needs_review";
 export type AppointmentBooking = {
+    typeId?: string;
     bookingId: string;
     domainId: string;
     userId: string;
@@ -80,6 +101,8 @@ export type AppointmentView = Pick<
     | "mailState"
 > & { zoomUrl?: string; email?: string; notes?: string };
 export type AppointmentAdminData = {
+    typeId?: string;
+    version?: number;
     config: AppointmentConfig;
     clientId: string;
     secretConfigured: boolean;
@@ -91,6 +114,7 @@ export type AppointmentAdminData = {
     bookings: AppointmentView[];
 };
 export type AppointmentUiProps = {
+    typeId?: string;
     themeStyles?: string;
     preview: boolean;
     sample?: boolean;
@@ -113,6 +137,7 @@ export type AppointmentGoogleEvent = {
 export type AppointmentAdminProps = {
     initial: AppointmentAdminData;
     connectionStatus?: string;
+    mode?: "detail" | "connection";
 };
 export type AppointmentConfigForm = {
     config: AppointmentConfig;
@@ -125,3 +150,7 @@ export type AppointmentTransient = {
     value: Record<string, any>;
     expiresAt: Date;
 };
+
+export interface AppointmentListProps {
+    initial: AppointmentTypeListData;
+}

@@ -1228,6 +1228,23 @@ export const thankYouStrings = {
 };
 
 export const appointmentText = {
+    listTitle: "個別相談一覧",
+    notConnected: "未接続",
+    connectionSettings: "接続を確認・設定",
+    accepting: "予約受付中",
+    paused: "受付停止中",
+    listIntro: "相談ごとに、所要時間・受付時間・予約ページを管理します。",
+    createType: "個別相談を作る",
+    createTypeForm: "個別相談の作成",
+    typeName: "相談名",
+    createPaused: "受付停止で作成",
+    sharedConnection: "Googleカレンダー連携（共通）",
+    sharedConnectionHelp:
+        "すべての個別相談で同じ接続とカレンダーを使います。別の相談の予約とも空き時間を照合します。",
+    fixedZoom: "固定Zoom",
+    noTypeMatch: "一致する個別相談がありません。",
+    typeSearch: "個別相談を検索",
+
     loginExpired:
         "予約画面から、新しい認証コードを発行してログインしてください。",
     online: "オンライン（Zoom）",
@@ -1238,7 +1255,7 @@ export const appointmentText = {
     private: "非公開・確認中",
     public: "受付中",
     adminIntro:
-        "Googleカレンダーの空き時間と連動し、固定のZoom URLでご案内します。公開スイッチは確認後にONにしてください。",
+        "受付時間と案内を設定できます。「予約の受付」を切り替えて保存すると、この相談の受付を開始・停止できます。",
     preview: "予約画面を確認する",
     sample: "画面見本を見る",
     sampleNotice: "画面見本です。予約・Google予定・メールは作成しません。",
@@ -1361,7 +1378,8 @@ export const appointmentText = {
             "この日時は選べなくなりました。空き日時を再確認してください。",
         processing:
             "ほかの処理が進行中です。少し待ってから再確認してください。",
-        stale: "予約情報が更新されました。画面を読み込み直してください。",
+        stale: "情報が更新されました。画面を読み込み直してください。",
+        type_limit: "個別相談は20件まで作成できます。",
         already_booked:
             "すでに予約があります。予約一覧から日時を変更できます。",
         review_required:

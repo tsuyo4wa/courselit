@@ -410,3 +410,138 @@ describe("booking-only account creation intent", () => {
         expect(r.cookies.get(APPOINTMENT_LOGIN_COOKIE).value).toBe("");
     });
 });
+
+import { GET as typesGet, POST as typesPost } from "../types/route";
+import { GET as typeGet, POST as typePost } from "../types/[id]/route";
+it("guards menu management by owner and same origin and returns only summaries", async () => {
+    let response = await typesGet(request("types"));
+    expect(response.status).toBe(200);
+    const text = JSON.stringify(await response.json());
+    expect(text).toContain('"typeId":"default"');
+    expect(text).not.toContain("zoomUrl");
+    expect(text).not.toContain("refresh-token");
+    expect(
+        (
+            await typesPost(
+                request(
+                    "types",
+                    { name: "90分相談", duration: 90 },
+                    "https://evil.example",
+                ),
+            )
+        ).status,
+    ).toBe(403);
+    ctx.mockResolvedValue({ ...context, owner: false });
+    expect((await typesGet(request("types"))).status).toBe(403);
+    expect(
+        (await typesPost(request("types", { name: "90分相談", duration: 90 })))
+            .status,
+    ).toBe(403);
+});
+it("creates a paused menu, isolates its tenant, and rejects direct unknown menu requests", async () => {
+    const made = await typesPost(
+        request("types", { name: "90分相談", duration: 90 }),
+    );
+    expect(made.status).toBe(200);
+    const { typeId } = await made.json();
+    const params = { params: Promise.resolve({ id: typeId }) };
+    const detail = await typeGet(request("types/" + typeId), params);
+    expect(detail.status).toBe(200);
+    expect((await detail.json()).config).toMatchObject({
+        duration: 90,
+        enabled: false,
+    });
+    ctx.mockResolvedValue({ ...context, domainId: "tenant-b" });
+    expect((await typeGet(request("types/" + typeId), params)).status).toBe(
+        404,
+    );
+    expect(
+        (
+            await typePost(
+                request("types/" + typeId, {
+                    config: defaultAppointmentConfig,
+                    version: 1,
+                }),
+                params,
+            )
+        ).status,
+    ).toBe(404);
+});
+it("shared connection saves cannot overwrite menu schedules or enable booking", async () => {
+    const s = data();
+    await Settings.updateOne(
+        { domainId: context.domainId },
+        { $set: { config: { ...s.config, title: "既存60分" } } },
+    );
+    const r = await settingsPost(
+        request("settings", {
+            action: "save_connection",
+            data: {
+                config: {
+                    ...defaultAppointmentConfig,
+                    title: "上書き禁止",
+                    duration: 90,
+                    enabled: true,
+                    calendarId: "new-target",
+                    busyCalendarIds: ["busy"],
+                },
+                clientId: s.clientId,
+                clientSecret: "",
+            },
+        }),
+    );
+    expect(r.status).toBe(200);
+    const after = await Settings.findOne({ domainId: context.domainId }).lean();
+    expect(after!.config).toMatchObject({
+        title: "既存60分",
+        duration: 60,
+        enabled: false,
+        calendarId: "new-target",
+        busyCalendarIds: ["busy"],
+    });
+});
+
+it("booking login checks the selected menu rather than the paused default", async () => {
+    const { POST: prepare } = require("../login-intent/route");
+    const typeId = randomUUID();
+    await Settings.updateOne(
+        { domainId: context.domainId },
+        {
+            $set: {
+                types: [
+                    {
+                        typeId,
+                        config: {
+                            ...defaultAppointmentConfig,
+                            enabled: true,
+                            duration: 90,
+                        },
+                        version: 1,
+                        createdAt: new Date().toISOString(),
+                    },
+                ],
+            },
+        },
+    );
+    expect(
+        (
+            await prepare(
+                request("login-intent", { email: "new@example.com", typeId }),
+            )
+        ).status,
+    ).toBe(200);
+    expect(
+        (await prepare(request("login-intent", { email: "new@example.com" })))
+            .status,
+    ).toBe(403);
+    expect(
+        (
+            await prepare(
+                request("login-intent", {
+                    email: "new@example.com",
+                    typeId: randomUUID(),
+                }),
+            )
+        ).status,
+    ).toBe(404);
+});

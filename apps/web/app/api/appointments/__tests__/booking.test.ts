@@ -538,3 +538,198 @@ it("uses the current configured school host for notifications about bookings cre
         origin,
     );
 });
+
+// Multi-menu scheduling must preserve the shared host lock and legacy reservations.
+import {
+    createAppointmentType,
+    saveAppointmentType,
+} from "@/services/appointment-types";
+import { appointmentSettingsForType } from "@/lib/appointment-types";
+const menu90 = "11111111-1111-4111-8111-111111111111";
+async function addMenu(enabled = true) {
+    const s = setting();
+    await Settings.updateOne(
+        { domainId: context.domainId },
+        {
+            $set: {
+                types: [
+                    {
+                        typeId: menu90,
+                        config: {
+                            ...s.config,
+                            title: "90分相談",
+                            duration: 90,
+                            enabled,
+                        },
+                        version: 1,
+                        createdAt: new Date().toISOString(),
+                    },
+                ],
+            },
+        },
+    );
+}
+it("creates a 90-minute menu paused without changing the existing Google connection or 60-minute menu", async () => {
+    const before = await Settings.findOne({
+        domainId: context.domainId,
+    }).lean();
+    const made = await createAppointmentType(context, {
+        name: "90分相談",
+        duration: 90,
+    });
+    const after = await Settings.findOne({ domainId: context.domainId }).lean();
+    expect(after!.config).toEqual(before!.config);
+    expect(after!.refresh).toBe(before!.refresh);
+    expect(after!.types![0]).toMatchObject({
+        typeId: made.typeId,
+        config: { duration: 90, enabled: false },
+    });
+    await expect(
+        createAppointmentType(student, { name: "別", duration: 60 }),
+    ).rejects.toMatchObject({ status: 403 });
+});
+it("saves only the selected menu, rejects stale versions and never changes shared calendars from a menu", async () => {
+    await addMenu(false);
+    const s = await Settings.findOne({ domainId: context.domainId }).lean();
+    const config = {
+        ...s!.types![0].config,
+        title: "長めの相談",
+        calendarId: "tampered",
+        busyCalendarIds: [],
+    };
+    await saveAppointmentType(context, menu90, { config, version: 1 });
+    const after = await Settings.findOne({ domainId: context.domainId }).lean();
+    expect(after!.config).toEqual(s!.config);
+    expect(after!.types![0]).toMatchObject({
+        version: 2,
+        config: {
+            title: "長めの相談",
+            calendarId: "target",
+            busyCalendarIds: ["other"],
+        },
+    });
+    await expect(
+        saveAppointmentType(context, menu90, { config, version: 1 }),
+    ).rejects.toMatchObject({ status: 409 });
+    await expect(
+        saveAppointmentType(context, randomUUID(), { config, version: 1 }),
+    ).rejects.toMatchObject({ status: 404 });
+});
+it("reserves 90 minutes and blocks overlaps from another menu even without Google busy intervals", async () => {
+    await addMenu();
+    busy.mockResolvedValue([]);
+    const first = await mutateBooking(
+        student,
+        { ...create(), typeId: menu90 },
+        origin,
+    );
+    expect(Date.parse(first.end) - Date.parse(first.start)).toBe(90 * 60000);
+    const another = {
+        ...student,
+        user: { userId: "student-2", email: "second@example.com" },
+    } as AppointmentContext;
+    await expect(
+        mutateBooking(
+            another,
+            create(new Date(Date.parse(tomorrow()) + 60 * 60000).toISOString()),
+            origin,
+        ),
+    ).rejects.toMatchObject({ code: "slot_taken" });
+    const second = await mutateBooking(
+        student,
+        create(new Date(Date.parse(tomorrow()) + 180 * 60000).toISOString()),
+        origin,
+    );
+    expect(second.status).toBe("confirmed");
+    expect(await Bookings.countDocuments({ domainId: context.domainId })).toBe(
+        2,
+    );
+});
+it("isolates pause states and prevents a booking mutation from naming another menu", async () => {
+    await addMenu(false);
+    await expect(
+        mutateBooking(student, { ...create(), typeId: menu90 }, origin),
+    ).rejects.toMatchObject({ code: "not_open" });
+    const first = await mutateBooking(student, create(), origin);
+    await expect(
+        mutateBooking(
+            student,
+            {
+                action: "cancel",
+                typeId: menu90,
+                preview: false,
+                id: first.bookingId,
+                version: first.version,
+                key: randomUUID(),
+            },
+            origin,
+        ),
+    ).rejects.toMatchObject({ status: 403 });
+});
+it("retains the originally purchased duration when a menu changes before rescheduling", async () => {
+    await addMenu();
+    const first = await mutateBooking(
+        student,
+        { ...create(), typeId: menu90 },
+        origin,
+    );
+    const s = await Settings.findOne({ domainId: context.domainId }).lean();
+    await Settings.updateOne(
+        { domainId: context.domainId },
+        {
+            $set: {
+                types: s!.types!.map((t) => ({
+                    ...t,
+                    config: { ...t.config, duration: 60 },
+                })),
+            },
+        },
+    );
+    const changed = await mutateBooking(
+        student,
+        {
+            action: "reschedule",
+            preview: false,
+            id: first.bookingId,
+            version: first.version,
+            key: randomUUID(),
+            start: new Date(Date.parse(tomorrow()) + 3 * 3600000).toISOString(),
+        },
+        origin,
+    );
+    expect(Date.parse(changed.end) - Date.parse(changed.start)).toBe(
+        90 * 60000,
+    );
+    const base = await Settings.findOne({ domainId: context.domainId }).lean();
+    const selected = appointmentSettingsForType(base!, menu90)!;
+    expect(selected.config.duration).toBe(60);
+});
+
+it("filters legacy rows into default and sends each menu's own title and return path", async () => {
+    await addMenu();
+    const created = await mutateBooking(
+        student,
+        { ...create(), typeId: menu90 },
+        origin,
+    );
+    const { listBookings } = require("@/services/appointments");
+    const base = await Settings.findOne({ domainId: context.domainId }).lean();
+    expect(await listBookings(student, base, false, "default")).toHaveLength(0);
+    expect(await listBookings(student, base, false, menu90)).toHaveLength(1);
+    const transport = (nodemailer.createTransport as jest.Mock).mock.results.at(
+        -1,
+    )!.value;
+    expect(transport.sendMail).toHaveBeenCalledWith(
+        expect.objectContaining({
+            text: expect.stringContaining("/appointments/" + menu90),
+        }),
+    );
+    expect(transport.sendMail).toHaveBeenCalledWith(
+        expect.objectContaining({ text: expect.stringContaining("90分相談") }),
+    );
+    await Bookings.collection.updateOne(
+        { bookingId: created.bookingId },
+        { $unset: { typeId: 1 } },
+    );
+    expect(await listBookings(student, base, false, "default")).toHaveLength(1);
+});

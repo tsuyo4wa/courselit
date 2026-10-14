@@ -20,7 +20,12 @@ export async function GET(req: NextRequest) {
     try {
         const c = await appointmentContext(req.headers);
         return appointmentJson({
-            bookings: await listBookings(c, await settingsFor(c.domainId)),
+            bookings: await listBookings(
+                c,
+                await settingsFor(c.domainId),
+                false,
+                req.nextUrl.searchParams.get("typeId") || "default",
+            ),
         });
     } catch (e) {
         return appointmentFailure(e);
