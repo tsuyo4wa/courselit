@@ -1,9 +1,10 @@
 "use client";
 import { isBlogEnabled } from "@/lib/blog-feature";
-import { finalUiText } from "@/config/strings";
+import { appointmentText, finalUiText } from "@/config/strings";
 
 import {
     Box,
+    CalendarDays,
     Globe,
     LibraryBig,
     LifeBuoy,
@@ -202,6 +203,14 @@ function getSidebarItems({
                 path === "/dashboard/blogs" ||
                 path?.startsWith("/dashboard/blog"),
             items: [],
+        });
+    }
+    if (profile.permissions!.includes(permissions.manageSettings)) {
+        navMainItems.push({
+            title: appointmentText.title,
+            url: "/dashboard/appointments",
+            icon: CalendarDays,
+            isActive: path?.startsWith("/dashboard/appointments"),
         });
     }
     if (profile.permissions!.includes(permissions.manageSite)) {

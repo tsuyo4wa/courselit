@@ -107,3 +107,5 @@ export type {
     PaymentTestLearningLink,
     AdminPaymentConnectionProps,
 } from "./admin-payment-test";
+
+export * from "./appointment";

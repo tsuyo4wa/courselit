@@ -43,3 +43,5 @@ export * from "./models/rate-limit-event";
 export * from "./product-discussion-cleanup";
 
 export * from "./models/admin-payment-test";
+
+export * from "./models/appointment";
