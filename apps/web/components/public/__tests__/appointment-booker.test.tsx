@@ -15,10 +15,26 @@ jest.mock("next/link", () => ({
         </a>
     ),
 }));
+const originalRandomUUID = crypto.randomUUID;
 beforeEach(() => {
     global.fetch = jest.fn();
+    Object.defineProperty(crypto, "randomUUID", {
+        configurable: true,
+        value: () => "00000000-0000-4000-8000-000000000001",
+    });
+    jest.spyOn(Date, "now").mockReturnValue(
+        Date.parse("2026-10-14T12:00:00+09:00"),
+    );
 });
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => {
+    jest.restoreAllMocks();
+    if (originalRandomUUID)
+        Object.defineProperty(crypto, "randomUUID", {
+            configurable: true,
+            value: originalRandomUUID,
+        });
+    else Reflect.deleteProperty(crypto, "randomUUID");
+});
 it("shows a labelled sample, supports date selection and never creates a booking", async () => {
     const request = jest.spyOn(global, "fetch");
     render(
@@ -31,7 +47,9 @@ it("shows a labelled sample, supports date selection and never creates a booking
         />,
     );
     expect(screen.getByText(t.sampleNotice)).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("button", { name: t.search }));
+    fireEvent.click(
+        await screen.findByRole("button", { name: "2026年10月15日 空きあり" }),
+    );
     await waitFor(() => expect(screen.getAllByRole("radio")).toHaveLength(3));
     fireEvent.click(screen.getAllByRole("radio")[0]);
     expect(
@@ -40,17 +58,22 @@ it("shows a labelled sample, supports date selection and never creates a booking
     expect(request).not.toHaveBeenCalled();
 });
 it("requires existing login without forcing course enrollment", async () => {
-    jest.spyOn(global, "fetch").mockResolvedValue({
-        ok: true,
-        json: async () => ({
-            slots: [
-                {
-                    start: "2030-01-01T01:00:00.000Z",
-                    end: "2030-01-01T02:00:00.000Z",
-                },
-            ],
-        }),
-    } as Response);
+    jest.spyOn(global, "fetch").mockImplementation(
+        async (url) =>
+            ({
+                ok: true,
+                json: async () => ({
+                    slots: String(url).includes("from=2026-10-14")
+                        ? [
+                              {
+                                  start: "2026-10-15T01:00:00.000Z",
+                                  end: "2026-10-15T02:00:00.000Z",
+                              },
+                          ]
+                        : [],
+                }),
+            }) as Response,
+    );
     render(
         <AppointmentBooker
             preview={false}
@@ -59,7 +82,9 @@ it("requires existing login without forcing course enrollment", async () => {
             description={t.description}
         />,
     );
-    fireEvent.click(screen.getByRole("button", { name: t.search }));
+    fireEvent.click(
+        await screen.findByRole("button", { name: "2026年10月15日 空きあり" }),
+    );
     await waitFor(() => expect(screen.getByRole("radio")).toBeInTheDocument());
     fireEvent.click(screen.getByRole("radio"));
     expect(screen.getByRole("link", { name: t.login })).toHaveAttribute(
@@ -78,7 +103,9 @@ it("provides accessible date, name, note and consent fields before confirmation"
             description={t.description}
         />,
     );
-    fireEvent.click(screen.getByRole("button", { name: t.search }));
+    fireEvent.click(
+        await screen.findByRole("button", { name: "2026年10月15日 空きあり" }),
+    );
     await waitFor(() => expect(screen.getAllByRole("radio")).toHaveLength(3));
     fireEvent.click(screen.getAllByRole("radio")[0]);
     expect(screen.getByLabelText(t.name)).toBeInTheDocument();
@@ -139,4 +166,97 @@ it("uses the server-supplied public palette even inside the admin theme provider
         />,
     );
     expect(container.querySelector("style")!.textContent).toBe(css);
+});
+
+it("keeps creation and owned rescheduling connected to the selected calendar time", async () => {
+    const fetch = jest
+        .spyOn(global, "fetch")
+        .mockImplementation(async (url, init) => {
+            if (init?.method === "POST") {
+                const body = JSON.parse(init.body as string);
+                return {
+                    ok: true,
+                    json: async () => ({
+                        booking: {
+                            bookingId: "calendar-test",
+                            start: body.start,
+                            end: new Date(
+                                Date.parse(body.start) + 3600000,
+                            ).toISOString(),
+                            status: "confirmed",
+                            preview: true,
+                            version: body.action === "create" ? 1 : 2,
+                        },
+                    }),
+                } as Response;
+            }
+            return {
+                ok: true,
+                json: async () => ({
+                    slots: String(url).includes("from=2026-10-14")
+                        ? [
+                              {
+                                  start: "2026-10-16T01:00:00.000Z",
+                                  end: "2026-10-16T02:00:00.000Z",
+                              },
+                              {
+                                  start: "2026-10-17T03:00:00.000Z",
+                                  end: "2026-10-17T04:00:00.000Z",
+                              },
+                          ]
+                        : [],
+                }),
+            } as Response;
+        });
+    render(
+        <AppointmentBooker
+            preview
+            loggedIn
+            title={t.title}
+            description={t.description}
+        />,
+    );
+    fireEvent.click(
+        await screen.findByRole("button", { name: "2026年10月16日 空きあり" }),
+    );
+    fireEvent.click(screen.getByRole("radio"));
+    fireEvent.change(screen.getByLabelText(t.name), {
+        target: { value: "動作確認" },
+    });
+    fireEvent.click(screen.getByRole("checkbox", { name: t.consent }));
+    fireEvent.click(screen.getByRole("button", { name: t.confirmPreview }));
+    await screen.findByRole("button", { name: t.change });
+    fireEvent.click(screen.getByRole("button", { name: t.change }));
+    fireEvent.click(
+        await screen.findByRole("button", { name: "2026年10月17日 空きあり" }),
+    );
+    fireEvent.click(screen.getByRole("radio"));
+    fireEvent.click(screen.getByRole("button", { name: t.changeSubmit }));
+    await waitFor(() =>
+        expect(
+            fetch.mock.calls.filter((call) => call[1]?.method === "POST"),
+        ).toHaveLength(2),
+    );
+    const writes = fetch.mock.calls
+        .filter((call) => call[1]?.method === "POST")
+        .map((call) => JSON.parse(call[1]!.body as string));
+    expect(writes[0]).toMatchObject({
+        action: "create",
+        preview: true,
+        start: "2026-10-16T01:00:00.000Z",
+        name: "動作確認",
+        consent: true,
+    });
+    expect(writes[1]).toMatchObject({
+        action: "reschedule",
+        preview: true,
+        start: "2026-10-17T03:00:00.000Z",
+        id: "calendar-test",
+        version: 1,
+    });
+    expect(
+        fetch.mock.calls.some((call) =>
+            String(call[0]).includes("bookingId=calendar-test"),
+        ),
+    ).toBe(true);
 });

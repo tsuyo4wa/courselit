@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,8 +13,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { appointmentText as t } from "@/config/strings";
 import { appointmentRequest, appointmentTime } from "@/lib/appointment-client";
+import AppointmentSlotPicker from "./appointment-slot-picker";
 import type {
-    AppointmentInterval,
     AppointmentView,
     AppointmentUiProps,
 } from "@courselit/common-models";
@@ -31,21 +31,15 @@ export default function AppointmentBooker({
     description,
     loggedIn,
     initialBookings = [],
-}: AppointmentUiProps) {
+    horizonDays = 30,
+    durationMinutes = 60,
+}: AppointmentUiProps & { horizonDays?: number; durationMinutes?: number }) {
     const { theme } = useContext(ThemeContext);
-    const [date, setDate] = useState(
-        new Date(Date.now() + 9 * 3600000).toISOString().slice(0, 10),
-    );
-    const [times, setTimes] = useState<AppointmentInterval[]>([]);
-    const [displayDay, setDisplayDay] = useState("");
     const [selected, setSelected] = useState("");
     const [bookings, setBookings] = useState(initialBookings);
     const [changing, setChanging] = useState<AppointmentView | null>(null);
     const [busy, setBusy] = useState(false);
     const [message, setMessage] = useState("");
-    const [searched, setSearched] = useState(false);
-    const abort = useRef<AbortController | null>(null);
-    const generation = useRef(0);
     const createKey = useRef("");
     const formRef = useRef({ name: "", notes: "", consent: false });
     const form = useForm<z.infer<typeof formSchema>>({
@@ -53,73 +47,8 @@ export default function AppointmentBooker({
         defaultValues: formRef.current,
     });
     formRef.current = form.watch();
-    useEffect(() => () => abort.current?.abort(), []);
-    async function load() {
-        const n = ++generation.current;
-        abort.current?.abort();
-        const controller = new AbortController();
-        abort.current = controller;
-        setBusy(true);
-        setMessage("");
-        setSelected("");
-        setTimes([]);
-        setSearched(false);
-        try {
-            if (sample) {
-                const d = new Date(date + "T10:00:00+09:00");
-                setTimes(
-                    [0, 2, 4].map((h) => ({
-                        start: new Date(
-                            d.getTime() + h * 3600000,
-                        ).toISOString(),
-                        end: new Date(
-                            d.getTime() + (h + 1) * 3600000,
-                        ).toISOString(),
-                    })),
-                );
-                setDisplayDay(date);
-                setSearched(true);
-            } else {
-                const data = await appointmentRequest(
-                    "availability?" +
-                        new URLSearchParams({
-                            from: date,
-                            days: "7",
-                            preview: preview ? "1" : "0",
-                            ...(changing
-                                ? { bookingId: changing.bookingId }
-                                : {}),
-                        }),
-                    undefined,
-                    controller.signal,
-                );
-                if (n === generation.current) {
-                    setTimes(data.slots);
-                    setDisplayDay(
-                        data.slots.length
-                            ? new Date(
-                                  Date.parse(data.slots[0].start) + 9 * 3600000,
-                              )
-                                  .toISOString()
-                                  .slice(0, 10)
-                            : date,
-                    );
-                    setSearched(true);
-                }
-            }
-        } catch (e) {
-            if (!controller.signal.aborted) setMessage((e as Error).message);
-        } finally {
-            if (n === generation.current) setBusy(false);
-        }
-    }
     function resetSelection() {
-        generation.current++;
-        abort.current?.abort();
-        setTimes([]);
         setSelected("");
-        setSearched(false);
-        setBusy(false);
         createKey.current = "";
     }
     async function submit() {
@@ -187,7 +116,7 @@ export default function AppointmentBooker({
         }
     }
     return (
-        <div className="courselit-theme appointment-booking-shell mx-auto w-full max-w-4xl bg-background px-4 py-8 sm:px-6 sm:py-12 space-y-9 text-foreground">
+        <div className="courselit-theme appointment-booking-shell mx-auto w-full max-w-5xl bg-background px-3 py-6 sm:px-6 sm:py-8 space-y-6 text-foreground">
             <style>
                 {themeStyles ||
                     (theme?.theme?.colors
@@ -202,18 +131,14 @@ export default function AppointmentBooker({
                     {sample ? t.sampleNotice : t.previewNotice}
                 </p>
             )}
-            <header className="space-y-4">
-                <p className="flex items-center gap-2 text-sm text-primary">
-                    <CalendarDays size={18} />
-                    {t.title}
-                </p>
-                <h1 className="text-2xl sm:text-3xl font-bold leading-relaxed">
+            <header className="space-y-3">
+                <h1 className="text-2xl sm:text-3xl font-bold leading-snug">
                     {title}
                 </h1>
-                <p className="text-base leading-8 text-muted-foreground">
+                <p className="text-base leading-7 text-muted-foreground">
                     {description}
                 </p>
-                <p className="text-sm flex items-center gap-2 text-muted-foreground">
+                <p className="text-sm flex flex-wrap items-center gap-2 text-muted-foreground">
                     <Video size={16} />
                     {t.online}
                     <span aria-hidden> · </span>
@@ -221,7 +146,7 @@ export default function AppointmentBooker({
                     {t.timezone}
                 </p>
             </header>
-            <ol className="flex flex-wrap gap-x-3 gap-y-2 border-y py-4 text-sm">
+            <ol className="flex flex-wrap gap-x-3 gap-y-2 border-y py-3 text-sm">
                 {t.flow.map((label, i) => (
                     <li key={label} className="flex items-center gap-2">
                         <span className="text-primary font-semibold">
@@ -321,134 +246,48 @@ export default function AppointmentBooker({
                 changing ||
                 sample) && (
                 <>
-                    <section className="space-y-4">
-                        <h2 className="text-lg font-bold flex items-center gap-2">
-                            <CalendarDays size={20} className="text-primary" />
-                            {changing ? t.change : t.times}
-                        </h2>
-                        {changing && (
-                            <Button
-                                variant="link"
-                                onClick={() => {
-                                    setChanging(null);
-                                    resetSelection();
-                                }}
-                            >
-                                {t.cancelChange}
-                            </Button>
-                        )}
-                        <div className="flex flex-wrap items-end gap-3">
-                            <div className="space-y-2">
-                                <Label htmlFor="appointment-date">
-                                    {t.date}
-                                </Label>
-                                <Input
-                                    id="appointment-date"
-                                    type="date"
-                                    value={date}
-                                    onChange={(e) => {
-                                        setDate(e.target.value);
+                    <section className="space-y-5">
+                        <div className="flex flex-wrap items-center justify-between gap-3">
+                            <h2 className="text-lg font-bold flex items-center gap-2">
+                                <CalendarDays
+                                    size={20}
+                                    className="text-primary"
+                                />
+                                {changing ? t.change : "日付と時間を選ぶ"}
+                            </h2>
+                            {changing && (
+                                <Button
+                                    variant="link"
+                                    onClick={() => {
+                                        setChanging(null);
                                         resetSelection();
                                     }}
-                                />
-                            </div>
-                            <Button onClick={load} disabled={busy || !date}>
-                                {busy ? t.loading : t.search}
-                            </Button>
+                                >
+                                    {t.cancelChange}
+                                </Button>
+                            )}
                         </div>
-                        {searched && times.length === 0 && (
-                            <p className="py-5 text-muted-foreground">
-                                {t.noSlots}
-                            </p>
-                        )}
-                        {searched && times.length > 0 && (
-                            <div
-                                className="flex flex-wrap gap-2"
-                                aria-label={t.date}
-                            >
-                                {Array.from(
-                                    new Set(
-                                        times.map((time) =>
-                                            new Date(
-                                                Date.parse(time.start) +
-                                                    9 * 3600000,
-                                            )
-                                                .toISOString()
-                                                .slice(0, 10),
-                                        ),
-                                    ),
-                                ).map((day) => (
-                                    <Button
-                                        key={day}
-                                        type="button"
-                                        variant={
-                                            displayDay === day
-                                                ? "default"
-                                                : "outline"
-                                        }
-                                        aria-pressed={displayDay === day}
-                                        onClick={() => {
-                                            setDisplayDay(day);
-                                            setSelected("");
-                                            createKey.current = "";
-                                        }}
-                                    >
-                                        {new Intl.DateTimeFormat("ja-JP", {
-                                            timeZone: "Asia/Tokyo",
-                                            month: "numeric",
-                                            day: "numeric",
-                                            weekday: "short",
-                                        }).format(
-                                            new Date(day + "T12:00:00+09:00"),
-                                        )}
-                                    </Button>
-                                ))}
-                            </div>
-                        )}
-                        <fieldset
-                            aria-label={t.times}
-                            className="grid grid-cols-1 min-[400px]:grid-cols-2 sm:grid-cols-3 gap-2"
-                        >
-                            {times
-                                .filter(
-                                    (time) =>
-                                        !displayDay ||
-                                        new Date(
-                                            Date.parse(time.start) +
-                                                9 * 3600000,
-                                        )
-                                            .toISOString()
-                                            .slice(0, 10) === displayDay,
-                                )
-                                .map((time) => (
-                                    <label
-                                        key={time.start}
-                                        className={
-                                            "flex cursor-pointer items-center gap-2 rounded-md border px-3 py-3 text-sm " +
-                                            (selected === time.start
-                                                ? "border-primary bg-primary/10"
-                                                : "hover:bg-muted")
-                                        }
-                                    >
-                                        <input
-                                            type="radio"
-                                            name="appointment-time"
-                                            value={time.start}
-                                            checked={selected === time.start}
-                                            onChange={() => {
-                                                setSelected(time.start);
-                                                createKey.current = "";
-                                            }}
-                                            className="accent-primary"
-                                        />
-                                        {appointmentTime(time.start)}
-                                    </label>
-                                ))}
-                        </fieldset>
+                        <AppointmentSlotPicker
+                            key={changing?.bookingId || "new"}
+                            preview={preview}
+                            sample={sample}
+                            bookingId={changing?.bookingId}
+                            selected={selected}
+                            disabled={busy}
+                            horizonDays={horizonDays}
+                            durationMinutes={durationMinutes}
+                            onSelect={(value) => {
+                                setSelected(value);
+                                createKey.current = "";
+                            }}
+                        />
                     </section>
                     {selected &&
                         (!loggedIn && !sample ? (
-                            <div className="space-y-3">
+                            <div
+                                id="appointment-details"
+                                className="scroll-mt-6 space-y-3"
+                            >
                                 <p className="text-sm leading-7">
                                     {t.loginHelp}
                                 </p>
@@ -460,6 +299,7 @@ export default function AppointmentBooker({
                             </div>
                         ) : (
                             <form
+                                id="appointment-details"
                                 onSubmit={
                                     changing
                                         ? (e) => {
@@ -468,7 +308,7 @@ export default function AppointmentBooker({
                                           }
                                         : form.handleSubmit(submit)
                                 }
-                                className="border-t pt-7 space-y-5"
+                                className="scroll-mt-6 border-t pt-6 space-y-5"
                             >
                                 <p className="font-semibold flex items-center gap-2">
                                     <Check size={18} className="text-primary" />

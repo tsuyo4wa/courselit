@@ -18,6 +18,8 @@ export default async function Page() {
     return (
         <AppointmentBooker
             preview={false}
+            durationMinutes={s.config.duration}
+            horizonDays={s.config.horizonDays}
             title={s.config.title}
             description={s.config.description}
             loggedIn={!!c.user}

@@ -32,6 +32,8 @@ export default async function Page({
             preview
             themeStyles={themeStyles}
             sample={sample}
+            durationMinutes={s.config.duration}
+            horizonDays={s.config.horizonDays}
             title={s.config.title}
             description={s.config.description}
             loggedIn
