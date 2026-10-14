@@ -66,6 +66,7 @@ export default function MyContentView({
                             thumbnail
                         }
                         type
+                        isFree
                         certificateId
                     }
                 }

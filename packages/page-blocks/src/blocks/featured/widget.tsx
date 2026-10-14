@@ -1,3 +1,4 @@
+import { isFreeCourse } from "@courselit/utils";
 import React, { useEffect, useState } from "react";
 import { Course, SiteInfo, WidgetProps } from "@courselit/common-models";
 import {
@@ -146,10 +147,19 @@ export default function Widget({
                                     }
                                     theme={overiddenTheme}
                                     href={`/p/${course.pageId}`}
-                                    badgeChildren={getBadgeText(
-                                        course,
-                                        state.siteinfo,
-                                    )}
+                                    thumbnailLabel={
+                                        isFreeCourse(course)
+                                            ? "無料講座"
+                                            : undefined
+                                    }
+                                    badgeChildren={
+                                        isFreeCourse(course)
+                                            ? undefined
+                                            : getBadgeText(
+                                                  course,
+                                                  state.siteinfo,
+                                              )
+                                    }
                                 />
                             ))}
                         </>

@@ -1,4 +1,5 @@
 "use client";
+import { isFreeCourse } from "@courselit/utils";
 import { finalUiText } from "@/config/strings";
 
 import { useMemo, useContext } from "react";
@@ -80,7 +81,14 @@ export function ProductsList({
                                   "/courselit_backdrop_square.webp"
                               }
                               href={`/p/${product.pageId}`}
-                              badgeChildren={getBadgeText(product, siteinfo)}
+                              thumbnailLabel={
+                                  isFreeCourse(product) ? "無料講座" : undefined
+                              }
+                              badgeChildren={
+                                  isFreeCourse(product)
+                                      ? undefined
+                                      : getBadgeText(product, siteinfo)
+                              }
                               theme={theme}
                           />
                       ))}

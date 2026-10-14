@@ -36,6 +36,8 @@ import courseEnrollTemplate from "@/templates/course-enroll";
 import MembershipModel from "@models/Membership";
 import CommunityModel from "@models/Community";
 import CourseModel from "@models/Course";
+import PaymentPlanModel from "@models/PaymentPlan";
+import { isFreeCourse } from "@courselit/utils";
 import LessonModel from "@models/Lesson";
 import { addMailJob } from "@/services/queue";
 import { getPaymentMethodFromSettings } from "@/payments-new";
@@ -782,6 +784,24 @@ async function getUserContentInternal(ctx: GQLContext, user: User) {
                         type: course.type,
                         totalLessons: publishedLessonIds.size,
                         completedLessonsCount: completedPublishedLessons.length,
+                        isFree: isFreeCourse({
+                            type: course.type,
+                            costType: course.costType,
+                            defaultPaymentPlan: course.defaultPaymentPlan,
+                            paymentPlans: course.defaultPaymentPlan
+                                ? [
+                                      await PaymentPlanModel.findOne({
+                                          domain: ctx.subdomain._id,
+                                          planId: course.defaultPaymentPlan,
+                                      }),
+                                  ]
+                                      .filter(Boolean)
+                                      .map((plan) => ({
+                                          planId: plan!.planId,
+                                          type: plan!.type,
+                                      }))
+                                : [],
+                        }),
                         featuredImage: course.featuredImage,
                         certificateId: user.purchases.find(
                             (progress: Progress) =>

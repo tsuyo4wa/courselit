@@ -83,6 +83,7 @@ const entityType = new GraphQLObjectType({
         },
         type: { type: GraphQLString },
         certificateId: { type: GraphQLString },
+        isFree: { type: GraphQLBoolean },
     },
 });
 

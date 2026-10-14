@@ -1,3 +1,4 @@
+import { isFreeCourse } from "@courselit/utils";
 import { finalUiText } from "../../ui-strings";
 import { FormEvent, useState } from "react";
 import {
@@ -194,7 +195,7 @@ export default function Widget({
             >
                 {featuredImage && (
                     <div
-                        className={`text-center overflow-hidden ${
+                        className={`relative text-center overflow-hidden ${
                             verticalLayout ? "md:w-full" : "w-full md:w-1/2"
                         } ${twRoundedMap[mediaRadius]}`}
                     >
@@ -202,6 +203,12 @@ export default function Widget({
                             src={featuredImage.file}
                             alt={featuredImage.caption}
                         />
+                        {type === Constants.PageType.PRODUCT &&
+                            isFreeCourse(product) && (
+                                <span className="absolute left-3 top-3 z-10 inline-flex rounded px-2.5 py-1.5 text-[13px] font-semibold leading-5 bg-primary text-primary-foreground shadow-sm pointer-events-none">
+                                    無料講座
+                                </span>
+                            )}
                     </div>
                 )}
                 <div
@@ -217,7 +224,8 @@ export default function Widget({
                         }`}
                     >
                         {type === Constants.PageType.PRODUCT &&
-                            !isLeadMagnet && (
+                            !isLeadMagnet &&
+                            !isFreeCourse(product) && (
                                 <Preheader theme={overiddenTheme}>
                                     {getSymbolFromCurrency(
                                         state.siteinfo.currencyISOCode,

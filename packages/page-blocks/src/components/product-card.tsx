@@ -12,6 +12,7 @@ export function ProductCard({
     href,
     image,
     badgeChildren,
+    thumbnailLabel,
 }: {
     title: string;
     user: {
@@ -22,6 +23,7 @@ export function ProductCard({
     href: string;
     image: string;
     badgeChildren?: any;
+    thumbnailLabel?: string;
 }) {
     return (
         <Link href={href} className="flex">
@@ -30,12 +32,19 @@ export function ProductCard({
                 className="flex flex-col overflow-hidden w-full"
                 theme={theme}
             >
-                <PageCardImage
-                    src={image}
-                    alt={title}
-                    className="aspect-video object-cover"
-                    theme={theme}
-                />
+                <div className="relative">
+                    <PageCardImage
+                        src={image}
+                        alt={title}
+                        className="aspect-video object-cover"
+                        theme={theme}
+                    />
+                    {thumbnailLabel && (
+                        <span className="absolute left-3 top-3 z-10 inline-flex rounded px-2.5 py-1.5 text-[13px] font-semibold leading-5 bg-primary text-primary-foreground shadow-sm pointer-events-none">
+                            {thumbnailLabel}
+                        </span>
+                    )}
+                </div>
                 <PageCardContent theme={theme} className="flex flex-col grow">
                     <PageCardHeader theme={theme} className="grow">
                         {title}

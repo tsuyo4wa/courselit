@@ -17,6 +17,7 @@ export interface Entity {
         | typeof Constants.CourseType.COURSE
         | typeof Constants.CourseType.DOWNLOAD;
     certificateId?: string;
+    isFree?: boolean;
 }
 
 export interface ContentItem {

@@ -38,10 +38,19 @@ export function MyContentCard({ item }: ContentCardProps) {
                     : `/dashboard/community/${item.entity.id}`
             }
         >
-            <ContentCardImage
-                src={item.entity.featuredImage?.file}
-                alt={item.entity.title}
-            />
+            <div className="relative">
+                <ContentCardImage
+                    src={item.entity.featuredImage?.file}
+                    alt={item.entity.title}
+                />
+                {entityType.toLowerCase() ===
+                    Constants.MembershipEntityType.COURSE &&
+                    entity.isFree && (
+                        <span className="absolute left-3 top-3 z-10 inline-flex rounded px-2.5 py-1.5 text-[13px] font-semibold leading-5 bg-primary text-primary-foreground shadow-sm pointer-events-none">
+                            無料講座
+                        </span>
+                    )}
+            </div>
             <ContentCardContent>
                 <ContentCardHeader>{item.entity.title}</ContentCardHeader>
                 {entityType.toLowerCase() === Constants.CourseType.COURSE ? (
