@@ -177,3 +177,70 @@ it("does not offer the midday gap between two windows on the same day", () => {
         ),
     ).toBe(true);
 });
+
+it("imports only the web client fields locally and waits for explicit save", async () => {
+    render(<AppointmentAdmin initial={data()} />);
+    fireEvent.click(screen.getByRole("button", { name: "Google連携" }));
+    const file = new File(["{}"], "client.json", { type: "application/json" });
+    Object.defineProperty(file, "text", {
+        value: async () =>
+            JSON.stringify({
+                web: {
+                    client_id: "test.apps.googleusercontent.com",
+                    client_secret: "fake-secret-for-test",
+                    redirect_uris: [
+                        "https://example.com/api/appointments/google/callback",
+                    ],
+                },
+                extra: "not submitted",
+            }),
+    });
+    fireEvent.change(screen.getByLabelText("Google接続用JSONを読み込む"), {
+        target: { files: [file] },
+    });
+    await waitFor(() =>
+        expect(screen.getByRole("status")).toHaveTextContent(
+            "JSONから接続情報を読み込みました。",
+        ),
+    );
+    expect(screen.getByLabelText("Google OAuth クライアントID")).toHaveValue(
+        "test.apps.googleusercontent.com",
+    );
+    expect(
+        screen.getByLabelText("クライアントシークレット：未設定"),
+    ).toHaveValue("fake-secret-for-test");
+    expect(
+        screen.getByLabelText("クライアントシークレット：未設定"),
+    ).toHaveAttribute("type", "password");
+    expect(appointmentRequest).not.toHaveBeenCalled();
+});
+it("rejects a client JSON registered for another callback without filling credentials", async () => {
+    render(<AppointmentAdmin initial={data()} />);
+    fireEvent.click(screen.getByRole("button", { name: "Google連携" }));
+    const file = new File(["{}"], "wrong-client.json");
+    Object.defineProperty(file, "text", {
+        value: async () =>
+            JSON.stringify({
+                web: {
+                    client_id: "other.apps.googleusercontent.com",
+                    client_secret: "fake",
+                    redirect_uris: ["https://other.example/callback"],
+                },
+            }),
+    });
+    fireEvent.change(screen.getByLabelText("Google接続用JSONを読み込む"), {
+        target: { files: [file] },
+    });
+    await waitFor(() =>
+        expect(screen.getByRole("status")).toHaveTextContent(
+            "JSONを読み込めませんでした。",
+        ),
+    );
+    expect(screen.getByLabelText("Google OAuth クライアントID")).toHaveValue(
+        "",
+    );
+    expect(
+        screen.getByLabelText("クライアントシークレット：未設定"),
+    ).toHaveValue("");
+    expect(appointmentRequest).not.toHaveBeenCalled();
+});

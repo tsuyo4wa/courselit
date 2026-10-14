@@ -61,6 +61,42 @@ export default function AppointmentAdmin({
     });
     current.current = form.watch();
     const dirty = JSON.stringify(current.current) !== saved.current;
+    async function importGoogleJson(file?: File) {
+        if (!file) return;
+        setBusy(true);
+        setMessage("");
+        try {
+            if (file.size > 65536) throw new Error("invalid");
+            const parsed = JSON.parse(await file.text());
+            const web = parsed?.web;
+            if (
+                !web ||
+                typeof web.client_id !== "string" ||
+                !web.client_id.endsWith(".apps.googleusercontent.com") ||
+                web.client_id.length > 300 ||
+                typeof web.client_secret !== "string" ||
+                !web.client_secret ||
+                web.client_secret.length > 1000 ||
+                !Array.isArray(web.redirect_uris) ||
+                !web.redirect_uris.includes(data.redirectUri)
+            ) {
+                throw new Error("invalid");
+            }
+            form.setValue("clientId", web.client_id, { shouldDirty: true });
+            form.setValue("clientSecret", web.client_secret, {
+                shouldDirty: true,
+            });
+            setMessage(
+                "JSONから接続情報を読み込みました。「設定を保存」で保存してください。",
+            );
+        } catch {
+            setMessage(
+                "JSONを読み込めませんでした。Webアプリ用のファイルと、登録したリダイレクトURIを確認してください。",
+            );
+        } finally {
+            setBusy(false);
+        }
+    }
     async function action(name: string) {
         setBusy(true);
         setMessage("");
@@ -278,6 +314,25 @@ export default function AppointmentAdmin({
                         </summary>
                         <p className="mt-3">{t.setupDetails}</p>
                     </details>
+                    <div className="space-y-2 border-t pt-4">
+                        <Label htmlFor="appointment-google-json">
+                            Google接続用JSONを読み込む
+                        </Label>
+                        <Input
+                            id="appointment-google-json"
+                            type="file"
+                            accept=".json,application/json"
+                            disabled={busy}
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                e.target.value = "";
+                                void importGoogleJson(file);
+                            }}
+                        />
+                        <p className="text-xs leading-6 text-muted-foreground">
+                            GoogleからダウンロードしたWebアプリ用JSONを選べます。ファイル全体は送信せず、この画面内で必要な2項目だけを読み込みます。読み込んだ後に保存してください。
+                        </p>
+                    </div>
                     <div className="space-y-2">
                         <Label htmlFor="appointment-client">{t.clientId}</Label>
                         <Input
