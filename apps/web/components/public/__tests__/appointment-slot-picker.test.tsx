@@ -153,3 +153,38 @@ it("renders leap month dates and clears a selection on a month change without wr
     expect(screen.queryByRole("radio")).not.toBeInTheDocument();
     expect(request).not.toHaveBeenCalled();
 });
+
+it("restores a login return time only when the current availability still contains it", async () => {
+    const choice = interval("2026-10-16", 12);
+    request.mockImplementation(async (path) => ({
+        slots: path.includes("from=2026-10-14") ? [choice] : [],
+    }));
+    const onSelect = jest.fn();
+    render(
+        <AppointmentSlotPicker
+            preview={false}
+            sample={false}
+            selected=""
+            initialStart={choice.start}
+            onSelect={onSelect}
+        />,
+    );
+    await waitFor(() => expect(onSelect).toHaveBeenCalledWith(choice.start));
+    expect(screen.getByRole("radio")).toBeInTheDocument();
+});
+it("does not restore a no-longer-available requested time", async () => {
+    request.mockResolvedValue({ slots: [] });
+    const onSelect = jest.fn();
+    render(
+        <AppointmentSlotPicker
+            preview={false}
+            sample={false}
+            selected=""
+            initialStart={interval("2026-10-16").start}
+            onSelect={onSelect}
+        />,
+    );
+    await waitFor(() => expect(request).toHaveBeenCalled());
+    expect(onSelect.mock.calls.every((args) => args[0] === "")).toBe(true);
+    expect(screen.queryByRole("radio")).not.toBeInTheDocument();
+});

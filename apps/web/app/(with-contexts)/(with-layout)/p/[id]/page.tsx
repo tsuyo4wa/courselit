@@ -5,7 +5,8 @@ import ClientSidePage from "./client-side-page";
 import { headers } from "next/headers";
 import type { Metadata, ResolvingMetadata } from "next";
 import { Media } from "@courselit/common-models";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import PageModel from "@models/Page";
 
 type Props = {
     params: Promise<{
@@ -79,6 +80,15 @@ export async function generateMetadata(
 
 export default async function Page(props: Props) {
     const params = await props.params;
+    const h = await headers();
+    if (
+        await PageModel.exists({
+            domain: h.get("domainId"),
+            pageId: params.id,
+            funnelManaged: true,
+        })
+    )
+        redirect("/lp/" + encodeURIComponent(params.id));
     const address = await getAddressFromHeaders(headers);
     const [siteInfo, page] = await Promise.all([
         getFullSiteSetup(address),

@@ -1,3 +1,4 @@
+import { publicFunnelSnapshot, protectFunnelMedia } from "@/services/funnels";
 import { assertBlogEnabled, isBlogEnabled } from "@/lib/blog-feature";
 import { responses } from "../../config/strings";
 import DomainModel from "@models/Domain";
@@ -56,6 +57,7 @@ export async function getPage({
                 domain: ctx.subdomain._id,
             },
             {
+                funnelManaged: 1,
                 pageId: 1,
                 layout: 1,
                 name: 1,
@@ -84,6 +86,7 @@ export async function getPage({
                 domain: ctx.subdomain._id,
             },
             {
+                funnelManaged: 1,
                 pageId: 1,
                 layout: 1,
                 name: 1,
@@ -98,6 +101,22 @@ export async function getPage({
         if (!page) return;
         if (page.type === blogPage && !isBlogEnabled(ctx.subdomain.settings))
             return;
+
+        if (page.funnelManaged) {
+            const published = await publicFunnelSnapshot(
+                String(ctx.subdomain._id),
+                id,
+            );
+            if (!published) return;
+            return getPageResponse(
+                {
+                    ...published.page,
+                    type: site,
+                    entityId: ctx.subdomain.name,
+                } as any,
+                ctx,
+            );
+        }
 
         if (page.type === product) {
             const course = await Course.findOne({
@@ -223,7 +242,10 @@ export const updatePage = async ({
         (mediaId) => !publishedLayoutMediaIds.has(mediaId),
     );
 
-    for (const mediaId of deletableMediaIds) {
+    for (const mediaId of await protectFunnelMedia(
+        ctx.subdomain._id,
+        deletableMediaIds,
+    )) {
         try {
             await deleteMedia(mediaId);
         } catch (err) {
@@ -261,6 +283,11 @@ export const publish = async (
     if (!page) {
         return null;
     }
+
+    if (page.funnelManaged)
+        throw new Error(
+            "このLPは「LP・ファネル」の確認画面から公開してください。",
+        );
 
     assertBlogEnabled(ctx.subdomain.settings, page.type);
 
@@ -320,7 +347,10 @@ export const publish = async (
             },
         },
     );
-    for (const mediaId of mediaToDelete) {
+    for (const mediaId of await protectFunnelMedia(
+        ctx.subdomain._id,
+        Array.from(mediaToDelete),
+    )) {
         await deleteMedia(mediaId);
     }
     await (page as any).save();
@@ -534,8 +564,15 @@ export const deletePageInternal = async (ctx: GQLContext, id: string) => {
         throw new Error(responses.item_not_found);
     }
 
+    if (!page) return;
+    if ((page as any).funnelManaged)
+        throw new Error("このLPはファネル画面で停止・アーカイブしてください。");
+
     const mediaToBeDeleted = extractMediaIDs(JSON.stringify(page));
-    for (const mediaId of Array.from(mediaToBeDeleted)) {
+    for (const mediaId of await protectFunnelMedia(
+        ctx.subdomain._id,
+        Array.from(mediaToBeDeleted),
+    )) {
         await deleteMedia(mediaId);
     }
 
@@ -582,7 +619,10 @@ export const deleteBlock = async ({
     const deletableMediaIds = Array.from(deletedMediaIds).filter(
         (mediaId) => !publishedLayoutMediaIds.has(mediaId),
     );
-    for (const mediaId of deletableMediaIds) {
+    for (const mediaId of await protectFunnelMedia(
+        ctx.subdomain._id,
+        deletableMediaIds,
+    )) {
         await deleteMedia(mediaId);
     }
 

@@ -1,5 +1,5 @@
 "use client";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -33,9 +33,38 @@ export default function AppointmentBooker({
     initialBookings = [],
     horizonDays = 30,
     durationMinutes = 60,
-}: AppointmentUiProps & { horizonDays?: number; durationMinutes?: number }) {
+    returnTo,
+}: AppointmentUiProps & {
+    horizonDays?: number;
+    durationMinutes?: number;
+    returnTo?: string;
+}) {
     const { theme } = useContext(ThemeContext);
     const [selected, setSelected] = useState("");
+    const [resumeStart, setResumeStart] = useState("");
+    useEffect(() => {
+        if (!preview && !sample && loggedIn && returnTo?.startsWith("/lp/")) {
+            const value = new URLSearchParams(window.location.search).get(
+                "slot",
+            );
+            if (
+                value &&
+                /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value) &&
+                Number.isFinite(Date.parse(value))
+            )
+                setResumeStart(value);
+        }
+    }, [loggedIn, preview, sample, returnTo]);
+    const loginTarget =
+        returnTo && /^\/lp\/[a-z0-9-]+$/.test(returnTo)
+            ? "/login?" +
+              new URLSearchParams({
+                  redirect:
+                      returnTo +
+                      "?" +
+                      new URLSearchParams({ slot: selected }).toString(),
+              })
+            : "/login?redirect=%2Fappointments";
     const [bookings, setBookings] = useState(initialBookings);
     const [changing, setChanging] = useState<AppointmentView | null>(null);
     const [busy, setBusy] = useState(false);
@@ -273,6 +302,7 @@ export default function AppointmentBooker({
                             sample={sample}
                             bookingId={changing?.bookingId}
                             selected={selected}
+                            initialStart={resumeStart}
                             disabled={busy}
                             horizonDays={horizonDays}
                             durationMinutes={durationMinutes}
@@ -292,9 +322,7 @@ export default function AppointmentBooker({
                                     {t.loginHelp}
                                 </p>
                                 <Button asChild>
-                                    <Link href="/login?redirect=%2Fappointments">
-                                        {t.login}
-                                    </Link>
+                                    <Link href={loginTarget}>{t.login}</Link>
                                 </Button>
                             </div>
                         ) : (

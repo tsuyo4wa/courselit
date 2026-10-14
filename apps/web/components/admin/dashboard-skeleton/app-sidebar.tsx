@@ -6,6 +6,7 @@ import {
     Box,
     CalendarDays,
     Globe,
+    Files,
     LibraryBig,
     LifeBuoy,
     Mail,
@@ -214,6 +215,13 @@ function getSidebarItems({
         });
     }
     if (profile.permissions!.includes(permissions.manageSite)) {
+        navMainItems.push({
+            title: "LP・ファネル",
+            url: "/dashboard/funnels",
+            icon: Files,
+            isActive: path?.startsWith("/dashboard/funnels"),
+            items: [],
+        });
         navMainItems.push({
             title: SIDEBAR_MENU_PAGES,
             url: "/dashboard/pages",

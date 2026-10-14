@@ -36,6 +36,7 @@ export default function AppointmentSlotPicker({
     disabled = false,
     horizonDays = 30,
     durationMinutes = 60,
+    initialStart = "",
 }: {
     preview: boolean;
     sample: boolean;
@@ -45,6 +46,7 @@ export default function AppointmentSlotPicker({
     disabled?: boolean;
     horizonDays?: number;
     durationMinutes?: number;
+    initialStart?: string;
 }) {
     const [today] = useState(() => localDay(Date.now()));
     const [month, setMonth] = useState(() => today.slice(0, 7));
@@ -54,13 +56,33 @@ export default function AppointmentSlotPicker({
     const [error, setError] = useState("");
     const [revision, setRevision] = useState(0);
     const generation = useRef(0);
+    const resumed = useRef(false);
     const select = useRef(onSelect);
     select.current = onSelect;
     const lastDay = localDay(dayTime(today) + horizonDays * DAY);
+    useEffect(() => {
+        if (initialStart && Number.isFinite(Date.parse(initialStart))) {
+            const requestedDay = localDay(initialStart);
+            if (requestedDay >= today && requestedDay <= lastDay)
+                setMonth(requestedDay.slice(0, 7));
+        }
+    }, [initialStart, today, lastDay]);
     const first = new Date(month + "-01T12:00:00Z");
     const year = first.getUTCFullYear();
     const monthNumber = first.getUTCMonth();
     const count = new Date(Date.UTC(year, monthNumber + 1, 0)).getUTCDate();
+    useEffect(() => {
+        if (
+            !loading &&
+            !resumed.current &&
+            initialStart &&
+            slots.some((s) => s.start === initialStart)
+        ) {
+            resumed.current = true;
+            setDay(localDay(initialStart));
+            select.current(initialStart);
+        }
+    }, [loading, slots, initialStart]);
     const previousMonth = new Date(Date.UTC(year, monthNumber - 1, 1))
         .toISOString()
         .slice(0, 7);

@@ -260,3 +260,46 @@ it("keeps creation and owned rescheduling connected to the selected calendar tim
         ),
     ).toBe(true);
 });
+
+it("returns to the same LP after login while preserving only the requested time", async () => {
+    jest.spyOn(global, "fetch").mockImplementation(
+        async (url) =>
+            ({
+                ok: true,
+                json: async () => ({
+                    slots: String(url).includes("from=2026-10-14")
+                        ? [
+                              {
+                                  start: "2026-10-15T01:00:00.000Z",
+                                  end: "2026-10-15T02:00:00.000Z",
+                              },
+                          ]
+                        : [],
+                }),
+            }) as Response,
+    );
+    render(
+        <AppointmentBooker
+            preview={false}
+            loggedIn={false}
+            title={t.title}
+            description={t.description}
+            returnTo="/lp/ad"
+        />,
+    );
+    fireEvent.click(
+        await screen.findByRole("button", { name: "2026年10月15日 空きあり" }),
+    );
+    fireEvent.click(await screen.findByRole("radio"));
+    const href = screen
+        .getByRole("link", { name: t.login })
+        .getAttribute("href")!;
+    const destination = new URL(
+        href,
+        "https://school.example",
+    ).searchParams.get("redirect")!;
+    const target = new URL(destination, "https://school.example");
+    expect(target.pathname).toBe("/lp/ad");
+    expect(target.searchParams.get("slot")).toBe("2026-10-15T01:00:00.000Z");
+    expect(target.searchParams.has("email")).toBe(false);
+});

@@ -14,6 +14,7 @@ export interface Page extends PublicPage {
     domain: mongoose.Types.ObjectId;
     draftLayout: WidgetInstance[];
     creatorId: string;
+    funnelManaged?: boolean;
     draftTitle?: string;
     draftDescription?: string;
     draftSocialImage?: Media | null;
@@ -31,6 +32,7 @@ const PageSchema = new mongoose.Schema<Page>(
             default: product,
         },
         creatorId: { type: String, required: true },
+        funnelManaged: { type: Boolean, default: false },
         name: { type: String, required: true },
         layout: { type: [WidgetSchema], default: [] },
         draftLayout: { type: [WidgetSchema], default: [] },

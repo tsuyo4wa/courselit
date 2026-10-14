@@ -88,6 +88,27 @@ describe("updatePage media handling", () => {
         await PageModel.deleteMany({ domain: domain._id });
     });
 
+    it("keeps a managed funnel draft out of anonymous getPage and blocks direct page publication", async () => {
+        await PageModel.create({
+            domain: ctx.subdomain._id,
+            pageId: "managed-preview-only",
+            type: constants.site,
+            creatorId: "creator-1",
+            name: "Private funnel",
+            funnelManaged: true,
+            layout: [makeHeaderWidget(), makeFooterWidget()],
+            draftLayout: [makeHeaderWidget(), makeFooterWidget()],
+        });
+        const result = await getPage({
+            id: "managed-preview-only",
+            ctx: { ...ctx, user: null } as any,
+        });
+        expect(result).toBeUndefined();
+        await expect(publish("managed-preview-only", ctx)).rejects.toThrow(
+            "LP・ファネル",
+        );
+    });
+
     afterAll(async () => {
         await PageModel.deleteMany({ domain: domain._id });
         await DomainModel.deleteMany({ _id: domain._id });
