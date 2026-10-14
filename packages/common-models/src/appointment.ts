@@ -91,6 +91,7 @@ export type AppointmentAdminData = {
     bookings: AppointmentView[];
 };
 export type AppointmentUiProps = {
+    themeStyles?: string;
     preview: boolean;
     sample?: boolean;
     title: string;

@@ -25,6 +25,7 @@ const formSchema = z.object({
 });
 export default function AppointmentBooker({
     preview,
+    themeStyles,
     sample = false,
     title,
     description,
@@ -188,12 +189,13 @@ export default function AppointmentBooker({
     return (
         <div className="courselit-theme appointment-booking-shell mx-auto w-full max-w-4xl bg-background px-4 py-8 sm:px-6 sm:py-12 space-y-9 text-foreground">
             <style>
-                {theme?.theme?.colors
-                    ? generateThemeStyles(theme).replaceAll(
-                          ".courselit-theme",
-                          ".appointment-booking-shell",
-                      )
-                    : ""}
+                {themeStyles ||
+                    (theme?.theme?.colors
+                        ? generateThemeStyles(theme).replaceAll(
+                              ".courselit-theme",
+                              ".appointment-booking-shell",
+                          )
+                        : "")}
             </style>
             {(preview || sample) && (
                 <p className="border-l-2 border-primary bg-muted/50 px-4 py-3 text-sm leading-7">

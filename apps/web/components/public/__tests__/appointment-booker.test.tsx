@@ -125,3 +125,18 @@ it("uses the saved school palette for private preview and scopes it to the booki
         ),
     );
 });
+
+it("uses the server-supplied public palette even inside the admin theme provider", () => {
+    const css = ".appointment-booking-shell { --primary: 214 52% 25%; }";
+    const { container } = render(
+        <AppointmentBooker
+            preview
+            sample
+            loggedIn
+            title={t.title}
+            description={t.description}
+            themeStyles={css}
+        />,
+    );
+    expect(container.querySelector("style")!.textContent).toBe(css);
+});
