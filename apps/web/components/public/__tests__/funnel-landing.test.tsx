@@ -1,6 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import FunnelLanding from "../funnel-landing";
-jest.mock("@/lib/theme-styles", () => ({ generateThemeStyles: () => "" }));
+import { generateThemeStyles } from "@/lib/theme-styles";
+jest.mock("@/lib/theme-styles", () => ({
+    generateThemeStyles: jest.fn(() => ""),
+}));
 jest.mock("next/link", () => ({
     __esModule: true,
     default: ({ children, ...p }: any) => <a {...p}>{children}</a>,
@@ -16,6 +19,7 @@ jest.mock("../appointment-booker", () => ({
             data-testid="booking"
             data-sample={String(p.sample)}
             data-return={p.returnTo}
+            data-theme={p.themeStyles}
         >
             カレンダー
         </div>
@@ -78,5 +82,23 @@ it("uses the same-site LP return path and enabled booking without an iframe", ()
     expect(screen.getByTestId("booking")).toHaveAttribute(
         "data-sample",
         "false",
+    );
+});
+
+it("uses the published site theme inside the admin preview and passes it to the embedded calendar", () => {
+    const publishedTheme = { theme: { colors: { light: {}, dark: {} } } };
+    (generateThemeStyles as jest.Mock).mockReturnValueOnce(
+        ".courselit-theme{color:green}",
+    );
+    render(
+        <FunnelLanding
+            view={view}
+            siteInfo={{ settings: {}, theme: publishedTheme }}
+        />,
+    );
+    expect(generateThemeStyles).toHaveBeenCalledWith(publishedTheme);
+    expect(screen.getByTestId("booking")).toHaveAttribute(
+        "data-theme",
+        ".appointment-booking-shell{color:green}",
     );
 });

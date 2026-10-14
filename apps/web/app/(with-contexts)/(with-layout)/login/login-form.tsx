@@ -1,4 +1,5 @@
 "use client";
+import { isAppointmentLoginDestination } from "@/lib/appointment-login-route";
 import { finalUiText, finalUiLabels, localizeUiError } from "@/config/strings";
 
 import {
@@ -49,6 +50,7 @@ export default function LoginForm({
     loginProviders?: RuntimeLoginProvider[];
 }) {
     const { theme } = useContext(ThemeContext);
+    const isBookingLogin = isAppointmentLoginDestination(redirectTo);
     const [showCode, setShowCode] = useState(false);
     const [email, setEmail] = useState("");
     const [code, setCode] = useState("");
@@ -131,7 +133,7 @@ export default function LoginForm({
         }
 
         return true;
-    }, []);
+    }, [executeRecaptcha, serverConfig.recaptchaSiteKey, toast]);
 
     const signInUser = async function (e: FormEvent) {
         e.preventDefault();
@@ -150,7 +152,7 @@ export default function LoginForm({
                     ),
                 );
             } else {
-                if (redirectTo === "/appointments")
+                if (isBookingLogin)
                     await fetch("/api/appointments/login-intent", {
                         method: "DELETE",
                     }).catch(() => undefined);
@@ -202,7 +204,7 @@ export default function LoginForm({
         }
 
         try {
-            if (redirectTo === "/appointments") {
+            if (isBookingLogin) {
                 const response = await fetch("/api/appointments/login-intent", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -358,7 +360,7 @@ export default function LoginForm({
                                 )}
                             </>
                         )}
-                        {redirectTo !== "/appointments" &&
+                        {!isBookingLogin &&
                             loginProviders.map((provider) => (
                                 <ExternalLoginButton
                                     key={provider.key}

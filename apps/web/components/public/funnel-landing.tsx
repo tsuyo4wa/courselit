@@ -1,8 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useContext } from "react";
 import ClientSidePage from "@/app/(with-contexts)/(with-layout)/p/[id]/client-side-page";
-import { ThemeContext } from "@/components/contexts";
 import { generateThemeStyles } from "@/lib/theme-styles";
 import AppointmentBooker from "./appointment-booker";
 import { Button } from "@/components/ui/button";
@@ -13,7 +11,7 @@ export default function FunnelLanding({
     view: any;
     siteInfo: any;
 }) {
-    const { theme } = useContext(ThemeContext);
+    const theme = siteInfo.theme;
     const styles = theme?.theme?.colors
         ? generateThemeStyles(theme).replaceAll(
               ".courselit-theme",
@@ -90,6 +88,10 @@ export default function FunnelLanding({
                                 }
                                 loggedIn={view.loggedIn}
                                 returnTo={"/lp/" + view.page.pageId}
+                                themeStyles={styles.replaceAll(
+                                    ".funnel-landing-shell",
+                                    ".appointment-booking-shell",
+                                )}
                                 durationMinutes={view.booking?.durationMinutes}
                                 horizonDays={view.booking?.horizonDays}
                             />
