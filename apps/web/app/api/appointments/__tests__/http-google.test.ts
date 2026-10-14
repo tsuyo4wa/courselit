@@ -302,3 +302,111 @@ describe("Google adapter with mocked HTTP", () => {
         expect(fn).toHaveBeenCalledTimes(1);
     });
 });
+
+describe("booking-only account creation intent", () => {
+    const {
+        POST: prepareIntent,
+        DELETE: clearIntent,
+    } = require("../login-intent/route");
+    const {
+        appointmentSignupSubscribed,
+        APPOINTMENT_LOGIN_COOKIE,
+    } = require("@/lib/appointment-login-intent");
+    async function prepare() {
+        await Settings.updateOne(
+            { domainId: context.domainId },
+            { $set: { "config.enabled": true } },
+        );
+        const r = await prepareIntent(
+            request("login-intent", { email: "new-person@example.com" }),
+        );
+        expect(r.status).toBe(200);
+        const token = r.cookies.get(APPOINTMENT_LOGIN_COOKIE).value;
+        return new Headers({ cookie: APPOINTMENT_LOGIN_COOKIE + "=" + token });
+    }
+    it("does not change subscription defaults for unrelated signup", async () => {
+        expect(
+            await appointmentSignupSubscribed(
+                new Headers(),
+                context.domainId,
+                "new-person@example.com",
+            ),
+        ).toBe(true);
+    });
+    it("opts out only the matching new booking account and consumes the intent once", async () => {
+        const h = await prepare();
+        expect(
+            await appointmentSignupSubscribed(
+                h,
+                context.domainId,
+                "new-person@example.com",
+            ),
+        ).toBe(false);
+        await expect(
+            appointmentSignupSubscribed(
+                h,
+                context.domainId,
+                "new-person@example.com",
+            ),
+        ).rejects.toThrow();
+    });
+    it("rejects different emails or tenants rather than subscribing by accident", async () => {
+        const h = await prepare();
+        await expect(
+            appointmentSignupSubscribed(
+                h,
+                context.domainId,
+                "another@example.com",
+            ),
+        ).rejects.toThrow();
+        await expect(
+            appointmentSignupSubscribed(
+                h,
+                "tenant-b",
+                "new-person@example.com",
+            ),
+        ).rejects.toThrow();
+        expect(
+            await appointmentSignupSubscribed(
+                h,
+                context.domainId,
+                "new-person@example.com",
+            ),
+        ).toBe(false);
+    });
+    it("does not store a plain email address in transient login records", async () => {
+        await prepare();
+        const record = await Transient.findOne({
+            key: /^login-intent:/,
+        }).lean();
+        expect(JSON.stringify(record)).not.toContain("new-person@example.com");
+        expect(record!.value.emailHash).toMatch(/^[a-f0-9]{64}$/);
+    });
+    it("expires intent and rejects a replayed/expired context", async () => {
+        const h = await prepare();
+        await Transient.updateMany(
+            { key: /^login-intent:/ },
+            { $set: { expiresAt: new Date(0) } },
+        );
+        await expect(
+            appointmentSignupSubscribed(
+                h,
+                context.domainId,
+                "new-person@example.com",
+            ),
+        ).rejects.toThrow();
+    });
+    it("blocks preparation while public booking is OFF and supports clearing the cookie", async () => {
+        expect(
+            (
+                await prepareIntent(
+                    request("login-intent", {
+                        email: "new-person@example.com",
+                    }),
+                )
+            ).status,
+        ).toBe(403);
+        const r = await clearIntent(request("login-intent", {}));
+        expect(r.cookies.get(APPOINTMENT_LOGIN_COOKIE).value).toBe("");
+    });
+});

@@ -30,6 +30,22 @@ export const appointmentOpenApi = {
         },
     },
     paths: {
+        "/api/appointments/login-intent": {
+            post: {
+                summary:
+                    "Prepare email-bound, tenant-bound, 30-minute booking-only OTP account intent",
+                description:
+                    "Same-origin JSON {email}. Public booking must be enabled. Sets a Secure HttpOnly cookie. New account creation consumes the hashed intent once and sets subscribedToUpdates=false. Existing users remain unchanged. No plain email retained in transient store.",
+                responses: ok,
+            },
+            delete: {
+                summary:
+                    "Clear the short-lived booking intent cookie after authentication or before unrelated login",
+                description:
+                    "Same-origin request; does not change any user subscription or booking.",
+                responses: ok,
+            },
+        },
         "/api/appointments/settings": {
             get: {
                 summary:

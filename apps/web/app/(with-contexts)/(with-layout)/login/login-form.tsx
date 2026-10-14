@@ -150,6 +150,10 @@ export default function LoginForm({
                     ),
                 );
             } else {
+                if (redirectTo === "/appointments")
+                    await fetch("/api/appointments/login-intent", {
+                        method: "DELETE",
+                    }).catch(() => undefined);
                 window.location.href =
                     redirectTo ||
                     getRedirectURLBasedOnProfile(
@@ -198,6 +202,19 @@ export default function LoginForm({
         }
 
         try {
+            if (redirectTo === "/appointments") {
+                const response = await fetch("/api/appointments/login-intent", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: email.trim().toLowerCase() }),
+                });
+                if (!response.ok)
+                    throw new Error(finalUiLabels.authenticationError);
+            } else {
+                await fetch("/api/appointments/login-intent", {
+                    method: "DELETE",
+                }).catch(() => undefined);
+            }
             const { error } = await authClient.emailOtp.sendVerificationOtp({
                 email: email.trim().toLowerCase(),
                 type: "sign-in",
@@ -341,20 +358,21 @@ export default function LoginForm({
                                 )}
                             </>
                         )}
-                        {loginProviders.map((provider) => (
-                            <ExternalLoginButton
-                                key={provider.key}
-                                provider={provider}
-                                theme={theme.theme}
-                                className="w-full lg:w-[360px] mx-auto"
-                                onClick={async () => {
-                                    await authClient.signIn.sso({
-                                        providerId: provider.providerId,
-                                        callbackURL: "/dashboard",
-                                    });
-                                }}
-                            />
-                        ))}
+                        {redirectTo !== "/appointments" &&
+                            loginProviders.map((provider) => (
+                                <ExternalLoginButton
+                                    key={provider.key}
+                                    provider={provider}
+                                    theme={theme.theme}
+                                    className="w-full lg:w-[360px] mx-auto"
+                                    onClick={async () => {
+                                        await authClient.signIn.sso({
+                                            providerId: provider.providerId,
+                                            callbackURL: "/dashboard",
+                                        });
+                                    }}
+                                />
+                            ))}
                         <Caption theme={theme.theme} className="text-center">
                             {LOGIN_FORM_DISCLAIMER}
                             <Link href="/p/terms">

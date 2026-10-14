@@ -1,3 +1,4 @@
+import { appointmentSignupSubscribed } from "./lib/appointment-login-intent";
 import { APIError, betterAuth } from "better-auth";
 import { customSession, emailOTP } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
@@ -198,7 +199,9 @@ const createAuthConfig = (baseURL = ""): any => ({
                     body: emailBody,
                     from: getEmailFrom({
                         name:
-                            decodeURIComponent(ctx!.headers?.get("domaintitle") || "") ||
+                            decodeURIComponent(
+                                ctx!.headers?.get("domaintitle") || "",
+                            ) ||
                             ctx!.headers?.get("domain") ||
                             "",
                         email: process.env.EMAIL_FROM || "",
@@ -235,7 +238,16 @@ const createAuthConfig = (baseURL = ""): any => ({
     databaseHooks: {
         user: {
             create: {
-                before: async (user) => {
+                before: async (user, ctx) => {
+                    const intentHeaders = ctx?.headers || ctx?.request?.headers;
+                    const subscribedToUpdates =
+                        await appointmentSignupSubscribed(
+                            intentHeaders,
+                            intentHeaders?.get("domainId") ||
+                                als.getStore()?.get("domainId") ||
+                                "",
+                            sanitizeEmail(user.email),
+                        );
                     return {
                         data: {
                             email: sanitizeEmail(user.email),
@@ -247,7 +259,7 @@ const createAuthConfig = (baseURL = ""): any => ({
                                 constants.permissions.manageMedia,
                             ],
                             lead: constants.leadWebsite,
-                            subscribedToUpdates: true,
+                            subscribedToUpdates,
                             tags: [],
                             unsubscribeToken: generateUniqueId(),
                         },

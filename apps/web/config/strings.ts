@@ -1228,6 +1228,7 @@ export const thankYouStrings = {
 };
 
 export const appointmentText = {
+    loginExpired: "予約画面から、新しい認証コードを発行してログインしてください。",
     online: "オンライン（Zoom）",
     checkedAt: "最終接続確認",
     unchecked: "未確認",
