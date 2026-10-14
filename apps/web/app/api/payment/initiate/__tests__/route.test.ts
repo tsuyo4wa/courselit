@@ -8,6 +8,7 @@ import Domain from "@models/Domain";
 import { auth } from "@/auth";
 import mongoose from "mongoose";
 import User from "@models/User";
+import { responses } from "@/config/strings";
 import { Constants } from "@courselit/common-models";
 import Course from "@models/Course";
 import PaymentPlan from "@models/PaymentPlan";
@@ -263,7 +264,7 @@ describe("Payment Initiate Route", () => {
             expect(response.status).toBe(400);
 
             const responseData = await response.json();
-            expect(responseData.error).toBe("Joining reason required");
+            expect(responseData.error).toBe(responses.joining_reason_missing);
         });
     });
 
@@ -480,7 +481,7 @@ describe("Payment Initiate Route", () => {
             expect(response.status).toBe(500);
 
             const responseData = await response.json();
-            expect(responseData.error).toBe("Payment configuration is invalid");
+            expect(responseData.error).toBe(responses.payment_invalid_settings);
         });
 
         it("allows free plans without payment method configuration", async () => {
@@ -607,6 +608,71 @@ describe("Payment Initiate Route", () => {
 
             const response = await POST(mockRequest);
             expect(response.status).toBe(200);
+        });
+    });
+    describe("configured thank-you LP", () => {
+        const lp = "https://example.com/consultation";
+        it("returns the configured LP after free enrollment has activated", async () => {
+            (Course.findOne as jest.Mock).mockResolvedValue({
+                courseId: "course-123",
+                thankYouUrl: lp,
+            });
+            const { activateMembership } = require("../../helpers");
+            activateMembership.mockImplementation(
+                async (_domain, membership) => {
+                    membership.status = Constants.MembershipStatus.ACTIVE;
+                },
+            );
+            expect((await (await POST(mockRequest)).json()).redirectUrl).toBe(
+                lp,
+            );
+            expect(activateMembership).toHaveBeenCalledTimes(1);
+        });
+        it("returns the LP for an existing active free enrollment without activating/sending again", async () => {
+            (Course.findOne as jest.Mock).mockResolvedValue({
+                thankYouUrl: lp,
+            });
+            const { getMembership } = require("@/graphql/users/logic");
+            getMembership.mockResolvedValue({
+                status: Constants.MembershipStatus.ACTIVE,
+            });
+            expect((await (await POST(mockRequest)).json()).redirectUrl).toBe(
+                lp,
+            );
+            expect(
+                require("../../helpers").activateMembership,
+            ).not.toHaveBeenCalled();
+        });
+        it("does not redirect a community still awaiting approval", async () => {
+            mockRequest.json = jest.fn().mockResolvedValue({
+                id: "community-123",
+                type: Constants.MembershipEntityType.COMMUNITY,
+                planId: "planA",
+                joiningReason: "join",
+            });
+            (Community.findOne as jest.Mock).mockResolvedValue({
+                autoAcceptMembers: false,
+                thankYouUrl: lp,
+            });
+            require("../../helpers").activateMembership.mockImplementation(
+                async (_domain, membership) => {
+                    membership.status = Constants.MembershipStatus.PENDING;
+                },
+            );
+            expect(
+                (await (await POST(mockRequest)).json()).redirectUrl,
+            ).toBeUndefined();
+        });
+        it("ignores redirect input supplied by the buyer instead of product settings", async () => {
+            mockRequest.json = jest.fn().mockResolvedValue({
+                id: "course-123",
+                type: Constants.MembershipEntityType.COURSE,
+                planId: "planA",
+                redirectUrl: lp,
+            });
+            expect(
+                (await (await POST(mockRequest)).json()).redirectUrl,
+            ).toBeUndefined();
         });
     });
 });

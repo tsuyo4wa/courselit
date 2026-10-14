@@ -36,6 +36,7 @@ export default function useProduct(id?: string | null): {
                     title,
                     description,
                     type,
+                    thankYouUrl
                     slug,
                     lessons {
                         id,

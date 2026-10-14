@@ -29,6 +29,7 @@ export const CourseSchema = new mongoose.Schema<InternalCourse>(
         courseId: { type: String, required: true, default: generateUniqueId },
         title: { type: String, required: true },
         slug: { type: String, required: true },
+        thankYouUrl: { type: String, default: "" },
         cost: { type: Number, required: true },
         costType: {
             type: String,

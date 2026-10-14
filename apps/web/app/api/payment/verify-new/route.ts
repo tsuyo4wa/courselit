@@ -1,3 +1,5 @@
+import { readThankYouUrl } from "@/lib/thank-you-url";
+import CommunityModel from "@models/Community";
 import { finalUiText } from "@/config/strings";
 import { NextRequest } from "next/server";
 import { getDomain, getUser } from "../initiate/route";
@@ -74,8 +76,19 @@ export async function POST(req: NextRequest) {
                       courseId: membership.entityId,
                   })
                 : null;
+        const community =
+            membership.entityType === Constants.MembershipEntityType.COMMUNITY
+                ? await CommunityModel.findOne({
+                      domain: domain._id,
+                      communityId: membership.entityId,
+                      deleted: false,
+                  })
+                : null;
         return Response.json({
             status: invoice.status,
+            redirectUrl: readThankYouUrl(
+                course?.thankYouUrl || community?.thankYouUrl,
+            ),
             learningPath: learningPath(
                 membership.entityType,
                 membership.entityId,

@@ -1,3 +1,4 @@
+import { readThankYouUrl } from "@/lib/thank-you-url";
 import { NextRequest } from "next/server";
 import DomainModel, { Domain } from "@models/Domain";
 import { auth } from "@/auth";
@@ -140,7 +141,10 @@ export async function POST(req: NextRequest) {
 
         if (membership.status === Constants.MembershipStatus.ACTIVE) {
             if (paymentPlan.type === Constants.PaymentPlanType.FREE) {
-                return Response.json({ status: transactionSuccess });
+                return Response.json({
+                    status: transactionSuccess,
+                    redirectUrl: readThankYouUrl(entity.thankYouUrl),
+                });
             }
             if (
                 membership.subscriptionId &&
@@ -152,7 +156,10 @@ export async function POST(req: NextRequest) {
                         membership.subscriptionId,
                     )
                 ) {
-                    return Response.json({ status: transactionSuccess });
+                    return Response.json({
+                        status: transactionSuccess,
+                        redirectUrl: readThankYouUrl(entity.thankYouUrl),
+                    });
                 } else {
                     membership.status = Constants.MembershipStatus.EXPIRED;
                     await membership.save();
@@ -182,6 +189,10 @@ export async function POST(req: NextRequest) {
 
             return Response.json({
                 status: transactionSuccess,
+                redirectUrl:
+                    membership.status === Constants.MembershipStatus.ACTIVE
+                        ? readThankYouUrl(entity.thankYouUrl)
+                        : undefined,
             });
         }
 

@@ -148,6 +148,7 @@ const courseType = new GraphQLObjectType({
         },
         updatedAt: { type: new GraphQLNonNull(GraphQLString) },
         slug: { type: new GraphQLNonNull(GraphQLString) },
+        thankYouUrl: { type: GraphQLString },
         description: { type: GraphQLString },
         leadMagnet: { type: GraphQLBoolean },
         isPreview: {
@@ -195,6 +196,7 @@ const courseUpdateInput = new GraphQLInputObjectType({
         id: { type: new GraphQLNonNull(GraphQLString) },
         title: { type: GraphQLString },
         slug: { type: GraphQLString },
+        thankYouUrl: { type: GraphQLString },
         costType: { type: courseCostType },
         cost: { type: GraphQLFloat },
         published: { type: GraphQLBoolean },

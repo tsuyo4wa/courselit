@@ -1,3 +1,4 @@
+import { normalizeThankYouUrl } from "@/lib/thank-you-url";
 import { canUploadLearnerMedia } from "@/lib/learner-media";
 import {
     checkPermission,
@@ -297,6 +298,7 @@ export async function updateCommunity({
     autoAcceptMembers,
     joiningReasonText,
     featuredImage,
+    thankYouUrl,
 }: {
     id: string;
     name?: string;
@@ -308,6 +310,7 @@ export async function updateCommunity({
     autoAcceptMembers?: boolean;
     joiningReasonText?: string;
     featuredImage?: Media;
+    thankYouUrl?: string | null;
 }): Promise<Community> {
     checkIfAuthenticated(ctx);
 
@@ -323,6 +326,10 @@ export async function updateCommunity({
 
     if (!member || !hasPermission(member, Constants.MembershipRole.MODERATE)) {
         throw new Error(responses.action_not_allowed);
+    }
+
+    if (thankYouUrl !== undefined) {
+        community.thankYouUrl = normalizeThankYouUrl(thankYouUrl);
     }
 
     if (name) {
@@ -1314,6 +1321,7 @@ async function formatCommunity(
     return {
         name: community.name,
         slug: community.slug,
+        thankYouUrl: community.thankYouUrl,
         communityId: community.communityId,
         banner: community.banner,
         enabled: community.enabled,

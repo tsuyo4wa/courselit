@@ -17,6 +17,7 @@ export interface Course {
     title: string;
     description?: string;
     slug: string;
+    thankYouUrl?: string;
     isFeatured: boolean;
     cost: number;
     costType: ProductPriceType;

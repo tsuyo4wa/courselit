@@ -21,6 +21,7 @@ export const CommunitySchema = new mongoose.Schema<InternalCommunity>(
         },
         name: { type: String, required: true },
         slug: { type: String, required: true },
+        thankYouUrl: { type: String, default: "" },
         description: { type: mongoose.Schema.Types.Mixed, default: null },
         banner: { type: mongoose.Schema.Types.Mixed, default: null },
         enabled: { type: Boolean, default: false },

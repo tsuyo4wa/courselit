@@ -65,6 +65,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import ThankYouSettings from "@/components/admin/payments/thank-you-settings";
 import PaymentPlanList from "@components/admin/payments/payment-plan-list";
 import { useCommunity } from "@/hooks/use-community";
 import { Button } from "@components/ui/button";
@@ -769,6 +770,14 @@ export default function Page(props: {
                         {finalUiText["Manage your community pricing plans"]}
                     </p>
                 </div>
+                {community && (
+                    <ThankYouSettings
+                        key={id}
+                        id={id}
+                        entityType={MembershipEntityType.COMMUNITY}
+                        initialUrl={community?.thankYouUrl}
+                    />
+                )}
                 <PaymentPlanList
                     paymentPlans={paymentPlans.map((plan) => ({
                         ...plan,

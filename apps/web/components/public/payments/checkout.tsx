@@ -1,4 +1,5 @@
 "use client";
+import { readThankYouUrl } from "@/lib/thank-you-url";
 import { finalUiText, localizeUiError } from "@/config/strings";
 
 import { checkoutStrings } from "@/config/strings";
@@ -238,6 +239,11 @@ export default function Checkout({
                     );
                 }
             } else if (response.status === "success") {
+                const redirectUrl = readThankYouUrl(response.redirectUrl);
+                if (redirectUrl) {
+                    window.location.replace(redirectUrl);
+                    return;
+                }
                 if (product.type === Constants.MembershipEntityType.COMMUNITY) {
                     router.replace(
                         `/dashboard/community/${product.id}?success=true`,

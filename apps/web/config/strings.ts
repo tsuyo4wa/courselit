@@ -1212,3 +1212,17 @@ export const learnerMediaText = {
     disabled:
         "このスクールでは生徒の写真・ファイルのアップロードを利用していません。",
 };
+
+export const thankYouStrings = {
+    title: "申込・購入後のページ",
+    label: "移動先のLP URL",
+    help: "申込・支払い確認後、このURLへ自動で移動します。未設定なら通常の受講案内を表示します。受講案内メールや受講中の講座からも学習できます。",
+    placeholder: "https://example.com/consultation",
+    invalid: "公開されたHTTPSのLP URLを入力してください。",
+    saved: "申込・購入後の移動先を保存しました。",
+    empty: "未設定（通常の受講案内）",
+    configured: "設定済み",
+    open: "設定したLPを確認する",
+    moving: "お申し込みが完了しました。ご案内ページへ移動します。",
+    continue: "ご案内ページへ進む",
+};

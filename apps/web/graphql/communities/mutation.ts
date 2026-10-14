@@ -52,6 +52,7 @@ const mutations = {
             id: { type: new GraphQLNonNull(GraphQLString) },
             name: { type: GraphQLString },
             slug: { type: GraphQLString },
+            thankYouUrl: { type: GraphQLString },
             description: { type: GraphQLString },
             enabled: { type: GraphQLBoolean },
             banner: { type: GraphQLString },
@@ -65,6 +66,7 @@ const mutations = {
                 id,
                 name,
                 slug,
+                thankYouUrl,
                 description,
                 enabled,
                 banner,
@@ -75,6 +77,7 @@ const mutations = {
                 id: string;
                 name?: string;
                 slug?: string;
+                thankYouUrl?: string;
                 description?: string;
                 enabled?: boolean;
                 banner?: string;
@@ -88,6 +91,7 @@ const mutations = {
                 id,
                 name,
                 slug,
+                thankYouUrl,
                 description,
                 ctx,
                 enabled,

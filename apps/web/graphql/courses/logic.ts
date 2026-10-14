@@ -1,3 +1,4 @@
+import { normalizeThankYouUrl } from "@/lib/thank-you-url";
 /**
  * Business logic for managing courses.
  */
@@ -245,6 +246,13 @@ export const updateCourse = async (
         if (conflictingCourse) {
             throw new Error(responses.page_id_already_exists);
         }
+    }
+
+    if (Object.prototype.hasOwnProperty.call(courseData, "thankYouUrl")) {
+        courseData = {
+            ...courseData,
+            thankYouUrl: normalizeThankYouUrl(courseData.thankYouUrl),
+        };
     }
 
     const mediaIdsMarkedForDeletion: string[] = [];

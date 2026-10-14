@@ -2,9 +2,23 @@ import React from "react";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import Page from "@/app/(with-contexts)/(with-layout)/checkout/verify/page";
 import { AddressContext } from "@components/contexts";
-import { checkoutStrings } from "@/config/strings";
+import { checkoutStrings, thankYouStrings } from "@/config/strings";
 
 const mockExec = jest.fn();
+const mockReplace = jest.fn();
+const originalLocation = window.location;
+beforeAll(() => {
+    Object.defineProperty(window, "location", {
+        configurable: true,
+        value: { replace: mockReplace },
+    });
+});
+afterAll(() => {
+    Object.defineProperty(window, "location", {
+        configurable: true,
+        value: originalLocation,
+    });
+});
 jest.mock("next/navigation", () => ({
     useSearchParams: () => new URLSearchParams("id=invoice"),
 }));
@@ -95,5 +109,52 @@ describe("purchase completion to learning", () => {
         expect(
             screen.queryByRole("link", { name: checkoutStrings.startLearning }),
         ).toBeNull();
+    });
+    it("redirects only after verified payment and keeps a learning fallback", async () => {
+        mockExec.mockResolvedValue({
+            status: "paid",
+            redirectUrl: "https://example.com/consultation",
+            learningPath: "/course/work/c?learn=true",
+        });
+        renderPage();
+        await waitFor(() =>
+            expect(mockReplace).toHaveBeenCalledWith(
+                "https://example.com/consultation",
+            ),
+        );
+        expect(
+            screen.getByRole("link", { name: thankYouStrings.continue }),
+        ).toHaveAttribute("href", "https://example.com/consultation");
+        expect(
+            screen.getByRole("link", { name: checkoutStrings.startLearning }),
+        ).toHaveAttribute("href", "/course/work/c?learn=true");
+    });
+    it("ignores a redirect before payment is ready", async () => {
+        mockExec.mockResolvedValue({
+            status: "pending",
+            redirectUrl: "https://example.com/consultation",
+        });
+        renderPage();
+        await waitFor(() =>
+            expect(
+                screen.getByText(checkoutStrings.paymentPending),
+            ).toBeVisible(),
+        );
+        expect(mockReplace).not.toHaveBeenCalled();
+    });
+    it("ignores an unsafe redirect even if returned by a malformed response", async () => {
+        mockExec.mockResolvedValue({
+            status: "paid",
+            redirectUrl: "javascript:alert(1)",
+        });
+        renderPage();
+        await waitFor(() =>
+            expect(
+                screen.getByRole("link", {
+                    name: checkoutStrings.startLearning,
+                }),
+            ).toBeVisible(),
+        );
+        expect(mockReplace).not.toHaveBeenCalled();
     });
 });

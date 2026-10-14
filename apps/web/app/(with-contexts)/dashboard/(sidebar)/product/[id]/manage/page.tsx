@@ -12,6 +12,7 @@ import {
     COURSE_SETTINGS_CARD_HEADER,
     MANAGE_COURSES_PAGE_HEADING,
 } from "@ui-config/strings";
+import ThankYouSettings from "@/components/admin/payments/thank-you-settings";
 import ProductDetails from "./components/product-details";
 import ProductFeaturedImage from "./components/product-featured-image";
 import PaymentPlans from "./components/payment-plans";
@@ -90,6 +91,12 @@ export default function SettingsPage() {
                     </div>
                 </div>
                 <ProductDetails product={product} />
+                <ThankYouSettings
+                    key={productId}
+                    id={productId}
+                    entityType={MembershipEntityType.COURSE}
+                    initialUrl={product.thankYouUrl}
+                />
                 <ProductFeaturedImage product={product} />
                 <PaymentPlans
                     productId={productId || ""}

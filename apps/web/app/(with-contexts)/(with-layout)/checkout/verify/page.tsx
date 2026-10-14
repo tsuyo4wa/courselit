@@ -1,6 +1,7 @@
 "use client";
 
-import { checkoutStrings } from "@/config/strings";
+import { readThankYouUrl } from "@/lib/thank-you-url";
+import { checkoutStrings, thankYouStrings } from "@/config/strings";
 
 import { CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ export default function Page() {
     const [learningHref, setLearningHref] = useState(
         "/dashboard/my-content/products",
     );
+    const [redirectUrl, setRedirectUrl] = useState<string | undefined>();
     const [courseTitle, setCourseTitle] = useState("");
     const [verificationError, setVerificationError] = useState(false);
     const [attempts, setAttempts] = useState(0);
@@ -51,6 +53,7 @@ export default function Page() {
                             "/dashboard/my-content/products",
                     );
                     setCourseTitle(response.title || "");
+                    setRedirectUrl(readThankYouUrl(response.redirectUrl));
                 }
             }
         } catch (error) {
@@ -78,10 +81,27 @@ export default function Page() {
         return () => clearTimeout(timer);
     }, [paymentStatus, loading, verificationError, attempts, verifyPayment]);
 
+    useEffect(() => {
+        if (paymentStatus !== "paid" || !redirectUrl) return;
+        window.location.replace(redirectUrl);
+    }, [paymentStatus, redirectUrl]);
+
     return (
         <div className="flex flex-col items-center justify-center space-y-6 text-center max-w-md mx-auto pt-20">
             {paymentStatus === "paid" ? (
                 <>
+                    {redirectUrl && (
+                        <p role="status">
+                            {thankYouStrings.moving}{" "}
+                            <a
+                                href={redirectUrl}
+                                rel="noreferrer"
+                                className="underline"
+                            >
+                                {thankYouStrings.continue}
+                            </a>
+                        </p>
+                    )}
                     {/* <CheckCircle className="w-16 h-16 text-green-500" /> */}
                     <h2 className="text-2xl font-bold">
                         {checkoutStrings.thanksPurchase}

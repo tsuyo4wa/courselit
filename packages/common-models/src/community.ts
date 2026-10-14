@@ -5,6 +5,7 @@ export interface Community {
     communityId: string;
     name: string;
     slug: string;
+    thankYouUrl?: string;
     description: TextEditorContent;
     banner: TextEditorContent | null;
     categories: string[];

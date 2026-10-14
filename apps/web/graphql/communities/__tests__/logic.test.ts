@@ -3,6 +3,7 @@
  */
 
 import {
+    updateCommunity,
     getCommentsCount,
     createCommunityPost,
     postComment,
@@ -1597,4 +1598,95 @@ describe("learner comment media scope", () => {
             ).rejects.toThrow(responses.action_not_allowed);
         },
     );
+});
+
+describe("Community thank-you LP settings", () => {
+    let domain: any, user: any, community: any;
+    beforeAll(async () => {
+        domain = await DomainModel.create({
+            name: "thanks-community-tenant",
+            email: "thanks@example.com",
+        });
+        user = await UserModel.create({
+            domain: domain._id,
+            userId: "thanks-owner",
+            email: "thanks@example.com",
+            name: "Owner",
+            active: true,
+            permissions: [constants.permissions.manageCommunity],
+            unsubscribeToken: "thanks-unsubscribe",
+        });
+        community = await CommunityModel.create({
+            domain: domain._id,
+            communityId: "thanks-bundle",
+            name: "Thanks bundle",
+            slug: "thanks-bundle",
+            pageId: "thanks-bundle",
+            enabled: false,
+            deleted: false,
+        });
+        await MembershipModel.create({
+            domain: domain._id,
+            userId: user.userId,
+            membershipId: "thanks-m",
+            paymentPlanId: "thanks-test-plan",
+            entityType: Constants.MembershipEntityType.COMMUNITY,
+            entityId: community.communityId,
+            role: Constants.MembershipRole.MODERATE,
+            status: Constants.MembershipStatus.ACTIVE,
+        });
+    });
+    afterAll(async () => {
+        await MembershipModel.deleteMany({ domain: domain._id });
+        await CommunityModel.deleteMany({ domain: domain._id });
+        await UserModel.deleteMany({ domain: domain._id });
+        await DomainModel.deleteOne({ _id: domain._id });
+    });
+    it("saves and clears a moderator-managed bundle LP", async () => {
+        const ctx = { subdomain: domain, user } as any;
+        const result = await updateCommunity({
+            id: community.communityId,
+            thankYouUrl: "https://example.com/bundle",
+            ctx,
+        });
+        expect(result.thankYouUrl).toBe("https://example.com/bundle");
+        await updateCommunity({
+            id: community.communityId,
+            thankYouUrl: "",
+            ctx,
+        });
+        expect(
+            (await CommunityModel.findById(community._id))!.thankYouUrl,
+        ).toBe("");
+    });
+    it("rejects invalid URLs, nonmoderators and other tenants", async () => {
+        await expect(
+            updateCommunity({
+                id: community.communityId,
+                thankYouUrl: "http://example.com",
+                ctx: { subdomain: domain, user } as any,
+            }),
+        ).rejects.toThrow();
+        await expect(
+            updateCommunity({
+                id: community.communityId,
+                thankYouUrl: "https://example.com",
+                ctx: {
+                    subdomain: domain,
+                    user: {
+                        ...user.toObject(),
+                        userId: "stranger",
+                        permissions: [],
+                    },
+                } as any,
+            }),
+        ).rejects.toThrow();
+        await expect(
+            updateCommunity({
+                id: community.communityId,
+                thankYouUrl: "https://example.com",
+                ctx: { subdomain: { _id: user._id }, user } as any,
+            }),
+        ).rejects.toThrow();
+    });
 });

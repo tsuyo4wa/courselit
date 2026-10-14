@@ -2071,6 +2071,88 @@ describe("updateCourse", () => {
         await DomainModel.deleteOne({ _id: testDomain._id });
     });
 
+    describe("thank-you LP settings", () => {
+        async function makeCourse() {
+            return CourseModel.create({
+                domain: testDomain._id,
+                courseId: id("thanks-course"),
+                creatorId: adminUser.userId,
+                title: "Thanks course",
+                type: "course",
+                privacy: "unlisted",
+                costType: "free",
+                cost: 0,
+                slug: id("thanks"),
+                pageId: page.pageId,
+            });
+        }
+        const lp = "https://example.com/consultation";
+        it("saves, reads, preserves on unrelated updates and clears the setting", async () => {
+            const c = await makeCourse();
+            const ctx = {
+                subdomain: testDomain,
+                user: adminUser,
+                address: "",
+            } as any;
+            const result = await updateCourse(
+                { id: c.courseId as any, thankYouUrl: lp },
+                ctx,
+            );
+            expect(result.thankYouUrl).toBe(lp);
+            await updateCourse(
+                { id: c.courseId as any, title: "Updated title" },
+                ctx,
+            );
+            expect(
+                (await CourseModel.findOne({ _id: c._id }))!.thankYouUrl,
+            ).toBe(lp);
+            await updateCourse({ id: c.courseId as any, thankYouUrl: "" }, ctx);
+            expect(
+                (await CourseModel.findOne({ _id: c._id }))!.thankYouUrl,
+            ).toBe("");
+        });
+        it("rejects unsafe URLs before saving", async () => {
+            const c = await makeCourse();
+            await expect(
+                updateCourse(
+                    {
+                        id: c.courseId as any,
+                        thankYouUrl: "javascript:alert(1)",
+                    },
+                    {
+                        subdomain: testDomain,
+                        user: adminUser,
+                        address: "",
+                    } as any,
+                ),
+            ).rejects.toThrow();
+            expect(
+                (await CourseModel.findOne({ _id: c._id }))!.thankYouUrl,
+            ).toBe("");
+        });
+        it("requires course management permission and tenant ownership", async () => {
+            const c = await makeCourse();
+            await expect(
+                updateCourse({ id: c.courseId as any, thankYouUrl: lp }, {
+                    subdomain: testDomain,
+                    user: {
+                        ...adminUser.toObject(),
+                        userId: "stranger",
+                        permissions: [],
+                    },
+                    address: "",
+                } as any),
+            ).rejects.toThrow();
+            await expect(
+                updateCourse({ id: c.courseId as any, thankYouUrl: lp }, {
+                    subdomain: { _id: adminUser._id },
+                    user: adminUser,
+                    address: "",
+                } as any),
+            ).rejects.toThrow();
+        });
+    });
+
     it("Spot all the mediaIds to be deleted correctly", async () => {
         const initialDescription = {
             type: "doc",
