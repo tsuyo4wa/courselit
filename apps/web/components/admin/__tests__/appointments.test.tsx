@@ -39,6 +39,28 @@ function data(bookings: AppointmentView[] = []): AppointmentAdminData {
     };
 }
 beforeEach(() => jest.clearAllMocks());
+it("offers explicit acceptance and pause choices, and only applies a pause when saved", async () => {
+    const initial = data();
+    initial.config.enabled = true;
+    const request = appointmentRequest as jest.Mock;
+    request.mockImplementation(async (_path, body) => {
+        if (body?.action === "save") initial.config = body.data.config;
+        return initial;
+    });
+    render(<AppointmentAdmin initial={initial} />);
+    expect(screen.getByText("予約受付中")).toBeVisible();
+    fireEvent.change(screen.getByLabelText("予約の受付"), {
+        target: { value: "paused" },
+    });
+    expect(request).not.toHaveBeenCalled();
+    expect(screen.getByText("予約受付中")).toBeVisible();
+    fireEvent.click(screen.getByRole("button", { name: "設定を保存" }));
+    await screen.findByText("受付停止中");
+    expect(
+        request.mock.calls.find((call) => call[1]?.action === "save")[1].data
+            .config.enabled,
+    ).toBe(false);
+});
 it("keeps the saved calendar selected when refreshed options replace its fallback", async () => {
     const initial = data();
     initial.connected = true;

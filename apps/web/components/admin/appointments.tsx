@@ -223,7 +223,7 @@ export default function AppointmentAdmin({
             <header className="space-y-3">
                 <p className="flex items-center gap-2 text-sm text-primary">
                     <CalendarDays size={18} />
-                    {data.config.enabled ? t.public : t.private}
+                    {data.config.enabled ? "予約受付中" : "受付停止中"}
                 </p>
                 <h1 className="text-2xl font-bold">{t.adminTitle}</h1>
                 <p className="text-muted-foreground text-sm leading-7">
@@ -462,6 +462,34 @@ export default function AppointmentAdmin({
                 >
                     <h2 className="font-bold text-lg">{t.settings}</h2>
                     <div className="space-y-2">
+                        <Label htmlFor="appointment-acceptance">
+                            予約の受付
+                        </Label>
+                        <select
+                            id="appointment-acceptance"
+                            className="w-full rounded-md border bg-background p-2 text-sm"
+                            value={
+                                current.current.config.enabled
+                                    ? "open"
+                                    : "paused"
+                            }
+                            onChange={(e) =>
+                                form.setValue(
+                                    "config.enabled",
+                                    e.target.value === "open",
+                                    { shouldDirty: true },
+                                )
+                            }
+                            disabled={busy}
+                        >
+                            <option value="paused">受付を停止する</option>
+                            <option value="open">予約を受け付ける</option>
+                        </select>
+                        <p className="text-xs text-muted-foreground leading-6">
+                            「設定を保存」で反映されます。受付を停止しても、すでに入っている予約は残ります。
+                        </p>
+                    </div>
+                    <div className="space-y-2">
                         <Label htmlFor="appointment-title">
                             {t.titleField}
                         </Label>
@@ -693,16 +721,6 @@ export default function AppointmentAdmin({
                             {...form.register("config.zoomUrl")}
                         />
                     </div>
-                    <label className="flex items-center gap-3 text-sm font-medium">
-                        <input
-                            type="checkbox"
-                            {...form.register("config.enabled")}
-                        />
-                        {t.enable}
-                    </label>
-                    <p className="text-xs text-muted-foreground leading-6">
-                        {t.offHelp}
-                    </p>
                 </section>
                 <div
                     className={
