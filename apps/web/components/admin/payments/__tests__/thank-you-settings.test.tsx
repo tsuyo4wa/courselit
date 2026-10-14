@@ -20,7 +20,7 @@ jest.mock("@/hooks/use-graphql-fetch", () => ({
 }));
 const lp = "https://example.com/consultation";
 function show(
-    initialUrl = "",
+    initialUrl: string | null = "",
     entityType: MembershipEntityType = Constants.MembershipEntityType.COURSE,
 ) {
     return render(
@@ -33,6 +33,17 @@ function show(
 }
 describe("thank-you settings form", () => {
     beforeEach(() => jest.clearAllMocks());
+    it("treats a legacy null field as an empty unconfigured URL", () => {
+        show(null);
+        expect(screen.getByLabelText(thankYouStrings.label)).toHaveValue("");
+        expect(screen.getByRole("status")).toHaveTextContent(
+            thankYouStrings.empty,
+        );
+        expect(
+            screen.getByRole("button", { name: BUTTON_SAVE }),
+        ).toBeDisabled();
+        expect(mockExec).not.toHaveBeenCalled();
+    });
     it("starts unconfigured and saves only the URL through the course mutation", async () => {
         mockExec.mockResolvedValue({ updateCourse: { thankYouUrl: lp } });
         show();

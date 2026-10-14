@@ -30,7 +30,7 @@ import { ExternalLink, Loader2, Save } from "lucide-react";
 interface ThankYouSettingsProps {
     id: string;
     entityType: MembershipEntityType;
-    initialUrl?: string;
+    initialUrl?: string | null;
 }
 const schema = z.object({
     url: z.string().superRefine((value, ctx) => {
@@ -51,16 +51,17 @@ export default function ThankYouSettings({
     entityType,
     initialUrl = "",
 }: ThankYouSettingsProps) {
-    const saved = useRef(initialUrl);
-    const current = useRef(initialUrl);
-    const [savedUrl, setSavedUrl] = useState(initialUrl);
+    const initialValue = initialUrl ?? "";
+    const saved = useRef(initialValue);
+    const current = useRef(initialValue);
+    const [savedUrl, setSavedUrl] = useState(initialValue);
     const [dirty, setDirty] = useState(false);
     const [loading, setLoading] = useState(false);
     const { toast } = useToast();
     const fetch = useGraphQLFetch();
     const form = useForm<Values>({
         resolver: zodResolver(schema),
-        defaultValues: { url: initialUrl },
+        defaultValues: { url: initialValue },
     });
     const configuredUrl = readThankYouUrl(savedUrl);
     async function submit(values: Values) {
