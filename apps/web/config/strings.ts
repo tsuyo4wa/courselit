@@ -1139,6 +1139,15 @@ export const POLICY_REVIEW_RESULT =
 export const POLICY_REVIEW_PENDING =
     "末尾の「個別相談の予約について」と予約画面をご確認ください。今回の表示では一般向け本文の差し替えや予約受付の開始は行いません。";
 export const POLICY_REVIEW_DATE = "確認用原稿：2026年10月15日 / 未公開・未適用";
+export const productDisplayText = {
+    filter: "商品の種類",
+    label: "講座・商品の表示方法",
+    cards: "カード表示",
+    list: "リスト表示",
+    cardsShort: "カード",
+    listShort: "リスト",
+};
+
 export const appointmentReleaseText = {
     title: "個別相談の公開前確認",
     notice: "管理者だけが見られる確認版です。公開中のLPと個人情報の案内は差し替えていません。この確認ページから予約受付は開始されません。",

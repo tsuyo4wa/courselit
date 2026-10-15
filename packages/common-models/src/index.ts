@@ -1,4 +1,9 @@
 export { default as Message } from "./message";
+export type {
+    DashboardCourse,
+    DashboardProductProps,
+    ProductDisplayMode,
+} from "./admin-products";
 export type { default as Address } from "./address";
 export type { default as Auth } from "./auth";
 export type { default as Group } from "./group";
