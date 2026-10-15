@@ -20,7 +20,13 @@ import {
     MANAGE_COURSES_PAGE_HEADING,
 } from "@ui-config/strings";
 import Link from "next/link";
-import { useContext, useCallback, useMemo, useSyncExternalStore } from "react";
+import {
+    useContext,
+    useCallback,
+    useMemo,
+    useSyncExternalStore,
+    useState,
+} from "react";
 import { Button } from "@components/ui/button";
 import {
     ContentCard,
@@ -250,39 +256,40 @@ function SkeletonGrid() {
 }
 
 // The server renders cards; React reads the browser preference after hydration.
-// A memory fallback keeps the controls working when local storage is unavailable.
-let fallbackView: ProductDisplayMode = "cards";
-const viewListeners = new Set<() => void>();
 function readView(): ProductDisplayMode {
     try {
-        const saved = window.localStorage.getItem(VIEW_STORAGE_KEY);
-        return saved === "list" ? "list" : "cards";
+        return window.localStorage.getItem(VIEW_STORAGE_KEY) === "list"
+            ? "list"
+            : "cards";
     } catch {
-        return fallbackView;
+        return "cards";
     }
 }
 function subscribeView(listener: () => void) {
-    viewListeners.add(listener);
     window.addEventListener("storage", listener);
-    return () => {
-        viewListeners.delete(listener);
-        window.removeEventListener("storage", listener);
-    };
-}
-function changeView(next: ProductDisplayMode) {
-    fallbackView = next;
-    try {
-        window.localStorage.setItem(VIEW_STORAGE_KEY, next);
-    } catch {
-        // Optional local preference only.
-    }
-    viewListeners.forEach((listener) => listener());
+    return () => window.removeEventListener("storage", listener);
 }
 function serverView(): ProductDisplayMode {
     return "cards";
 }
 export default function Page() {
-    const view = useSyncExternalStore(subscribeView, readView, serverView);
+    const storedView = useSyncExternalStore(
+        subscribeView,
+        readView,
+        serverView,
+    );
+    const [selectedView, setSelectedView] = useState<ProductDisplayMode | null>(
+        null,
+    );
+    const view = selectedView ?? storedView;
+    function changeView(next: ProductDisplayMode) {
+        setSelectedView(next);
+        try {
+            window.localStorage.setItem(VIEW_STORAGE_KEY, next);
+        } catch {
+            // Switching still works when browser storage cannot be written.
+        }
+    }
     const searchParams = useSearchParams();
     const page = parseInt(searchParams?.get("page") || "1");
     const filter: "all" | CourseType =

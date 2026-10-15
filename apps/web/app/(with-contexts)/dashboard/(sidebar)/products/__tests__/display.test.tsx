@@ -179,6 +179,28 @@ it("still switches views when browser storage is unavailable", () => {
     ).toBeVisible();
 });
 
+it("still switches when storage can be read but cannot be written", () => {
+    jest.spyOn(Storage.prototype, "setItem").mockImplementation(() => {
+        throw new Error("quota");
+    });
+    render(<Page />);
+    fireEvent.click(
+        screen.getByRole("button", { name: productDisplayText.cards }),
+    );
+    fireEvent.click(
+        screen.getByRole("button", { name: productDisplayText.list }),
+    );
+    expect(
+        screen.getByRole("list", { name: productDisplayText.list }),
+    ).toBeVisible();
+    fireEvent.click(
+        screen.getByRole("button", { name: productDisplayText.cards }),
+    );
+    expect(
+        screen.getByRole("region", { name: productDisplayText.cards }),
+    ).toBeVisible();
+});
+
 it("preserves the existing type filter and pagination while using the list", () => {
     mockSearchParams = new URLSearchParams("page=3&filter=course");
     localStorage.setItem(storageKey, "list");
