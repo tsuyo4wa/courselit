@@ -180,10 +180,13 @@ export const updatePage = async ({
 
     assertBlogEnabled(ctx.subdomain.settings, page.type);
 
-    const deletedMediaIds = getDeletedMediaIds(
-        JSON.stringify(page.draftLayout || ""),
-        inputLayout || "",
-    );
+    // Metadata-only saves leave the existing draft layout and its media intact.
+    const deletedMediaIds = inputLayout
+        ? getDeletedMediaIds(
+              JSON.stringify(page.draftLayout || ""),
+              inputLayout,
+          )
+        : [];
     const publishedLayoutMediaIds = extractMediaIDs(
         JSON.stringify(page.layout ?? []),
     );

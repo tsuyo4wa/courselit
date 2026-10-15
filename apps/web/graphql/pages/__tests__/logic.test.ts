@@ -718,39 +718,37 @@ describe("Media cleanup", () => {
         await DomainModel.deleteMany({ _id: domain._id });
     });
 
-    it("updating title will not call deleteMedia", async () => {
-        // Setup: Page with media in draft layout
+    it.each([
+        { title: "New Title" },
+        { description: "New Description" },
+        { robotsAllowed: false },
+    ])("preserves draft images on metadata-only updates: %o", async (metadata) => {
+        const draftLayout = [
+            makeHeaderWidget(),
+            {
+                widgetId: "draft-screenshot",
+                name: "embed",
+                settings: {
+                    content: `<img src="https://cdn.test/${media1}/main.png">`,
+                },
+            },
+            makeFooterWidget(),
+        ];
         const page = await PageModel.create({
             domain: ctx.subdomain._id,
-            pageId: "bug-partial-update",
+            pageId: "metadata-keeps-draft-media",
             type: constants.site,
             creatorId: "creator-1",
-            name: "Bug Partial Update",
+            name: "Metadata Keeps Draft Media",
             layout: [makeHeaderWidget(), makeFooterWidget()],
-            draftLayout: [
-                makeHeaderWidget(),
-                {
-                    widgetId: "media-widget",
-                    name: "hero",
-                    settings: { image: mediaObj1.url },
-                },
-                makeFooterWidget(),
-            ],
+            draftLayout,
         });
-
-        // Action: Update only title
-        try {
-            await updatePage({
-                context: ctx,
-                pageId: page.pageId,
-                title: "New Title",
-            });
-        } catch (e) {
-            // Ignore the crash to check if deleteMedia was called
-        }
-
-        // Assertion: media1 should NOT be deleted
-        expect(deleteMedia).not.toHaveBeenCalledWith(media1);
+        await updatePage({ context: ctx, pageId: page.pageId, ...metadata });
+        expect(deleteMedia).not.toHaveBeenCalled();
+        const refreshed = await PageModel.findOne<Page>({ _id: page._id }).lean();
+        expect(JSON.parse(JSON.stringify(refreshed!.draftLayout))).toEqual(
+            JSON.parse(JSON.stringify(page.draftLayout)),
+        );
     });
 
     it("orphans social image when replaced", async () => {
