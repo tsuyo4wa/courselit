@@ -1,6 +1,6 @@
-import { finalUiText } from "@/config/strings";
+import { finalUiText, pageBlockLabels } from "@/config/strings";
 import { useState } from "react";
-import widgets from "@/ui-config/widgets";
+import widgets from "@ui-config/widgets";
 import { Button } from "@courselit/components-library";
 import AdminWidget from "./admin-widget";
 import { State } from "@courselit/common-models";
@@ -33,6 +33,7 @@ export default function EditWidget({
         useState<Record<string, unknown>>({});
 
     const actualWidget = widgets[widget.name];
+    const blockLabel = pageBlockLabels[widget.name];
 
     const onDeleteWidget = () => {
         if (!widget.deleteable) {
@@ -51,6 +52,16 @@ export default function EditWidget({
         <div>
             {actualWidget && (
                 <div className="px-2">
+                    {blockLabel && (
+                        <div className="mb-5 border-b pb-4">
+                            <h3 className="text-base font-semibold leading-6">
+                                {blockLabel.title}
+                            </h3>
+                            <p className="mt-1 text-sm leading-5 text-muted-foreground">
+                                {blockLabel.description}
+                            </p>
+                        </div>
+                    )}
                     <AdminWidget
                         name={widget.name}
                         settings={widget.settings || {}}

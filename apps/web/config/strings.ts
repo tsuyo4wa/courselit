@@ -1,3 +1,4 @@
+import type { PageBlockLabel } from "@courselit/common-models";
 /**
  * This file provides strings used app wide.
  */
@@ -1492,4 +1493,66 @@ export const funnelUiText = {
     pause: "このプロモーションを公開停止",
     pauseMessage: "このプロモーションの公開を停止しました。",
     previewBack: "プロモーションの流れへ戻る",
+};
+
+/** Japanese guidance for the existing page-builder blocks, keyed by stored ID. */
+export const pageBlockLabels: Record<string, PageBlockLabel> = {
+    "rich-text": {
+        title: "文章・見出し",
+        description: "見出しや本文を自由に書き、文字の大きさや装飾を整えます。",
+    },
+    featured: {
+        title: "おすすめ講座・商品",
+        description: "登録済みの講座・商品を選び、サムネイル付きで紹介します。",
+    },
+    banner: {
+        title: "講座・商品の案内",
+        description: "この講座・商品の紹介や申込ボタンをまとめて表示します。",
+    },
+    hero: {
+        title: "メインビジュアル",
+        description: "大きな見出し、画像・動画、案内ボタンを組み合わせます。",
+    },
+    grid: {
+        title: "複数項目の並列表示",
+        description: "特徴やメリットなどを、画像・アイコンとともに並べます。",
+    },
+    content: {
+        title: "講座の内容",
+        description: "この講座の章とレッスンを一覧で表示します。",
+    },
+    faq: {
+        title: "よくある質問",
+        description: "質問と回答を並べ、クリックすると回答が開く形にします。",
+    },
+    pricing: {
+        title: "料金プラン",
+        description: "料金やプランの違いを、比較しやすく並べて紹介します。",
+    },
+    media: {
+        title: "画像・動画",
+        description:
+            "画像や動画を配置します。YouTube・Vimeoにも対応しています。",
+    },
+    marquee: {
+        title: "横に流れる表示",
+        description: "テキストや画像を横に流し、実績やロゴなどを紹介します。",
+    },
+    embed: {
+        title: "外部コンテンツの埋め込み",
+        description: "HTMLや埋め込みコードで、予約フォームなどを配置します。",
+    },
+    "newsletter-signup": {
+        title: "メルマガ登録フォーム",
+        description:
+            "メールアドレスを受け付け、メルマガの読者登録へつなげます。",
+    },
+    header: {
+        title: "ページ上部（ヘッダー）",
+        description: "サイト名やロゴ、案内メニューを表示する共通部分です。",
+    },
+    footer: {
+        title: "ページ下部（フッター）",
+        description: "規約やお問い合わせなどのリンクをまとめる共通部分です。",
+    },
 };

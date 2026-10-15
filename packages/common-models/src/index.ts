@@ -1,3 +1,4 @@
+export type { PageBlockLabel } from "./page-block-label";
 export { default as Message } from "./message";
 export type {
     DashboardCourse,
